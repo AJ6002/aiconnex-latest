@@ -7,8 +7,9 @@ import os
 from pathlib import Path
 import pandas as pd
 
-excel_path = Path(r"X:\TAS\AICONNEX\algorithm_families_complete-2.xlsx")
-base_dir = Path(r"X:\TAS\AICONNEX\aic\3_recipe_orchestrator\recipe")
+_project_root = Path(__file__).resolve().parents[2]
+excel_path = _project_root / "algorithm_families_complete-2.xlsx"
+base_dir = Path(__file__).resolve().parent / "recipe"
 
 df = pd.read_excel(excel_path)
 print(f"Loaded {len(df)} rows from master Excel.")

@@ -348,7 +348,7 @@ def run_jane_assistant(
         logger.warning("[JaneEngine] No API key configured in .env")
         assistant_reply = (
             "⚠️ **API Key Not Configured**: No `OPENROUTER_API_KEY` or `GEMINI_API_KEY` was found in the environment. "
-            "Please configure your API key in `x:\\TAS\\AICONNEX\\.env` to enable dynamic Jane responses."
+            "Please configure your API key in your project root `.env` to enable dynamic Jane responses or use offline LLMs."
         )
 
     # 5. Extract interactive clarification options and evaluate upload readiness

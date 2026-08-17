@@ -12,7 +12,7 @@ import json
 import sys
 from neo4j import GraphDatabase
 
-PROJECT_ROOT = r"x:\TAS\AICONNEX"
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 FACTS_PATH = os.path.join(PROJECT_ROOT, "aiconnex_knowledge", "04_structured", "extracted_industrial_facts.json")
 NEO4J_URI = os.getenv("NEO4J_URI", "bolt://127.0.0.1:7687")
 NEO4J_USER = os.getenv("NEO4J_USER", "neo4j")

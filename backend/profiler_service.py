@@ -84,7 +84,7 @@ def profile_dataframe(df: pd.DataFrame) -> dict:
         }
 
         if col in numeric_cols:
-            vals = sample[col].dropna()
+            vals = pd.Series(sample[col].dropna().to_numpy(copy=True))
             if len(vals) > 1:
                 q1 = float(vals.quantile(0.25))
                 q3 = float(vals.quantile(0.75))
@@ -92,15 +92,25 @@ def profile_dataframe(df: pd.DataFrame) -> dict:
                 lower = q1 - 1.5 * iqr
                 upper = q3 + 1.5 * iqr
 
-                skew = float(vals.skew())
-                kurt = float(vals.kurtosis())
+                try:
+                    skew = float(vals.skew())
+                    if np.isnan(skew): skew = 0.0
+                except Exception:
+                    skew = 0.0
+
+                try:
+                    kurt = float(vals.kurtosis())
+                    if np.isnan(kurt): kurt = 0.0
+                except Exception:
+                    kurt = 0.0
+
                 outlier_mask = (sample[col] < lower) | (sample[col] > upper)
                 outlier_count = int(outlier_mask.sum())
                 outlier_flags |= outlier_mask.fillna(False)
 
                 stat.update({
-                    "mean": round(float(vals.mean()), 4),
-                    "std": round(float(vals.std()), 4),
+                    "mean": round(float(vals.mean()), 4) if not np.isnan(vals.mean()) else 0.0,
+                    "std": round(float(vals.std()), 4) if not np.isnan(vals.std()) else 0.0,
                     "min": round(float(vals.min()), 4),
                     "p25": round(q1, 4),
                     "median": round(float(vals.median()), 4),
@@ -141,10 +151,12 @@ def profile_dataframe(df: pd.DataFrame) -> dict:
     # Top 5 correlated numeric column pairs
     top_correlations: list[dict] = []
     if len(numeric_cols) >= 2:
-        corr_matrix = sample[numeric_cols].corr().abs()
-        np.fill_diagonal(corr_matrix.values, 0)
+        corr_matrix = sample[numeric_cols].corr().abs().fillna(0.0)
+        corr_vals = corr_matrix.to_numpy(copy=True)
+        np.fill_diagonal(corr_vals, 0.0)
+        corr_df = pd.DataFrame(corr_vals, index=corr_matrix.index, columns=corr_matrix.columns)
         pairs = (
-            corr_matrix.unstack()
+            corr_df.unstack()
             .sort_values(ascending=False)
             .drop_duplicates()
             .head(5)

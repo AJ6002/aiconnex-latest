@@ -17,7 +17,7 @@ import hashlib
 from datetime import datetime, timezone
 import fitz  # PyMuPDF
 
-PROJECT_ROOT = r"x:\TAS\AICONNEX"
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 RAW_BASE = os.path.join(PROJECT_ROOT, "Industrail_KB_raw_data")
 APPROVED_SOURCES_PATH = os.path.join(PROJECT_ROOT, "aiconnex_knowledge", "01_source_register", "industrial_approved_sources.json")
 NORMALIZED_DIR = os.path.join(PROJECT_ROOT, "aiconnex_knowledge", "07_normalized_documents")

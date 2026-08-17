@@ -13,8 +13,9 @@ import csv
 import hashlib
 from datetime import datetime, timezone
 
-RAW_BASE_DIR = r"x:\TAS\AICONNEX\Industrail_KB_raw_data"
-REGISTER_DIR = r"x:\TAS\AICONNEX\aiconnex_knowledge\01_source_register"
+_PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+RAW_BASE_DIR = os.path.join(_PROJECT_ROOT, "knowledge", "Industrail_KB_raw_data")
+REGISTER_DIR = os.path.join(_PROJECT_ROOT, "aiconnex_knowledge", "01_source_register")
 
 # Master catalog metadata mapping
 SOURCE_METADATA = [

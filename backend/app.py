@@ -1008,18 +1008,40 @@ def profile_dataset():
     - outlier_pct (row-level)
     - max_missing_pct, most_missing_col
     """
-    from profiler_service import profile_from_path
+    from profiler_service import profile_dataframe
+    import pandas as pd
 
-    file_path = (request.form.get("file_path") or "").strip()
+    data = request.get_json(force=True, silent=True) or {}
+    file_path = request.form.get("file_path") or data.get("file_path") or request.args.get("file_path")
+
+    if "file" in request.files:
+        file = request.files["file"]
+        if file.filename.endswith(".parquet"):
+            df = pd.read_parquet(file)
+        elif file.filename.endswith(".xlsx") or file.filename.endswith(".xls"):
+            df = pd.read_excel(file)
+        else:
+            df = pd.read_csv(file)
+        res = profile_dataframe(df)
+        return jsonify({**res, "profile": res}), 200
+
     if not file_path:
-        return jsonify({"error": "file_path is required in form data."}), 400
+        return jsonify({"error": "file_path or file is required"}), 400
+
+    if not os.path.exists(file_path):
+        return jsonify({"error": f"File not found: {file_path}"}), 404
 
     try:
-        result = profile_from_path(file_path)
-        # Option C: Export profile report snapshot to tenant workspace reports/
+        if file_path.endswith(".parquet"):
+            df = pd.read_parquet(file_path)
+        elif file_path.endswith(".xlsx") or file_path.endswith(".xls"):
+            df = pd.read_excel(file_path)
+        else:
+            df = pd.read_csv(file_path)
+
+        result = profile_dataframe(df)
         try:
-            tenant_id = (request.form.get("tenant_id") or "global").strip()
-            # Extract run_id if part of path
+            tenant_id = (request.form.get("tenant_id") or data.get("tenant_id") or "global").strip()
             norm_path = file_path.replace("\\", "/")
             run_match = re.search(r"run_([a-zA-Z0-9]+)", norm_path)
             run_id = f"run_{run_match.group(1)}" if run_match else f"run_{uuid.uuid4().hex[:8]}"
@@ -1027,7 +1049,7 @@ def profile_dataset():
         except Exception as rep_err:
             logger.warning(f"[Profile] Non-fatal profile report export error: {rep_err}")
 
-        return jsonify({"profile": result})
+        return jsonify({**result, "profile": result}), 200
     except Exception as exc:
         return jsonify({"error": str(exc)}), 500
 

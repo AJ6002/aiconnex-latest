@@ -12,7 +12,8 @@ Maps each approved source to its explicit knowledge ingestion mechanism:
 import os
 import json
 
-REGISTER_DIR = r"x:\TAS\AICONNEX\aiconnex_knowledge\01_source_register"
+_PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+REGISTER_DIR = os.path.join(_PROJECT_ROOT, "aiconnex_knowledge", "01_source_register")
 APPROVED_SOURCES_PATH = os.path.join(REGISTER_DIR, "industrial_approved_sources.json")
 OUTPUT_MAPPING_PATH = os.path.join(REGISTER_DIR, "source_knowledge_mapping.json")
 

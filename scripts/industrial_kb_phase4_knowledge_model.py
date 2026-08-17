@@ -12,8 +12,9 @@ import json
 import yaml
 from neo4j import GraphDatabase
 
-STRUCTURED_DIR = r"x:\TAS\AICONNEX\aiconnex_knowledge\04_structured"
-DETERMINISTIC_REGISTRY_DIR = r"x:\TAS\AICONNEX\aiconnex_knowledge\03_deterministic\registries"
+_PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+STRUCTURED_DIR = os.path.join(_PROJECT_ROOT, "aiconnex_knowledge", "04_structured")
+DETERMINISTIC_REGISTRY_DIR = os.path.join(_PROJECT_ROOT, "aiconnex_knowledge", "03_deterministic", "registries")
 NEO4J_URI = os.getenv("NEO4J_URI", "bolt://127.0.0.1:7687")
 NEO4J_USER = os.getenv("NEO4J_USER", "neo4j")
 NEO4J_PASS = os.getenv("NEO4J_PASSWORD", "neo4j_secret_password_2026")

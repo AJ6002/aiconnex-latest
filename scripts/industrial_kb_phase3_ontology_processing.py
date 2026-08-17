@@ -17,8 +17,9 @@ from neo4j import GraphDatabase
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-RAW_BASE = r"x:\TAS\AICONNEX\Industrail_KB_raw_data\01_ontologies_and_repositories"
-STRUCTURED_DIR = r"x:\TAS\AICONNEX\aiconnex_knowledge\04_structured"
+_PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+RAW_BASE = os.path.join(_PROJECT_ROOT, "knowledge", "Industrail_KB_raw_data", "01_ontologies_and_repositories")
+STRUCTURED_DIR = os.path.join(_PROJECT_ROOT, "aiconnex_knowledge", "04_structured")
 NEO4J_URI = os.getenv("NEO4J_URI", "bolt://127.0.0.1:7687")
 NEO4J_USER = os.getenv("NEO4J_USER", "neo4j")
 NEO4J_PASS = os.getenv("NEO4J_PASSWORD", "neo4j_secret_password_2026")

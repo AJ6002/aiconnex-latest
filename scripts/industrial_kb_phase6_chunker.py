@@ -13,7 +13,7 @@ import sys
 import json
 import logging
 
-PROJECT_ROOT = r"x:\TAS\AICONNEX"
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
@@ -23,7 +23,6 @@ from agentic.platform_kb.schemas import KnowledgeChunkRecord
 
 logging.basicConfig(level=logging.INFO)
 
-PROJECT_ROOT = r"x:\TAS\AICONNEX"
 APPROVED_SOURCES_PATH = os.path.join(PROJECT_ROOT, "aiconnex_knowledge", "01_source_register", "industrial_approved_sources.json")
 NORMALIZED_DIR = os.path.join(PROJECT_ROOT, "aiconnex_knowledge", "07_normalized_documents")
 CHUNKS_DIR = os.path.join(PROJECT_ROOT, "aiconnex_knowledge", "09_chunks")
