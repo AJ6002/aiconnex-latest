@@ -152,8 +152,8 @@ def get_chat_history(session_id: str, limit: int = 6, db_path: str = DB_PATH) ->
         logger.warning(f"[JaneSessionDB] Error fetching chat history ({e})")
         return []
 
-def save_chat_turn(session_id: str, role: str, content: str, db_path: str = DB_PATH) -> None:
-    """Save a turn of conversation to SQLite memory."""
+def save_chat_turn(session_id: str, role: str, content: str, db_path: str = DB_PATH, tenant_id: str = "global") -> None:
+    """Save a turn of conversation to SQLite memory and export snapshot to workspace session storage."""
     try:
         conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
@@ -163,6 +163,17 @@ def save_chat_turn(session_id: str, role: str, content: str, db_path: str = DB_P
         """, (session_id, role, content))
         conn.commit()
         conn.close()
+
+        # Option C Incremental: Export full session history snapshot to services/workspace_data/<tenant_id>/sessions/jane/
+        try:
+            workspace_sess_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "services", "workspace_data", tenant_id, "sessions", "jane"))
+            os.makedirs(workspace_sess_dir, exist_ok=True)
+            history_file = os.path.join(workspace_sess_dir, f"session_{session_id}.json")
+            full_history = get_chat_history(session_id, limit=200, db_path=db_path)
+            with open(history_file, "w", encoding="utf-8") as f:
+                json.dump({"session_id": session_id, "tenant_id": tenant_id, "turns": full_history}, f, indent=2)
+        except Exception:
+            pass
     except Exception as e:
         logger.warning(f"[JaneSessionDB] Error saving chat turn ({e})")
 
@@ -367,10 +378,13 @@ def run_jane_assistant(
     ])
 
     # Upload controller only opens when the pre-upload schema is satisfied and no clarification options are pending
+    cuc_seed = None
     if jane_recommends_upload and not options:
         action_required = "OPEN_UPLOAD_CONTROLLER"
         tool_res = execute_platform_tool("prepare_upload_controller", {"session_id": session_id})
         executed_tools.append({"tool": "prepare_upload_controller", "result": tool_res})
+        # Extract structured CUC seed from conversation history to seed LangGraph thread
+        cuc_seed = _extract_cuc_seed_from_history(session_id, user_input, assistant_reply)
 
     # Save assistant turn to SQLite memory
     save_chat_turn(session_id, "assistant", assistant_reply)
@@ -392,8 +406,104 @@ def run_jane_assistant(
         "reply_html": reply_html,
         "options": options,
         "action_required": action_required,
+        "cuc_seed": cuc_seed,
         "rag_context_used": rag_context,
         "tools_executed": executed_tools
+    }
+
+
+def _extract_cuc_seed_from_history(session_id: str, last_user_input: str, assistant_reply: str) -> Dict[str, Any]:
+    """Extract structured CUC fields from Jane's conversation history.
+    
+    Reads the last N chat turns for this session and performs lightweight NLP
+    heuristics to extract the key intent fields that will seed the LangGraph thread.
+    Returns a dict compatible with /api/agent/seed's `manifest` field.
+    """
+    # Combine history + current turn for analysis
+    history = get_chat_history(session_id, limit=10)
+    all_text = " ".join(t["content"] for t in history) + " " + last_user_input + " " + assistant_reply
+    text_lower = all_text.lower()
+
+    # --- Primary Intent ---
+    primary_intent = "general"
+    if any(k in text_lower for k in ["rul", "remaining useful life", "time to failure", "ttf", "life prediction"]):
+        primary_intent = "predict_rul"
+    elif any(k in text_lower for k in ["fault classif", "failure classif", "fault mode", "multi-class"]):
+        primary_intent = "fault_classification"
+    elif any(k in text_lower for k in ["anomaly", "anomalies", "anomal", "outlier", "unsupervised", "drift detection", "detect anomal"]):
+        primary_intent = "anomaly_detection"
+    elif any(k in text_lower for k in ["forecast", "time series", "time-series", "future value"]):
+        primary_intent = "time_series_forecasting"
+    elif any(k in text_lower for k in ["classify", "classification", "binary", "label"]):
+        primary_intent = "classification"
+    elif any(k in text_lower for k in ["predict", "regression", "continuous"]):
+        primary_intent = "regression"
+    elif any(k in text_lower for k in ["maintenance", "next maintenance", "maintenance date"]):
+        primary_intent = "predictive_maintenance"
+
+    # --- Task Family ---
+    task_family = "regression"
+    if primary_intent in ("fault_classification", "classification"):
+        task_family = "classification"
+    elif primary_intent == "anomaly_detection":
+        task_family = "anomaly_detection"
+    elif primary_intent == "time_series_forecasting":
+        task_family = "forecasting"
+    elif primary_intent in ("predict_rul", "predictive_maintenance", "regression"):
+        task_family = "regression"
+
+    # --- Asset / Domain ---
+    asset_type = ""
+    domain = "industrial"
+    _asset_map = [
+        (["compressor", "centrifugal pump", "pump"], "compressor", "oil_and_gas"),
+        (["turbofan", "jet engine", "aircraft engine", "turbine engine"], "turbofan", "aerospace"),
+        (["wind turbine", "wind farm", "scada wind"], "wind_turbine", "renewable_energy"),
+        (["gas turbine", "turbomachinery"], "gas_turbine", "power_generation"),
+        (["igbt", "semiconductor", "wafer", "fab", "etch"], "igbt", "semiconductor"),
+        (["gearbox", "bearing", "motor", "rotating equipment"], "rotating_equipment", "manufacturing"),
+        (["transformer", "inverter", "power electronics"], "power_electronics", "power_generation"),
+        (["cnc", "spindle", "machining"], "cnc_spindle", "manufacturing"),
+        (["dispenser", "fuel dispenser", "refueling"], "dispenser", "oil_and_gas"),
+        (["pipeline", "oil", "gas", "upstream", "midstream"], "pipeline", "oil_and_gas"),
+    ]
+    for keywords, asset, dom in _asset_map:
+        if any(k in text_lower for k in keywords):
+            asset_type = asset
+            domain = dom
+            break
+
+    # --- Target Column Hint ---
+    target_hint = ""
+    _target_map = [
+        (["rul", "remaining useful life"], "RUL"),
+        (["next maintenance", "maintenance date"], "next_maintenance_date"),
+        (["failure", "fault label", "fault mode"], "failure_label"),
+        (["charges", "insurance charge"], "charges"),
+        (["saleprice", "sale price", "house price"], "SalePrice"),
+        (["vibration", "vibration level"], "vibration_amplitude"),
+        (["temperature", "thermal"], "temperature"),
+        (["pressure", "discharge pressure"], "discharge_pressure"),
+    ]
+    for keywords, hint in _target_map:
+        if any(k in text_lower for k in keywords):
+            target_hint = hint
+            break
+
+    return {
+        "primary_intent": primary_intent,
+        "task_family": task_family,
+        "asset_type": asset_type,
+        "domain": domain,
+        "target_hint": target_hint,
+        "raw_prompt": last_user_input,
+        "confidence": 0.9,
+        "observed": {"asset_type": asset_type} if asset_type else {},
+        "inferred": {
+            "domain": domain,
+            "primary_intent": primary_intent,
+            "target_column_hint": target_hint,
+        },
     }
 
 

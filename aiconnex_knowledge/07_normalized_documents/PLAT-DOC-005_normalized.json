@@ -1,0 +1,110 @@
+{
+  "document_id": "PLAT-DOC-005",
+  "section_count": 9,
+  "sections": [
+    {
+      "section_id": "SEC-0001",
+      "document_id": "PLAT-DOC-005",
+      "heading_level": 2,
+      "heading_text": "9-Node Microservice DAG Pipeline \u2014 Executive Presentation Reference",
+      "section_path": "AIConnex Core ML Pipeline Architecture > 9-Node Microservice DAG Pipeline \u2014 Executive Presentation Reference",
+      "content": "---\n\n> **Purpose**: This document provides the high-resolution visual graphic, raw Mermaid diagram code, and presentation copy for showcasing AIConnex's **9-Node Microservice DAG ML Pipeline** in client, investor, and executive presentation decks.\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0002",
+      "document_id": "PLAT-DOC-005",
+      "heading_level": 2,
+      "heading_text": "1. Rendered Visual Architecture Diagram",
+      "section_path": "AIConnex Core ML Pipeline Architecture > 1. Rendered Visual Architecture Diagram",
+      "content": "![AIConnex 9-Node Microservice DAG ML Pipeline](C:\\Users\\aksha\\.gemini\\antigravity\\brain\\aca1036f-deab-4f13-a6cc-12be286d4791\\core_ml_dag_pipeline_1786006964950.jpg)\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0003",
+      "document_id": "PLAT-DOC-005",
+      "heading_level": 2,
+      "heading_text": "2. Raw Mermaid Diagram Code (Copy-Paste Ready)",
+      "section_path": "AIConnex Core ML Pipeline Architecture > 2. Raw Mermaid Diagram Code (Copy-Paste Ready)",
+      "content": "Use this raw text code in diagram tools like **Eraser.io**, **Napkin AI**, **Mermaid Live Editor**, **Notion**, or **Canva App**:\n\n``` mermaid\nflowchart LR\n    subgraph INGEST[\"1. INGEST & ROUTE\"]\n        direction TB\n        N1[\"Node 1: Profiler<br/><i>Schema & Type Detection</i>\"]\n        N2[\"Node 2: DAG Router<br/><i>Topology Mapping</i>\"]\n        N3[\"Node 3: Recipe Engine<br/><i>Manifest Synthesis</i>\"]\n        N1 --> N2 --> N3\n    end\n\n    subgraph PREP[\"2. PREPARE & FEATURE\"]\n        direction TB\n        N4[\"Node 4: Prepare API<br/><i>Cleaning & Imputation</i>\"]\n        N5[\"Node 5: Feature Eng.<br/><i>Lags & SelectKBest</i>\"]\n        N6[\"Node 6: Splitter<br/><i>Walk-Forward CV</i>\"]\n        N4 --> N5 --> N6\n    end\n\n    subgraph TRAIN[\"3. TRAIN, VALIDATE & DEPLOY\"]\n        direction TB\n        N7[\"Node 7: Train API<br/><i>Multi-Model Competition</i>\"]\n        N8[\"Node 8: Evaluate API<br/><i>VG1/VG2 Gates & SHAP</i>\"]\n        N9[\"Node 9: Deploy API<br/><i>REST Endpoint & Drift</i>\"]\n        N7 --> N8 --> N9\n    end\n\n    INGEST --> PREP --> TRAIN\n\n    classDef blue fill:#0284c7,stroke:#0369a1,color:#ffffff,font-weight:bold;\n    classDef teal fill:#0d9488,stroke:#0f766e,color:#ffffff,font-weight:bold;\n    classDef green fill:#16a34a,stroke:#15803d,color:#ffffff,font-weight:bold;\n\n    class N1,N2,N3 blue;\n    class N4,N5,N6 teal;\n    class N7,N8,N9 green;\n```\n\n---",
+      "content_type": "mixed",
+      "code_blocks": [
+        {
+          "language": "mermaid",
+          "code": "flowchart LR\n    subgraph INGEST[\"1. INGEST & ROUTE\"]\n        direction TB\n        N1[\"Node 1: Profiler<br/><i>Schema & Type Detection</i>\"]\n        N2[\"Node 2: DAG Router<br/><i>Topology Mapping</i>\"]\n        N3[\"Node 3: Recipe Engine<br/><i>Manifest Synthesis</i>\"]\n        N1 --> N2 --> N3\n    end\n\n    subgraph PREP[\"2. PREPARE & FEATURE\"]\n        direction TB\n        N4[\"Node 4: Prepare API<br/><i>Cleaning & Imputation</i>\"]\n        N5[\"Node 5: Feature Eng.<br/><i>Lags & SelectKBest</i>\"]\n        N6[\"Node 6: Splitter<br/><i>Walk-Forward CV</i>\"]\n        N4 --> N5 --> N6\n    end\n\n    subgraph TRAIN[\"3. TRAIN, VALIDATE & DEPLOY\"]\n        direction TB\n        N7[\"Node 7: Train API<br/><i>Multi-Model Competition</i>\"]\n        N8[\"Node 8: Evaluate API<br/><i>VG1/VG2 Gates & SHAP</i>\"]\n        N9[\"Node 9: Deploy API<br/><i>REST Endpoint & Drift</i>\"]\n        N7 --> N8 --> N9\n    end\n\n    INGEST --> PREP --> TRAIN\n\n    classDef blue fill:#0284c7,stroke:#0369a1,color:#ffffff,font-weight:bold;\n    classDef teal fill:#0d9488,stroke:#0f766e,color:#ffffff,font-weight:bold;\n    classDef green fill:#16a34a,stroke:#15803d,color:#ffffff,font-weight:bold;\n\n    class N1,N2,N3 blue;\n    class N4,N5,N6 teal;\n    class N7,N8,N9 green;"
+        }
+      ],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0004",
+      "document_id": "PLAT-DOC-005",
+      "heading_level": 3,
+      "heading_text": "Slide Title**",
+      "section_path": "AIConnex Core ML Pipeline Architecture > 3. Slide Content & Presenter Guide > Slide Title**",
+      "content": "> **Core Architecture: 9-Node Microservice ML Pipeline**",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0005",
+      "document_id": "PLAT-DOC-005",
+      "heading_level": 3,
+      "heading_text": "Subtitle**",
+      "section_path": "AIConnex Core ML Pipeline Architecture > 3. Slide Content & Presenter Guide > Subtitle**",
+      "content": "> Fully Decoupled, Modular DAG Execution Engine Built for Scale and Auditability\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0006",
+      "document_id": "PLAT-DOC-005",
+      "heading_level": 4,
+      "heading_text": "1. Ingestion & Intelligent Routing (Nodes 1\u20133)",
+      "section_path": "AIConnex Core ML Pipeline Architecture > 3. Slide Content & Presenter Guide > On-Slide Content (3 Microservice Clusters)** > 1. Ingestion & Intelligent Routing (Nodes 1\u20133)",
+      "content": "* **Dataset Profiler**: Automatic schema inference, missingness auditing, and data type detection.\n* **DAG Orchestrator**: Dynamically maps task requirements to optimal algorithm topologies (`DAG_120`, `DAG_491`, `DAG_595`).\n* **Recipe Orchestrator**: Generates deterministic transformation recipes and hyperparameter manifests.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0007",
+      "document_id": "PLAT-DOC-005",
+      "heading_level": 4,
+      "heading_text": "2. Data Preparation & Feature Engineering (Nodes 4\u20136)",
+      "section_path": "AIConnex Core ML Pipeline Architecture > 3. Slide Content & Presenter Guide > On-Slide Content (3 Microservice Clusters)** > 2. Data Preparation & Feature Engineering (Nodes 4\u20136)",
+      "content": "* **Prepare API**: Automated time-series indexing, missing value imputation, and outlier treatment.\n* **Feature Engineering API**: Lag/rolling sensor generation and `SelectKBest` feature selection.\n* **Split API**: Native 5-fold walk-forward expanding window cross-validation splitter.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0008",
+      "document_id": "PLAT-DOC-005",
+      "heading_level": 4,
+      "heading_text": "3. Parallel Training, Validation & Deployment (Nodes 7\u20139)",
+      "section_path": "AIConnex Core ML Pipeline Architecture > 3. Slide Content & Presenter Guide > On-Slide Content (3 Microservice Clusters)** > 3. Parallel Training, Validation & Deployment (Nodes 7\u20139)",
+      "content": "* **Train API**: Multi-model competition evaluating XGBoost, LightGBM, CatBoost, RandomForest, Neural Nets, and H2O AutoML.\n* **Evaluate API**: Strict VG_1 Data Quality Gate, VG_2 Advisory Overfit Gate, and SHAP explainability.\n* **Deploy & Monitor API**: One-click REST API generation with real-time sensor drift monitoring.\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0009",
+      "document_id": "PLAT-DOC-005",
+      "heading_level": 3,
+      "heading_text": "Presenter Talking Points",
+      "section_path": "AIConnex Core ML Pipeline Architecture > 3. Slide Content & Presenter Guide > Presenter Talking Points",
+      "content": "> *\"Under the hood, AIConnex is powered by a 9-node DAG microservice architecture. Each node operates as an isolated, scalable service\u2014from automated schema profiling and time-series feature engineering to multi-algorithm model competition, strict quality validation gates, and one-click REST API deployment. This modularity ensures zero technical debt, total auditability, and enterprise-grade reliability.\"*",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    }
+  ]
+}

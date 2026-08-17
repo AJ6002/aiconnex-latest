@@ -1,0 +1,29 @@
+# aiconnex_knowledge/03_deterministic/registries/conversation_rules.yaml
+# ===================================================
+# Conversation Rules Registry — Pre-Upload v1 Architecture
+#
+# Behavioral constraints for conversation_planner_node. These are policy
+# knobs, not extraction logic — changing them never requires touching
+# Python or redeploying node code.
+
+rules:
+  # Never ask more than this many clarifying questions in a single turn.
+  max_questions_per_turn: 1
+
+  # Never re-ask about the same field twice in a row without new information.
+  avoid_repeat_questions: true
+
+  # Once all required fields are filled, summarize what was understood
+  # before recommending upload (matches the "summarize" ConversationPlan action).
+  always_summarize_before_upload: true
+
+  # After this many consecutive "ask" turns with no new required field filled,
+  # the planner should escalate its wording (not switch to a hardcoded menu —
+  # per architecture decision, no numbered quick-select UI in v1) rather than
+  # loop indefinitely. Mirrors the diagnostic hint added to terminal_runner.py.
+  stall_warning_after_turns: 6
+
+  # If the user's message directly contradicts a previously merged CUC field,
+  # the planner must surface it (action='confirm') rather than silently
+  # accepting the new value.
+  surface_contradictions: true

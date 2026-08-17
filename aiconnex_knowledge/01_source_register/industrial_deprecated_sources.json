@@ -1,0 +1,38 @@
+[
+  {
+    "source_id": "SRC-IND-DEP-001",
+    "title": "BFO-2020-master (1).zip (Duplicate Archive)",
+    "knowledge_domain": "industrial",
+    "source_type": "Archive Duplicate",
+    "source_location": "Industrail_KB_raw_data/01_ontologies_and_repositories/BFO-2020-master (1).zip",
+    "authority_level": "C",
+    "owner": "AIConnex System",
+    "tenant_scope": "global",
+    "license": "Internal",
+    "version": "1.0",
+    "status": "Deprecated",
+    "size_bytes": 1436643,
+    "sha256_checksum": "ec42fb5f78ec644e40802a531eae22512edc19d878a301318b7dee421981333a",
+    "approved_at": null,
+    "rejection_reason": "Duplicate upload of BFO-2020-master.zip",
+    "superseded_by": "SRC-IND-ONT-001"
+  },
+  {
+    "source_id": "SRC-IND-DEP-002",
+    "title": "IOF-ontology-master (1).zip (Duplicate Archive)",
+    "knowledge_domain": "industrial",
+    "source_type": "Archive Duplicate",
+    "source_location": "Industrail_KB_raw_data/01_ontologies_and_repositories/IOF-ontology-master (1).zip",
+    "authority_level": "C",
+    "owner": "AIConnex System",
+    "tenant_scope": "global",
+    "license": "Internal",
+    "version": "1.0",
+    "status": "Deprecated",
+    "size_bytes": 7538647,
+    "sha256_checksum": "59694b52b2dd7e071ad1d494a15e374c5ab2d3b0abb23caa29d4cecce34d630a",
+    "approved_at": null,
+    "rejection_reason": "Duplicate upload of IOF-ontology-master.zip",
+    "superseded_by": "SRC-IND-ONT-004"
+  }
+]

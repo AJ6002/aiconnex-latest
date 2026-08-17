@@ -1,0 +1,667 @@
+{
+  "document_id": "DOC-DOC-SPEC-019-V1",
+  "source_id": "DOC-SPEC-019",
+  "title": "AI-ConneX Multi Tenancy and Each Studio Deployment Plan",
+  "studio": "PlatformCore",
+  "category": "Security",
+  "target_subsystems": [
+    "TenantService",
+    "PostgresRLS",
+    "QdrantTenantFilter",
+    "Neo4jScope"
+  ],
+  "summary": "Enterprise multi-tenancy specifications: Cognite Spaces data isolation, PostgreSQL RLS policies, and project-level workspace boundaries.",
+  "sha256": "2a6db18447d55b606a37eeddd9631d51aec1d53580760421e8ef4e813b360018",
+  "file_size_bytes": 52528,
+  "statistics": {
+    "headings_count": 55,
+    "paragraphs_count": 179,
+    "tables_count": 12,
+    "sections_count": 55,
+    "estimated_words": 4287
+  },
+  "sections": [
+    {
+      "section_id": "SEC-DOC-SPEC-019-0001",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "Overview",
+      "section_path": "DOC-SPEC-019 > Overview",
+      "content": "AI-ConneX\n\nMULTI-TENANCY IMPLEMENTATION & STUDIO DEPLOYMENT PLAN\n\nR&D → Architecture → Isolation → Deployment → POC → Compliance Report #5Version 1.0 | 14 August 2026",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0002",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "Document Control",
+      "section_path": "DOC-SPEC-019 > Document Control",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Field | Definition |\n| --- | --- |\n| Platform | AI-ConneX — Industrial Solutions |\n| Scope | Multi-tenancy foundation and deployment of every Studio |\n| Studios covered | Chatbot/Jane, Data Studio, ML Studio, Agentic Studio |\n| Pipeline stages | Compiler → Profiler → DAG → Recipe Orchestrator → Prepare → FE → conditional route → ML/Deployment |\n| Agentic components | Visualizer → Agent Builder → Agent SPEC → Runtime → RAG/KG/KB/Telemetry/Models/Tools → Main Agent/Toolkit |\n| Primary requirement | Secure tenant isolation without breaking cross-stage lineage |\n| Compliance report | Report #5 — deployment and multi-tenancy readiness |\n| Status | Reference architecture / implementation baseline |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0003",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "1. Executive Summary",
+      "section_path": "DOC-SPEC-019 > 1. Executive Summary",
+      "content": "AI-ConneX is designed as an industrial multi-studio platform. Multi-tenancy must therefore be implemented as a platform-wide security and data-governance property, not as a UI feature added to individual Studios. Every request, dataset, manifest, DAG, recipe, model, agent, telemetry stream, visualization, tool call, audit event and deployment must carry an authenticated tenant context and must be authorized against it.\n\nThe recommended baseline is a hybrid isolation model: shared application services with strict tenant-scoped authorization and database Row-Level Security for standard tenants; dedicated databases/namespaces/storage/keys for regulated or high-isolation tenants. This follows the principle that tenant context must be derived from verified identity, not trusted from a client-supplied header, and that isolation should exist at multiple layers. OWASP's current multi-tenant guidance explicitly calls out cross-tenant leakage, IDOR, cache/session isolation, noisy neighbors, onboarding/offboarding and audit gaps as core risks. citeturn0search1\n\nThe deployment plan uses zero-trust principles: network location is not the authorization boundary; authenticated user/service identity and resource attributes are. NIST SP 800-207 and SP 800-207A provide the architectural basis for identity-centric authorization in distributed/cloud-native systems. citeturn0search4turn0search2",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0004",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "2. Multi-Tenancy Definition for AI-ConneX",
+      "section_path": "DOC-SPEC-019 > 2. Multi-Tenancy Definition for AI-ConneX",
+      "content": "A tenant is an independently governed industrial organization or organizational boundary whose users, data, assets, models, agents, policies and audit records must be isolated from other tenants. A tenant may contain multiple sites, plants, business units, environments and asset families.\n\nTenant├── Users / Groups / Service Identities├── Sites│   ├── Plants│   └── Asset Families├── Data Assets├── Manifests / DAGs / Recipes├── Features / Models├── Agents / Agent SPECs├── Knowledge Base / RAG / Graph├── Telemetry├── Tool permissions├── Deployments├── Policies├── Audit / Billing / Quotas└── Retention / Compliance settings",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0005",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "3. Isolation Objectives",
+      "section_path": "DOC-SPEC-019 > 3. Isolation Objectives",
+      "content": "Confidentiality: Tenant A cannot read Tenant B resources.\n\nIntegrity: Tenant A cannot modify Tenant B resources.\n\nExecution isolation: tenant-scoped jobs cannot execute against another tenant.\n\nKnowledge isolation: RAG, graph and retrieval cannot cross tenant boundaries unless explicitly configured for shared public knowledge.\n\nAgent isolation: Main Agents and Toolkit calls inherit tenant scope.\n\nTelemetry isolation: live and historical industrial data remains tenant-scoped.\n\nCache isolation: keys always include tenant and resource scope.\n\nStorage isolation: object paths/buckets are tenant-scoped.\n\nObservability isolation: operators see only permitted tenant traces/logs.\n\nAdministrative isolation: platform administrators require explicit break-glass procedures for cross-tenant operations.\n\nOffboarding: tenant data can be retained, exported and deleted according to policy.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0006",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "4. R&D: Isolation Models Evaluated",
+      "section_path": "DOC-SPEC-019 > 4. R&D: Isolation Models Evaluated",
+      "content": "PostgreSQL RLS should be treated as defense in depth rather than the only control. OWASP recommends database-level isolation plus application/data-access authorization, tenant-scoped composite lookups, cache/storage isolation and per-tenant quotas. citeturn0search1",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Model | Isolation | Cost | Recommended use |\n| --- | --- | --- | --- |\n| Shared DB + tenant_id | Medium | Low | Prototype / very high tenant count |\n| Shared DB + PostgreSQL RLS | High when correctly implemented | Low/Medium | Default SaaS tier |\n| Schema per tenant | High | Medium | Enterprise tier |\n| DB per tenant | Very high | High | Regulated/high-value tenants |\n| Dedicated namespace + storage + DB | Very high | High | Premium/regulated |\n| Hybrid | Variable | Variable | AI-ConneX recommended |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0007",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "5. Recommended AI-ConneX Tenancy Tiers",
+      "section_path": "DOC-SPEC-019 > 5. Recommended AI-ConneX Tenancy Tiers",
+      "content": "The tier is a deployment policy. It should not change the application authorization contract: every service still receives and validates tenant context.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Tier | Isolation design | Example |\n| --- | --- | --- |\n| T1 Shared | Shared services + RLS + scoped storage | SME / pilot |\n| T2 Enterprise | RLS + dedicated schema/storage + dedicated keys | Industrial group |\n| T3 Regulated | Dedicated DB/namespace + keys + isolated workloads | High-compliance site |\n| T4 Sovereign/Private | Dedicated cluster or on-prem deployment | Critical infrastructure / private cloud |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0008",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "6. Tenant Context",
+      "section_path": "DOC-SPEC-019 > 6. Tenant Context",
+      "content": "{  \"tenant_uid\": \"TEN-7f8...\",  \"org_uid\": \"ORG-...\",  \"user_uid\": \"USR-...\",  \"roles\": [\"TENANT_ADMIN\"],  \"site_scope\": [\"SITE-01\"],  \"asset_scope\": [\"COMP-*\"],  \"environment\": \"prod\",  \"policy_version\": \"POL-12\"}\n\nTenant context is generated from a verified identity/token and server-side membership lookup. A client may request a site or tenant, but the server determines whether the authenticated principal has that scope. OWASP specifically recommends deriving tenant context from authenticated sessions and not trusting client-supplied tenant IDs. citeturn0search1",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0009",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "7. Authorization Model",
+      "section_path": "DOC-SPEC-019 > 7. Authorization Model",
+      "content": "AI-ConneX should combine RBAC with ABAC/ReBAC-style attributes. Role answers 'what class of operation?', while attributes answer 'on which tenant/site/asset/environment?'. OWASP notes that ABAC can better represent multi-organizational access patterns than role-only designs. citeturn0search0\n\nALLOW if:identity.validAND identity.activeAND tenant_membership(identity, tenant)AND resource.tenant_uid == tenant.uidAND site in identity.site_scopeAND asset in identity.asset_scopeAND action in role.permissionsAND policy.allows(action, resource, context)",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0010",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "8. Defense-in-Depth Isolation",
+      "section_path": "DOC-SPEC-019 > 8. Defense-in-Depth Isolation",
+      "content": "CLIENT  |API Gateway / WAF  |  authenticate  vTenant Context Middleware  |Authorization / Policy  |Service-to-Service Identity  |Repository / Query Scope  |Database RLS  |Storage / Cache / Queue Scope  |Audit + Monitoring\n\nThe decisive authorization check is server-side. UI filtering is only a usability feature. OWASP's authorization guidance explicitly recommends server-side enforcement, deny-by-default and authorization tests. citeturn0search0",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0011",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "9. Database Design",
+      "section_path": "DOC-SPEC-019 > 9. Database Design",
+      "content": "CREATE TABLE datasets (  dataset_uid UUID PRIMARY KEY,  tenant_uid UUID NOT NULL,  site_uid UUID,  name TEXT NOT NULL,  created_at TIMESTAMPTZ NOT NULL);ALTER TABLE datasets ENABLE ROW LEVEL SECURITY;CREATE POLICY tenant_dataset_policyON datasetsUSING (tenant_uid = current_setting('app.current_tenant')::uuid)WITH CHECK (tenant_uid = current_setting('app.current_tenant')::uuid);CREATE INDEX idx_dataset_tenantON datasets(tenant_uid, dataset_uid);\n\nEvery tenant-scoped table should have tenant_uid. For high-value objects, use composite uniqueness such as (tenant_uid, object_uid) or UUIDs with server-side ownership checks.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0012",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "10. Object Storage Isolation",
+      "section_path": "DOC-SPEC-019 > 10. Object Storage Isolation",
+      "content": "s3://aconnext/{tenant_uid}/{site_uid}/{studio}/{resource_type}/{resource_uid}/...Examples:TEN-01/SITE-01/data/compiler/DATASET-001/TEN-01/SITE-01/data/profiler/MANIFEST-001/TEN-01/SITE-01/ml/model/MODEL-007/TEN-01/SITE-01/agent/evidence/EXEC-009/\n\nBucket/container policy denies cross-tenant prefixes.\n\nSigned URLs are short-lived and scope-limited.\n\nObject metadata stores tenant_uid.\n\nDeletion jobs verify tenant ownership.\n\nEncryption keys can be tenant-specific for higher tiers.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0013",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "11. Cache / Queue / Vector / Graph Isolation",
+      "section_path": "DOC-SPEC-019 > 11. Cache / Queue / Vector / Graph Isolation",
+      "content": "CACHE KEYtenant:{tenant_uid}:site:{site_uid}:resource:{resource_uid}QUEUEtopic:tenant.{tenant_uid}.eventsVECTOR FILTERtenant_uid == authenticated_tenantGRAPHMATCH (n {tenant_uid: $tenant_uid})...TELEMETRYWHERE tenant_uid = $tenant_uid\n\nShared caches, vector stores and graphs are frequent sources of accidental cross-tenant exposure. Tenant scope must be applied before retrieval/query execution, not after results are returned.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0014",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "12. Multi-Tenant Identity",
+      "section_path": "DOC-SPEC-019 > 12. Multi-Tenant Identity",
+      "content": "Service identities must carry tenant context just like humans. 'Internal service' is not an authorization exemption.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Identity | Scope |\n| --- | --- |\n| Platform operator | Explicitly granted platform functions; no automatic tenant-data access |\n| Tenant admin | One tenant |\n| Site admin | Tenant + selected sites |\n| Engineer | Tenant + assigned assets/sites |\n| Operator | Tenant + operational assets |\n| Agent service identity | Tenant + SPEC-defined site/asset scope |\n| Tool service identity | Tenant + capability scope |\n| Pipeline worker | Tenant + job/resource scope |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0015",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "13. Tenant Provisioning Flow",
+      "section_path": "DOC-SPEC-019 > 13. Tenant Provisioning Flow",
+      "content": "CREATE TENANT -> validate organization -> allocate tenant UID -> create policy -> provision storage -> provision DB schema/RLS context -> create encryption key reference -> create default roles -> create quotas -> create audit stream -> create isolated namespace if tier requires -> create initial admin -> run isolation tests -> ACTIVATE",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0016",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "14. Tenant Offboarding",
+      "section_path": "DOC-SPEC-019 > 14. Tenant Offboarding",
+      "content": "Freeze new workloads.\n\nRevoke user/service credentials.\n\nStop scheduled agents and pipelines.\n\nExport data if contract/policy requires.\n\nRetain required audit/legal records.\n\nDelete or cryptographically erase tenant data according to retention policy.\n\nRemove vector/graph/cache entries.\n\nRemove object storage.\n\nDelete dedicated namespace/database if applicable.\n\nRun cross-tenant deletion verification.\n\nProduce signed offboarding report.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0017",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "15. Tenant-Aware AI-ConneX Pipeline",
+      "section_path": "DOC-SPEC-019 > 15. Tenant-Aware AI-ConneX Pipeline",
+      "content": "JANE  -> Intent {tenant_uid, user_uid, site_scope}  -> COMPILER  -> PROFILER  -> DAG ASSIGNER  -> RECIPE ORCHESTRATOR  -> PREPARE  -> FEATURE ENGINEER  -> IF/ELSE      |-> DATA STUDIO DEPLOYMENT      |-> ML STUDIO             -> STEM             -> MODEL             -> AGENTIC STUDIO  -> VISUALIZER / AGENT / TOOLKIT  -> AUDIT\n\nAt every transition, the output contract carries tenant_uid and scope. The downstream stage rejects missing, invalid or mismatched tenancy.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0018",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "16. Chatbot / Jane Input to Multi-Tenant System",
+      "section_path": "DOC-SPEC-019 > 16. Chatbot / Jane Input to Multi-Tenant System",
+      "content": "{  \"intent_uid\": \"INT-001\",  \"tenant_uid\": \"TEN-001\",  \"user_uid\": \"USR-001\",  \"site_scope\": [\"SITE-01\"],  \"goal\": \"build compressor health service\",  \"data_refs\": [\"UPLOAD-001\"],  \"autonomy\": \"RECOMMEND\"}\n\nThis is the tenancy-aware version of the chatbot output. Tenant identity is not generated by the LLM. It is attached by the authenticated application/session layer.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0019",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "17. Output to Next Stage",
+      "section_path": "DOC-SPEC-019 > 17. Output to Next Stage",
+      "content": "{  \"tenant_uid\": \"TEN-001\",  \"execution_uid\": \"EXEC-...\",  \"resource_uid\": \"MANIFEST-...\",  \"stage\": \"COMPILER\",  \"status\": \"SUCCESS\",  \"artifact_refs\": [...],  \"scope\": {    \"site_uids\": [\"SITE-01\"],    \"asset_uids\": [\"ASSET-*\"]  },  \"lineage\": {    \"parent_execution_uid\": \"INT-001\"  }}\n\nEvery Studio consumes this envelope and must preserve tenant scope in its own artifacts.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0020",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "18. Studio Deployment Strategy — Overview",
+      "section_path": "DOC-SPEC-019 > 18. Studio Deployment Strategy — Overview",
+      "content": "Use separate deployable workloads but a shared identity, policy, audit and tenancy contract. This lets each Studio scale independently while retaining one security model.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Studio | Primary deployment | Isolation focus |\n| --- | --- | --- |\n| Chatbot/Jane | Stateless API + session/context service | Identity + tenant context |\n| Data Studio | Worker/API pools + object/data services | Datasets/manifests/jobs |\n| ML Studio | Model pipeline workers + registry + inference | Models/features/runs |\n| Agentic Studio | Runtime + registry + toolkit gateway | Agents/SPEC/tools/knowledge |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0021",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 2,
+      "heading_text": "19.1 Responsibilities",
+      "section_path": "DOC-SPEC-019 > 19.1 Responsibilities",
+      "content": "Conversational intent capture\n\nPlan negotiation\n\nTenant-aware session\n\nHuman approval interaction\n\nHandoff to Agent Builder/Data Studio/ML Studio",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0022",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 2,
+      "heading_text": "19.2 Architecture",
+      "section_path": "DOC-SPEC-019 > 19.2 Architecture",
+      "content": "Ingress  -> API Gateway  -> Jane API  -> Identity / Tenant Context  -> Conversation Store  -> Intent Service  -> Studio Router  -> Data/ML/Agentic Studio",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0023",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 2,
+      "heading_text": "19.3 Requirements",
+      "section_path": "DOC-SPEC-019 > 19.3 Requirements",
+      "content": "OIDC/OAuth identity\n\nPostgreSQL\n\nRedis/session store\n\nLLM endpoint\n\nRate limiting\n\nAudit logging\n\nPII/content policy",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0024",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 2,
+      "heading_text": "19.4 APIs",
+      "section_path": "DOC-SPEC-019 > 19.4 APIs",
+      "content": "POST /v1/chat/sessionsPOST /v1/chat/messagesGET  /v1/chat/sessions/{id}POST /v1/intents/commitGET  /v1/tenant/context",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0025",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "20. Studio 2 — Data Studio Deployment",
+      "section_path": "DOC-SPEC-019 > 20. Studio 2 — Data Studio Deployment",
+      "content": "Data Studio contains Compiler, Profiler, DAG Assigner, Recipe Orchestrator, Prepare, Feature Engineer and the deployment conditional.\n\nGateway -> Data API -> Compiler workers -> Profiler workers -> DAG service -> Recipe service -> Prepare/FE workers -> Artifact/Object Storage -> Manifest Registry -> Data Studio Deployment Node\n\nUse queue-backed workers for large datasets.\n\nUse tenant-scoped object storage paths.\n\nAttach tenant_uid to every manifest, family ID and DAG ID.\n\nUse resource quotas per tenant to prevent noisy-neighbor failures.\n\nUse ephemeral workers for untrusted uploaded files.\n\nScan archives before extraction.\n\nKeep lineage from chatbot intent to manifest UID.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0026",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 2,
+      "heading_text": "20.1 APIs",
+      "section_path": "DOC-SPEC-019 > 20.1 APIs",
+      "content": "POST /v1/data/compilePOST /v1/data/profilePOST /v1/data/dags/assignPOST /v1/data/recipes/resolvePOST /v1/data/preparePOST /v1/data/features/engineerPOST /v1/data/routes/evaluateGET  /v1/manifests/{manifest_uid}",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0027",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "21. Studio 3 — ML Studio Deployment",
+      "section_path": "DOC-SPEC-019 > 21. Studio 3 — ML Studio Deployment",
+      "content": "ML Studio consumes Data Studio artifacts or a new cleaned/prepared dataset, then runs the STEM loop: Split → Train → Evaluate Metrics → Judge/Score.\n\nGateway -> ML API -> Dataset/Manifest Resolver -> STEM Orchestrator -> Parallel Model Workers -> Evaluation Service -> Judge/Scorer -> Model Registry -> Inference Endpoint -> Agentic Studio (if requested)\n\nModel runs inherit tenant and dataset scope.\n\nFeature artifacts are tenant-scoped.\n\nModel registry records tenant ownership.\n\nModel endpoints enforce tenant authorization.\n\nGPU/CPU quotas prevent noisy-neighbor exhaustion.\n\nTraining data and artifacts are encrypted and versioned.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0028",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 2,
+      "heading_text": "21.1 APIs",
+      "section_path": "DOC-SPEC-019 > 21.1 APIs",
+      "content": "POST /v1/ml/stem/runPOST /v1/ml/splitPOST /v1/ml/trainPOST /v1/ml/evaluatePOST /v1/ml/judgePOST /v1/ml/models/registerPOST /v1/ml/models/{id}/deployGET  /v1/ml/runs/{run_uid}",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0029",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "22. Studio 4 — Agentic Studio Deployment",
+      "section_path": "DOC-SPEC-019 > 22. Studio 4 — Agentic Studio Deployment",
+      "content": "Agentic Studio is the highest-risk Studio because it can coordinate tools and persistent operational workflows. Its tenant boundary must exist at Agent SPEC, Runtime, knowledge retrieval, toolkit gateway and audit layers.\n\nGateway -> Agent Builder -> Agent SPEC Registry -> Agent Runtime -> Knowledge Foundation    -> RAG    -> Knowledge Graph    -> Knowledge Base    -> Telemetry    -> Models -> Policy Engine -> Toolkit Registry -> Tool Gateway -> Industrial/Business Connectors -> Audit / Visualizer\n\nAgent UID is tenant-scoped.\n\nSPEC cannot reference a tool outside tenant policy.\n\nRAG filters before retrieval.\n\nGraph queries include tenant scope.\n\nTelemetry queries include tenant/site scope.\n\nToolkit calls inherit execution scope.\n\nApproval requests are tenant-bound.\n\nAudit records include tenant UID.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0030",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 2,
+      "heading_text": "22.1 APIs",
+      "section_path": "DOC-SPEC-019 > 22.1 APIs",
+      "content": "POST /v1/agentsPOST /v1/agents/{agent_uid}/executePOST /v1/agents/{agent_uid}/pausePOST /v1/agents/{agent_uid}/resumeGET  /v1/agents/{agent_uid}/stateGET  /v1/toolkit/capabilitiesPOST /v1/toolkit/{capability}/validatePOST /v1/toolkit/{capability}/executePOST /v1/approvalsGET  /v1/audit/{execution_uid}",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0031",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "23. Shared Platform Services",
+      "section_path": "DOC-SPEC-019 > 23. Shared Platform Services",
+      "content": "NIST SP 800-207A specifically describes cloud-native zero-trust enforcement through application/service identities, API gateways, sidecar proxies and identity infrastructure. citeturn0search2",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Service | Purpose |\n| --- | --- |\n| Identity Provider | Authentication/federation |\n| Tenant Service | Tenant lifecycle/context |\n| Policy Engine | Authorization |\n| API Gateway | Ingress/rate limiting |\n| Service Identity | mTLS/workload identity |\n| Audit Service | Immutable security/lineage records |\n| Quota Service | Tenant resource limits |\n| Artifact Registry | Manifests/models/recipes |\n| Object Storage | Datasets/artifacts |\n| Observability | Traces/metrics/logs |\n| Secrets/KMS | Credentials/encryption |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0032",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "24. Recommended Tech Stack / Versions",
+      "section_path": "DOC-SPEC-019 > 24. Recommended Tech Stack / Versions",
+      "content": "These are engineering baselines, not a claim that every listed patch release is current or certified. The production repository must pin exact versions in lockfiles/images and run compatibility tests before promotion.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Layer | Reference baseline |\n| --- | --- |\n| Python | 3.12.x |\n| FastAPI | 0.1xx current pinned minor |\n| Pydantic | 2.x |\n| PostgreSQL | 16.x |\n| Redis | 7.x |\n| Kubernetes | 1.3x supported release; pin exact patch |\n| Helm | 3.x |\n| Docker | 26.x+ compatible runtime; pin tested version |\n| Kafka | 3.x or NATS 2.x |\n| OpenTelemetry | current pinned SDK/collector versions |\n| OPA | 0.7x+ current tested release |\n| Terraform | 1.8+ or organization-approved pinned release |\n| Node.js | 22 LTS if frontend/services require it |\n| Object storage | S3-compatible |\n| Vector DB | pgvector on PostgreSQL or approved vector service |\n| Graph DB | Neo4j 5.x or approved graph service |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0033",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "25. Kubernetes Deployment Model",
+      "section_path": "DOC-SPEC-019 > 25. Kubernetes Deployment Model",
+      "content": "cluster├── ingress├── platform│   ├── identity│   ├── tenant-service│   ├── policy│   ├── audit│   ├── observability│   └── quota├── studio-chatbot├── studio-data├── studio-ml├── studio-agentic└── tenant-workloads    ├── tenant-a    ├── tenant-b    └── premium-isolated\n\nNamespaces are useful isolation boundaries but are not sufficient alone. Kubernetes NetworkPolicy controls traffic between pods and to/from external networks when supported by the cluster network plugin. citeturn0search11",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0034",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "26. Kubernetes NetworkPolicy Example",
+      "section_path": "DOC-SPEC-019 > 26. Kubernetes NetworkPolicy Example",
+      "content": "apiVersion: networking.k8s.io/v1kind: NetworkPolicymetadata:  name: tenant-a-default-deny  namespace: tenant-aspec:  podSelector: {}  policyTypes:  - Ingress  - Egress\n\nAdd explicit allow rules for required services. For high-isolation tenants, use dedicated namespaces, node pools and possibly clusters, depending on threat model.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0035",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "27. Directory Architecture",
+      "section_path": "DOC-SPEC-019 > 27. Directory Architecture",
+      "content": "aconnext/├── platform/│   ├── identity/│   ├── tenancy/│   ├── policy/│   ├── quota/│   ├── audit/│   └── observability/├── studios/│   ├── chatbot/│   ├── data/│   │   ├── compiler/│   │   ├── profiler/│   │   ├── dag/│   │   ├── recipe/│   │   ├── prepare/│   │   └── feature_engineer/│   ├── ml/│   │   ├── stem/│   │   ├── judge/│   │   └── registry/│   └── agentic/│       ├── visualizer/│       ├── builder/│       ├── spec/│       ├── runtime/│       ├── knowledge/│       ├── toolkit/│       └── gateway/├── contracts/│   ├── intent/│   ├── tenant-context/│   ├── manifest/│   ├── model/│   ├── agent/│   └── audit/├── deployment/│   ├── helm/│   ├── terraform/│   ├── kubernetes/│   └── environments/└── tests/    ├── isolation/    ├── authorization/    ├── contract/    ├── chaos/    └── security/",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0036",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "28. Configuration",
+      "section_path": "DOC-SPEC-019 > 28. Configuration",
+      "content": "TENANCY_MODE=HYBRIDTENANT_CONTEXT_SOURCE=OIDC_CLAIMS_PLUS_DIRECTORYAUTHZ_DEFAULT=DENYDB_RLS=ENABLEDCACHE_TENANT_PREFIX=REQUIREDSTORAGE_TENANT_PREFIX=REQUIREDVECTOR_TENANT_FILTER=REQUIREDGRAPH_TENANT_FILTER=REQUIREDTELEMETRY_TENANT_FILTER=REQUIREDAUDIT_TENANT_FIELD=REQUIREDCROSS_TENANT_ADMIN=BREAK_GLASS_ONLYDEFAULT_TENANT_QUOTA_CPU=20DEFAULT_TENANT_QUOTA_MEMORY_GB=64DEFAULT_TENANT_MAX_JOBS=10",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0037",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "29. Deployment Commands",
+      "section_path": "DOC-SPEC-019 > 29. Deployment Commands",
+      "content": "# validate manifestskubectl apply --dry-run=server -f deployment/kubernetes/# install shared platformhelm upgrade --install aconnext-platform deployment/helm/platform/ -n platform --create-namespace# install Data Studiohelm upgrade --install data-studio deployment/helm/data-studio/ -n studio-data --create-namespace# install ML Studiohelm upgrade --install ml-studio deployment/helm/ml-studio/ -n studio-ml --create-namespace# install Agentic Studiohelm upgrade --install agentic-studio deployment/helm/agentic-studio/ -n studio-agentic --create-namespace# inspectkubectl get pods -Akubectl get networkpolicy -A# database migrationalembic upgrade head# testspytest tests/isolation -qpytest tests/authorization -qpytest tests/contract -q# security scanningtrivy image aconnext/data-studio:1.0.0trivy image aconnext/agentic-runtime:1.0.0",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0038",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "30. CI/CD Promotion",
+      "section_path": "DOC-SPEC-019 > 30. CI/CD Promotion",
+      "content": "COMMIT -> lint/typecheck -> unit tests -> contract tests -> tenant-isolation tests -> SAST/dependency scan -> container scan -> build immutable images -> deploy ephemeral test environment -> cross-tenant attack suite -> performance/noisy-neighbor tests -> approval -> staging -> production canary -> tenant-by-tenant rollout -> monitor -> promote / rollback",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0039",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "31. Key Failure Modes and Mitigations",
+      "section_path": "DOC-SPEC-019 > 31. Key Failure Modes and Mitigations",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Failure | Consequence | AI-ConneX control |\n| --- | --- | --- |\n| Tenant ID spoofing | Cross-tenant access | derive from verified identity |\n| Missing tenant filter | Data leak | repository + RLS + tests |\n| Cache collision | Wrong tenant response | tenant-prefixed keys |\n| Vector leakage | RAG exposes another tenant | pre-retrieval tenant filter |\n| Graph leakage | Topology/document leakage | tenant-scoped graph |\n| Telemetry leakage | Industrial data exposure | scope at query layer |\n| Agent tool escape | Unauthorized action | SPEC + policy + gateway |\n| Admin overreach | Silent cross-tenant access | break-glass + audit |\n| Noisy neighbor | Availability impact | quotas + priority + isolation tiers |\n| Queue mix-up | Wrong job execution | tenant-scoped queue metadata |\n| Object path bug | File exposure | storage policy + ownership |\n| Offboarding incomplete | Retention/privacy breach | deletion workflow + verification |\n| Replica lag | Stale authorization/data | safe consistency rules |\n| Backup mixing | Recovery leakage | tenant metadata + encrypted backups |\n| Log leakage | Sensitive data exposure | tenant-scoped logs + redaction |\n| Prompt injection | Permission manipulation | authority/data separation |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0040",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "32. Cross-Tenant Security Test Suite",
+      "section_path": "DOC-SPEC-019 > 32. Cross-Tenant Security Test Suite",
+      "content": "TENANT_A = provision(\"A\")TENANT_B = provision(\"B\")seed_dataset(TENANT_A, \"secret-a\")seed_dataset(TENANT_B, \"secret-b\")assert api_as(B).get(\"/datasets/A\").status in [403,404]assert api_as(B).search(\"secret-a\").results == []assert api_as(B).graph(\"A\").results == []assert api_as(B).telemetry(\"A\").status in [403,404]assert api_as(B).execute_tool(\"A\", \"alert.create\").status in [403,404]# cache poisoningprime_cache_as(A, \"resource-A\")assert get_cache_as(B, \"resource-A\") is None# IDORassert api_as(B).get(\"/datasets/{A_dataset_uid}\").status in [403,404]\n\nOWASP recommends explicit cross-tenant boundary tests because logic changes in caches, queries and authorization can accidentally reintroduce tenant leakage. citeturn0search6",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0041",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "33. Noisy-Neighbor Testing",
+      "section_path": "DOC-SPEC-019 > 33. Noisy-Neighbor Testing",
+      "content": "Tenant A submits maximum permitted compiler jobs.\n\nTenant B runs an ML STEM training workload simultaneously.\n\nTenant C runs Agent Runtime monitoring.\n\nMeasure CPU, memory, queue latency, GPU, storage and database latency.\n\nVerify quotas and priority prevent one tenant from violating another tenant's SLO.\n\nTest malicious job amplification and unbounded archive extraction.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0042",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "34. Data Studio Tenant Flow",
+      "section_path": "DOC-SPEC-019 > 34. Data Studio Tenant Flow",
+      "content": "UPLOAD -> tenant-bound quarantine -> malware/archive inspection -> Compiler -> tenant-scoped normalized artifact -> Profiler -> manifest-UID -> DAG/FAMILY IDs -> Recipe -> Prepare -> FE -> route -> deployment OR ML\n\nEvery intermediate artifact receives tenant ownership. A dataset copied or transformed into a new format remains owned by the originating tenant unless an explicit governed sharing policy changes ownership.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0043",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "35. ML Studio Tenant Flow",
+      "section_path": "DOC-SPEC-019 > 35. ML Studio Tenant Flow",
+      "content": "Manifest -> tenant validation -> feature resolver -> STEM -> train candidates -> evaluate -> judge -> tenant model registry -> tenant-scoped deployment -> inference -> audit\n\nA model must not become implicitly shared just because its weights are stored in a common model repository. Shared base models may be global, but tenant-specific fine-tunes, features, evaluation data and deployment endpoints require explicit ownership/policy.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0044",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "36. Agentic Studio Tenant Flow",
+      "section_path": "DOC-SPEC-019 > 36. Agentic Studio Tenant Flow",
+      "content": "Tenant Intent -> Agent SPEC -> Runtime -> tenant-scoped evidence -> tenant-scoped model -> tenant-scoped toolkit -> policy -> connector -> tenant-scoped result -> audit\n\nThis is the most important multi-tenancy chain because an agent can combine information and initiate actions. The toolkit gateway must verify tenant, site, asset, capability, risk and approval on every call.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0045",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "37. Shared Knowledge vs Private Knowledge",
+      "section_path": "DOC-SPEC-019 > 37. Shared Knowledge vs Private Knowledge",
+      "content": "RAG must distinguish source visibility from semantic relevance. A document being similar to the query does not make it authorized for retrieval.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Knowledge type | Default |\n| --- | --- |\n| Platform public documentation | Shared |\n| AI-ConneX technical documentation | Shared |\n| Tenant SOP | Private |\n| Tenant maintenance history | Private |\n| Tenant telemetry | Private |\n| Tenant graph | Private |\n| Cross-tenant benchmark | Only after explicit anonymization/governance |\n| Global model | Shared only if approved |\n| Tenant model | Private |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0046",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "38. Deployment Environments",
+      "section_path": "DOC-SPEC-019 > 38. Deployment Environments",
+      "content": "Never use production tenant data in development by default. If a sanitized sample is necessary, treat the resulting dataset as a new governed artifact.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Environment | Purpose |\n| --- | --- |\n| dev | Rapid development; synthetic tenant data only |\n| test | Contract/isolation/security tests |\n| staging | Production-like integration |\n| pilot | Selected real tenant with restricted scope |\n| prod | Controlled tenant rollout |\n| regulated-prod | Dedicated isolation tier where required |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0047",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "39. Disaster Recovery",
+      "section_path": "DOC-SPEC-019 > 39. Disaster Recovery",
+      "content": "Back up tenant metadata and authorization state.\n\nBack up datasets/artifacts according to tenant retention.\n\nEncrypt backups with tenant-aware keys where required.\n\nTest restoring one tenant without restoring another tenant's data into the namespace.\n\nVerify RLS/policy configuration after restore.\n\nReplay audit and lineage records.\n\nRotate credentials after a suspected compromise.\n\nDocument RPO/RTO by tenant tier.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0048",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "40. Compliance Report #5",
+      "section_path": "DOC-SPEC-019 > 40. Compliance Report #5",
+      "content": "This report is an engineering control mapping, not legal certification. Final compliance depends on tenant geography, sector, contracts, applicable laws and independently verified controls.\n\nNIST describes zero trust as protecting resources rather than trusting network location, and NIST SP 800-207A extends the approach to cloud-native applications using identity-centric application/service policies. citeturn0search4turn0search2",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Control | Implementation evidence |\n| --- | --- |\n| Tenant identification | Verified identity → server-side tenant context |\n| Least privilege | RBAC + ABAC/ReBAC attributes + deny-by-default |\n| Data isolation | RLS/schema/database + ownership checks |\n| Storage isolation | Tenant prefixes/policies + encryption |\n| Cache isolation | Tenant-prefixed keys |\n| Knowledge isolation | Pre-retrieval tenant filters |\n| Agent isolation | Tenant-bound SPEC/runtime/tool gateway |\n| Network isolation | NetworkPolicy + service identity |\n| Administrative access | Break-glass + audit |\n| Noisy-neighbor | Per-tenant CPU/memory/GPU/job/storage quotas |\n| Auditability | Tenant-aware immutable audit events |\n| Offboarding | Revocation + export/retention/deletion verification |\n| Testing | Cross-tenant regression suite |\n| Zero trust | Resource-centric authorization and service identity |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0049",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "41. POC — Two Industrial Tenants",
+      "section_path": "DOC-SPEC-019 > 41. POC — Two Industrial Tenants",
+      "content": "POC objective: demonstrate that two industrial tenants can run the complete AI-ConneX pipeline concurrently while proving no cross-tenant data, model, knowledge, telemetry or agent-tool access occurs.\n\nProvision Tenant A and Tenant B.\n\nCreate one plant and compressor dataset in each.\n\nRun Compiler concurrently.\n\nGenerate independent manifest UIDs.\n\nRun Profiler/DAG/Recipe/Prepare/FE concurrently.\n\nTrain separate ML candidates.\n\nCreate tenant-specific Agent SPECs.\n\nLoad private SOPs into each tenant's KB.\n\nStream telemetry for both tenants.\n\nRun Main Agents concurrently.\n\nAttempt cross-tenant dataset, RAG, graph, telemetry and toolkit access.\n\nAttempt cache-key collision and IDOR.\n\nFlood Tenant A to test noisy-neighbor protection.\n\nOffboard Tenant A.\n\nVerify Tenant B remains operational and cannot see Tenant A's deleted artifacts.\n\nProduce audit and isolation report.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0050",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "42. POC Acceptance Criteria",
+      "section_path": "DOC-SPEC-019 > 42. POC Acceptance Criteria",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Test | Pass condition |\n| --- | --- |\n| Identity | Tenant derived from verified principal |\n| Dataset | A cannot read B |\n| Manifest | A/B lineage independent |\n| DAG | No cross-tenant family IDs |\n| Recipe | No cross-tenant references |\n| Model | A endpoint cannot serve B data |\n| RAG | A cannot retrieve B private docs |\n| Graph | A cannot traverse B graph |\n| Telemetry | A cannot query B signals |\n| Agent | A cannot invoke B tools |\n| Cache | No cross-tenant cache hit |\n| Queue | Job context remains tenant-bound |\n| Admin | Break-glass is explicit/audited |\n| Noisy neighbor | B SLO remains within agreed bound |\n| Offboarding | A deleted; B unaffected |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0051",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "43. Deployment Sequence",
+      "section_path": "DOC-SPEC-019 > 43. Deployment Sequence",
+      "content": "PHASE 0 — FoundationsIdentity + Tenant Service + Policy + AuditPHASE 1 — DataCompiler → Profiler → DAG → Recipe → Prepare → FEPHASE 2 — MLSTEM → Registry → InferencePHASE 3 — AgenticVisualizer → Builder → SPEC → RuntimePHASE 4 — KnowledgeKB → RAG → KG → Telemetry → Models → ToolsPHASE 5 — Main AgentMain Agent + ToolkitPHASE 6 — Multi-Tenant Pilot2 tenants → 5 tenants → 20+ tenantsPHASE 7 — ProductionTiered isolation + SLO + DR + compliance evidence",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0052",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "44. Production Readiness Gates",
+      "section_path": "DOC-SPEC-019 > 44. Production Readiness Gates",
+      "content": "No production Studio may be deployed without tenant-aware authentication and authorization.\n\nEvery resource has explicit ownership/scope metadata.\n\nEvery data-access repository has tenant-scoped tests.\n\nDatabase RLS is enabled for shared-table tenant data.\n\nVector/graph/telemetry retrieval is tenant-filtered before results are generated.\n\nCache and queue keys contain tenant context.\n\nAgent SPEC and Toolkit calls inherit tenant scope.\n\nCross-tenant regression suite runs in CI.\n\nBreak-glass access is rare, time-limited and audited.\n\nPer-tenant quotas are active.\n\nTenant offboarding is tested.\n\nBackups/restores preserve isolation.\n\nProduction images and dependency versions are pinned.\n\nSecurity, performance and disaster-recovery evidence is archived.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0053",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "45. Research / Standards References",
+      "section_path": "DOC-SPEC-019 > 45. Research / Standards References",
+      "content": "OWASP Multi-Tenant Application Security Cheat Sheet — tenant identification, database isolation, IDOR prevention, cache/session isolation, rate limiting, storage, onboarding/offboarding and audit guidance. citeturn0search1\n\nOWASP Authorization Cheat Sheet — least privilege, deny-by-default, server-side authorization, ABAC, testing and defense in depth. citeturn0search0\n\nOWASP Authorization Regression Testing — explicit cross-tenant boundary testing patterns. citeturn0search6\n\nNIST SP 800-207 — Zero Trust Architecture; resource-centric security and no implicit trust based on network location. citeturn0search4turn0search10\n\nNIST SP 800-207A — identity-centric zero-trust access control for cloud-native, multi-cloud environments, including API gateways, service identities and policy enforcement. citeturn0search2\n\nKubernetes NetworkPolicy documentation — pod ingress/egress traffic controls for cluster network isolation when supported by the network plugin. citeturn0search11",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0054",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "46. Final Architecture Principle",
+      "section_path": "DOC-SPEC-019 > 46. Final Architecture Principle",
+      "content": "ONE AI-ConneX PLATFORM        |  ONE TENANCY CONTRACT        |  +-----+------+-------+--------+  |            |       |        | CHATBOT     DATA     ML     AGENTIC  |            |       |        |  +------------+-------+--------+               |        TENANT CONTEXT               |        POLICY / AUTHZ               |       DATA + COMPUTE + TOOLS               |             AUDITRule:NO TENANT CONTEXT → NO RESOURCE ACCESS.NO AUTHORIZATION → NO ACTION.NO SCOPE → NO EXECUTION.\n\nThe implementation should make this rule structural rather than procedural: developers should have to consciously create an exception rather than remember to add a tenant filter.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-019-0055",
+      "document_id": "DOC-DOC-SPEC-019-V1",
+      "heading_level": 1,
+      "heading_text": "47. Conclusion",
+      "section_path": "DOC-SPEC-019 > 47. Conclusion",
+      "content": "Multi-tenancy is the platform foundation that makes AI-ConneX suitable for multiple industrial organizations. The key architectural decision is not merely 'add tenant_id'; it is to propagate authenticated tenant context through the entire lifecycle—from Jane's intent, through Data Studio's artifacts and ML Studio's models, into Agentic Studio's SPEC/runtime/knowledge/toolkit, and finally into every operational action and audit record.\n\nThe recommended implementation combines application authorization, database isolation, storage/cache/vector/graph/telemetry scoping, service identity, network controls, quotas, auditability and continuous cross-tenant testing. This defense-in-depth model aligns with current OWASP multi-tenant guidance and NIST zero-trust principles. citeturn0search1turn0search2",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    }
+  ],
+  "extracted_slas": [
+    {
+      "sla_id": "SLA-DEFAULT-DOC-SPEC-019-01",
+      "component_name": "TenantService",
+      "metric_name": "p95_latency_ms",
+      "target_value": 500.0,
+      "unit": "ms",
+      "comparison_op": "<=",
+      "workload_condition": "Standard interactive execution regime",
+      "severity_on_breach": "critical",
+      "source_spec_id": "DOC-SPEC-019"
+    }
+  ]
+}

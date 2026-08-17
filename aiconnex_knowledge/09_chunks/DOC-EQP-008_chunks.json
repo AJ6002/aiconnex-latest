@@ -1,0 +1,32 @@
+[
+  {
+    "chunk_id": "DOC-EQP-008-CH-0000",
+    "document_id": "DOC-EQP-008",
+    "version": "1.0",
+    "section": "OPC UA for Machinery Specification > Overview",
+    "subsection": "Overview",
+    "page_start": null,
+    "page_end": null,
+    "chunk_index": 0,
+    "text": "Vendor-neutral information model providing building blocks for machinery identification, operational state, and component topology.",
+    "text_hash": "c29c395d320ff13cab95b0f8870fba741167e9397943b4666c221cd20d0105d4",
+    "token_count": 25,
+    "authority_level": "A",
+    "status": "Active"
+  },
+  {
+    "chunk_id": "DOC-EQP-008-CH-0001",
+    "document_id": "DOC-EQP-008",
+    "version": "1.0",
+    "section": "OPC UA for Machinery Specification > Key Concepts",
+    "subsection": "Key Concepts",
+    "page_start": null,
+    "page_end": null,
+    "chunk_index": 1,
+    "text": "- **MachineryItem**: Base node type for any industrial machine, subsystem, or major tool.\n- **MachineryComponent**: Sub-assembly or functional part attached to a Machine.\n- **MachineIdentification**: Standardized SerialNumber, Manufacturer, Model, YearOfConstruction.\n- **MachineryOperation**: Operational state monitoring, load cycles, and runtime parameters.",
+    "text_hash": "eb0f23ef6f842e844b31c09a5697cf3702ad9e3fe0aec353418419d5e4076879",
+    "token_count": 71,
+    "authority_level": "A",
+    "status": "Active"
+  }
+]

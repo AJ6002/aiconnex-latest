@@ -82,6 +82,7 @@ class UnifiedCompiler:
         batch: bool = False,
         enable_intelligence: bool = True,
         scout: Optional[Any] = None,
+        cuc_intent: Optional[Dict[str, Any]] = None,
     ) -> None:
         self.zip_path = Path(zip_path).resolve()
         self.output_dir = Path(output_dir).resolve()
@@ -90,6 +91,7 @@ class UnifiedCompiler:
         self.batch = batch
         self.enable_intelligence = enable_intelligence
         self.scout = scout
+        self.cuc_intent = cuc_intent or {}
         self._intelligence = None  # IntelligenceOrchestrator, set during compile()
 
     def compile(self) -> CompileResult:
@@ -469,8 +471,59 @@ class UnifiedCompiler:
             logger.debug("[IntentLayer] No options generated - skipping intent layer")
             return
 
-        chosen_id = self.strategy_override or options[0].option_id
+        chosen_id = self.strategy_override
+
+        # If no explicit override passed, match against CUC User Intent contract
+        if not chosen_id and self.cuc_intent:
+            intent_key = (
+                self.cuc_intent.get("primary_intent") 
+                or self.cuc_intent.get("task_family") 
+                or self.cuc_intent.get("intent") 
+                or ""
+            ).lower()
+            target_hint = (self.cuc_intent.get("target_hint") or "").lower()
+            asset_hint = (self.cuc_intent.get("asset_type") or "").lower()
+            
+            for opt in options:
+                opt_id = opt.option_id.lower()
+                opt_desc = (opt.description or "").lower()
+                opt_lbl = (opt.label or "").lower()
+                
+                # Check anomaly match
+                if "anomaly" in intent_key and ("anomaly" in opt_id or "anomaly" in opt_desc):
+                    chosen_id = opt.option_id
+                    break
+                # Check RUL / Failure match
+                if any(k in intent_key for k in ["rul", "failure", "maintenance", "time_to_failure", "life"]):
+                    if any(k in opt_id or k in opt_desc for k in ["failure", "rul", "condition", "unified"]):
+                        chosen_id = opt.option_id
+                        break
+                # Check Forecasting match
+                if any(k in intent_key for k in ["forecast", "time_series"]):
+                    if "forecast" in opt_id or "forecast" in opt_desc:
+                        chosen_id = opt.option_id
+                        break
+                # Check Asset/Group name match if specified
+                if asset_hint and (asset_hint in opt_id or asset_hint in opt_desc or asset_hint in opt_lbl):
+                    chosen_id = opt.option_id
+                    break
+
+            if chosen_id:
+                logger.info(f"[IntentLayer] CUC Intent matched strategy: '{chosen_id}' (intent={intent_key}, target={target_hint})")
+
+        if not chosen_id:
+            chosen_id = options[0].option_id
+
         strategy = IntentResolver().resolve(chosen_id, card)
+
+        # Inject CUC target hints into resolved compilation strategy
+        if self.cuc_intent and strategy:
+            target_hint = self.cuc_intent.get("target_hint") or self.cuc_intent.get("target_column")
+            if target_hint:
+                strategy.target_column_hint = target_hint
+            if self.cuc_intent.get("asset_type"):
+                strategy.dataset_goal = f"{self.cuc_intent.get('asset_type')} - {self.cuc_intent.get('primary_intent', '')}"
+
         context.strategy = strategy
 
         if strategy and strategy.assembler_policy_override:

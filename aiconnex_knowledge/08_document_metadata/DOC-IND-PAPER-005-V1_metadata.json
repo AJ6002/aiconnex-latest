@@ -1,0 +1,13 @@
+{
+  "document_id": "DOC-IND-PAPER-005-V1",
+  "source_id": "SRC-IND-PAPER-005",
+  "title": "Woods et al. (2023) An Ontology for Maintenance Activities & Data Quality",
+  "version": "2023",
+  "document_type": "pdf",
+  "content_hash": "be4bfc493572a6f08988f84ff5305e48fe895f23a9c66f24897f299413e80b61",
+  "page_count": 34,
+  "total_sections": 6,
+  "total_words": 20482,
+  "storage_uri": "s3://aiconnex-platform-kb-prod/industrial/Woods_2023_Maintenance_Activity_Ontology.pdf",
+  "created_at": "2026-08-14T08:41:27.724994+00:00"
+}

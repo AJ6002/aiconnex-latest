@@ -1,0 +1,784 @@
+{
+  "document_id": "DOC-DOC-SPEC-006-V1",
+  "source_id": "DOC-SPEC-006",
+  "title": "AI-ConneX Data Studio FEATURE ENGINEER Node Detailed Documentation",
+  "studio": "DataStudio",
+  "category": "Performance",
+  "target_subsystems": [
+    "FeatureEngineerNode",
+    "FFTExtractor",
+    "LagFeatureGenerator"
+  ],
+  "summary": "Industrial feature generation algorithms, rolling window SLAs, FFT frequency domain extraction, and sensor lag matrix specifications.",
+  "sha256": "dbe2bca76b3471aa84f12277abb309daaf53b00ab4738f19c217e51fe997d9de",
+  "file_size_bytes": 53118,
+  "statistics": {
+    "headings_count": 67,
+    "paragraphs_count": 156,
+    "tables_count": 16,
+    "sections_count": 65,
+    "estimated_words": 4534
+  },
+  "sections": [
+    {
+      "section_id": "SEC-DOC-SPEC-006-0001",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "Overview",
+      "section_path": "DOC-SPEC-006 > Overview",
+      "content": "AI-ConneX\n\nDATA STUDIO — FEATURE ENGINEER NODE\n\nIndustrial Intent-Driven Feature Engineering, Feature Registry & Deployment Bridge\n\nCompliance Report #5 — Feature Engineering Stage",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0002",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "1. Executive Definition",
+      "section_path": "DOC-SPEC-006 > 1. Executive Definition",
+      "content": "The Feature Engineer (FE) Node is the transformation intelligence layer immediately after PREPARE. PREPARE makes industrial data valid and execution-ready; FE converts that prepared data into meaningful, model-consumable features according to the user's intent, the Data Profiler's metadata, the selected DAG and the Recipe Orchestrator's feature-engineering plan.\n\nAI-ConneX FE follows a registry-first strategy: if a validated feature recipe already exists and is compatible, the system reuses it. If no suitable recipe exists, an Agent Helper proposes a new recipe, but the generated recipe is not trusted merely because an agent produced it. It must pass schema, semantic, leakage, computational and reproducibility gates before execution.\n\nCHATBOT INTENT      |      vAI-CONNEX BRAIN Compiler -> Profiler -> DAG -> Recipe Orchestrator      |      vPREPARE      |      | prepared dataset + manifest + profile + intent      v+-----------------------------+|      FEATURE ENGINEER       ||-----------------------------|| Intent Resolver             || Feature Registry            || Recipe Selector             || Agent Helper                || Leakage Guard               || Feature Validator           || Feature Lineage             |+--------------+--------------+               |       +-------+--------+       |                |       v                v   NEXT STUDIO       DEPLOYMENT   / STEM             BRIDGE",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0003",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "2. Purpose",
+      "section_path": "DOC-SPEC-006 > 2. Purpose",
+      "content": "The purpose of FE is not to generate as many columns as possible. Its purpose is to generate the smallest useful, explainable, reproducible and deployment-compatible feature set that answers the industrial user's objective.\n\nTranslate business intent into feature requirements.\n\nUse Data Profiler metadata to understand available entities, timestamps, target, distributions and relationships.\n\nSelect an existing approved feature recipe whenever possible.\n\nAsk an agent to design a candidate recipe when no suitable recipe exists.\n\nValidate candidate features before execution.\n\nPrevent temporal, target and cross-entity leakage.\n\nCreate reusable feature definitions and versions.\n\nMaintain offline/online consistency when deployment requires serving features.\n\nProduce a feature dataset, feature manifest and Compliance Report #5.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0004",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "3. Why FE Is Different from PREPARE",
+      "section_path": "DOC-SPEC-006 > 3. Why FE Is Different from PREPARE",
+      "content": "Example: converting pressure from psi to kPa belongs in PREPARE. A 15-minute rolling pressure mean, pressure trend and pressure-change rate belong in FE.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| PREPARE | FEATURE ENGINEER |\n| --- | --- |\n| Makes source data valid | Makes data predictive |\n| Schema/quality/unit correction | Derived variables |\n| Quarantine bad source records | Create model features |\n| Source-level normalization | Lags, rolling statistics, ratios, interactions |\n| Does not optimize for a model | May optimize/select features against intent/task |\n| Produces prepared dataset | Produces feature dataset + feature definitions |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0005",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "4. Inputs to FE",
+      "section_path": "DOC-SPEC-006 > 4. Inputs to FE",
+      "content": "FE INPUT PACKAGE  prepared_dataset.parquet  prepared_manifest.json  manifest-UID.json  profile.json / profile reference  intent.json  dag_plan.json  feature_recipe_plan.json  lineage.json  policy bundle",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Input | Meaning |\n| --- | --- |\n| Prepared dataset | Validated data from PREPARE |\n| Manifest UID | Identity and governance anchor |\n| User intent | What the industrialist wants to achieve |\n| Profiler metadata | What the data contains and how it behaves |\n| DAG ID | Allowed computational workflow |\n| Recipe plan | Preferred feature strategy |\n| Lineage | History of source transformations |\n| Policy | Safety, privacy, leakage and compute constraints |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0006",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "5. Chatbot → Brain → PREPARE → FE",
+      "section_path": "DOC-SPEC-006 > 5. Chatbot → Brain → PREPARE → FE",
+      "content": "The chatbot is the source of business intent, but FE does not directly execute natural-language instructions. The Brain converts intent into structured metadata and constraints. PREPARE validates the dataset. FE then uses the structured intent together with the observed profile.\n\nUSER:\"Predict pump failure 6 hours in advance using sensor data.\"CHATBOT intent_uid objective = predictive maintenance entity = pump_id target = failure_event horizon = 6h explainability = required        |        vBRAIN / MANIFEST target semantics entity/time semantics available signals DAG recipe requirements        |        vPREPARE valid timestamp/entity/sensor data        |        vFEATURE ENGINEER lag / rolling / trend / rate-of-change features within the 6h prediction boundary",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0007",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "6. Intent-to-Feature Contract",
+      "section_path": "DOC-SPEC-006 > 6. Intent-to-Feature Contract",
+      "content": "The FE Intent Resolver converts structured intent into feature requirements. It should not invent business meaning.\n\nfeature_intent:  objective: predictive_maintenance  target: failure_event  horizon: 6h  entity_key: pump_id  event_time: timestamp  requirements:    temporal_features: true    rolling_windows: [15m, 1h, 6h, 24h]    explainability: required    online_serving: false  constraints:    no_future_data: true    no_target_derived_features: true    preserve_feature_lineage: true",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0008",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "7. Feature Recipe Registry",
+      "section_path": "DOC-SPEC-006 > 7. Feature Recipe Registry",
+      "content": "The registry is the first-choice source of engineering logic. Reuse is preferred because a registered recipe has already been tested, versioned and associated with known schemas/tasks.\n\nfeature_registry/  recipes/    predictive_maintenance/      sensor_lag_v1.yaml      rolling_statistics_v2.yaml      degradation_trend_v1.yaml    demand_forecast/      lag_calendar_v1.yaml      rolling_demand_v2.yaml    anomaly_detection/      robust_stats_v1.yaml  metadata/  tests/  compatibility/\n\nA recipe should declare its inputs, outputs, entity/time requirements, parameters, leakage assumptions, compute cost, serving mode and tests.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0009",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "8. Recipe Reuse Decision",
+      "section_path": "DOC-SPEC-006 > 8. Recipe Reuse Decision",
+      "content": "Intent  +Profile  +DAG  +Prepared Schema  |  vRecipe Compatibility Engine  |  +--> compatible approved recipe --> execute  |  +--> no compatible recipe --------> Agent Helper                                      |                                      v                                  candidate recipe                                      |                                      v                              validation gates                                      |                              +-------+-------+                              |               |                            reject          approve                                              |                                              v                                           execute",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0010",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "9. Agent Helper",
+      "section_path": "DOC-SPEC-006 > 9. Agent Helper",
+      "content": "The Agent Helper is a controlled design assistant, not an unrestricted code generator. It can reason over the manifest, profile, intent, approved feature primitives and recipe examples to propose candidate feature definitions.\n\nSuggest candidate features.\n\nExplain why each feature is relevant.\n\nSelect approved primitives.\n\nGenerate a declarative recipe rather than arbitrary executable code where possible.\n\nIdentify required windows, keys and timestamps.\n\nFlag uncertainty.\n\nRequest human/domain approval for ambiguous industrial semantics.\n\nAgent-generated features must pass deterministic validation. An LLM/agent should never be the final authority for leakage safety or physical validity.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0011",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "10. Agent Guardrails",
+      "section_path": "DOC-SPEC-006 > 10. Agent Guardrails",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Risk | Control |\n| --- | --- |\n| Hallucinated column | Schema validator |\n| Unknown physical meaning | Domain/metadata gate |\n| Future leakage | Temporal dependency analyzer |\n| Target leakage | Target dependency graph |\n| Unsafe code | Sandbox + allowlisted primitives |\n| Excessive feature explosion | Feature budget |\n| Non-reproducible logic | Recipe serialization/versioning |\n| Sensitive feature creation | Policy/classification gate |\n| Unsupported serving feature | Online compatibility gate |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0012",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "11. Feature Taxonomy",
+      "section_path": "DOC-SPEC-006 > 11. Feature Taxonomy",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Family | Examples |\n| --- | --- |\n| Temporal | hour, day-of-week, season, elapsed time |\n| Lag | x(t-1), x(t-5), x(t-24h) |\n| Rolling | mean, std, min, max, quantiles |\n| Trend | slope, difference, percentage change |\n| Rate | dx/dt, flow rate change |\n| Aggregations | per machine/site/line/day |\n| Ratios | pressure/flow, actual/target |\n| Interaction | temperature × load |\n| Domain | engineering or physics-derived indicators |\n| Categorical | encoded operational states |\n| Cross-entity | site/line/machine context where valid |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0013",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "12. Temporal Feature Engineering",
+      "section_path": "DOC-SPEC-006 > 12. Temporal Feature Engineering",
+      "content": "Industrial time-series problems require strict temporal semantics. A feature at event time t must use information available no later than the feature's permitted observation time. Point-in-time feature retrieval is a well-established approach for preventing future values from entering historical training data; Feast documents this explicitly for historical feature joins. citeturn0search0turn0search2\n\nFor target at t + 6h:allowed:  sensor(t)  sensor(t-5m)  rolling_mean(t-1h)  maintenance_state known by tnot allowed:  sensor(t+10m)  maintenance_state recorded at t+2h  future aggregate containing t+1h...t+6h",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0014",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "13. Point-in-Time Correctness",
+      "section_path": "DOC-SPEC-006 > 13. Point-in-Time Correctness",
+      "content": "For temporal features, FE should maintain an entity key plus event timestamp and define an explicit lookback window/TTL. Feature stores such as Feast implement historical retrieval using event timestamps and point-in-time joins; this is useful as a reference architecture even if AI-ConneX implements its own registry/execution layer. citeturn0search0turn0search7",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0015",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "14. Feature Dependency Graph",
+      "section_path": "DOC-SPEC-006 > 14. Feature Dependency Graph",
+      "content": "raw_sensor   |   +--> lag_5m   |   +--> rolling_mean_1h            |            +--> trend_1h                    |                    +--> degradation_score\n\nEvery feature should have a dependency graph. This makes it possible to identify target-derived features, future dependencies and redundant computation.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0016",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "15. Leakage Detection",
+      "section_path": "DOC-SPEC-006 > 15. Leakage Detection",
+      "content": "Data leakage is one of the most important FE risks. scikit-learn explicitly warns that transformations learned using test data can produce optimistic results and recommends fitting transformations only on training data while applying the same learned transformation to later data. citeturn0search1\n\nCheck feature timestamps against prediction timestamp.\n\nTrack dependency timestamps through feature graphs.\n\nPrevent target-derived columns.\n\nPrevent post-outcome operational fields.\n\nPrevent train/test contamination.\n\nSeparate feature fitting from feature transformation where parameters are learned.\n\nUse point-in-time joins for historical features.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0017",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "16. Learned vs Deterministic Features",
+      "section_path": "DOC-SPEC-006 > 16. Learned vs Deterministic Features",
+      "content": "Learned transformations should be fitted only in the appropriate training scope. The FE recipe must record whether a feature is deterministic or learned.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Deterministic | Learned |\n| --- | --- |\n| hour(timestamp) | target encoding |\n| difference x(t)-x(t-1) | scaler parameters |\n| rolling mean over past window | PCA fitted parameters |\n| unit-safe ratio | learned embedding |\n| calendar features | statistical imputation fitted on train |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0018",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "17. Feature Selection",
+      "section_path": "DOC-SPEC-006 > 17. Feature Selection",
+      "content": "FE may produce candidate features, but feature selection should be controlled by the DAG and downstream modeling stage. Selection methods can include variance filtering, correlation redundancy, mutual information, model-based importance and domain rules.\n\nSelection must be evaluated without leaking evaluation data. A feature with high apparent importance because it contains future information is a failure, not a successful feature.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0019",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "18. Feature Explosion Failure",
+      "section_path": "DOC-SPEC-006 > 18. Feature Explosion Failure",
+      "content": "Agentic systems can create thousands of technically valid features from every sensor/window combination. This increases compute cost, multicollinearity, model complexity and deployment latency.\n\nFeature budget per recipe.\n\nMaximum window count.\n\nMaximum generated columns.\n\nDuplicate/redundancy detection.\n\nCompute-cost estimation before execution.\n\nImportance-based pruning where justified.\n\nHuman approval for unusually large feature sets.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0020",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "19. Industrial Domain Features",
+      "section_path": "DOC-SPEC-006 > 19. Industrial Domain Features",
+      "content": "The strongest industrial features are often domain-aware rather than generic. AI-ConneX should support registered domain primitives such as equipment operating-state transitions, utilization, load-adjusted measurements, degradation indicators, maintenance intervals and engineering ratios.\n\nThe system should distinguish an approved engineering formula from an agent's speculative formula. Domain formulas should carry provenance and owner information.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0021",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "20. Cross-Dataset / Cross-Table Features",
+      "section_path": "DOC-SPEC-006 > 20. Cross-Dataset / Cross-Table Features",
+      "content": "Feature engineering often requires joins between telemetry, maintenance, production, quality and contextual datasets. These joins are high-risk because cardinality errors and temporal leakage can silently create incorrect features.\n\nValidate entity keys.\n\nValidate join cardinality.\n\nValidate event timestamps.\n\nUse point-in-time joins for historical context.\n\nRecord source feature view/table.\n\nRecord unmatched rows.\n\nRecord multiplicative row expansion.\n\nReject unexpected many-to-many joins.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0022",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "21. Feature Store Role",
+      "section_path": "DOC-SPEC-006 > 21. Feature Store Role",
+      "content": "For systems that require both historical training and online inference, a feature-store pattern is useful. Feast, for example, provides offline historical retrieval and online feature availability, with point-in-time correctness as a core concept. citeturn0search3turn0search5\n\nAI-ConneX does not have to depend on Feast; the architectural requirement is a versioned feature registry plus reproducible offline/online definitions.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0023",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "22. Offline / Online Consistency",
+      "section_path": "DOC-SPEC-006 > 22. Offline / Online Consistency",
+      "content": "OFFLINEhistorical dataset     |feature recipe     |training featuresONLINElive event     |same feature definition     |serving features\n\nThe same logical feature definition should be used for training and inference. scikit-learn similarly emphasizes applying the same preprocessing transformation to test and production data as was applied during training. citeturn0search1",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0024",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "23. Feature Naming Convention",
+      "section_path": "DOC-SPEC-006 > 23. Feature Naming Convention",
+      "content": "<domain>__<entity>__<signal>__<operation>__<window>__<version>sensor__pump__pressure__mean__1h__v2sensor__pump__temperature__delta__15m__v1maintenance__pump__hours_since_service__v1production__line__load_ratio__v3\n\nNames should be stable, machine-readable and human interpretable. The registry remains the authoritative definition.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0025",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "24. Feature Contract",
+      "section_path": "DOC-SPEC-006 > 24. Feature Contract",
+      "content": "feature:  id: FEAT-000142  name: sensor__pump__pressure__mean__1h__v2  version: 2.0.0  entity:    key: pump_id    timestamp: event_timestamp  inputs:    - pressure_kpa  operation:    type: rolling_mean    window: 1h    min_periods: 3  availability:    max_lag: 0    online: false  leakage:    point_in_time: required  lineage:    source_dataset_uid: ACX-DATA-00042    recipe_id: FEAT-RCP-009",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0026",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "25. Output of FE",
+      "section_path": "DOC-SPEC-006 > 25. Output of FE",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Artifact | Purpose | Consumer |\n| --- | --- | --- |\n| feature_dataset.parquet | Final feature matrix/data table | STEM / next Studio |\n| feature_manifest.json | Feature metadata and contract | STEM/deployment |\n| feature_registry_update.json | New/reused feature definitions | Registry |\n| feature_lineage.json | Source → feature dependency graph | Governance |\n| feature_validation.json | Quality/leakage checks | Compliance |\n| feature_recipe.json | Exact executable/declarative recipe | Reproduction/deployment |\n| feature_report_5.json | Compliance Report #5 | Audit |\n| feature_schema.json | Feature types/shapes | Next stage |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0027",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "26. What FE Sends to the Next Studio",
+      "section_path": "DOC-SPEC-006 > 26. What FE Sends to the Next Studio",
+      "content": "If the selected DAG indicates another Studio component, FE publishes a versioned feature package rather than just a file.\n\nfeature_package/  feature_dataset.parquet  feature_manifest.json  feature_schema.json  feature_recipe.json  feature_lineage.json  feature_validation.json  feature_report_5.json  target_definition.json\n\nThe receiving Studio validates the package against the manifest and schema before consumption.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0028",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "27. Direct-to-Deploy Path",
+      "section_path": "DOC-SPEC-006 > 27. Direct-to-Deploy Path",
+      "content": "Direct deployment should only be permitted when the DAG and intent explicitly select an inference/serving path and all deployment gates pass. FE should never independently decide to deploy simply because features were successfully generated.\n\nFE | +--> next Studio / STEM | +--> batch scoring | +--> online feature serving | +--> deployment gateway       |       +--> security gate       +--> model compatibility       +--> feature availability       +--> latency/cost       +--> approval",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0029",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "28. Deployment Readiness Gates",
+      "section_path": "DOC-SPEC-006 > 28. Deployment Readiness Gates",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Gate | Condition |\n| --- | --- |\n| Feature identity | Versioned feature definitions exist |\n| Availability | Required runtime sources exist |\n| Latency | Within SLA |\n| Freshness | Within required TTL |\n| Consistency | Training/serving definition matches |\n| Security | No unauthorized data dependency |\n| Lineage | Complete source mapping |\n| Monitoring | Feature drift monitoring defined |\n| Rollback | Previous version available |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0030",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "29. R&D Failures",
+      "section_path": "DOC-SPEC-006 > 29. R&D Failures",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Failure | Naive System | AI-ConneX Control |\n| --- | --- | --- |\n| Feature leakage | Future/target data used | Dependency + temporal analysis |\n| Recipe hallucination | Agent writes arbitrary code | Registry + sandbox + validators |\n| Feature explosion | Thousands of useless columns | Budgets + redundancy checks |\n| Training-serving skew | Different online/offline logic | Single feature contract |\n| Bad join | Many-to-many explosion | Cardinality + point-in-time checks |\n| Domain error | Physically meaningless formula | Domain registry/approval |\n| Drift | Feature distribution changes | Feature monitoring |\n| Reproducibility | Recipe lost in notebook | Versioned recipe + hashes |\n| Sensitive feature | Unauthorized data used | Policy/classification gate |\n| Slow feature | Deployment violates latency | Cost/latency estimation |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0031",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "30. Failure: Target Leakage",
+      "section_path": "DOC-SPEC-006 > 30. Failure: Target Leakage",
+      "content": "Examples include maintenance completion codes entered after a failure, future production totals, post-failure inspection fields and labels accidentally included in rolling aggregates. AI-ConneX builds a target dependency graph and marks target/post-outcome fields as restricted.\n\ntarget: failure_eventRESTRICTED  failure_confirmed  repair_completed  post_failure_inspectionALLOWED BEFORE t  vibration(t)  temperature(t)  pressure(t-1h)  operating_load(t)",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0032",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "31. Failure: Temporal Leakage Through Aggregation",
+      "section_path": "DOC-SPEC-006 > 31. Failure: Temporal Leakage Through Aggregation",
+      "content": "A common mistake is computing a daily aggregate over the complete day and attaching it to every row in that day. For a 10:00 prediction, the 18:00 measurement must not influence the feature. AI-ConneX requires window definitions to be anchored at the event time.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0033",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "32. Failure: Agent Code Safety",
+      "section_path": "DOC-SPEC-006 > 32. Failure: Agent Code Safety",
+      "content": "Generated code should not have unrestricted filesystem, network or shell access. The preferred architecture is declarative recipes built from allowlisted feature primitives. If code generation is unavoidable, execution should occur in an isolated sandbox with resource limits and explicit permissions.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0034",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "33. Failure: Semantic Mismatch",
+      "section_path": "DOC-SPEC-006 > 33. Failure: Semantic Mismatch",
+      "content": "A feature named 'temperature trend' may mean different things across industries. AI-ConneX stores the operation definition, units, entity, time window and semantic description rather than relying on a name alone.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0035",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "34. Feature Validation",
+      "section_path": "DOC-SPEC-006 > 34. Feature Validation",
+      "content": "Schema/type validation.\n\nNull-rate validation.\n\nRange validation.\n\nCardinality validation.\n\nTemporal availability validation.\n\nLeakage validation.\n\nDuplicate feature detection.\n\nConstant/near-constant detection.\n\nDistribution sanity checks.\n\nComputation-cost validation.\n\nServing compatibility validation.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0036",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "35. Feature Quality Report",
+      "section_path": "DOC-SPEC-006 > 35. Feature Quality Report",
+      "content": "feature_idfeature_namedtypesource_columnsentity_keytimestamp_columnwindowavailability_lagnull_rateunique_countmin/maxdistribution_hashleakage_statusonline_supportedcompute_costrecipe_idversion",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0037",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "36. Compliance Report #5",
+      "section_path": "DOC-SPEC-006 > 36. Compliance Report #5",
+      "content": "For this stage, Compliance Report #5 is the evidence that the feature set was created according to intent, approved recipes or validated agent-generated recipes, without known leakage, with reproducible definitions and with complete lineage.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Section | Evidence |\n| --- | --- |\n| Identity | FE run UID, manifest UID, dataset UID |\n| Intent | Intent UID and objective |\n| Profile | Profiler version/reference |\n| Recipe | Existing or generated recipe + version |\n| Feature inventory | All generated/reused features |\n| Dependencies | Source columns and feature graph |\n| Leakage | Temporal/target checks |\n| Validation | Quality and semantic checks |\n| Agent evidence | Prompt/context hash + candidate/decision where policy permits |\n| Lineage | Source → feature mapping |\n| Output | Feature artifact hash/schema |\n| Deployment | Serving compatibility if applicable |\n| Final status | PASS/WARN/BLOCK |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0038",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "37. Example Compliance Report",
+      "section_path": "DOC-SPEC-006 > 37. Example Compliance Report",
+      "content": "{  \"report_id\": \"REPORT_5\",  \"stage\": \"FEATURE_ENGINEER\",  \"status\": \"PASS\",  \"fe_run_uid\": \"ACX-FE-00042\",  \"manifest_uid\": \"ACX-MAN-00042\",  \"recipe\": \"FEAT-PM-004@2.1.0\",  \"features_generated\": 47,  \"features_reused\": 31,  \"features_rejected\": 9,  \"leakage_checks\": \"PASS\",  \"point_in_time_checks\": \"PASS\",  \"lineage_complete\": true,  \"deployment_ready\": false}",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0039",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "38. Recommended Tech Stack",
+      "section_path": "DOC-SPEC-006 > 38. Recommended Tech Stack",
+      "content": "These are recommended baseline versions for architecture documentation; the implementation should pin exact versions in a lockfile after compatibility testing. Feast's current documented architecture is particularly relevant for point-in-time historical retrieval and offline/online feature management. citeturn0search0turn0search3",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Layer | Recommended Stack | Role |\n| --- | --- | --- |\n| Runtime | Python 3.12.x | Feature execution |\n| Data | Polars 1.x + PyArrow | Columnar transformations |\n| ML primitives | scikit-learn 1.8.x | Reusable transformations/selection |\n| Feature registry | Feast 0.x or internal registry | Feature definitions/serving |\n| Validation | Great Expectations 1.x or internal validator | Feature quality |\n| Contracts | Pydantic 2.x + JSON Schema | Feature schemas |\n| API | FastAPI | FE service |\n| Orchestration | Prefect 3.x / Airflow 3.x | Runs |\n| Storage | Parquet + S3-compatible object store | Artifacts |\n| Metadata | PostgreSQL 16+ | Registry/run metadata |\n| Sandbox | Docker | Agent code isolation |\n| Observability | OpenTelemetry | Traces/metrics |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0040",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "39. System Requirements",
+      "section_path": "DOC-SPEC-006 > 39. System Requirements",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Deployment | Baseline |\n| --- | --- |\n| OS | Ubuntu 22.04/24.04 LTS or equivalent Linux |\n| CPU | 4+ cores POC; 8–32+ production depending on feature volume |\n| RAM | 16 GB POC; 32–128 GB production depending on data |\n| Storage | SSD; provision for input + feature artifacts + lineage |\n| Python | 3.12.x |\n| Container | Docker 26+ recommended |\n| Network | Object storage/metadata/feature store as applicable |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0041",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "40. Directory Architecture",
+      "section_path": "DOC-SPEC-006 > 40. Directory Architecture",
+      "content": "feature_engineer/|+-- api/|   +-- routes.py|   +-- schemas.py|+-- engine/|   +-- runner.py|   +-- context.py|   +-- planner.py|+-- intent/|   +-- resolver.py|   +-- constraints.py|+-- registry/|   +-- feature_registry.py|   +-- recipe_registry.py|   +-- compatibility.py|+-- agent/|   +-- helper.py|   +-- prompts/|   +-- validators.py|   +-- sandbox.py|+-- primitives/|   +-- lag.py|   +-- rolling.py|   +-- trend.py|   +-- aggregation.py|   +-- ratio.py|   +-- temporal.py|   +-- categorical.py|+-- leakage/|   +-- temporal.py|   +-- target.py|   +-- dependency_graph.py|+-- validation/|   +-- schema.py|   +-- quality.py|   +-- serving.py|+-- lineage/|   +-- graph.py|   +-- tracker.py|+-- reports/|   +-- report5.py|+-- storage/|   +-- reader.py|   +-- writer.py|+-- tests/|   +-- unit/|   +-- integration/|   +-- leakage/|   +-- regression/|   +-- recipes/|+-- config/|   +-- feature_engineer.yaml",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0042",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "41. Configuration",
+      "section_path": "DOC-SPEC-006 > 41. Configuration",
+      "content": "feature_engineer:  mode: strict  recipe_policy: registry_first  agent_generation: enabled  require_recipe_validation: trueleakage:  temporal_guard: enabled  target_guard: enabled  point_in_time_join: required  future_data_policy: blockfeatures:  max_generated: 500  max_window_count: 20  redundancy_check: enabledagent:  sandbox: docker  network_access: false  filesystem_access: workspace_onlyserving:  online_required: false  max_latency_ms: 100lineage:  enabled: true  hash_algorithm: sha256output:  format: parquet  compression: zstd",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0043",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "42. CLI Commands",
+      "section_path": "DOC-SPEC-006 > 42. CLI Commands",
+      "content": "# installpython -m venv .venvsource .venv/bin/activatepip install -r requirements.txt# inspect available recipespython -m fe registry list# check compatibilitypython -m fe recipe check   --manifest manifests/manifest-UID.json   --prepared data/prepared.parquet# generate candidate recipepython -m fe agent propose   --intent intent.json   --profile profile.json   --prepared data/prepared.parquet# dry runpython -m fe run   --recipe FEAT-PM-004@2.1.0   --input data/prepared.parquet   --manifest manifests/manifest-UID.json   --dry-run# executepython -m fe run   --recipe FEAT-PM-004@2.1.0   --input data/prepared.parquet   --manifest manifests/manifest-UID.json   --output artifacts/features/# validate leakagepython -m fe validate-leakage   --feature-manifest artifacts/features/feature_manifest.json# generate compliance reportpython -m fe report --run-id ACX-FE-00042# testspytest tests/",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0044",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "43. API Design",
+      "section_path": "DOC-SPEC-006 > 43. API Design",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Method | Endpoint | Purpose |\n| --- | --- | --- |\n| POST | /v1/features/plan | Resolve intent and propose feature plan |\n| POST | /v1/features/recipes/check | Check recipe compatibility |\n| POST | /v1/features/agent/propose | Generate candidate recipe |\n| POST | /v1/features/dry-run | Preview feature generation |\n| POST | /v1/features/run | Execute feature recipe |\n| POST | /v1/features/validate | Validate feature set |\n| GET | /v1/features/runs/{run_id} | Run status |\n| GET | /v1/features/runs/{run_id}/lineage | Feature lineage |\n| GET | /v1/features/runs/{run_id}/report | Compliance Report #5 |\n| POST | /v1/features/publish | Publish approved feature package |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0045",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "44. Feature Registry Lifecycle",
+      "section_path": "DOC-SPEC-006 > 44. Feature Registry Lifecycle",
+      "content": "PROPOSE   |VALIDATE   |TEST   |REGISTER   |VERSION   |PUBLISH   |MONITOR   |DEPRECATE / ROLLBACK\n\nA feature should never jump directly from agent generation to production registry.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0046",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "45. Versioning",
+      "section_path": "DOC-SPEC-006 > 45. Versioning",
+      "content": "Feature versions must account for semantic changes, not merely code changes. A change to a window from 1h to 2h, unit interpretation, entity scope, availability timestamp or aggregation logic should create a new feature version.\n\nFEAT-000142  v1.0.0 = mean over 1h  v1.1.0 = corrected null policy  v2.0.0 = changed window to 2h",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0047",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "46. Reproducibility",
+      "section_path": "DOC-SPEC-006 > 46. Reproducibility",
+      "content": "Input dataset hash.\n\nManifest UID/version.\n\nRecipe ID/version.\n\nFeature registry version.\n\nDependency package lock.\n\nConfiguration hash.\n\nAgent candidate hash when applicable.\n\nOutput dataset hash.\n\nExecution environment/container digest.\n\nA feature run should be reproducible from these artifacts without depending on an undocumented notebook state.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0048",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "47. Feature Store / Deployment Bridge",
+      "section_path": "DOC-SPEC-006 > 47. Feature Store / Deployment Bridge",
+      "content": "When the user selects direct deployment, FE can publish feature definitions to the deployment/feature-serving layer only after the deployment readiness gates. A feature store can serve as the runtime bridge for online features; Feast documents offline stores for historical retrieval and online stores for low-latency serving. citeturn0search3turn0search5",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0049",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "48. Monitoring After Publication",
+      "section_path": "DOC-SPEC-006 > 48. Monitoring After Publication",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Metric | Purpose |\n| --- | --- |\n| Null rate | Detect source/feature failure |\n| Freshness | Detect delayed data |\n| Distribution drift | Detect process changes |\n| Feature availability | Detect serving failures |\n| Cardinality | Detect entity changes |\n| Range violations | Detect physical anomalies |\n| Computation latency | Detect serving degradation |\n| Training-serving skew | Detect definition divergence |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0050",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "49. Proof of Concept",
+      "section_path": "DOC-SPEC-006 > 49. Proof of Concept",
+      "content": "INDUSTRIAL USE CASEPredict pump failure 6 hours aheadINPUT  prepared telemetry  pump_id  timestamp  pressure  temperature  vibration  load  maintenance historyINTENT  predictive maintenance  horizon = 6h  explainability = requiredRECIPE REGISTRY  lag_v2  rolling_v3  degradation_v1FE  |  +--> 5m/15m/1h lags  +--> rolling mean/std  +--> rate of change  +--> load-adjusted pressure  +--> hours_since_maintenance  |  vLEAKAGE VALIDATION  |  vFEATURE PACKAGE",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0051",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "50. POC Experimental Groups",
+      "section_path": "DOC-SPEC-006 > 50. POC Experimental Groups",
+      "content": "Compare feature quality, leakage rate, reproducibility, execution time, feature count, downstream performance and industrial interpretability.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Group | Description |\n| --- | --- |\n| A | Manual expert feature engineering |\n| B | Generic automated feature generation |\n| C | AI-ConneX registry-first FE |\n| D | AI-ConneX agent-assisted FE |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0052",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "51. POC Acceptance Criteria",
+      "section_path": "DOC-SPEC-006 > 51. POC Acceptance Criteria",
+      "content": "Every feature has a stable ID and definition.\n\n100% of feature dependencies are traceable.\n\nKnown future leakage tests are blocked.\n\nTarget-derived features are blocked.\n\nExisting compatible recipes are reused.\n\nAgent-generated recipes cannot bypass validation.\n\nTraining and serving definitions remain consistent where online serving is enabled.\n\nFeature count remains within configured budget.\n\nOutput is reproducible from recorded artifacts.\n\nCompliance Report #5 is complete.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0053",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "52. Research Questions",
+      "section_path": "DOC-SPEC-006 > 52. Research Questions",
+      "content": "RQ1: Does registry-first feature reuse reduce feature engineering time?\n\nRQ2: Does agent-assisted recipe generation increase useful feature coverage without increasing leakage?\n\nRQ3: Does point-in-time validation reduce false model performance caused by temporal leakage?\n\nRQ4: Does feature lineage improve industrial auditability and debugging?\n\nRQ5: Can domain-aware constraints improve feature usefulness compared with generic automated feature generation?\n\nRQ6: What is the trade-off between feature-generation breadth, compute cost and downstream model performance?",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0054",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "53. Research Hypotheses",
+      "section_path": "DOC-SPEC-006 > 53. Research Hypotheses",
+      "content": "H1: Registry-first FE reduces time-to-model-ready features.\n\nH2: Guarded agent assistance increases candidate feature diversity while maintaining leakage safety.\n\nH3: Point-in-time validation significantly reduces leakage-related performance inflation.\n\nH4: Versioned feature lineage improves reproducibility.\n\nH5: Domain-aware feature primitives improve interpretability and operational usefulness.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0055",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "54. Research Metrics",
+      "section_path": "DOC-SPEC-006 > 54. Research Metrics",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Metric | Measurement |\n| --- | --- |\n| Time-to-feature | Minutes from PREPARE output to validated features |\n| Useful feature ratio | Accepted features / generated candidates |\n| Leakage detection rate | Known injected leakage cases detected |\n| False leakage rate | Valid features incorrectly blocked |\n| Reproducibility | Equivalent output across repeated runs |\n| Feature reuse | Existing recipes reused / total recipes |\n| Agent acceptance | Agent proposals accepted after validation |\n| Compute cost | CPU/RAM/time per million rows |\n| Downstream lift | Model metric improvement vs baseline |\n| Interpretability | Expert rating / documented semantics |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0056",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "55. Research-Paper / Technical References",
+      "section_path": "DOC-SPEC-006 > 55. Research-Paper / Technical References",
+      "content": "1. scikit-learn — Common pitfalls and recommended practices, especially inconsistent preprocessing and data leakage. citeturn0search1",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0057",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "5. Apache Arrow/Parquet — Columnar storage and Arrow/Parquet interoperability for analytical workloads. citeturn0search6",
+      "section_path": "DOC-SPEC-006 > 5. Apache Arrow/Parquet — Columnar storage and Arrow/Parquet interoperability for analytical workloads. citeturn0search6",
+      "content": "For an academic paper, these should be supplemented with peer-reviewed feature-engineering, automated feature construction, industrial predictive-maintenance and data-centric AI papers selected specifically for the target industrial domain.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0058",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "56. Proposed Research Contribution",
+      "section_path": "DOC-SPEC-006 > 56. Proposed Research Contribution",
+      "content": "AI-ConneX FE can be positioned as a controlled, intent-driven and agent-assisted feature engineering architecture rather than merely an automated feature generator. The proposed contribution is the combination of user intent, profiler-derived metadata, DAG constraints, registry-first reuse, guarded agent generation, temporal/target leakage analysis, feature lineage and deployment compatibility in one industrial pipeline.\n\nThe claim should be evaluated experimentally rather than stated as proven. The strongest research contribution would be demonstrated through controlled comparison against manual and generic automated baselines.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0059",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "57. Industrial Value",
+      "section_path": "DOC-SPEC-006 > 57. Industrial Value",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Industrialist Problem | FE Response |\n| --- | --- |\n| Doesn't know ML features | Intent converts business objective into feature requirements |\n| Data has many sensors | Profiler metadata guides relevant feature selection |\n| Doesn't want coding | Recipes automate engineering |\n| No recipe exists | Agent proposes candidate recipe |\n| Cannot trust AI blindly | Deterministic validation gates |\n| Needs auditability | Feature lineage + Compliance Report |\n| Needs repeatability | Versioned feature recipes |\n| Needs production deployment | Online/offline compatibility checks |\n| Concerned about data leakage | Temporal + target guards |\n| Wants faster experimentation | Recipe reuse + automated planning |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0060",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "58. What the Industrialist Sees",
+      "section_path": "DOC-SPEC-006 > 58. What the Industrialist Sees",
+      "content": "INDUSTRIALIST\"I need to predict pump failures 6 hours before they happen.\"AI-ConneX  |  +-- understands intent  +-- understands dataset  +-- checks existing recipes  +-- creates/uses approved features  +-- verifies leakage  +-- validates features  +-- reports exactly what was created  |  v\"47 validated features created.31 reused from approved recipes.9 candidate features rejected.0 known leakage violations.Feature package ready for STEM.\"",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0061",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "59. Final Architecture",
+      "section_path": "DOC-SPEC-006 > 59. Final Architecture",
+      "content": "AI-CONNEXCHATBOT  |  | user intent  vBRAIN  Compiler  Profiler  DAG Assigner  Recipe Orchestrator  |  | manifest + profile + DAG + recipe  vPREPARE  |  | prepared dataset  vFEATURE ENGINEER  |  +--> Intent Resolver  |  +--> Recipe Registry  |       |  |       +--> reuse approved recipe  |  +--> Agent Helper  |       |  |       +--> candidate recipe  |              |  |              v  |        validation gates  |  +--> Leakage Guard  +--> Feature Validator  +--> Lineage  |  +-----------------------+  |                       |  v                       vNEXT STUDIO              DEPLOY GATESTEM                      |                           v                       ONLINE/BATCH                       FEATURE SERVING",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0062",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "60. Final Design Principle",
+      "section_path": "DOC-SPEC-006 > 60. Final Design Principle",
+      "content": "The Feature Engineer Node should be understood as a controlled feature compiler: it compiles industrial intent + dataset metadata + DAG constraints + reusable recipes into a versioned feature graph and executable feature dataset.\n\nThe critical principle is: **the agent may propose intelligence, but the system must prove correctness.** This keeps AI-ConneX suitable for industrial environments where a feature that is slightly less clever but fully traceable and leakage-safe is preferable to a highly complex feature that cannot be trusted.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0063",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "Appendix A — UID Chain",
+      "section_path": "DOC-SPEC-006 > Appendix A — UID Chain",
+      "content": "ACX-INT-00042   |ACX-DATA-00042   |ACX-MAN-00042   |ACX-DAG-00042   |ACX-RCP-00042   |ACX-PREP-00042   |ACX-FE-00042   |ACX-FEATURE-000142   |ACX-STEM-00042 / ACX-DEPLOY-00042",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0064",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "Appendix B — Boundary with Data Profiler",
+      "section_path": "DOC-SPEC-006 > Appendix B — Boundary with Data Profiler",
+      "content": "The original Data Profiler is upstream in the Brain and remains the source of the data profile used for planning. FE should not overwrite the original manifest. Instead, FE emits feature metadata, feature lineage and post-feature validation artifacts. A downstream monitoring/profiling mechanism can consume these artifacts to monitor feature drift and data/feature quality.\n\nDATA PROFILER  |  +--> profile + manifest             |             v        PREPARE             |             v     FEATURE ENGINEER             |       +-----+------+       |            |       v            v feature metadata  feature dataset       |       v post-feature monitoring/profiling",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-006-0065",
+      "document_id": "DOC-DOC-SPEC-006-V1",
+      "heading_level": 1,
+      "heading_text": "Appendix C — Recommended Governance Rule",
+      "section_path": "DOC-SPEC-006 > Appendix C — Recommended Governance Rule",
+      "content": "No feature reaches production merely because it improves a validation metric. Production publication requires: registered definition, lineage, leakage validation, security/policy approval, reproducibility, monitoring and rollback.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    }
+  ],
+  "extracted_slas": [
+    {
+      "sla_id": "SLA-MEM-DOC-SPEC-006-01",
+      "component_name": "FeatureEngineerNode",
+      "metric_name": "max_memory_mb",
+      "target_value": 16384.0,
+      "unit": "MB",
+      "comparison_op": "<=",
+      "workload_condition": "RAM | 16 GB",
+      "severity_on_breach": "warning",
+      "source_spec_id": "DOC-SPEC-006"
+    }
+  ]
+}

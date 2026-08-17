@@ -1,0 +1,54 @@
+units_vocabulary:
+- symbol: mg/L
+  name: milligram per liter
+  ucum_code: mg/L
+  domain: water_quality
+  aliases:
+  - mg/l
+  - ppm
+  - mg/L
+- symbol: "\xB0C"
+  name: degree Celsius
+  ucum_code: Cel
+  domain: thermal
+  aliases:
+  - degC
+  - C
+  - celsius
+  - temp_c
+- symbol: mm/s
+  name: millimeter per second
+  ucum_code: mm/s
+  domain: vibration
+  aliases:
+  - mm/sec
+  - mm_s
+- symbol: RPM
+  name: revolutions per minute
+  ucum_code: rpm
+  domain: rotational
+  aliases:
+  - rpm
+  - 1/min
+- symbol: bar
+  name: bar
+  ucum_code: bar
+  domain: pressure
+  aliases:
+  - BAR
+  - bar_g
+- symbol: Pa
+  name: pascal
+  ucum_code: Pa
+  domain: pressure
+  aliases:
+  - kPa
+  - MPa
+  - psi
+- symbol: Hz
+  name: hertz
+  ucum_code: Hz
+  domain: frequency
+  aliases:
+  - hz
+  - 1/s

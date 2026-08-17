@@ -1,0 +1,227 @@
+[
+  {
+    "entity_type": "Plant",
+    "category": "Facility",
+    "description": "Top-level industrial manufacturing site or facility.",
+    "attributes": [
+      "plant_id",
+      "name",
+      "location",
+      "industry_sector"
+    ],
+    "bfo_mapping": "bfo:MaterialEntity",
+    "iof_mapping": "iof:ManufacturingFacility"
+  },
+  {
+    "entity_type": "Process",
+    "category": "Operation",
+    "description": "Industrial production or chemical transformation process.",
+    "attributes": [
+      "process_id",
+      "name",
+      "process_type",
+      "operating_pressure"
+    ],
+    "bfo_mapping": "bfo:Process",
+    "iof_mapping": "iof:ManufacturingProcess"
+  },
+  {
+    "entity_type": "Asset",
+    "category": "Physical System",
+    "description": "Major capital asset or production train within a plant.",
+    "attributes": [
+      "asset_id",
+      "name",
+      "criticality_rating",
+      "commissioned_date"
+    ],
+    "bfo_mapping": "bfo:MaterialEntity",
+    "iof_mapping": "iof:Asset"
+  },
+  {
+    "entity_type": "Equipment",
+    "category": "Machine",
+    "description": "Discrete machinery unit (e.g., Centrifugal Pump, Compressor, Turbine).",
+    "attributes": [
+      "equipment_id",
+      "name",
+      "equipment_class",
+      "manufacturer",
+      "model_number"
+    ],
+    "bfo_mapping": "bfo:MaterialEntity",
+    "iof_mapping": "iof:PieceOfEquipment"
+  },
+  {
+    "entity_type": "Component",
+    "category": "Sub-assembly",
+    "description": "Sub-unit or replaceable part (e.g., Bearing, Seal, Impeller, Gear).",
+    "attributes": [
+      "component_id",
+      "name",
+      "part_number",
+      "material"
+    ],
+    "bfo_mapping": "bfo:MaterialEntity",
+    "iof_mapping": "iof:Component"
+  },
+  {
+    "entity_type": "Sensor",
+    "category": "Instrument",
+    "description": "Monitoring transducer measuring physical process properties.",
+    "attributes": [
+      "sensor_id",
+      "name",
+      "sensor_type",
+      "sampling_rate_hz",
+      "unit_of_measure"
+    ],
+    "bfo_mapping": "bfo:MaterialEntity",
+    "iof_mapping": "iof:MeasuringInstrument"
+  },
+  {
+    "entity_type": "Measurement",
+    "category": "Data Signal",
+    "description": "Observed time-series value or feature extracted from a sensor.",
+    "attributes": [
+      "measurement_id",
+      "timestamp",
+      "numeric_value",
+      "quality_flag"
+    ],
+    "bfo_mapping": "bfo:Quality",
+    "iof_mapping": "iof:MeasurementValue"
+  },
+  {
+    "entity_type": "Parameter",
+    "category": "Physical Property",
+    "description": "Physical variable monitored (e.g., Vibration Velocity, Temperature, Pressure).",
+    "attributes": [
+      "parameter_name",
+      "category",
+      "normal_range_min",
+      "normal_range_max"
+    ],
+    "bfo_mapping": "bfo:Quality",
+    "iof_mapping": "iof:ProcessParameter"
+  },
+  {
+    "entity_type": "Operating Mode",
+    "category": "State",
+    "description": "Operational regime or throughput state (e.g., Full Load, Idle, Transient).",
+    "attributes": [
+      "mode_id",
+      "name",
+      "speed_rpm",
+      "load_percentage"
+    ],
+    "bfo_mapping": "bfo:State",
+    "iof_mapping": "iof:OperatingState"
+  },
+  {
+    "entity_type": "Failure",
+    "category": "Event",
+    "description": "Inability of an asset or equipment to perform its required function.",
+    "attributes": [
+      "failure_id",
+      "timestamp",
+      "severity",
+      "functional_loss"
+    ],
+    "bfo_mapping": "bfo:Process",
+    "iof_mapping": "iof:FailureEvent"
+  },
+  {
+    "entity_type": "Failure Mode",
+    "category": "Mechanism",
+    "description": "Specific physical mechanism of degradation or loss of function (e.g., Bearing Wear, Cavitation).",
+    "attributes": [
+      "mode_code",
+      "name",
+      "mechanism_description",
+      "iso_14224_code"
+    ],
+    "bfo_mapping": "bfo:Disposition",
+    "iof_mapping": "iof:FailureMode"
+  },
+  {
+    "entity_type": "Degradation",
+    "category": "Process",
+    "description": "Progressive irreversible deterioration of component condition over time.",
+    "attributes": [
+      "degradation_id",
+      "rate_of_change",
+      "degradation_pattern"
+    ],
+    "bfo_mapping": "bfo:Process",
+    "iof_mapping": "iof:DegradationProcess"
+  },
+  {
+    "entity_type": "Maintenance Event",
+    "category": "Activity",
+    "description": "Recorded work order or intervention event.",
+    "attributes": [
+      "event_id",
+      "work_order_num",
+      "start_time",
+      "end_time",
+      "event_type"
+    ],
+    "bfo_mapping": "bfo:Process",
+    "romain_mapping": "romain:MaintenanceEvent"
+  },
+  {
+    "entity_type": "Maintenance Action",
+    "category": "Action",
+    "description": "Specific corrective or preventive maintenance task (e.g., Lubricate, Replace, Align).",
+    "attributes": [
+      "action_id",
+      "name",
+      "standard_hours",
+      "action_type"
+    ],
+    "bfo_mapping": "bfo:Process",
+    "romain_mapping": "romain:MaintenanceTask"
+  },
+  {
+    "entity_type": "Health Indicator",
+    "category": "Metric",
+    "description": "Calculated Health Index (HI) or Remaining Useful Life (RUL) estimate.",
+    "attributes": [
+      "indicator_id",
+      "health_index_0_100",
+      "rul_hours_estimate",
+      "confidence_interval"
+    ],
+    "bfo_mapping": "bfo:Quality",
+    "iof_mapping": "iof:HealthStateIndicator"
+  },
+  {
+    "entity_type": "Dataset",
+    "category": "Artifact",
+    "description": "Collection of sensor signals, maintenance logs, or simulation runs (e.g., C-MAPSS).",
+    "attributes": [
+      "dataset_id",
+      "name",
+      "num_entities",
+      "total_samples",
+      "source_url"
+    ],
+    "bfo_mapping": "bfo:GenericallyDependentContinuant",
+    "iof_mapping": "iof:DataSet"
+  },
+  {
+    "entity_type": "Method",
+    "category": "Algorithm",
+    "description": "Analytical or ML algorithm used for PHM (e.g., FFT, Random Forest, LSTM, Transformer).",
+    "attributes": [
+      "method_id",
+      "name",
+      "method_family",
+      "input_type",
+      "output_type"
+    ],
+    "bfo_mapping": "bfo:Plan",
+    "iof_mapping": "iof:DiagnosticMethod"
+  }
+]

@@ -1,0 +1,841 @@
+{
+  "document_id": "DOC-DOC-SPEC-007-V1",
+  "source_id": "DOC-SPEC-007",
+  "title": "AI-ConneX Data Studio IF ELSE CONDITIONING Documentation",
+  "studio": "DataStudio",
+  "category": "StateTransition",
+  "target_subsystems": [
+    "ConditionalRouter",
+    "RuleEngine",
+    "BranchEvaluator"
+  ],
+  "summary": "Dynamic conditional branching specifications, boolean guard predicates, and fallback routing contracts for industrial workflows.",
+  "sha256": "0915d020ff7d5adfd3d2d5e71f757720b178992998ac05d64436eeaff8a98bf1",
+  "file_size_bytes": 54703,
+  "statistics": {
+    "headings_count": 69,
+    "paragraphs_count": 183,
+    "tables_count": 17,
+    "sections_count": 70,
+    "estimated_words": 5027
+  },
+  "sections": [
+    {
+      "section_id": "SEC-DOC-SPEC-007-0001",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "Overview",
+      "section_path": "DOC-SPEC-007 > Overview",
+      "content": "AI-ConneX\n\nDATA STUDIO — IF/ELSE CONDITIONING & INDUSTRIAL VISUALIZATION DEPLOYMENT GATE\n\nPost–Feature Engineer Decision Node | Compliance Report #6",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0002",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "1. Executive Summary",
+      "section_path": "DOC-SPEC-007 > 1. Executive Summary",
+      "content": "The AI-ConneX IF/ELSE Conditioning Node is the controlled decision gate immediately after Feature Engineer (FE). Its job is not to perform another generic transformation. It determines what the user actually wants to do with the engineered data: deploy it as an industrial Data Studio Microservice/Service for organization, mathematical/physics-aware analysis and visualization, or route the workflow to ML Studio when the intent is explicitly model-oriented.\n\nCHATBOT INTENT      |      vBRAIN Compiler -> Profiler -> DAG -> Recipe Orchestrator      |      vPREPARE      |      vFEATURE ENGINEER      |      v+--------------------------------+| IF / ELSE CONDITIONING NODE    ||                                || IF intent = DATA/SERVICE       ||       -> DEPLOYMENT NODE       ||       -> Physics/Math Layer    ||       -> Visualization Service ||                                || ELSE IF intent = MODEL/ML      ||       -> ML STUDIO             ||                                || ELSE                           ||       -> clarification/gate    |+--------------------------------+\n\nThe architectural principle is: **do not force an ML model where a deterministic mathematical/physics visualization service already solves the industrial problem.** Many industrial users need better organization, monitoring, signal interpretation, derived measurements, engineering views, anomaly marking, and interactive visualization rather than prediction.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0003",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "2. Why This Decision Node Exists",
+      "section_path": "DOC-SPEC-007 > 2. Why This Decision Node Exists",
+      "content": "Feature engineering can produce a useful analytical representation even when no machine-learning model is required. An industrialist may want to visualize vibration spectra, compare machine cycles, inspect pressure/flow relationships, monitor energy consumption, detect threshold violations, calculate FFT/PSD, overlay engineering limits, or explore process behavior. These tasks can be delivered as deterministic services.\n\nConversely, if the user's intent is predictive, classificatory, forecasting, recommendation-oriented or explicitly model-driven, the engineered feature package should go to ML Studio rather than being silently converted into a visualization service.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0004",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "3. The Core IF/ELSE Rule",
+      "section_path": "DOC-SPEC-007 > 3. The Core IF/ELSE Rule",
+      "content": "IF user_intent.requires_model == TRUE:       route = ML_STUDIOELSE IF user_intent.requires_service == TRUE     OR user_intent.requires_visualization == TRUE     OR user_intent.requires_analysis == TRUE:       route = DEPLOYMENT_NODEELSE:       route = CLARIFICATION_GATE\n\nThe actual implementation should use a structured intent contract from the Brain rather than parsing raw chatbot text at this late stage.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0005",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "4. Why the Gate Is AFTER Feature Engineer",
+      "section_path": "DOC-SPEC-007 > 4. Why the Gate Is AFTER Feature Engineer",
+      "content": "The gate is intentionally placed after FE because the decision has to be made against the final analytical representation that will actually be consumed. By this point, AI-ConneX has already established dataset identity, data quality, entity/time semantics, DAG constraints, preparation logic, feature definitions and lineage.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Earlier location | Why it is insufficient |\n| --- | --- |\n| After Chatbot | Intent is known, but dataset suitability and engineered representation are not |\n| After Compiler | Format is unified, but analytical semantics are incomplete |\n| After Profiler | Profile describes data, but useful derived features may not yet exist |\n| After DAG | Workflow is known, but feature output is not final |\n| After Recipe Orchestrator | Preparation/FE plans exist, but final feature availability is not guaranteed |\n| After PREPARE | Clean data exists, but FE may create required analytical signals |\n| After FE | Final feature package + intent + lineage are available; routing is informed and deterministic |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0006",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "5. Important Exception: Do Not Confuse Intent with FE Output",
+      "section_path": "DOC-SPEC-007 > 5. Important Exception: Do Not Confuse Intent with FE Output",
+      "content": "The presence of engineered features does not mean the user wants ML. FE is a reusable analytical layer. The same engineered signal can feed either a model or a deterministic visualization/analysis service.\n\nVibration signal     |     +--> FFT amplitude spectrum --> human inspection/service     |     +--> spectral band energy ----> dashboard/service     |     +--> engineered features ----> ML model",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0007",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "6. Inputs",
+      "section_path": "DOC-SPEC-007 > 6. Inputs",
+      "content": "ifelse_input/  feature_dataset.parquet  feature_manifest.json  manifest-UID.json  feature_recipe.json  feature_lineage.json  feature_validation.json  intent.json  dag_plan.json  profiler_profile.json  policy.json  compliance_report_5.json",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Input | Use |\n| --- | --- |\n| Intent | Determines ML vs service objective |\n| Feature dataset | Final analytical data |\n| Feature manifest | Feature definitions and types |\n| Profiler profile | Dataset semantics and distributions |\n| DAG | Allowed downstream route |\n| Lineage | Traceability |\n| Policy | Security/compliance constraints |\n| FE Report #5 | Evidence that FE completed successfully |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0008",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "7. Intent Contract",
+      "section_path": "DOC-SPEC-007 > 7. Intent Contract",
+      "content": "{  \"intent_uid\": \"ACX-INT-00042\",  \"objective\": \"industrial_monitoring\",  \"requires_model\": false,  \"requires_visualization\": true,  \"requires_service\": true,  \"deployment_mode\": \"microservice\",  \"analysis\": [\"fft\", \"trend\", \"threshold_overlay\"],  \"human_interaction\": \"interactive\"}\n\nThe `requires_model` field should have priority when explicitly set true. This prevents an ambiguous downstream agent from diverting a model request into a visualization service.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0009",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "8. Decision Matrix",
+      "section_path": "DOC-SPEC-007 > 8. Decision Matrix",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| User Intent | Route | Reason |\n| --- | --- | --- |\n| Predict failure | ML Studio | Model is required |\n| Forecast energy demand | ML Studio | Forecasting model requested |\n| Classify quality defect | ML Studio | Classification requested |\n| Visualize FFT | Deployment Node | Deterministic signal analysis |\n| Monitor pressure limits | Deployment Node | Rule/threshold service |\n| Compare production cycles | Deployment Node | Analytical visualization |\n| Calculate vibration spectrum | Deployment Node | Mathematical transform |\n| Build dashboard of sensor KPIs | Deployment Node | Data organization/visualization |\n| Calculate engineering ratios | Deployment Node | Deterministic domain computation |\n| Not enough information | Clarification Gate | Intent ambiguous |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0010",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "9. Deployment Node — What It Means",
+      "section_path": "DOC-SPEC-007 > 9. Deployment Node — What It Means",
+      "content": "Deployment here does not necessarily mean deploying an ML model. It means exposing a reusable industrial data service. The service can accept data, calculate deterministic mathematical/physics-derived quantities, organize them into views, and return interactive or machine-readable outputs.\n\nIndustrial Dataset      |      vData Service  |  +--> normalized views  +--> mathematical transforms  +--> physics-derived quantities  +--> annotations  +--> visualization API  +--> export API  |  vBrowser / HMI / SCADA-adjacent dashboard / Engineering workstation",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0011",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "10. The Mathematical & Physics Layer",
+      "section_path": "DOC-SPEC-007 > 10. The Mathematical & Physics Layer",
+      "content": "When a service deployment is selected, an Agent Helper can construct a controlled Mathematical & Physics Layer. The agent chooses from approved mathematical and domain primitives based on dataset type, profile and intent.\n\nFFT / inverse FFT\n\nPower spectral density\n\nRMS / peak / crest factor\n\nMoving statistics\n\nDerivative / integral\n\nRate of change\n\nCorrelation / cross-correlation\n\nFrequency-band energy\n\nPressure-flow relationships\n\nEnergy/power calculations where units are known\n\nMass/volume flow relationships where validated\n\nEngineering threshold overlays\n\nCycle alignment\n\nOperating-state segmentation\n\nThe agent should not invent a physical law. Every physics formula must carry units, assumptions, parameter provenance and a domain validation status.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0012",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "11. Agent Responsibilities",
+      "section_path": "DOC-SPEC-007 > 11. Agent Responsibilities",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Agent may | Agent must not |\n| --- | --- |\n| Select approved math primitive | Invent an unvalidated physical law |\n| Infer likely visualization type | Silently alter source data |\n| Suggest thresholds from configured domain metadata | Present guessed thresholds as certified limits |\n| Generate visualization configuration | Bypass security controls |\n| Compose deterministic transformations | Execute unrestricted arbitrary code |\n| Explain derived quantities | Claim engineering certification without evidence |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0013",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "12. Mathematical Primitive Registry",
+      "section_path": "DOC-SPEC-007 > 12. Mathematical Primitive Registry",
+      "content": "math_registry/  signal/    fft.yaml    psd.yaml    rms.yaml    crest_factor.yaml    band_energy.yaml  statistics/    mean.yaml    std.yaml    percentile.yaml    correlation.yaml  calculus/    derivative.yaml    integral.yaml  engineering/    pressure_flow.yaml    power_energy.yaml    efficiency.yaml  visualization/    spectrum.yaml    trend.yaml    heatmap.yaml    scatter.yaml    process_cycle.yaml\n\nThis registry follows the same registry-first philosophy as FE. The Agent selects known primitives instead of generating unrestricted mathematical code.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0014",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "13. FFT Use Case",
+      "section_path": "DOC-SPEC-007 > 13. FFT Use Case",
+      "content": "For vibration, acoustic, electrical and rotating-equipment datasets, an FFT-based service can transform a time-domain signal into a frequency-domain representation. The service can mark frequency peaks, harmonics, configured bands and engineering reference regions.\n\nTIME DOMAINsensor(t) |  |  |  |  | v  v  v  v  vFFT | vFREQUENCY DOMAINHz --> amplitude |       | |       +--> peak marker +----------> band marker\n\nFFT requires explicit sampling assumptions. The service must know or validate the sampling frequency and windowing configuration; otherwise the frequency axis can be wrong.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0015",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "14. Example FFT Visualization",
+      "section_path": "DOC-SPEC-007 > 14. Example FFT Visualization",
+      "content": "Machine: PUMP-07Signal: vibration_xSampling: 10 kHzWindow: HannFFT size: 4096Visualization:  X-axis = Frequency (Hz)  Y-axis = Amplitude  markers = dominant peaks  bands = configured operating ranges  annotations = row/window/source timestampExample interpretation:  50 Hz peak  -> operating-frequency reference  150 Hz peak -> harmonic candidate  unexpected band energy -> engineer review\n\nThe system should label these as observations or configured interpretations, not automatically diagnose a mechanical fault unless an approved diagnostic rule/model exists.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0016",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "15. Row/Column Annotation Model",
+      "section_path": "DOC-SPEC-007 > 15. Row/Column Annotation Model",
+      "content": "The service can annotate each displayed row/window/column according to the dataset type. For time-series data, a row may represent an event/window. For tabular production data, a row may represent a batch or product. For spectral data, columns may represent frequency bins.\n\nannotation:  source_row_id  timestamp  entity_id  feature_name  derived_value  rule_id  visualization_marker  severity  explanation  provenance",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0017",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "16. Dataset-Type-Aware Visualization",
+      "section_path": "DOC-SPEC-007 > 16. Dataset-Type-Aware Visualization",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Dataset Type | Useful Service |\n| --- | --- |\n| Time-series sensors | Trend, FFT, PSD, rolling statistics, event markers |\n| Vibration | FFT, band energy, harmonics, RMS, crest factor |\n| Acoustic | Spectrogram, FFT, frequency bands |\n| Electrical | Voltage/current trends, power, frequency analysis |\n| Pressure/flow | P-Q curves, rate, operating envelopes |\n| Temperature | Thermal trend, gradient, threshold overlays |\n| Production batches | Cycle comparison, yield charts, batch segmentation |\n| Quality measurements | Distribution, control limits, scatter relationships |\n| Geospatial industrial data | Map layers, trajectories, heatmaps |\n| Energy data | Load curves, consumption, peak analysis |\n| Image/vision metadata | Region/event overlays where applicable |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0018",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "17. Industrial Use Case 1 — Predictive Maintenance WITHOUT ML",
+      "section_path": "DOC-SPEC-007 > 17. Industrial Use Case 1 — Predictive Maintenance WITHOUT ML",
+      "content": "A plant may not want a model. It may simply want a service showing vibration FFTs for each machine and automatically marking dominant frequency bands. Engineers can inspect whether the spectrum has changed from a baseline.\n\nMachine -> sensor data -> service                     |                     +--> FFT                     +--> RMS                     +--> peak detection                     +--> baseline comparison                     +--> annotated visualization\n\nThis provides immediate engineering value without model training, labels or an ML lifecycle.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0019",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "18. Industrial Use Case 2 — Pump Monitoring",
+      "section_path": "DOC-SPEC-007 > 18. Industrial Use Case 2 — Pump Monitoring",
+      "content": "Display pressure, flow and temperature together.\n\nCalculate pressure/flow relationship.\n\nMark operating-envelope violations.\n\nShow rate-of-change.\n\nAnnotate maintenance events.\n\nExport a standardized engineering report.\n\nThis is valuable even when there is insufficient historical failure data to train an ML model.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0020",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "19. Industrial Use Case 3 — Energy Monitoring",
+      "section_path": "DOC-SPEC-007 > 19. Industrial Use Case 3 — Energy Monitoring",
+      "content": "Normalize meter data.\n\nCalculate power/energy-derived quantities where units permit.\n\nPlot daily/shift load curves.\n\nMark peak-demand windows.\n\nCompare machines or production lines.\n\nHighlight periods exceeding configured operating limits.\n\nThe output is a service for operational intelligence rather than an ML prediction system.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0021",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "20. Industrial Use Case 4 — Quality Engineering",
+      "section_path": "DOC-SPEC-007 > 20. Industrial Use Case 4 — Quality Engineering",
+      "content": "A quality team may want to organize measurements by batch, visualize distributions and compare process variables against specification limits. AI-ConneX can expose these deterministic analytical views without requiring a classification model.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0022",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "21. Industrial Use Case 5 — Process Engineering",
+      "section_path": "DOC-SPEC-007 > 21. Industrial Use Case 5 — Process Engineering",
+      "content": "For a chemical, food, pharmaceutical or manufacturing process, operators may need temperature/pressure/flow trends, cycle alignment and engineering-limit overlays. A deterministic service can be easier to validate and explain than an ML system when the purpose is monitoring and analysis.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0023",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "22. Why Industries May Prefer This",
+      "section_path": "DOC-SPEC-007 > 22. Why Industries May Prefer This",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Industrial Reality | AI-ConneX Response |\n| --- | --- |\n| Limited labeled failures | No ML required |\n| Need explainability | Deterministic calculations |\n| Engineers trust formulas | Physics/math layer |\n| Need quick deployment | Microservice |\n| Legacy equipment | Adapter + unified dataset |\n| Many file formats | Compiler upstream |\n| Need audit trails | Manifest + lineage |\n| Need visual inspection | Interactive visualization |\n| Need repeatable reports | Versioned analysis recipes |\n| ML not justified | Avoid unnecessary model lifecycle |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0024",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "23. Deployment Microservice Architecture",
+      "section_path": "DOC-SPEC-007 > 23. Deployment Microservice Architecture",
+      "content": "DEPLOYMENT NODE                API Gateway                     |              +------+------+              |             |        Dataset API     Analysis API              |             |              +------+------+                     |             Analysis Engine              /     |                   /      |                 Math    Physics  Annotation          Layer    Layer     Layer             \\      |       /              +-----+------+                    |             Visualization                    |        +-----------+-----------+        |           |           |      Web UI      Export      API Client",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0025",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "24. Microservice Components",
+      "section_path": "DOC-SPEC-007 > 24. Microservice Components",
+      "content": "Dataset ingestion endpoint.\n\nSchema/manifest validation.\n\nAnalysis recipe executor.\n\nMathematical primitive engine.\n\nPhysics/domain primitive engine.\n\nAnnotation engine.\n\nVisualization specification generator.\n\nArtifact/export service.\n\nAuthentication/authorization.\n\nAudit and lineage service.\n\nHealth/metrics endpoint.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0026",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "25. API Design",
+      "section_path": "DOC-SPEC-007 > 25. API Design",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Method | Endpoint | Purpose |\n| --- | --- | --- |\n| POST | /v1/deploy/validate | Validate service package |\n| POST | /v1/deploy/publish | Publish approved service |\n| POST | /v1/analyze | Run selected analysis |\n| POST | /v1/fft | Generate FFT result |\n| POST | /v1/spectrum | Generate spectral view |\n| POST | /v1/visualize | Create visualization specification |\n| POST | /v1/annotate | Apply deterministic annotations |\n| GET | /v1/runs/{run_id} | Analysis run status |\n| GET | /v1/runs/{run_id}/lineage | Lineage |\n| GET | /v1/runs/{run_id}/report | Compliance report |\n| GET | /health | Service health |\n| GET | /metrics | Operational metrics |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0027",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "26. Example Analysis Request",
+      "section_path": "DOC-SPEC-007 > 26. Example Analysis Request",
+      "content": "POST /v1/analyze{  \"manifest_uid\": \"ACX-MAN-00042\",  \"feature_run_uid\": \"ACX-FE-00042\",  \"analysis\": {    \"type\": \"fft\",    \"signal\": \"vibration_x\",    \"sampling_hz\": 10000,    \"window\": \"hann\",    \"n_fft\": 4096  },  \"annotations\": {    \"mark_peaks\": true,    \"thresholds\": \"approved:VIB-001\"  }}",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0028",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "27. Output Contract",
+      "section_path": "DOC-SPEC-007 > 27. Output Contract",
+      "content": "{  \"run_uid\": \"ACX-SVC-00042\",  \"analysis_type\": \"fft\",  \"dataset_uid\": \"ACX-DATA-00042\",  \"feature_run_uid\": \"ACX-FE-00042\",  \"result_artifact\": \"s3://.../fft.parquet\",  \"visualization_spec\": \"...\",  \"annotations\": \"...\",  \"lineage\": \"...\",  \"compliance_report\": \"REPORT_6\"}",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0029",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "28. Technology Stack",
+      "section_path": "DOC-SPEC-007 > 28. Technology Stack",
+      "content": "Exact production versions should be pinned in the project lockfile after compatibility testing. SciPy's signal-processing functionality is a natural implementation basis for deterministic FFT/signal operations; NumPy provides the numerical array foundation.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Layer | Recommended Stack | Purpose |\n| --- | --- | --- |\n| API | FastAPI | Microservice APIs |\n| Runtime | Python 3.12.x | Analysis execution |\n| DataFrame | Polars 1.x | Efficient tabular processing |\n| Columnar | PyArrow 20.x+ | Interoperability |\n| Numerical | NumPy 2.x | Numerical computation |\n| Signal | SciPy 1.x | FFT/signal processing |\n| Visualization | Plotly 6.x | Interactive visualizations |\n| Charts | Vega-Lite/Altair | Declarative visualizations |\n| Validation | Pydantic 2.x / JSON Schema | Contracts |\n| Storage | Parquet + S3-compatible object store | Artifacts |\n| Metadata | PostgreSQL 16+ | Run/registry metadata |\n| Containers | Docker 26+ | Isolation |\n| Observability | OpenTelemetry | Traces/metrics |\n| Auth | OAuth2/OIDC + JWT | Identity/access |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0030",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "29. Requirements",
+      "section_path": "DOC-SPEC-007 > 29. Requirements",
+      "content": "The lack of a mandatory GPU is itself an industrial advantage for many visualization-only deployments.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Environment | Baseline |\n| --- | --- |\n| OS | Ubuntu 22.04/24.04 LTS |\n| CPU | 4+ cores POC; 8+ production |\n| RAM | 16 GB POC; 32 GB+ for large analytical workloads |\n| Storage | SSD + object storage for artifacts |\n| Python | 3.12.x |\n| Container | Docker 26+ recommended |\n| Browser | Modern Chromium/Firefox/Safari for UI |\n| GPU | Optional; not required for deterministic math layer |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0031",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "30. Configuration",
+      "section_path": "DOC-SPEC-007 > 30. Configuration",
+      "content": "deployment:  mode: microservice  require_manifest: true  require_compliance_report: trueintent_gate:  model_priority: true  ambiguous_action: clarifyagent:  enabled: true  registry_first: true  sandbox: docker  network_access: falsemath:  fft:    enabled: true    require_sampling_rate: true  psd:    enabled: truephysics:  require_units: true  require_formula_provenance: true  require_domain_validation: truevisualization:  interactive: true  annotation_enabled: truesecurity:  authentication: oidc  authorization: rbac  audit_logging: true",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0032",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "31. Directory Architecture",
+      "section_path": "DOC-SPEC-007 > 31. Directory Architecture",
+      "content": "ifelse_gateway/|+-- api/|   +-- routes.py|   +-- schemas.py|+-- decision/|   +-- intent_resolver.py|   +-- decision_engine.py|   +-- policy.py|+-- deployment/|   +-- validator.py|   +-- publisher.py|   +-- service_builder.py|+-- math_layer/|   +-- fft.py|   +-- psd.py|   +-- statistics.py|   +-- calculus.py|+-- physics_layer/|   +-- registry.py|   +-- formulas.py|   +-- units.py|   +-- validators.py|+-- annotation/|   +-- rules.py|   +-- marker_engine.py|+-- visualization/|   +-- plotly_adapter.py|   +-- vega_adapter.py|   +-- specs.py|+-- agent/|   +-- helper.py|   +-- sandbox.py|   +-- prompts/|+-- lineage/|   +-- tracker.py|+-- reports/|   +-- report6.py|+-- tests/|   +-- decision/|   +-- math/|   +-- physics/|   +-- integration/|   +-- security/|+-- config/|   +-- service.yaml",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0033",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "32. CLI Commands",
+      "section_path": "DOC-SPEC-007 > 32. CLI Commands",
+      "content": "python -m ifelse validate   --manifest manifests/manifest-UID.json   --feature-package artifacts/features/python -m ifelse decide   --intent intent.json   --feature-manifest feature_manifest.jsonpython -m ifelse deploy-plan   --intent intent.json   --feature-manifest feature_manifest.jsonpython -m ifelse analyze   --analysis fft   --input artifacts/features/feature_dataset.parquet   --signal vibration_x   --sampling-hz 10000python -m ifelse publish   --service service.yamlpython -m ifelse report   --run-id ACX-SVC-00042uvicorn app:app --host 0.0.0.0 --port 8000",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0034",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "33. Why the IF/ELSE Node Must Not Be an Agent-Only Decision",
+      "section_path": "DOC-SPEC-007 > 33. Why the IF/ELSE Node Must Not Be an Agent-Only Decision",
+      "content": "An agent can interpret intent, but a deterministic policy engine should make the final route. This is important because the route has operational consequences: ML Studio may create a training lifecycle, while Deployment may expose a service. The system should not allow probabilistic language interpretation alone to choose a production path.\n\nAgent interpretation        |        vStructured intent        |        vDeterministic policy engine        |    +---+---+    |       |  ML      SERVICE",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0035",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "34. Decision Confidence",
+      "section_path": "DOC-SPEC-007 > 34. Decision Confidence",
+      "content": "Where natural-language intent is ambiguous, the system should not guess. For example, 'show me whether the pump will fail' could mean a visualization of historical failures or a predictive model. The gate should request clarification or use an explicit Brain-level intent contract.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Intent state | Action |\n| --- | --- |\n| Explicit model=true | ML Studio |\n| Explicit service=true | Deployment |\n| Visualization=true, model=false | Deployment |\n| Analysis=true, model=false | Deployment |\n| Ambiguous | Clarification |\n| Policy violation | Block |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0036",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "35. Why Not Deploy Directly After PREPARE?",
+      "section_path": "DOC-SPEC-007 > 35. Why Not Deploy Directly After PREPARE?",
+      "content": "Because FE may create the exact derived signals required for useful visualization or downstream model input. If deployment happens before FE, later feature definitions can diverge between analytical and deployed paths. FE provides the stable analytical contract that both branches can consume.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0037",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "36. Why Not Put the Gate After ML Studio?",
+      "section_path": "DOC-SPEC-007 > 36. Why Not Put the Gate After ML Studio?",
+      "content": "That would be architecturally wrong because ML Studio is itself a downstream specialization. The purpose of the gate is to choose whether ML Studio is needed. Sending every workload into ML first introduces unnecessary training, evaluation, model governance and maintenance overhead.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0038",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "37. Why Not Put the Gate in the Brain?",
+      "section_path": "DOC-SPEC-007 > 37. Why Not Put the Gate in the Brain?",
+      "content": "The Brain should understand and plan the workflow, and it may propose the route. However, the final routing gate belongs after FE because the system now has the final feature package and can verify that the requested service/model path is technically possible. This creates a defense-in-depth architecture: Brain plans; the post-FE gate validates and commits the route.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0039",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "38. Routing Algorithm",
+      "section_path": "DOC-SPEC-007 > 38. Routing Algorithm",
+      "content": "def route(ctx):    if not ctx.fe_report.pass_status:        return BLOCK    if ctx.intent.requires_model:        return ML_STUDIO    if (        ctx.intent.requires_service        or ctx.intent.requires_visualization        or ctx.intent.requires_analysis    ):        return DEPLOYMENT    return CLARIFICATION\n\nProduction implementation should also include policy, security, resource and compatibility checks.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0040",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "39. Deployment Eligibility",
+      "section_path": "DOC-SPEC-007 > 39. Deployment Eligibility",
+      "content": "FE Compliance Report #5 is PASS.\n\nManifest is valid.\n\nFeature schema is valid.\n\nAll dependencies are available.\n\nRequired analysis primitives are registered.\n\nPhysics formulas have valid units and provenance.\n\nVisualization configuration is supported.\n\nSecurity policy permits deployment.\n\nData classification permits exposure.\n\nService resource requirements are acceptable.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0041",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "40. Mathematical Layer Validation",
+      "section_path": "DOC-SPEC-007 > 40. Mathematical Layer Validation",
+      "content": "The mathematical layer must validate numerical assumptions. For FFT, for example, the sampling rate determines the frequency axis. If the sampling frequency is missing or inconsistent, the system should block or explicitly mark the result as invalid rather than producing a visually convincing but incorrect spectrum.\n\nSampling-rate validation.\n\nUniform/irregular timestamp detection.\n\nWindow-size validation.\n\nFFT-size validation.\n\nNaN/Inf handling.\n\nUnit metadata validation.\n\nNumerical overflow/underflow checks where relevant.\n\nInput-length validation.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0042",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "41. Physics Layer Validation",
+      "section_path": "DOC-SPEC-007 > 41. Physics Layer Validation",
+      "content": "Physics-derived outputs require stricter controls than generic mathematics because a formula can be mathematically valid but physically inappropriate.\n\nphysics_formula:  id: POWER-001  name: electrical_power  formula: V * I  inputs:    V: volt    I: ampere  output: watt  assumptions:    - DC_or_appropriate_phase_model  owner: domain_engineering  validation_status: approved  version: 1.0.0",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0043",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "42. Annotation Severity",
+      "section_path": "DOC-SPEC-007 > 42. Annotation Severity",
+      "content": "The service must not label a deterministic spectral peak as a confirmed machine failure unless an approved diagnostic rule or model supports that conclusion.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Level | Meaning |\n| --- | --- |\n| INFO | Observed/derived information |\n| NOTICE | Configured operating condition |\n| WARNING | Configured threshold exceeded |\n| CRITICAL | Configured critical limit exceeded |\n| REVIEW | Analytical pattern requiring human review |\n| MODEL | Only used when a validated model makes the determination |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0044",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "43. Visualization Contract",
+      "section_path": "DOC-SPEC-007 > 43. Visualization Contract",
+      "content": "visualization:  type: spectrum  source: vibration_x  x:    field: frequency_hz    unit: Hz  y:    field: amplitude    unit: configured  markers:    - type: peak      rule: PEAK-001  annotations:    row_link: source_window_id    timestamp: event_timestamp",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0045",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "44. Industrial Microservice Examples",
+      "section_path": "DOC-SPEC-007 > 44. Industrial Microservice Examples",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Service | Inputs | Outputs |\n| --- | --- | --- |\n| Vibration Spectrum Service | sensor + sampling rate | FFT, peaks, bands, plot |\n| Pump Envelope Service | pressure + flow | P-Q plot + limit markers |\n| Energy Dashboard Service | meter readings | load curves + peak periods |\n| Quality Explorer | batch measurements | distributions + spec overlays |\n| Process Cycle Service | time-series + cycle IDs | aligned cycle plots |\n| Thermal Monitoring | temperature sensors | gradients + threshold markers |\n| Acoustic Analysis | audio/sensor signal | spectrum/spectrogram |\n| Production Analytics | batch/line data | KPIs + comparisons |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0046",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "45. Compliance Report — Stage #6",
+      "section_path": "DOC-SPEC-007 > 45. Compliance Report — Stage #6",
+      "content": "This report proves that the route decision and, if applicable, the deterministic visualization service were produced according to the user's intent, policy and validated analytical definitions.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Section | Evidence |\n| --- | --- |\n| Identity | IF/ELSE run UID + Manifest UID |\n| Intent | Intent UID + structured decision fields |\n| Upstream | FE Report #5 reference |\n| Decision | ML / SERVICE / CLARIFY / BLOCK |\n| Decision rationale | Deterministic rule evaluation |\n| Service plan | Analysis and visualization primitives |\n| Math validation | Numerical assumptions |\n| Physics validation | Formula/unit provenance |\n| Security | Authentication/data-access policy |\n| Lineage | Input → feature → analysis → visualization |\n| Artifacts | Service package/results |\n| Final status | PASS/WARN/BLOCK |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0047",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "46. Example Report",
+      "section_path": "DOC-SPEC-007 > 46. Example Report",
+      "content": "{  \"report_id\": \"REPORT_6\",  \"stage\": \"IF_ELSE_CONDITIONING\",  \"run_uid\": \"ACX-ROUTE-00042\",  \"manifest_uid\": \"ACX-MAN-00042\",  \"fe_run_uid\": \"ACX-FE-00042\",  \"decision\": \"DEPLOYMENT\",  \"reason\": \"requires_model=false; requires_visualization=true\",  \"analysis\": [\"fft\", \"peak_detection\", \"threshold_overlay\"],  \"physics_layer\": \"approved_primitives_only\",  \"security_check\": \"PASS\",  \"lineage_complete\": true,  \"status\": \"PASS\"}",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0048",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "47. ML Branch Output",
+      "section_path": "DOC-SPEC-007 > 47. ML Branch Output",
+      "content": "When the user intent requires a model, the IF/ELSE Node does not create a deployment service. It packages the validated FE output for ML Studio.\n\nIF requires_model = trueFE package    |    vML STUDIO INPUT  feature_dataset  feature_manifest  target_definition  split constraints  feature lineage  FE compliance report  intent\n\nML Studio then owns model selection, training, evaluation, model registry and model deployment decisions.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0049",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "48. Deployment Branch Output",
+      "section_path": "DOC-SPEC-007 > 48. Deployment Branch Output",
+      "content": "IF requires_model = falseAND service/visualization/analysis = trueFE package    |    vDEPLOYMENT INPUT  feature dataset  manifest  service intent  analysis recipe  math/physics plan  visualization contract  lineage  FE Report #5    |    vMicroservice    |    vREPORT #6",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0050",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "49. What Happens to the Previous Chatbot Output",
+      "section_path": "DOC-SPEC-007 > 49. What Happens to the Previous Chatbot Output",
+      "content": "The chatbot's original intent is never discarded. The Brain-derived structured intent is carried through the manifest and referenced by the FE and routing stages. The post-FE gate uses the intent as a policy input, not as an informal conversational instruction.\n\nCHATBOT  |  vintent_uid  |  vmanifest-UID.json  |  +--> PREPARE  |  +--> FEATURE ENGINEER  |  +--> IF/ELSE GATE          |          +--> ML Studio          |          +--> Deployment Service",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0051",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "50. What This Stage Outputs for Downstream Profiling/Metadata",
+      "section_path": "DOC-SPEC-007 > 50. What This Stage Outputs for Downstream Profiling/Metadata",
+      "content": "The original Data Profiler is upstream and should not be overwritten. Instead, the gate generates a downstream service/route profile that can be consumed by monitoring or post-deployment profiling.\n\nroute_profile.jsonservice_profile.jsonanalysis_profile.jsonvisualization_profile.jsondecision_report_6.jsondeployment_manifest.json",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Output | Purpose |\n| --- | --- |\n| route_profile | Records chosen branch and rationale |\n| service_profile | Describes deployed analytical service |\n| analysis_profile | Describes mathematical/physics operations |\n| visualization_profile | Describes charts and annotations |\n| deployment_manifest | Runtime contract |\n| Report #6 | Compliance evidence |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0052",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "51. Directory of a Deployed Service",
+      "section_path": "DOC-SPEC-007 > 51. Directory of a Deployed Service",
+      "content": "industrial_service/|+-- service/|   +-- api/|   +-- analysis/|   +-- visualization/|   +-- annotations/|+-- registry/|   +-- math/|   +-- physics/|   +-- rules/|+-- contracts/|   +-- manifest.json|   +-- service.json|   +-- visualization.json|+-- artifacts/|   +-- outputs/|   +-- reports/|+-- security/|   +-- policy.yaml|+-- tests/|   +-- numerical/|   +-- physics/|   +-- api/|   +-- security/|+-- Dockerfile+-- pyproject.toml",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0053",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "52. Security Requirements",
+      "section_path": "DOC-SPEC-007 > 52. Security Requirements",
+      "content": "Authentication for service APIs.\n\nRole-based authorization.\n\nDataset-level access controls.\n\nAudit logs.\n\nEncrypted transport.\n\nEncrypted artifact storage.\n\nNo unrestricted agent network access.\n\nSandboxed generated logic.\n\nSecret management outside source code.\n\nData-retention controls.\n\nTenant isolation where multi-tenant.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0054",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "53. Key R&D Failures",
+      "section_path": "DOC-SPEC-007 > 53. Key R&D Failures",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Failure | Naive Approach | AI-ConneX Solution |\n| --- | --- | --- |\n| ML everywhere | Train models unnecessarily | Intent-based routing |\n| Agent decides route | Probabilistic deployment decision | Deterministic policy gate |\n| Wrong FFT axis | Assume sampling rate | Sampling validation |\n| Fake physics | Agent invents formulas | Approved physics registry |\n| Visualization hides provenance | Only show chart | Row/feature/source lineage |\n| False diagnosis | Mark pattern as failure | Observation vs diagnostic separation |\n| Data exposure | Deploy raw dataset | Manifest/policy validation |\n| Service drift | No monitoring | Profile/health metrics |\n| Unbounded computation | Large FFT/plots freeze service | Resource limits + budgets |\n| Ambiguous intent | Guess user goal | Clarification gate |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0055",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "54. Failure: Visualization That Looks Correct but Is Wrong",
+      "section_path": "DOC-SPEC-007 > 54. Failure: Visualization That Looks Correct but Is Wrong",
+      "content": "A major industrial risk is a visually attractive chart built from incorrect sampling, units, timestamps or aggregation. AI-ConneX therefore treats visualization as an analytical result requiring contracts and validation, not as a cosmetic frontend operation.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0056",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "55. Failure: Physics Formula Without Units",
+      "section_path": "DOC-SPEC-007 > 55. Failure: Physics Formula Without Units",
+      "content": "For example, adding pressure in bar to pressure in psi is numerically possible but physically meaningless. The Physics Layer must require compatible units before calculation. Where unit conversion is needed, the conversion should be explicit and lineage-tracked.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0057",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "56. Failure: Too Much Visualization",
+      "section_path": "DOC-SPEC-007 > 56. Failure: Too Much Visualization",
+      "content": "An agent can generate dozens of charts that overwhelm operators. AI-ConneX should optimize for task relevance: the user's intent plus profiler metadata determine the minimum useful set of visualizations.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0058",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "57. Failure: Service vs Model Confusion",
+      "section_path": "DOC-SPEC-007 > 57. Failure: Service vs Model Confusion",
+      "content": "A deterministic threshold visualization should not be marketed as AI prediction. Conversely, if the user explicitly asks for a failure probability, the system must route to ML Studio. Clear separation improves governance, explainability and lifecycle management.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0059",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "58. Proof of Concept",
+      "section_path": "DOC-SPEC-007 > 58. Proof of Concept",
+      "content": "POC:Industrial motor vibration datasetUSER INTENT:\"Give me a service that lets my engineer inspectvibration frequencies and mark unusual bands.I do not need a prediction model.\"BRAIN:requires_model = falserequires_service = truerequires_visualization = trueFE:  vibration_lag  RMS  rolling RMSIF/ELSE:  -> DEPLOYMENTAGENT:  selects approved FFT primitive  selects peak detector  selects approved band rulesSERVICE:  /v1/fft  /v1/analyze  /v1/visualizeOUTPUT:interactive spectrumfrequency markerssource row/window linksaudit trail",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0060",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "59. POC Acceptance Criteria",
+      "section_path": "DOC-SPEC-007 > 59. POC Acceptance Criteria",
+      "content": "Explicit model intent routes to ML Studio.\n\nExplicit visualization/service intent routes to Deployment.\n\nAmbiguous intent triggers clarification.\n\nFFT fails safely when sampling rate is invalid/missing.\n\nPhysics formulas require unit compatibility.\n\nEvery annotation links to source data and rule ID.\n\nAgent cannot bypass registry/policy gates.\n\nDeployment artifact is reproducible.\n\nCompliance Report #6 is generated.\n\nService exposes health and audit information.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0061",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "60. Research Questions",
+      "section_path": "DOC-SPEC-007 > 60. Research Questions",
+      "content": "RQ1: Can deterministic industrial analytical services reduce unnecessary ML adoption?\n\nRQ2: Does intent-based routing reduce time and infrastructure cost for non-ML industrial workloads?\n\nRQ3: Does a registry-first mathematical/physics layer improve trust compared with agent-generated formulas?\n\nRQ4: Does row-level provenance improve engineer debugging and auditability?\n\nRQ5: Can AI-assisted visualization planning improve usability without reducing numerical correctness?",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0062",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "61. Research Hypotheses",
+      "section_path": "DOC-SPEC-007 > 61. Research Hypotheses",
+      "content": "H1: A deterministic service branch reduces deployment complexity for visualization/analysis workloads compared with an ML pipeline.\n\nH2: Intent-aware routing reduces unnecessary model-training workloads.\n\nH3: Registry-constrained agent assistance provides broader analytical coverage without increasing numerical/physics errors.\n\nH4: Provenance-linked visualization improves industrial troubleshooting efficiency.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0063",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "62. Research Metrics",
+      "section_path": "DOC-SPEC-007 > 62. Research Metrics",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Metric | Measurement |\n| --- | --- |\n| Routing accuracy | Correct branch / total requests |\n| Clarification rate | Ambiguous requests correctly escalated |\n| Numerical correctness | Validated results vs reference implementation |\n| Physics correctness | Domain-approved formula tests passed |\n| Service latency | p50/p95/p99 |\n| Visualization usefulness | Engineer/user evaluation |\n| ML avoidance | Non-ML tasks kept out of ML pipeline |\n| Audit completeness | Artifacts with full lineage |\n| Agent acceptance | Accepted proposals / candidates |\n| Compute cost | CPU/RAM per analysis |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0064",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "63. Research References",
+      "section_path": "DOC-SPEC-007 > 63. Research References",
+      "content": "Cooley, J. W., & Tukey, J. W. (1965). An Algorithm for the Machine Calculation of Complex Fourier Series. Mathematics of Computation, 19(90), 297–301. Foundational FFT reference.\n\nWelch, P. D. (1967). The Use of Fast Fourier Transform for the Estimation of Power Spectra. IEEE Transactions on Audio and Electroacoustics, 15(2), 70–73. Foundational PSD/spectral estimation reference.\n\nApache Arrow documentation. Columnar data representation and interoperability.\n\nNumPy documentation. Numerical array computation and FFT-related numerical foundations.\n\nSciPy documentation. Signal-processing and scientific-computing primitives.\n\nPlotly documentation. Interactive analytical visualization.\n\nscikit-learn documentation. Data leakage and consistent preprocessing principles relevant to analytical/modeling boundaries.\n\nThese references support the mathematical/signal-processing and reproducibility principles. Domain-specific industrial deployment should additionally use peer-reviewed predictive-maintenance, condition-monitoring, process-monitoring and physics-informed engineering literature for the target sector.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0065",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "64. Industrial Value Proposition",
+      "section_path": "DOC-SPEC-007 > 64. Industrial Value Proposition",
+      "content": "AI-ConneX becomes more useful to industry when it does not equate 'AI' with 'ML model'. A plant may have years of sensor data but no reliable failure labels. It may still obtain immediate value from data unification, deterministic calculations, frequency analysis, engineering visualization, threshold monitoring and structured reporting.\n\nNo model training cost.\n\nNo model retraining lifecycle.\n\nDeterministic results.\n\nHigh explainability.\n\nWorks with small datasets.\n\nUseful with legacy equipment.\n\nCan run on CPU infrastructure.\n\nCan expose APIs to existing systems.\n\nCan support engineers rather than replace them.\n\nCan later become an ML input when enough evidence exists.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0066",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "65. Evolution Path",
+      "section_path": "DOC-SPEC-007 > 65. Evolution Path",
+      "content": "PHASE 1Data organization + visualization        |        vPHASE 2Mathematical/physics analysis        |        vPHASE 3Rule-based monitoring        |        vPHASE 4Enough historical evidence        |        vML Studio        |        vPredictive service\n\nThis creates an industrial adoption path where customers can begin with low-risk deterministic analytics and introduce ML only when the problem and data justify it.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0067",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "66. Final Architecture",
+      "section_path": "DOC-SPEC-007 > 66. Final Architecture",
+      "content": "AI-CONNEXCHATBOT  |  vBRAIN  Compiler  Profiler  DAG  Recipe Orchestrator  |  vPREPARE  |  vFEATURE ENGINEER  |  vIF / ELSE CONDITIONING  |  +-----------------------------+  |                             |  | requires_model=true         | model=false  v                             vML STUDIO                 DEPLOYMENT NODE  |                             |  |                       Mathematical Layer  |                       Physics Layer  |                       Annotation Layer  |                       Visualization  |                             |  |                             v  |                       Industrial Microservice  |                             |  +-------------+---------------+                |          monitoring/profile                |                v         governed lifecycle",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0068",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "67. Final Design Principle",
+      "section_path": "DOC-SPEC-007 > 67. Final Design Principle",
+      "content": "The IF/ELSE Conditioning Node is the architectural point where AI-ConneX decides whether the engineered data should become a model input or an industrial analytical service. It prevents the system from over-engineering simple problems with ML while ensuring genuine model requests are not weakened into visualization-only services.\n\nThe governing rule is: **If the industrial problem can be solved deterministically and the user wants organization, analysis or visualization, deploy a governed Data Studio service. If the user needs prediction, classification, forecasting, optimization or another learned model, route to ML Studio. If the intent is ambiguous, ask rather than guess.**",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0069",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "Appendix A — UID Chain",
+      "section_path": "DOC-SPEC-007 > Appendix A — UID Chain",
+      "content": "ACX-INT-00042   |ACX-DATA-00042   |ACX-MAN-00042   |ACX-DAG-00042   |ACX-RCP-00042   |ACX-PREP-00042   |ACX-FE-00042   |ACX-ROUTE-00042   |   +--> ACX-ML-00042   |   +--> ACX-SVC-00042            |            +--> ACX-ANALYSIS-00042            +--> ACX-VIZ-00042",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-007-0070",
+      "document_id": "DOC-DOC-SPEC-007-V1",
+      "heading_level": 1,
+      "heading_text": "Appendix B — Stage Boundary Summary",
+      "section_path": "DOC-SPEC-007 > Appendix B — Stage Boundary Summary",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Stage | Primary Responsibility |\n| --- | --- |\n| Chatbot | Capture human intent |\n| Brain | Compile, profile, assign DAG, select recipes |\n| Prepare | Make source data execution-ready |\n| Feature Engineer | Create validated analytical features |\n| IF/ELSE | Choose model vs deterministic service |\n| ML Studio | Train/evaluate/manage models |\n| Deployment Node | Expose deterministic analytical service |\n| Monitoring | Observe data, features and service behavior |"
+      ]
+    }
+  ],
+  "extracted_slas": [
+    {
+      "sla_id": "SLA-MEM-DOC-SPEC-007-01",
+      "component_name": "ConditionalRouter",
+      "metric_name": "max_memory_mb",
+      "target_value": 16384.0,
+      "unit": "MB",
+      "comparison_op": "<=",
+      "workload_condition": "RAM | 16 GB",
+      "severity_on_breach": "warning",
+      "source_spec_id": "DOC-SPEC-007"
+    }
+  ]
+}

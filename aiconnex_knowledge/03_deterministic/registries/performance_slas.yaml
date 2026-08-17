@@ -1,0 +1,217 @@
+slas:
+- sla_id: SLA-DEFAULT-DOC-SPEC-001-01
+  component_name: DataStudioCompiler
+  metric_name: p95_latency_ms
+  target_value: 500.0
+  unit: ms
+  comparison_op: <=
+  workload_condition: Standard interactive execution regime
+  severity_on_breach: critical
+  source_spec_id: DOC-SPEC-001
+- sla_id: SLA-MEM-DOC-SPEC-002-01
+  component_name: DataStudioCompiler
+  metric_name: max_memory_mb
+  target_value: 16384.0
+  unit: MB
+  comparison_op: <=
+  workload_condition: RAM for POC; 16 GB
+  severity_on_breach: warning
+  source_spec_id: DOC-SPEC-002
+- sla_id: SLA-MEM-DOC-SPEC-003-01
+  component_name: DataProfiler
+  metric_name: max_memory_mb
+  target_value: 16384.0
+  unit: MB
+  comparison_op: <=
+  workload_condition: RAM minimum; 16 GB
+  severity_on_breach: warning
+  source_spec_id: DOC-SPEC-003
+- sla_id: SLA-MEM-DOC-SPEC-004-01
+  component_name: DAGResolver
+  metric_name: max_memory_mb
+  target_value: 16384.0
+  unit: MB
+  comparison_op: <=
+  workload_condition: RAM minimum; 16 GB
+  severity_on_breach: warning
+  source_spec_id: DOC-SPEC-004
+- sla_id: SLA-MEM-DOC-SPEC-005-01
+  component_name: PrepareNode
+  metric_name: max_memory_mb
+  target_value: 16384.0
+  unit: MB
+  comparison_op: <=
+  workload_condition: RAM | 16 GB
+  severity_on_breach: warning
+  source_spec_id: DOC-SPEC-005
+- sla_id: SLA-MEM-DOC-SPEC-006-01
+  component_name: FeatureEngineerNode
+  metric_name: max_memory_mb
+  target_value: 16384.0
+  unit: MB
+  comparison_op: <=
+  workload_condition: RAM | 16 GB
+  severity_on_breach: warning
+  source_spec_id: DOC-SPEC-006
+- sla_id: SLA-MEM-DOC-SPEC-007-01
+  component_name: ConditionalRouter
+  metric_name: max_memory_mb
+  target_value: 16384.0
+  unit: MB
+  comparison_op: <=
+  workload_condition: RAM | 16 GB
+  severity_on_breach: warning
+  source_spec_id: DOC-SPEC-007
+- sla_id: SLA-MEM-DOC-SPEC-008-01
+  component_name: RecipeOrchestrator
+  metric_name: max_memory_mb
+  target_value: 16384.0
+  unit: MB
+  comparison_op: <=
+  workload_condition: RAM minimum; 16 GB
+  severity_on_breach: warning
+  source_spec_id: DOC-SPEC-008
+- sla_id: SLA-DEFAULT-DOC-SPEC-009-01
+  component_name: DataStudioBrain
+  metric_name: p95_latency_ms
+  target_value: 500.0
+  unit: ms
+  comparison_op: <=
+  workload_condition: Standard interactive execution regime
+  severity_on_breach: critical
+  source_spec_id: DOC-SPEC-009
+- sla_id: SLA-DEFAULT-DOC-SPEC-010-01
+  component_name: MLStudioSTEM
+  metric_name: p95_latency_ms
+  target_value: 500.0
+  unit: ms
+  comparison_op: <=
+  workload_condition: Standard interactive execution regime
+  severity_on_breach: critical
+  source_spec_id: DOC-SPEC-010
+- sla_id: SLA-DEFAULT-DOC-SPEC-011-01
+  component_name: AgentSpecEngine
+  metric_name: p95_latency_ms
+  target_value: 500.0
+  unit: ms
+  comparison_op: <=
+  workload_condition: Standard interactive execution regime
+  severity_on_breach: critical
+  source_spec_id: DOC-SPEC-011
+- sla_id: SLA-DEFAULT-DOC-SPEC-012-01
+  component_name: AgentBuilder
+  metric_name: p95_latency_ms
+  target_value: 500.0
+  unit: ms
+  comparison_op: <=
+  workload_condition: Standard interactive execution regime
+  severity_on_breach: critical
+  source_spec_id: DOC-SPEC-012
+- sla_id: SLA-DEFAULT-DOC-SPEC-013-01
+  component_name: AgentRuntime
+  metric_name: p95_latency_ms
+  target_value: 500.0
+  unit: ms
+  comparison_op: <=
+  workload_condition: Standard interactive execution regime
+  severity_on_breach: critical
+  source_spec_id: DOC-SPEC-013
+- sla_id: SLA-DEFAULT-DOC-SPEC-014-01
+  component_name: MainAgent
+  metric_name: p95_latency_ms
+  target_value: 500.0
+  unit: ms
+  comparison_op: <=
+  workload_condition: Standard interactive execution regime
+  severity_on_breach: critical
+  source_spec_id: DOC-SPEC-014
+- sla_id: SLA-LAT-DOC-SPEC-015-01
+  component_name: ContextBuilder
+  metric_name: p95_latency_ms
+  target_value: 800.0
+  unit: ms
+  comparison_op: <=
+  workload_condition: latency | < 800 ms
+  severity_on_breach: critical
+  source_spec_id: DOC-SPEC-015
+- sla_id: SLA-LAT-DOC-SPEC-015-02
+  component_name: ContextBuilder
+  metric_name: p95_latency_ms
+  target_value: 300.0
+  unit: ms
+  comparison_op: <=
+  workload_condition: latency | < 300 ms
+  severity_on_breach: critical
+  source_spec_id: DOC-SPEC-015
+- sla_id: SLA-DEFAULT-DOC-SPEC-016-01
+  component_name: AgentVisualizer
+  metric_name: p95_latency_ms
+  target_value: 500.0
+  unit: ms
+  comparison_op: <=
+  workload_condition: Standard interactive execution regime
+  severity_on_breach: critical
+  source_spec_id: DOC-SPEC-016
+- sla_id: SLA-DEFAULT-DOC-SPEC-017-01
+  component_name: PreUploadAgent
+  metric_name: p95_latency_ms
+  target_value: 500.0
+  unit: ms
+  comparison_op: <=
+  workload_condition: Standard interactive execution regime
+  severity_on_breach: critical
+  source_spec_id: DOC-SPEC-017
+- sla_id: SLA-DEFAULT-DOC-SPEC-018-01
+  component_name: DeploymentManager
+  metric_name: p95_latency_ms
+  target_value: 500.0
+  unit: ms
+  comparison_op: <=
+  workload_condition: Standard interactive execution regime
+  severity_on_breach: critical
+  source_spec_id: DOC-SPEC-018
+- sla_id: SLA-DEFAULT-DOC-SPEC-019-01
+  component_name: TenantService
+  metric_name: p95_latency_ms
+  target_value: 500.0
+  unit: ms
+  comparison_op: <=
+  workload_condition: Standard interactive execution regime
+  severity_on_breach: critical
+  source_spec_id: DOC-SPEC-019
+- sla_id: SLA-DEFAULT-DOC-SPEC-020-01
+  component_name: VisualizationEngine
+  metric_name: p95_latency_ms
+  target_value: 500.0
+  unit: ms
+  comparison_op: <=
+  workload_condition: Standard interactive execution regime
+  severity_on_breach: critical
+  source_spec_id: DOC-SPEC-020
+- sla_id: SLA-DEFAULT-DOC-SPEC-021-01
+  component_name: StudioGateway
+  metric_name: p95_latency_ms
+  target_value: 500.0
+  unit: ms
+  comparison_op: <=
+  workload_condition: Standard interactive execution regime
+  severity_on_breach: critical
+  source_spec_id: DOC-SPEC-021
+- sla_id: SLA-MEM-DOC-SPEC-022-01
+  component_name: MasterPlatformKernel
+  metric_name: max_memory_mb
+  target_value: 16384.0
+  unit: MB
+  comparison_op: <=
+  workload_condition: RAM for POC; 16 GB
+  severity_on_breach: warning
+  source_spec_id: DOC-SPEC-022
+- sla_id: SLA-MEM-DOC-SPEC-022-02
+  component_name: MasterPlatformKernel
+  metric_name: max_memory_mb
+  target_value: 16384.0
+  unit: MB
+  comparison_op: <=
+  workload_condition: RAM minimum; 16 GB
+  severity_on_breach: warning
+  source_spec_id: DOC-SPEC-022

@@ -112,6 +112,7 @@ def structure_analysis_node(state: MasterAgentState) -> Dict[str, Any]:
                 batch=True,
                 strategy_override=strategy_override,
                 enable_intelligence=enable_intelligence,
+                cuc_intent=cuc_dict,
             )
             result = compiler.compile()
         except Exception as exc:

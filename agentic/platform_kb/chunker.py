@@ -102,6 +102,11 @@ class HierarchicalChunker:
 
         for sec in sections:
             sec_text = sec.content.strip()
+            if sec.tables and not sec_text:
+                sec_text = "\n\n".join(sec.tables).strip()
+            elif sec.tables and sec_text:
+                sec_text = sec_text + "\n\n" + "\n\n".join(sec.tables).strip()
+
             if not sec_text:
                 continue
 

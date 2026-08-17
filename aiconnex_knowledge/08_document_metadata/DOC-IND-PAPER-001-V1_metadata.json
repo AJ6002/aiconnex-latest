@@ -1,0 +1,13 @@
+{
+  "document_id": "DOC-IND-PAPER-001-V1",
+  "source_id": "SRC-IND-PAPER-001",
+  "title": "IOF Maintenance Working Group Modular Maintenance Ontology Paper",
+  "version": "2022",
+  "document_type": "pdf",
+  "content_hash": "e94044464f77a4562d3b7b18dc2e5389f7c4449355e24430d1c7b5ef28d979e2",
+  "page_count": 13,
+  "total_sections": 111,
+  "total_words": 8872,
+  "storage_uri": "s3://aiconnex-platform-kb-prod/industrial/IOF_Maint_Modular_Ontology_Paper.pdf",
+  "created_at": "2026-08-14T08:41:27.422591+00:00"
+}

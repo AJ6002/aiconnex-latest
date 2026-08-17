@@ -1,0 +1,3382 @@
+[
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/Wholesaler",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/Agent"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#FinancialInstrument",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ImmaterialArtifact"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#GainOfDependentContinuant",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Change"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfPositionChange",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfMotion"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/MaterialResource",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000040"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#FinancialFacility",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Facility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#AlkalineElectricBattery",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PrimaryCellElectricBattery"
+  },
+  {
+    "subclass": "http://purl.obolibrary.org/obo/BFO_0000028",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000006"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/Assembly",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/MaterialArtifact"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#StasisOfSpecificallyDependentContinuant",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Stasis"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/ValueExpression",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/InformationContentEntity"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#HandGun",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Firearm"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#NominalSpeedArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SpeedArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#DeceptionArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TerroristTrainingCamp",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TrainingCamp"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#AntiMicrobialArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PesticideArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#GovernmentBuilding",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Facility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Mailing",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCommunicationByMedia"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/GroupOfPersons",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000027"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ProstheticHand",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Prosthesis"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Landfill",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#WasteManagementFacility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfFinancialInstrumentUse",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfArtifactEmployment"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Cartridge",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PortionOfAmmunition"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CrushingArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#DamagingArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#GovernmentArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ServiceArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RocketPropelledGrenade",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#UnguidedRocket"
+  },
+  {
+    "subclass": "http://purl.obolibrary.org/obo/BFO_0000024",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000040"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#FuelArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfResiding",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfInhabitancy"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/LocationRole",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000023"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ExternalCombustionEngine",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Engine"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/Wagon",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/Container"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfTestifying",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfRepresentativeCommunication"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfOwnership",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfPossession"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MissileLauncher",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ProjectileLauncher"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Spreadsheet",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#InformationBearingArtifact"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ApartmentBuilding",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ResidentialFacility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Domain/SpaceObjectOntology#PayloadCapacitySpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Married",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#StasisOfGenericallyDependentContinuant"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Sensor",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Transducer"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IncreaseOfFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IncreaseOfRealizableEntity"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/TraceableResourceUnit",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000040"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#StasisOfRole",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#StasisOfRealizableEntity"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RailFacility",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TransportationFacility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RetailArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ServiceArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ProcessAggregate",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000003"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/DesignSpecification",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/InformationContentEntity"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/MaterialTradeItemRole",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000023"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MotionArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ResidentialArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ServiceArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TelephoneLine",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TelecommunicationInfrastructure"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/EncodedAlgorithm",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/PlanSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#NuclearStorageDepot",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#StorageFacility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#HealthcareFacility",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Facility"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/Denoter",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/InformationContentEntity"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Torpedo",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PrecisionGuidedMissile"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MountedGun",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Firearm"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#FragranceArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ElectromagneticCommunicationArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CommunicationArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCargoTransportation",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfLocationChange"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ResearchAndDevelopmentArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ServiceArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MassSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#QualitySpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfTrainingAcquisition",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfTraining"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/DescriptiveInformationContentEntity",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/InformationContentEntity"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/DirectiveInformationContentEntity",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/InformationContentEntity"
+  },
+  {
+    "subclass": "http://purl.obolibrary.org/obo/BFO_0000009",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000006"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Image",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#InformationBearingArtifact"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#QualitySpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/InformationEntityOntology#DirectiveInformationContentEntity"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfFacilityUse",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfArtifactEmployment"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#UnderwaterMine",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Mine"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#OcularProsthesis",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtificialEye"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ResidentialFacility",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Facility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#BiographicalLife",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Act"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Factory",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Facility"
+  },
+  {
+    "subclass": "http://purl.obolibrary.org/obo/BFO_0000141",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000004"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/DesignedFunction",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000034"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfEntertainment",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IntentionalAct"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfConfessing",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfRepresentativeCommunication"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TurbineSteamEngine",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SteamEngine"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfDenying",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfRepresentativeCommunication"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/FailureProcess",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000015"
+  },
+  {
+    "subclass": "http://purl.obolibrary.org/obo/BFO_0000202",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000038"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MilitaryFacility",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Facility"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/MaterialComponentRole",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000023"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RadioCommunicationArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ElectromagneticCommunicationArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/BuyingBusinessProcess",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/BusinessProcess"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/AgentRole",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000023"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#GasTurbine",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#InternalCombustionEngine"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Hostel",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ResidentialFacility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PortionOfPaper",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#InformationMediumArtifact"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Report",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Document"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/WarehousingPlanSpecification",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/PlanSpecification"
+  },
+  {
+    "subclass": "http://purl.obolibrary.org/obo/BFO_0000001",
+    "superclass": "http://www.w3.org/2002/07/owl#Thing"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#WeaponManufacturingFacility",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Factory"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CoolingArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Propeller",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PropulsionComponent"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RailwayJunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TransportationInfrastructure"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CoveringArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#House",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ResidentialFacility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCommanding",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfDirectiveCommunication"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Road",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TransportationInfrastructure"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#LongGun",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Firearm"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SewageTreatmentFacility",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#WasteManagementFacility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#SocialAct",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IntentionalAct"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SubmersibleArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfPurchasing",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfFinancialInstrumentUse"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/IndustrialInventoryRole",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/MaterialResourceRole"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#GroceryStore",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RetailFacility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#VisualProsthesis",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtificialEye"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Cannon",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ProjectileLauncher"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TitleDocument",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#LegalInstrument"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#LossOfDisposition",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#LossOfRealizableEntity"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SubmachineGun",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#LongGun"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/StorageCapability",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/Capability"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#OpticalCommunicationArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ElectromagneticCommunicationArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#LandMine",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ExplosiveWeapon"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfExpressiveCommunication",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCommunication"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/Make-To-OrderProductionCapability",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/ProductionCapability"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Transcript",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Document"
+  },
+  {
+    "subclass": "http://purl.obolibrary.org/obo/BFO_0000148",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000008"
+  },
+  {
+    "subclass": "http://purl.obolibrary.org/obo/BFO_0000011",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000003"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#DistributionPort",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Port"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfVolunteering",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCommissiveCommunication"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Railway",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TransportationInfrastructure"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PoisonArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#DamagingArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfDeclarativeCommunication",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCommunication"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ReligiousArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ServiceArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/GeospatialLocation",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/GeospatialSite"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#LegalArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ServiceArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/DistributorRole",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/AgentRole"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#PrivateNetworkTelephoneCall",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#TelephoneCall"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCondoling",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfExpressiveCommunication"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Revolver",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#HandGun"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/SupplierRole",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/AgentRole"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#EmailBox",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TelecommunicationInstrument"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/SupplyChainAgent",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/Agent"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/MaintenanceProcess",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/PlannedProcess"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#HeavyMachineGun",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MountedGun"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SurfactantArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#EmulsifierArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PortionOfMaterial",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PortionOfProcessedMaterial"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Book",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#InformationBearingArtifact"
+  },
+  {
+    "subclass": "http://purl.obolibrary.org/obo/BFO_0000146",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000140"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfPlanning",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IntentionalAct"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#WirelessNetworkTelephoneCall",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#TelephoneCall"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RocketLauncher",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ProjectileLauncher"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Economy",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ProcessAggregate"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ElectricBattery",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ElectricalPowerSource"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/DispositionToExhibitUndesirableBehavior",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/UndesireableDisposition"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PrecisionGuidedMissile",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PortionOfAmmunition"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ElectricPowerStation",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Facility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MilitaryArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ServiceArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ResidentialArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ServiceArtifactFunction"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/Traceability",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/SystemCapability"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PesticideArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PoisonArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#LossOfRole",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#LossOfRealizableEntity"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/TransportProcess",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/MaterialLocationChangeProcess"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ReligiousArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ServiceArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PortionOfWasteMaterial",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PortionOfProcessedMaterial"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/RawMaterial",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000040"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/ManufacturingSupplyChain",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/SupplyChainSystem"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfFunding",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfFinancialInstrumentUse"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ProcessHistory",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ProcessAggregate"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#BiologicalWeapon",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Weapon"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfApologizing",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfExpressiveCommunication"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#LegalSystemAct",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IntentionalAct"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/SupplyChainPlanSpecification",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/PlanSpecification"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/TraceableResourceUnitRole",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000023"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#EmailMessage",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Message"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/PieceOfEquipment",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000040"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/TranspoortEquipmentRole",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/EquipmentRole"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PowerSource",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Artifact"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PropulsionSystem",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Artifact"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfVocationalTrainingInstruction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfTrainingInstruction"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/MaterialLocationChangeProcess",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/PlannedProcess"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfRequesting",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfDirectiveCommunication"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#GainOfRealizableEntity",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#GainOfSpecificallyDependentContinuant"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfTrainingInstruction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfTraining"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PropulsionArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MotionArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ProjectileLauncher",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Weapon"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfSojourn",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfInhabitancy"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#RadioBroadcast",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCommunicationByMedia"
+  },
+  {
+    "subclass": "http://purl.obolibrary.org/obo/BFO_0000029",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000141"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/SystemCapability",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/Capability"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Shell",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PortionOfAmmunition"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SeatOfNationalGovernment",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#GovernmentBuilding"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#LifeEvent",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#FiatProcessPart"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#HydroelectricPowerPlant",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ElectricPowerStation"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#StorageFacility",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Facility"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/FailureEffect",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000015"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#WoundedStasis",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#DamagedStasis"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#DetergentArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SurfactantArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfSuicide",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfViolence"
+  },
+  {
+    "subclass": "http://purl.obolibrary.org/obo/BFO_0000023",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000017"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Bullet",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PortionOfAmmunition"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/PackagingPlanSpecification",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/PlanSpecification"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/BuyerRole",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/AgentRole"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#DetonatingArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PassiveSonarSystem",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SonarSystem"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/FailureModeCode",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/InformationContentEntity"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/UndesireableDisposition",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000016"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#AgriculturalFacility",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Facility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#FragmentationArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#DamagingArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Maintenance_Facility",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Facility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PostOffice",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MailingFacility"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/MaterialProductRole",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000023"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#InformationProcessingArtifact",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Artifact"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MilitaryBase",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MilitaryFacility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#NuclearPowerPlant",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ThermalPowerPlant"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#NominalStasis",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#StasisOfSpecificallyDependentContinuant"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfIssuingMassMediaDocumentary",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfMassMediaCommunication"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactModelName",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/InformationEntityOntology#DesignativeInformationContentEntity"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfDonating",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfFinancialInstrumentUse"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/ComputingProcess",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/PlannedProcess"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/MaintenanceStrategy",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/PlanSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfFinancialWithdrawal",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfFinancialInstrumentUse"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfAppraisal",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IntentionalAct"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IncreaseOfRealizableEntity",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IncreaseOfSpecificallyDependentContinuant"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Video",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#InformationBearingArtifact"
+  },
+  {
+    "subclass": "http://purl.obolibrary.org/obo/BFO_0000002",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000001"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#StirlingEngine",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ExternalCombustionEngine"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PowerTransmissionLine",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ProductTransportFacility"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/MaintenanceActivity",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/MaintenanceProcess"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CommunicationInstrument",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Artifact"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PartsList",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#QualitySpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfMilitaryForce",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IntentionalAct"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/System",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000027"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/RetailerRole",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/AgentRole"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MedicalArtifact",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Artifact"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Tool",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Artifact"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/MaterialProduct",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000040"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArticleOfSolidWaste",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PortionOfWasteMaterial"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TelecommunicationInfrastructure",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Infrastructure"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#WettingAgentArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SurfactantArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#JetEngine",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#InternalCombustionEngine"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#LossOfQuality",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#LossOfSpecificallyDependentContinuant"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MachineElement",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Artifact"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TelecommunicationInstrument",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CommunicationInstrument"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/PieceofTransportEquipment",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/PieceOfEquipment"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#OpticalCommunicationArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ElectromagneticCommunicationArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#TextMessaging",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCommunicationByMedia"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#GainOfRole",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#GainOfRealizableEntity"
+  },
+  {
+    "subclass": "http://purl.obolibrary.org/obo/BFO_0000004",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000002"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfDecoyUse",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfArtifactEmployment"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ProstheticLeg",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Prosthesis"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfInviting",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCommissiveCommunication"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PesticideArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PoisonArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PetroleumManufacturingFacility",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Factory"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#DigitalStorageDevice",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#InformationMediumArtifact"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PortionOfFood",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PortionOfProcessedMaterial"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Domain/AirForceAircraftMaintenanceOntology#ActOfDeparture",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfLocationChange"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/LogisticsService",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/CommercialService"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfVocationalTrainingAcquisition",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfTrainingAcquisition"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ProductTransportFacility",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Facility"
+  },
+  {
+    "subclass": "http://purl.obolibrary.org/obo/BFO_0000034",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000016"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfBuying",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfPurchasing"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Grenade",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ExplosiveWeapon"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Denture",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Prosthesis"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/Retailer",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/Agent"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Weapon",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Artifact"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TorpedoTube",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ProjectileLauncher"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/EngineeredSystem",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/System"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfRemuneration",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfPurchasing"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#EducationArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ServiceArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#HeatingArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/FreightForwarder",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/Agent"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Dam",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Infrastructure"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Effect",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000015"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#HealingArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#OpticalInstrument",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Artifact"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfRepresentativeCommunication",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCommunication"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CommunicationArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/FunctioningProcess",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000015"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IncreaseOfDisposition",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IncreaseOfRealizableEntity"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfPropaganda",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfDeceptiveCommunication"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/ConsumableRole",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000023"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Locomotive",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RailTransportVehicle"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfInhabitancy",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IntentionalAct"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactIdentifier",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/InformationEntityOntology#DesignativeInformationContentEntity"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#HealthcareArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ServiceArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Death",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000035"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/GroupOfAgents",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000027"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CounterfeitFinancialInstrument",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CounterfeitInstrument"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/ReceivingProcess",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/BusinessProcess"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ReligiousFacility",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Facility"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/PlanSpecification",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/InformationContentEntity"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#FossilFuelPowerPlant",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ElectricPowerStation"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/PhysicalLocationIdentifier",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/Identifier"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/SupplyChainProcess",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/BusinessProcess"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#StasisOfGenericallyDependentContinuant",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Stasis"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/RequirementSpecification",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/InformationContentEntity"
+  },
+  {
+    "subclass": "http://purl.obolibrary.org/obo/BFO_0000203",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000148"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TelecommunicationNetworkNode",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TelecommunicationInfrastructure"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfOathTaking",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCommissiveCommunication"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Screen",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#InformationMediumArtifact"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Bow",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ProjectileLauncher"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#NuclearReactor",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PowerSource"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/InventoryManagementProcess",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/BusinessProcess"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtificialEye",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Prosthesis"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Heliport",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Airport"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfPublishingMassMediaPressRelease",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfMassMediaCommunication"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Target",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000001"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MaximumSpeedArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SpeedArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/ShipToLocationRole",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/LocationRole"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfTerroristTrainingAcquisition",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfTrainingAcquisition"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#NuclearWeapon",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Weapon"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/Buyer",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/Agent"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#WindFarm",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ElectricPowerStation"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Change",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000015"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfIdentifying",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfRepresentativeCommunication"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/CustomerRole",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/AgentRole"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ProstheticFoot",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Prosthesis"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfPilgrimage",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfTravel"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IncreaseOfRole",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IncreaseOfRealizableEntity"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfTerrorism",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IntentionalAct"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ChemicalDepot",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#StorageFacility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Engine",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Artifact"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/FailedState",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/MaintenanceState"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#InternalCombustionEngine",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Engine"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PortionOfProcessedMaterial",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Artifact"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactLocation",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/GeospatialOntology#GeospatialLocation"
+  },
+  {
+    "subclass": "http://purl.obolibrary.org/obo/BFO_0000019",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000020"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RocketPod",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RocketLauncher"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ElectricalPowerSource",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PowerSource"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TelecommunicationNetwork",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TelecommunicationInfrastructure"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfReporting",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfRepresentativeCommunication"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfDeceptiveCommunication",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCommunication"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/Manufacturer",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/Agent"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#EducationalFacility",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Facility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ElectricGenerator",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ElectricalPowerSource"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ContainingArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfPublishingMassMediaArticle",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfMassMediaCommunication"
+  },
+  {
+    "subclass": "http://purl.obolibrary.org/obo/BFO_0000035",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000003"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/Supplier",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/Agent"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Biological_Depot",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#StorageFacility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Trail",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TransportationInfrastructure"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/Airway",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000028"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RadioAntenna",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#BidirectionalTransducer"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#GainOfFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#GainOfRealizableEntity"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#DecreaseOfFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#DecreaseOfRealizableEntity"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfEducationalTrainingInstruction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfTrainingInstruction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#IncendiaryWeapon",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Weapon"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MinimumSpeedArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SpeedArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#HydraulicPowerSource",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PowerSource"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#VehicleRangeArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MotionArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/ShipmentRole",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/TraceableResourceUnitRole"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactDimensionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#QualitySpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Firearm",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ProjectileLauncher"
+  },
+  {
+    "subclass": "http://purl.obolibrary.org/obo/BFO_0000144",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000015"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#InsecticideArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PesticideArtifactFunction"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/Shipper",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/Agent"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#WettingAgentArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SurfactantArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfSocialGroupMembership",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfAssociation"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/ProcuringBusinessProcess",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/BusinessProcess"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#WashingFacility",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Facility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#AmmunitionDepot",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#StorageFacility"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/ConsigningProcess",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/BusinessProcess"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#GainOfQuality",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#GainOfSpecificallyDependentContinuant"
+  },
+  {
+    "subclass": "http://purl.obolibrary.org/obo/BFO_0000018",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000006"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Arrow",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PortionOfAmmunition"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/MeasurementCapability",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/Capability"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#DefoliantArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#HerbicideArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ChemicalManufacturingFacility",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Factory"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#HealingArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfSocialMovement",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#SocialAct"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/MaterialResourceRole",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000023"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfTravel",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfLocationChange"
+  },
+  {
+    "subclass": "http://purl.obolibrary.org/obo/BFO_0000015",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000003"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#LeadAcidElectricBattery",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SecondaryCellElectricBattery"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/OrganizationIdentifier",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/Identifier"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/ConsignorRole",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/AgentRole"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/ActionSpecification",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/InformationContentEntity"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfRepayment",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfFinancialInstrumentUse"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SecondaryCellElectricBattery",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ElectricBattery"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArticleOfClothing",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Artifact"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/Identifier",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/Denoter"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CatalystArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ChemicalReactionArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfRenting",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfPurchasing"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/SupportingMaintenanceActivity",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/PlannedProcess"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#WiredCommunicationArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CommunicationArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfTraining",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IntentionalAct"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Mine",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Facility"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/Agreement",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/InformationContentEntity"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Motel",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Hotel"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SteamEngine",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ExternalCombustionEngine"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfReligiousWorship",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCeremony"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfAssociation",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#SocialAct"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#VehicleTrackPoint",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/GeospatialOntology#ObjectTrackPoint"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/ArrivalProcess",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/MaterialLocationChangeProcess"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CrushingArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#DamagingArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RadioCommunicationArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ElectromagneticCommunicationArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#NeutralizationArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ChemicalReactionArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#GroundMotorVehicle",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#GroundVehicle"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfReligiousTrainingInstruction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfTrainingInstruction"
+  },
+  {
+    "subclass": "http://purl.obolibrary.org/obo/BFO_0000017",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000020"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#UnguidedRocket",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PortionOfAmmunition"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ElectromagneticCommunicationArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CommunicationArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ReciprocatingSteamEngine",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SteamEngine"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#NaturalProcess",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000015"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ConveyanceArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MotionArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfEducationalTrainingAcquisition",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfTrainingAcquisition"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ChemicalReactionArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RetailArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ServiceArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RailwayCrossing",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TransportationInfrastructure"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfPromising",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCommissiveCommunication"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#FungicideArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#AntiMicrobialArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TrainingCamp",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Facility"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/Consumable",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000040"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TransportationFacility",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Facility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SubmersibleArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/MaterialComponent",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000040"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ForwardOperationsBase",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MilitaryBase"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#LossOfSpecificallyDependentContinuant",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#LossOfDependentContinuant"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Domain/SpaceObjectOntology#PayloadCapacity",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RadarSystem",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SensorSystem"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#BidirectionalTransducer",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Transducer"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#WasteManagementArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ServiceArtifactFunction"
+  },
+  {
+    "subclass": "http://purl.obolibrary.org/obo/BFO_0000027",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000040"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SeatOfLocalGovernment",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#GovernmentBuilding"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactDesignContentEntity",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/InformationEntityOntology#DirectiveInformationContentEntity"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/ServiceProvider",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/Supplier"
+  },
+  {
+    "subclass": "http://purl.obolibrary.org/obo/BFO_0000040",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000004"
+  },
+  {
+    "subclass": "http://purl.obolibrary.org/obo/BFO_0000038",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000008"
+  },
+  {
+    "subclass": "http://purl.obolibrary.org/obo/BFO_0000003",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000001"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Tunnel",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TransportationInfrastructure"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#EducationArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ServiceArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfIntelligenceGathering",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IntentionalAct"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TelecommunicationEndpoint",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TelecommunicationNetworkNode"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#HearingAid",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Prosthesis"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfLegalInstrumentUse",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfArtifactEmployment"
+  },
+  {
+    "subclass": "http://purl.obolibrary.org/obo/BFO_0000026",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000006"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#FacsimileTransmission",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCommunicationByMedia"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/QualificationSpecification",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/RequirementSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Mortar",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Cannon"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunction",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000034"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#DecreaseOfRealizableEntity",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#DecreaseOfSpecificallyDependentContinuant"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#AircraftManufacturingFacility",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Factory"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfPortionOfMaterialConsumption",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfArtifactEmployment"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#NominalSpeedArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SpeedArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Rifle",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#LongGun"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RadioFrequencySensor",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Sensor"
+  },
+  {
+    "subclass": "http://purl.obolibrary.org/obo/BFO_0000034",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/Capability"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfMurder",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfHomicide"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfMilitaryTrainingInstruction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfTrainingInstruction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IncreaseOfDependentContinuant",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Change"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfPossession",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IntentionalAct"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PumpingStation",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ProductTransportFacility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PublicSafetyArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ServiceArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SwitchArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PrimaryCellElectricBattery",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ElectricBattery"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#DecreaseOfDependentContinuant",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Change"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/ProductProductionProcess",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/BusinessProcess"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RocketEngine",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#JetEngine"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Election",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#SocialAct"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Stage",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#EntertainmentFacility"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/InformationContentEntity",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000031"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/SellingBusinessProcess",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/BusinessProcess"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Shotgun",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#LongGun"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/ConsigneeRole",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/AgentRole"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MachineBearing",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MachineElement"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ElectromagneticShieldingArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#InstantMessaging",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCommunicationByMedia"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MilitaryArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ServiceArtifactFunction"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/LogisticUnitRole",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/TraceableResourceUnitRole"
+  },
+  {
+    "subclass": "http://purl.obolibrary.org/obo/BFO_0000020",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000002"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/TemporalInstantValueExpression",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/ValueExpression"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/MaintenanceState",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/MaterialState"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfThanking",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfExpressiveCommunication"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfMotion",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IntentionalAct"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/ManufacturerRole",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/AgentRole"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#DecreaseOfSpecificallyDependentContinuant",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#DecreaseOfDependentContinuant"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IncreaseOfQuality",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IncreaseOfSpecificallyDependentContinuant"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfMeeting",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfAssociation"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SensorSystem",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Artifact"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/Algorithm",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/InformationContentEntity"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RoundShot",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PortionOfAmmunition"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Domain/AirForceAircraftMaintenanceOntology#ActOfArrival",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfLocationChange"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MotorVehicleManufacturingFacility",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Factory"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#DecreaseOfGenericallyDependentContinuant",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#DecreaseOfDependentContinuant"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/AssemblyProcess",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/ManufacturingProcess"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ComputerNetwork",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TelecommunicationNetwork"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#AntiBacterialArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#AntiMicrobialArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#LightMachineGun",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#LongGun"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Prosthesis",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MedicalArtifact"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SolventArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ChemicalReactionArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Shop",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RetailFacility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Stasis",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000015"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/DistributionCenter",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/StorageFacility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Truck",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#GroundMotorVehicle"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Act",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000015"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MediumMachineGun",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MountedGun"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/ShippingRoute",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000028"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/Seaway",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000028"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Bond",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#FinancialInstrument"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfReconnaissance",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfIntelligenceGathering"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/CommercialServiceSpecification",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/PlanSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Motorcycle",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#GroundMotorVehicle"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfViolence",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IntentionalAct"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IncreaseOfSpecificallyDependentContinuant",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IncreaseOfDependentContinuant"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Hospital",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#HealthcareFacility"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/AppraisalProcess",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/MeasurementProcess"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Funeral",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCeremony"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MobileTelephone",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Telephone"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#School",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#EducationalFacility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Bus",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#GroundMotorVehicle"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#FragranceArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfToolUse",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfArtifactEmployment"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/QualifiedMaintenancePerson",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/Person"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PropulsionArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MotionArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/ProductionCapability",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/Capability"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/PlannedProcess",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000015"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ChemicalReactionArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ConveyanceArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MotionArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ControlledAccessHighway",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Highway"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Birth",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000035"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#GainOfDisposition",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#GainOfRealizableEntity"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/MaintainableMaterialItemRole",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000023"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/BusinessFunction",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000034"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CuttingArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#DamagingArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfChangeOfResidence",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfLocationChange"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Aircraft",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Vehicle"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#LossOfGenericallyDependentContinuant",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#LossOfDependentContinuant"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/SupplyingBusinessProcess",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/BusinessProcess"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/OutputObjectiveSpecification",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/ObjectiveSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#AcousticSensor",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Sensor"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Howitzer",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Cannon"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/MaterialArtifact",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000030"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#StasisOfFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#StasisOfRealizableEntity"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfLoaning",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfFinancialInstrumentUse"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCommunication",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IntentionalAct"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TelephoneNetwork",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TelecommunicationNetwork"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#HighwayInterchange",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RoadJunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCeremony",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#SocialAct"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MailingFacility",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Facility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#StasisOfDisposition",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#StasisOfRealizableEntity"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/LossOfRole",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000015"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/Cargo",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000040"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/ServiceConsumerRole",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/CustomerRole"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#LithiumIonElectricBattery",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SecondaryCellElectricBattery"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/DispositionToFail",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/UndesireableDisposition"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#WasteManagementFacility",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Facility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Infrastructure",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Artifact"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ImprovisedExplosiveDevice",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ExplosiveWeapon"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ExplosiveWeapon",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Weapon"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#LossOfRealizableEntity",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#LossOfSpecificallyDependentContinuant"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/PurchaseOrder",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/Agreement"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Document",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#InformationBearingArtifact"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#EnhancedStasis",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#StasisOfSpecificallyDependentContinuant"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CounterfeitInstrument",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Artifact"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/Change",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000015"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/StorageProcess",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/PlannedProcess"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#HospitalityArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ServiceArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfLocationChange",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfMotion"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Telephone",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TelecommunicationInstrument"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MaximumSpeedArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SpeedArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfGovernment",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IntentionalAct"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PortionOfAmmunition",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Weapon"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Stock",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#FinancialInstrument"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Reservoir",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#StorageFacility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#FinancialArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ServiceArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ThermalPowerPlant",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ElectricPowerStation"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SolventArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ChemicalReactionArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#FertilizerArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#EnhancingArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Highway",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Road"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ControlSurface",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Artifact"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#LossOfDependentContinuant",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Change"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IncreaseOfGenericallyDependentContinuant",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IncreaseOfDependentContinuant"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#DetonatingArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfWarning",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfDirectiveCommunication"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Message",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#InformationBearingArtifact"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#FixedLineNetworkTelephoneCall",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#TelephoneCall"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/ObjectiveSpecification",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/InformationContentEntity"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TelephoneSubscriberLine",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TelephoneLine"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#OxidizerArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ChemicalReactionArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#FinancialArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ServiceArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PetroleumDepot",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#StorageFacility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SwitchArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CuttingArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#DamagingArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfTerroristTrainingInstruction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfTrainingInstruction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PoisonArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#DamagingArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfMilitaryTrainingAcquisition",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfTrainingAcquisition"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/Capability",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000016"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#WasteManagementArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ServiceArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfEmployment",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfAssociation"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PublicSafetyArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ServiceArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Vehicle",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Artifact"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/BusinessProcess",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/PlannedProcess"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SpeedArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MotionArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#FiatProcessPart",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000015"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PropulsionComponent",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Artifact"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TelecommunicationSwitchingNode",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TelecommunicationNetworkNode"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfWalking",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfTravel"
+  },
+  {
+    "subclass": "http://purl.obolibrary.org/obo/BFO_0000016",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000017"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/WholesalerRole",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/AgentRole"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PublicSafetyFacility",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Facility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CombatOutpost",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MilitaryFacility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfReligiousTrainingAcquisition",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfTrainingAcquisition"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#OpenPitMine",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Mine"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ResearchAndDevelopmentArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ServiceArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ImmaterialArtifact",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000141"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SurfactantArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#EmulsifierArtifactFunction"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/SupplyRelationship",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000020"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/StorageFacility",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/Facility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SonarSystem",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SensorSystem"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Wedding",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCeremony"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ActiveSonarSystem",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SonarSystem"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Coupling",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MachineElement"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#HerbicideArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PesticideArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfConductingMassMediaInterview",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfMassMediaCommunication"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Train",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RailTransportVehicle"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ChemicalWeapon",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Weapon"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/FreightContainer",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/Container"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ProcessRecurrenceAggregate",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ProcessAggregate"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Church",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ReligiousFacility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#WaterTower",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#StorageFacility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#GainOfSpecificallyDependentContinuant",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#GainOfDependentContinuant"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/MeasurementProcess",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/PlannedProcess"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfPublishingMassMediaDocumentary",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfMassMediaCommunication"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ContainingArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Domain/SpaceObjectOntology#Payload",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000040"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#GovernmentArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ServiceArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Pipeline",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ProductTransportFacility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TimekeepingInstrument",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#InformationBearingArtifact"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/FreightForwardingBusinessFunction",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/BusinessFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#WaterTreatmentFacility",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Facility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#DecreaseOfDisposition",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#DecreaseOfRealizableEntity"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfAssignment",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfDeclarativeCommunication"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfEncounter",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfAssociation"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/Carrier",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/Supplier"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfAssassination",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfMurder"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#LegalArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ServiceArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfArtifactModification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfArtifactProcessing"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#EmulsifierArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ChemicalReactionArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RetailFacility",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Facility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#FiltrationArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/MaintainableMaterialItem",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000040"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#DecreaseOfRole",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#DecreaseOfRealizableEntity"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/Organization",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/OrganizedGroupOfAgents"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#EnhancingArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ShouldFiredRocketLauncher",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RocketLauncher"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Money",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#FinancialInstrument"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/ProcessCharacteristic",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000002"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MissileLaunchSite",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MilitaryFacility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfWeaponUse",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfArtifactEmployment"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Watercraft",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Vehicle"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CatalystArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ChemicalReactionArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ServiceArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#DieselEngine",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#InternalCombustionEngine"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/Agent",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000040"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ExplosiveArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#DamagingArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#NickelMetalHydrideElectricBattery",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SecondaryCellElectricBattery"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#EffectOfLocationChange",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Effect"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#DecontaminationFacility",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#WashingFacility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Port",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TransportationFacility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Behavior",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Act"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#InfantryFightingVehicle",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#GroundMotorVehicle"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/ServiceProviderRole",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/SupplierRole"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/Event",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000003"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Container",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Artifact"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PneumaticPowerSource",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PowerSource"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#StasisOfQuality",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#StasisOfSpecificallyDependentContinuant"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/ShipmentState",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/MaterialState"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#NickelCadmiumElectricBattery",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SecondaryCellElectricBattery"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfReligiousGroupAffiliation",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfAssociation"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/GroupOfSuppliers",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/OrganizedGroupOfAgents"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/IndustrialInventory",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000040"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/DegradedState",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/MaintenanceState"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CoolingArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Decoy",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Artifact"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCommissiveCommunication",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCommunication"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Bicycle",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#GroundVehicle"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/Trailer",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/Container"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#DecreaseOfQuality",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#DecreaseOfSpecificallyDependentContinuant"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#GroundVehicle",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Vehicle"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CuttingWeapon",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Weapon"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CoveringArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RailTransportVehicle",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#GroundVehicle"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TransportationInfrastructure",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Infrastructure"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfAdvising",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfDirectiveCommunication"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfIssuingMassMediaArticle",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfMassMediaCommunication"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#EssentialServiceProvision",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ProcessAggregate"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/GainOfRole",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000015"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#AssaultRifle",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Rifle"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/BusinessOrganization",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/Organization"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MotionArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/InformationEntityOntology#DirectiveInformationContentEntity"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/LotIdentifier",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/Identifier"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/Distributor",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/Agent"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MedicalDepot",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#StorageFacility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#VehicleEnduranceArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MotionArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PowerTool",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Tool"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/IntegratedCarrierBusinessOrganization",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/BusinessOrganization"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfInterpersonalRelationship",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfAssociation"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RadarSystem",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Sensor"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/MaintenanceWorkOrderRecord",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/InformationContentEntity"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/Consignee",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/Agent"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Canal",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TransportationInfrastructure"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfArtifactProcessing",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IntentionalAct"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ElectricMotor",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Engine"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/Make-To-StockProductionCapability",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/ProductionCapability"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#LandlineTelephone",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Telephone"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RoadJunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TransportationInfrastructure"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CellularTelecommunicationNetwork",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#WirelessTelecommunicationNetwork"
+  },
+  {
+    "subclass": "http://purl.obolibrary.org/obo/BFO_0000145",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000019"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/OperatingState",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/MaintenanceState"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#JournalArticle",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#InformationBearingArtifact"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#InformationBearingArtifact",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Artifact"
+  },
+  {
+    "subclass": "http://purl.obolibrary.org/obo/BFO_0000147",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000140"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/DepartureProcess",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/MaterialLocationChangeProcess"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Hotel",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ResidentialFacility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Synagogue",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ReligiousFacility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#InformationMediumArtifact",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Artifact"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/RawMaterialRole",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000023"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/ServiceSupplyChain",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/SupplyChainSystem"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Facility",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Artifact"
+  },
+  {
+    "subclass": "http://purl.obolibrary.org/obo/BFO_0000006",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000141"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Airport",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TransportationFacility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfEspionage",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfIntelligenceGathering"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/InputSpecification",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/InformationContentEntity"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/SupplyChainSystem",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/EngineeredSystem"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ReactantArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ChemicalReactionArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/CommercialServiceAgreement",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/Agreement"
+  },
+  {
+    "subclass": "http://purl.obolibrary.org/obo/BFO_0000008",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000003"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Warehouse",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#StorageFacility"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/ShipFromLocationRole",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/LocationRole"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/Industry",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/GroupOfAgents"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#NeutralizationArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ChemicalReactionArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/MeasuredValueExpression",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/ValueExpression"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfMilitaryService",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfEmployment"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#EntertainmentFacility",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Facility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#DamagingArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfPersonalCommunication",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCommunication"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MilitaryHeadquartersFacility",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MilitaryFacility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#TelephoneCall",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCommunicationByMedia"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CounterfeitLegalInstrument",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CounterfeitInstrument"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PortionOfFuel",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000040"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ProstheticArm",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Prosthesis"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfMassMediaCommunication",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCommunication"
+  },
+  {
+    "subclass": "http://purl.obolibrary.org/obo/BFO_0000140",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000141"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ServiceArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/EquipmentRole",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000023"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/LoadRole",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/TraceableResourceUnitRole"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/GeospatialSite",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000029"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PetrochemicalRefinery",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Refinery"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#WirelessTelecommunicationNetwork",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TelecommunicationNetwork"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Automobile",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#GroundMotorVehicle"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/OrganizedGroupOfAgents",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/GroupOfAgents"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/Customer",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/Agent"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/MeasurementInformationContentEntity",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/InformationContentEntity"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#FiltrationArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunction"
+  },
+  {
+    "subclass": "http://purl.obolibrary.org/obo/BFO_0000182",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000015"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Pier",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TransportationFacility"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/RequiredFunction",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000034"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ElectromagneticShieldingArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Webcast",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCommunicationByMedia"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#EmulsifierArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ChemicalReactionArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IntentionalAct",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Act"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/Container",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/MaterialArtifact"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#DamagedStasis",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#StasisOfSpecificallyDependentContinuant"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SpeedArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MotionArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#GasolineEngine",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#InternalCombustionEngine"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/DesignativeInformationContentEntity",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/InformationContentEntity"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ExplosiveArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#DamagingArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#BaseOfOperations",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MilitaryBase"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Periscope",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#OpticalInstrument"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/SupplyChainObjectiveSpecification",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/ObjectiveSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Cause",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000015"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#OfficeBuilding",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RetailFacility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#DeceptionArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#CriminalAct",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IntentionalAct"
+  },
+  {
+    "subclass": "http://purl.obolibrary.org/obo/BFO_0000031",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000002"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfVehicleUse",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfArtifactEmployment"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#FertilizerArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#EnhancingArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#UndergroundMine",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Mine"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#StasisOfRealizableEntity",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#StasisOfSpecificallyDependentContinuant"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#HeatingArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunction"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/MaterialState",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000015"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#LargeScaleRocketLauncher",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RocketLauncher"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#FuelArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#HealthcareArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ServiceArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CommunicationArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#EnhancingArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Web_Page",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#InformationBearingArtifact"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#LegalInstrument",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ImmaterialArtifact"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PoliceStation",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PublicSafetyFacility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#GasProcessingFacility",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Refinery"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfArtifactEmployment",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IntentionalAct"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfContractFormation",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfPromising"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#UnintentionalAct",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Act"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/TravelProcess",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/MaterialLocationChangeProcess"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#TelevisionBroadcast",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCommunicationByMedia"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/CargoRole",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000023"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfDirectiveCommunication",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCommunication"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Transducer",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Artifact"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/Facility",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/EngineeredSystem"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCongratulating",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfExpressiveCommunication"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/Person",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000030"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/SublotRole",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/TraceableResourceUnitRole"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArmoredPersonnelCarrier",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#GroundMotorVehicle"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Bridge",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TransportationInfrastructure"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/ManufacturingServiceProviderRole",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/ServiceProviderRole"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/ShipmentPlanSpecification",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/PlanSpecification"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/LotRole",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/TraceableResourceUnitRole"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/ContainerIdentifier",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/Identifier"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Artifact",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000030"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RadiologicalWeapon",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Weapon"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SemiAutomaticPistol",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#HandGun"
+  },
+  {
+    "subclass": "http://purl.obolibrary.org/obo/BFO_0000030",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000040"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MinimumSpeedArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SpeedArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Farm",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#AgriculturalFacility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCommunicationByMedia",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCommunication"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/ManufacturingProcess",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/PlannedProcess"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/Sublot",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000040"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#OxidizerArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ChemicalReactionArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#DetergentArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SurfactantArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfFinancialDeposit",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfFinancialInstrumentUse"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfIssuingMassMediaPressRelease",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfMassMediaCommunication"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ManualTool",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Tool"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/BillOfLading",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/CommercialServiceAgreement"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfHomicide",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfViolence"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Mosque",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ReligiousFacility"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/LogisticsServiceProviderRole",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/ServiceProviderRole"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Spacecraft",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Vehicle"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ReactantArtifactFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ChemicalReactionArtifactFunction"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Database",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#InformationBearingArtifact"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Shaft",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MachineElement"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfOfficialDocumentation",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfDeclarativeCommunication"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/CommercialService",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/BusinessProcess"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#DamagingArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#VehicleTrack",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/GeospatialOntology#ObjectTrack"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#FireStation",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PublicSafetyFacility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Refinery",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Factory"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/FailureEvent",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/Event"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CommandPostFacility",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MilitaryFacility"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#OperatingPostureSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/InformationEntityOntology#DirectiveInformationContentEntity"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Computer",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#InformationProcessingArtifact"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#LossOfFunction",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#LossOfRealizableEntity"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#EmailMessaging",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCommunicationByMedia"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Fort",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MilitaryFacility"
+  },
+  {
+    "subclass": "http://purl.obolibrary.org/obo/BFO_0000142",
+    "superclass": "http://purl.obolibrary.org/obo/BFO_0000140"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactModel",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactDesignContentEntity"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#HospitalityArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ServiceArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#WiredCommunicationArtifactFunctionSpecification",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CommunicationArtifactFunctionSpecification"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#GainOfGenericallyDependentContinuant",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#GainOfDependentContinuant"
+  },
+  {
+    "subclass": "https://spec.industrialontologies.org/ontology/construct/LocationIdentificationScheme",
+    "superclass": "https://spec.industrialontologies.org/ontology/construct/InformationContentEntity"
+  },
+  {
+    "subclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Tank",
+    "superclass": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#GroundMotorVehicle"
+  }
+]

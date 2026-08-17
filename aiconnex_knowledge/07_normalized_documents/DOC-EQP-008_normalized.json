@@ -1,0 +1,24 @@
+[
+  {
+    "section_id": "SEC-0001",
+    "document_id": "DOC-EQP-008",
+    "heading_level": 2,
+    "heading_text": "Overview",
+    "section_path": "OPC UA for Machinery Specification > Overview",
+    "content": "Vendor-neutral information model providing building blocks for machinery identification, operational state, and component topology.",
+    "content_type": "prose",
+    "code_blocks": [],
+    "tables": []
+  },
+  {
+    "section_id": "SEC-0002",
+    "document_id": "DOC-EQP-008",
+    "heading_level": 2,
+    "heading_text": "Key Concepts",
+    "section_path": "OPC UA for Machinery Specification > Key Concepts",
+    "content": "- **MachineryItem**: Base node type for any industrial machine, subsystem, or major tool.\n- **MachineryComponent**: Sub-assembly or functional part attached to a Machine.\n- **MachineIdentification**: Standardized SerialNumber, Manufacturer, Model, YearOfConstruction.\n- **MachineryOperation**: Operational state monitoring, load cycles, and runtime parameters.",
+    "content_type": "prose",
+    "code_blocks": [],
+    "tables": []
+  }
+]

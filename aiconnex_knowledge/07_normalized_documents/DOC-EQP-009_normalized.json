@@ -1,0 +1,24 @@
+[
+  {
+    "section_id": "SEC-0001",
+    "document_id": "DOC-EQP-009",
+    "heading_level": 2,
+    "heading_text": "Overview",
+    "section_path": "OPC UA Part 110 \u2014 Asset Management Specification > Overview",
+    "content": "Defines standardized information models for physical and functional assets, sub-asset hierarchies, identification, and lifecycle attributes.",
+    "content_type": "prose",
+    "code_blocks": [],
+    "tables": []
+  },
+  {
+    "section_id": "SEC-0002",
+    "document_id": "DOC-EQP-009",
+    "heading_level": 2,
+    "heading_text": "Key Relationships & Attributes",
+    "section_path": "OPC UA Part 110 \u2014 Asset Management Specification > Key Relationships & Attributes",
+    "content": "- **AssetType**: Root object representing a managed physical asset.\n- **SubAsset**: Nested child asset components.\n- **PhysicallyConnectedTo**: Topology relationship modeling physical connections between equipment.\n- **Utilizes**: Usage and allocation relationship between functional units and physical equipment.\n- **HasComponent**: Composition link defining subassemblies and internal parts.",
+    "content_type": "prose",
+    "code_blocks": [],
+    "tables": []
+  }
+]

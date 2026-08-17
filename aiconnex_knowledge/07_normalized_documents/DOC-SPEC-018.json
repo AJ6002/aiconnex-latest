@@ -1,0 +1,557 @@
+{
+  "document_id": "DOC-DOC-SPEC-018-V1",
+  "source_id": "DOC-SPEC-018",
+  "title": "AI-ConneX Deploy and Monitor Pages Internal Architecture",
+  "studio": "PlatformCore",
+  "category": "Architecture",
+  "target_subsystems": [
+    "DeploymentManager",
+    "ModelMonitor",
+    "DriftDetector"
+  ],
+  "summary": "Production deployment architecture, model registry integration (MLflow), real-time drift detection, and telemetry dashboard SLAs.",
+  "sha256": "d375331d0cb00807f19c4e0e05cebe3dd67af38b00a3b05d030e38564e3225cb",
+  "file_size_bytes": 53039,
+  "statistics": {
+    "headings_count": 43,
+    "paragraphs_count": 116,
+    "tables_count": 18,
+    "sections_count": 44,
+    "estimated_words": 4526
+  },
+  "sections": [
+    {
+      "section_id": "SEC-DOC-SPEC-018-0001",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "Overview",
+      "section_path": "DOC-SPEC-018 > Overview",
+      "content": "AI-ConneX\n\nDEPLOY & MONITOR PAGES\n\nUnified Edge / Cloud Deployment, Serving, Observability & Industrial Runtime ArchitectureData Studio • ML Studio • Agentic StudioR&D → Failure Analysis → Architecture → POC → Compliance Report #5Version 1.0 | 14 August 2026",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0002",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "1. Executive Summary",
+      "section_path": "DOC-SPEC-018 > 1. Executive Summary",
+      "content": "This document defines the AI-ConneX Deploy and Monitor Pages and the internal architecture that connects every approved artifact, model, recipe, manifest, agent, tool, telemetry stream and industrial endpoint into a deployable and observable runtime. The design supports edge, cloud and hybrid operation, with ONNX/ONNX Runtime for portable ML inference, MQTT for lightweight event/telemetry transport, REST APIs for synchronous application integration, and OPC UA where industrial equipment integration requires a standards-based industrial information model.\n\nThe central architectural principle is: BUILD ONCE → PACKAGE WITH IDENTITY → DEPLOY BY TARGET → VERIFY BEFORE SERVING → MONITOR CONTINUOUSLY → GOVERN CHANGES → ROLLBACK SAFELY.\n\nONNX Runtime is designed to run inference across cloud, edge and mobile environments and provides a common interface across multiple model frameworks and hardware accelerators. citeturn0search5turn0search9 MQTT 5.0 is a lightweight publish/subscribe protocol designed for constrained M2M/IoT environments. citeturn0search60 OPC UA provides industrial information models and communication mechanisms applicable to sensors, actuators, control systems, MES and ERP. citeturn0search6",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0003",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "2. Scope",
+      "section_path": "DOC-SPEC-018 > 2. Scope",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Area | Covered |\n| --- | --- |\n| Deploy Page | Artifact selection, target selection, configuration, validation, rollout, release history, rollback |\n| Monitor Page | Health, model quality, data drift, agent health, telemetry, alerts, incidents, lineage |\n| Serving | REST, MQTT, edge gateway, batch, stream and internal service invocation |\n| ML Runtime | ONNX/ONNX Runtime and optional framework-native runtimes |\n| Agent Runtime | Main Agent, Agent Toolkit, tools, policies, RAG/graph dependencies |\n| Industrial Connectivity | MQTT, OPC UA, REST; protocol adapters |\n| Security | Identity, tenant isolation, mTLS, authorization, secrets, audit |\n| Operations | SLOs, observability, incident handling, upgrade/rollback |\n| Deployment modes | Edge-only, cloud-only, hybrid, disconnected/air-gapped edge |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0004",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "3. Architectural Mental Model",
+      "section_path": "DOC-SPEC-018 > 3. Architectural Mental Model",
+      "content": "┌──────────────────────────┐                     │        JANE / UI          │                     └────────────┬─────────────┘                                  │ Intent + approvals                    ┌─────────────▼─────────────┐                    │ Deployment Control Plane   │                    │ Registry • Policy • Audit   │                    └─────────────┬─────────────┘                                  │ signed Release               ┌──────────────────▼──────────────────┐               │          DEPLOYMENT FABRIC          │               │ Edge Agent | Cloud Runtime | Hybrid │               └───────┬──────────┬──────────┬───────┘                       │          │          │                 ┌─────▼───┐ ┌────▼────┐ ┌──▼─────────┐                 │ ML Serve │ │ Agent   │ │ Data/Math  │                 │ ONNX/ORT │ │ Runtime │ │ Services   │                 └─────┬────┘ └────┬────┘ └──┬─────────┘                       │           │          │              ┌────────▼───────────▼──────────▼───────┐              │ Connectivity / Industrial Gateway      │              │ MQTT • OPC UA • REST • Batch/Stream   │              └────────────────┬───────────────────────┘                               │                     ┌─────────▼─────────┐                     │ Plant / Cloud     │                     │ Assets & Systems  │                     └───────────────────┘                  ┌───────────────────────────────┐                  │ MONITOR / TELEMETRY FABRIC    │                  │ Metrics • Logs • Traces •     │                  │ Drift • Alerts • Audit • SLOs │                  └───────────────────────────────┘",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0005",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "4. Deploy Page — What the Industrialist Sees",
+      "section_path": "DOC-SPEC-018 > 4. Deploy Page — What the Industrialist Sees",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| UI section | Purpose | Industrial value |\n| --- | --- | --- |\n| Release Selector | Choose approved model/agent/data service release | Avoids technical artifact hunting |\n| Deployment Target | Edge / Cloud / Hybrid | Makes placement explicit |\n| Readiness Score | Pre-flight validation result | Shows whether deployment is safe to proceed |\n| Dependency Map | Models, recipes, manifests, agents, tools, data sources | Makes hidden dependencies visible |\n| Protocol Panel | MQTT / REST / OPC UA / batch | Shows how the service connects |\n| Configuration | Thresholds, endpoints, sampling, resource limits | Controlled operational settings |\n| Rollout Strategy | Canary / blue-green / rolling / edge wave | Reduces blast radius |\n| Approval | Human approval when policy requires | Maintains control |\n| Deployment Timeline | Build → package → verify → deploy → smoke test | Traceable release |\n| Rollback | Previous approved release | Fast recovery |\n| Audit | Who/what/when/why | Industrial accountability |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0006",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "5. Deploy Page — Detailed User Flow",
+      "section_path": "DOC-SPEC-018 > 5. Deploy Page — Detailed User Flow",
+      "content": "Jane explains what is ready to deploy and why.\n\nUser selects an approved release, not an arbitrary artifact.\n\nAI-ConneX resolves manifest, dataset contract, model, feature recipe, agent blueprint/runtime, tools and policy references.\n\nTarget planner determines edge/cloud/hybrid compatibility.\n\nPre-flight validation checks signatures, dependencies, resources, protocol configuration, health probes and policy.\n\nSystem produces a deployment plan.\n\nRequired human approval is requested.\n\nRelease is signed/registered and rollout begins.\n\nSmoke tests and health checks run.\n\nTelemetry must confirm readiness before the release is marked live.\n\nMonitor Page becomes active for the release.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0007",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "6. Release Object",
+      "section_path": "DOC-SPEC-018 > 6. Release Object",
+      "content": "{  \"release_uid\": \"REL-...\",  \"tenant_uid\": \"TEN-...\",  \"manifest_uid\": \"MAN-...\",  \"artifact_refs\": {    \"model\": \"...\",    \"feature_recipe\": \"...\",    \"agent_spec\": \"...\",    \"agent_runtime\": \"...\",    \"toolkit\": \"...\"  },  \"target\": {    \"mode\": \"edge|cloud|hybrid\",    \"site\": \"SITE-...\",    \"runtime_class\": \"cpu|gpu|npu\"  },  \"protocols\": [\"mqtt\", \"rest\"],  \"policy_ref\": \"POL-...\",  \"security_profile\": \"industrial-standard\",  \"rollout\": {\"strategy\":\"canary\",\"percent\":10},  \"signature\": \"...\",  \"version\": \"1.0.0\"}",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0008",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "7. Internal Deployment Control Plane",
+      "section_path": "DOC-SPEC-018 > 7. Internal Deployment Control Plane",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Component | Responsibility |\n| --- | --- |\n| Artifact Registry | Stores immutable model/service/agent packages and metadata |\n| Manifest Registry | Stores lineage and artifact identity |\n| Release Manager | Creates release candidates and final releases |\n| Policy Engine | Checks deployment authorization and operational constraints |\n| Target Registry | Tracks edge nodes, cloud clusters and capabilities |\n| Dependency Resolver | Checks model/recipe/agent/tool compatibility |\n| Package Builder | Builds OCI/container/native edge packages |\n| Signer | Signs release metadata/artifacts |\n| Deployment Controller | Applies desired state to target |\n| Health Gate | Prevents promotion if checks fail |\n| Rollback Controller | Restores last known-good release |\n| Audit Service | Records deployment decisions and actions |\n| Telemetry Collector | Receives deployment/runtime signals |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0009",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "8. Edge Deployment Architecture",
+      "section_path": "DOC-SPEC-018 > 8. Edge Deployment Architecture",
+      "content": "Plant Assets   │   ├── OPC UA ──────┐   ├── MQTT ────────┼──► Industrial Edge Gateway   └── REST ────────┘          │                               ├── Protocol adapters                               ├── Local buffer/store                               ├── Policy enforcement                               ├── ONNX Runtime                               ├── Agent Runtime (optional)                               ├── Local visualizer cache                               └── Telemetry exporter                                         │                             intermittent / secure uplink                                         │                              ┌──────────▼─────────┐                              │ AI-ConneX Cloud CP │                              └────────────────────┘\n\nEdge should be able to continue essential inference and local monitoring during temporary cloud loss. Cloud-dependent actions must be explicitly identified rather than silently failing.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0010",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "9. Cloud Deployment Architecture",
+      "section_path": "DOC-SPEC-018 > 9. Cloud Deployment Architecture",
+      "content": "Internet / Enterprise Network          │      API Gateway          │   ┌──────▼────────────────────────────┐   │ AI-ConneX Cloud Control Plane     │   │ Auth • Tenant • Registry • Policy  │   └──────┬────────────────────────────┘          │   ┌──────▼────────────────────────────┐   │ Runtime Cluster                   │   │ ML Serving • Agent Runtime        │   │ RAG • KG • Data Services          │   └──────┬────────────────────────────┘          │   ┌──────▼────────────────────────────┐   │ Observability / Telemetry         │   │ OTel • Metrics • Logs • Traces    │   └───────────────────────────────────┘",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0011",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "10. Hybrid Architecture",
+      "section_path": "DOC-SPEC-018 > 10. Hybrid Architecture",
+      "content": "Hybrid is the recommended default for industrial deployments where raw plant data should remain local while models, recipes, governance and aggregated telemetry may be managed centrally. The edge retains local operational capability; the cloud provides fleet governance, model lifecycle, cross-site analytics and centralized audit.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Function | Edge | Cloud |\n| --- | --- | --- |\n| Raw sensor ingestion | Primary | Optional aggregate |\n| Low-latency inference | Primary | Optional |\n| Safety/plant-local policy | Primary | Central policy baseline |\n| Model registry | Cached approved releases | Authoritative |\n| Agent toolkit | Local subset | Fleet-wide |\n| RAG | Local approved KB subset | Authoritative/global |\n| Knowledge Graph | Local operational subgraph | Global graph |\n| Telemetry | Buffer + forward | Central aggregation |\n| Fleet monitoring | Local alarms | Central monitoring |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0012",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "11. Model Packaging",
+      "section_path": "DOC-SPEC-018 > 11. Model Packaging",
+      "content": "AI-ConneX should prefer a canonical model package containing the ONNX model, input/output schema, preprocessing/feature recipe reference, postprocessing rules, model metadata, checksum/signature, runtime compatibility and evaluation evidence. ONNX Runtime provides cross-platform inference and hardware-specific acceleration paths. citeturn0search9\n\nmodel-package/├── model.onnx├── model-card.json├── input-schema.json├── output-schema.json├── feature-contract.json├── preprocessing-ref.json├── postprocessing-ref.json├── evaluation.json├── runtime-compatibility.json├── sbom.spdx.json├── checksums.sha256└── signature.sig",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0013",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "12. Agent Package",
+      "section_path": "DOC-SPEC-018 > 12. Agent Package",
+      "content": "agent-package/├── agent-spec.json├── runtime-config.json├── policy.json├── tools/│   ├── tool-manifest.json│   └── schemas/├── knowledge/│   ├── rag-index-ref.json│   └── graph-ref.json├── prompts/├── safety/│   └── guardrails.json├── telemetry/│   └── instrumentation.json├── sbom.spdx.json└── signature.sig\n\nAgent packages must not contain unrestricted credentials. Tool access is resolved through identity and policy at runtime.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0014",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "13. Protocol Architecture",
+      "section_path": "DOC-SPEC-018 > 13. Protocol Architecture",
+      "content": "MQTT 5.0 is appropriate for constrained and M2M/IoT scenarios because it uses publish/subscribe messaging and is designed for low-bandwidth environments. citeturn0search60 OPC UA is appropriate when semantic industrial information modeling and interaction with industrial systems are required. citeturn0search6",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Interface | Primary use | Pattern |\n| --- | --- | --- |\n| REST/HTTPS | Synchronous request/response, enterprise apps | API Gateway → Service |\n| MQTT 5.0 | Telemetry, events, edge messaging | Publisher → Broker → Subscriber |\n| OPC UA | Industrial data/model integration | Asset/PLC/SCADA/MES → Gateway |\n| WebSocket/SSE | UI live status | Runtime → UI |\n| Batch object storage | Large files/artifacts | Object store → worker |\n| gRPC (optional) | Internal low-latency service calls | Service → Service |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0015",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "14. MQTT Topic Architecture",
+      "section_path": "DOC-SPEC-018 > 14. MQTT Topic Architecture",
+      "content": "ai-connex/{tenant}/{site}/{asset}/telemetry/{signal}ai-connex/{tenant}/{site}/{asset}/event/{event_type}ai-connex/{tenant}/{site}/model/{model_id}/predictionai-connex/{tenant}/{site}/agent/{agent_id}/statusai-connex/{tenant}/{site}/alert/{severity}ai-connex/{tenant}/{site}/deployment/{release_uid}/status\n\nUse TLS and authenticated clients.\n\nUse tenant/site authorization at the broker.\n\nUse retained messages only where semantically appropriate.\n\nDefine QoS per message class.\n\nUse message expiry for transient telemetry.\n\nDo not put secrets or unnecessary PII into topic names.\n\nInclude event timestamp, sequence number, schema version and source identity in payloads.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0016",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "15. REST API Surface",
+      "section_path": "DOC-SPEC-018 > 15. REST API Surface",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Method | Endpoint | Purpose |\n| --- | --- | --- |\n| POST | /v1/deployments | Create deployment plan |\n| POST | /v1/deployments/{id}/approve | Approve deployment |\n| POST | /v1/deployments/{id}/promote | Promote release |\n| POST | /v1/deployments/{id}/rollback | Rollback |\n| GET | /v1/deployments/{id} | Deployment state |\n| GET | /v1/deployments/{id}/health | Current health |\n| GET | /v1/releases | List releases |\n| GET | /v1/releases/{id}/dependencies | Dependency graph |\n| GET | /v1/targets | List edge/cloud targets |\n| GET | /v1/models/{id}/versions | Model versions |\n| GET | /v1/agents/{id}/versions | Agent versions |\n| GET | /v1/monitoring/{release_id} | Monitoring summary |\n| POST | /v1/alerts/{id}/ack | Acknowledge alert |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0017",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "16. Monitor Page — What the Industrialist Sees",
+      "section_path": "DOC-SPEC-018 > 16. Monitor Page — What the Industrialist Sees",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Panel | Displays | Why it matters |\n| --- | --- | --- |\n| Plant/Service Status | Online/degraded/offline | Immediate operational awareness |\n| Release Health | Version + target + uptime | Know what is running |\n| Prediction Health | Latency, throughput, errors | Know whether inference works |\n| Model Quality | Metrics, drift, calibration | Know whether predictions remain trustworthy |\n| Data Health | Missingness, range, schema drift | Know whether input changed |\n| Agent Health | Runtime/tool/RAG/KG health | Know whether automation is functioning |\n| Alerts | Current/acknowledged/resolved | Prioritize action |\n| Telemetry Timeline | Events across stages | Trace cause and effect |\n| Dependency Graph | Model→features→data→agent→tool | Find impact radius |\n| Edge Fleet | Site/node status | Operate multiple plants |\n| Audit | Actions/releases/approvals | Accountability |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0018",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "17. Monitor Page — Internal Layers",
+      "section_path": "DOC-SPEC-018 > 17. Monitor Page — Internal Layers",
+      "content": "Telemetry Sources  ├─ Edge runtime  ├─ ONNX inference  ├─ Agent runtime  ├─ MQTT broker  ├─ REST gateway  ├─ OPC UA gateway  └─ Deployment controller          │          ▼OpenTelemetry / Event Collector          │   ┌──────┼─────────┐   ▼      ▼         ▼Metrics  Logs     Traces   │      │         │   └──────┼─────────┘          ▼Telemetry Normalizer          ▼Time-series / Log / Trace stores          ▼Monitoring Rules + Drift + Alert Engine          ▼Monitor API          ▼Data Explorer / Model Plots / Agent Visualizer / Jane",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0019",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "18. What Monitor Measures",
+      "section_path": "DOC-SPEC-018 > 18. What Monitor Measures",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Category | Metrics |\n| --- | --- |\n| Availability | uptime, readiness, restart count |\n| Inference | p50/p95/p99 latency, throughput, error rate |\n| Resources | CPU, RAM, GPU/NPU, disk, thermal where available |\n| Data quality | missingness, schema, range, freshness |\n| Data drift | PSI/KS/JS or approved drift statistics |\n| Model quality | accuracy/F1/AUC/RMSE/MAE or task-specific metrics |\n| Calibration | confidence reliability, calibration error |\n| Agent | tool errors, task completion, latency, fallback rate |\n| RAG | retrieval latency, empty retrievals, source coverage |\n| Knowledge Graph | query latency, stale nodes, consistency checks |\n| MQTT | connectivity, publish/subscribe errors, queue/backlog |\n| REST | 5xx/4xx, latency, saturation |\n| Deployment | rollout percentage, health gate failures |\n| Security | auth failures, policy denies, certificate expiry |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0020",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "19. Joining All Points — The AI-ConneX Runtime Graph",
+      "section_path": "DOC-SPEC-018 > 19. Joining All Points — The AI-ConneX Runtime Graph",
+      "content": "User Intent   │   ▼Manifest UID   │   ├── Dataset   ├── Profile   ├── DAG / Family IDs   ├── Recipes   ├── Features   ├── Model   ├── Agent SPEC   ├── Knowledge   ├── Tools   ├── Policy   └── Release          │          ▼      Deployment          │    ┌─────┼──────────┐    ▼     ▼          ▼  Edge  Cloud      Hybrid    │     │          │    └─────┼──────────┘          ▼      Telemetry          │   ┌──────┼───────────┐   ▼      ▼           ▼ Data   Model        Agent Health Quality      Health   │      │           │   └──────┼───────────┘          ▼      Monitor Page          │          ▼       Jane / User          │          └── corrective intent → controlled redeployment",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0021",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "20. Manifest-Centric Deployment",
+      "section_path": "DOC-SPEC-018 > 20. Manifest-Centric Deployment",
+      "content": "The manifest is the joining key. Every deployment should reference a manifest UID and immutable artifact versions. The Monitor Page uses the same identity chain to explain how a live output relates to the dataset, profile, DAG, recipe, feature transformation, model, agent, tools and release.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Object | Linked by |\n| --- | --- |\n| Dataset | dataset_uid |\n| Profile | manifest_uid + profile_version |\n| DAG | dag_id + family_id |\n| Recipe | recipe_id + version |\n| Feature set | feature_contract_id + version |\n| Model | model_id + version |\n| Agent | agent_id + version |\n| Knowledge | knowledge_snapshot_id |\n| Tool | tool_id + version |\n| Policy | policy_id + version |\n| Release | release_uid |\n| Telemetry | execution_uid + release_uid |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0022",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "21. Deployment Strategies",
+      "section_path": "DOC-SPEC-018 > 21. Deployment Strategies",
+      "content": "For industrial ML, shadow and canary deployment are especially valuable because they allow the new model to be evaluated against live conditions before it becomes authoritative.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Strategy | Use | Failure blast radius |\n| --- | --- | --- |\n| Rolling | Routine stateless services | Medium |\n| Canary | New model/agent version | Low |\n| Blue-Green | High-confidence cutover | Low/medium |\n| Shadow | Evaluate without affecting users | Very low |\n| Edge Wave | Fleet deployment by site groups | Controlled |\n| Offline Bundle | Disconnected plant | Local |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0023",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "22. Pre-Flight Gates",
+      "section_path": "DOC-SPEC-018 > 22. Pre-Flight Gates",
+      "content": "Manifest integrity and schema validation.\n\nArtifact checksum/signature verification.\n\nModel runtime compatibility.\n\nFeature contract compatibility.\n\nAgent SPEC/runtime compatibility.\n\nTool permission validation.\n\nKnowledge snapshot availability.\n\nMQTT/REST/OPC UA connectivity checks.\n\nCPU/RAM/GPU/NPU capacity.\n\nDisk and local buffer capacity.\n\nCertificate validity.\n\nPolicy and tenant authorization.\n\nRollback artifact availability.\n\nMonitoring rules configured.\n\nHuman approval if required.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0024",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "23. Failure Modes Found in R&D",
+      "section_path": "DOC-SPEC-018 > 23. Failure Modes Found in R&D",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Failure | Impact | AI-ConneX response |\n| --- | --- | --- |\n| Cloud dependency at plant | Operations stop during WAN outage | Local edge execution + buffering |\n| Model/runtime mismatch | Inference failure | Compatibility manifest + pre-flight gate |\n| Feature recipe mismatch | Silent prediction degradation | Feature contract versioning |\n| Schema drift | Bad input | Schema monitor + gate |\n| MQTT disconnect | Telemetry gap | Local buffer + reconnect + sequence numbers |\n| Agent tool unavailable | Automation failure | Capability health + fallback/approval |\n| Stale RAG/KG | Wrong recommendations | Knowledge freshness telemetry |\n| Certificate expiry | Connectivity outage | Expiry monitoring + rotation |\n| Bad release | Plant impact | Canary/shadow + automatic rollback gates |\n| Resource exhaustion | Latency/crash | Resource quotas + admission checks |\n| Tenant leakage | Severe security issue | Tenant-scoped identity, policy and storage |\n| Observability failure | Blind operation | Local health + buffered telemetry |\n| Clock drift | Incorrect event order | Time synchronization + source timestamps |\n| Network partition | Partial system state | Explicit degraded mode |\n| Agent loop runaway | Cost/latency/action risk | Budget, timeout, step limits |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0025",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "24. How the Architecture Overcomes Them",
+      "section_path": "DOC-SPEC-018 > 24. How the Architecture Overcomes Them",
+      "content": "The architecture separates control plane from data plane. The control plane manages desired state, releases, policies and fleet identity. The data plane executes inference, agents and industrial connectivity locally or in the selected runtime. This allows edge operation without requiring continuous cloud connectivity.\n\nSecurity follows zero-trust principles: no implicit trust based on network location; identity and authorization are evaluated for users, devices and services. NIST SP 800-207 explicitly recommends protecting resources rather than trusting network location, while SP 800-207A describes application/service identity, API gateways and service-identity mechanisms for cloud-native multi-cloud systems. citeturn0search0turn0search1",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0026",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "25. Security Architecture",
+      "section_path": "DOC-SPEC-018 > 25. Security Architecture",
+      "content": "User / Device Identity        │   API Gateway / Edge Gateway        │ Authentication + Authorization        │ Service Identity / mTLS        │ Policy Enforcement Point        │ ┌──────▼──────────────────────────┐ │ Target Runtime                  │ │ Model • Agent • Tool • Data     │ └──────┬──────────────────────────┘        │ Continuous Telemetry + Audit        │ Policy / Detection / Response\n\nmTLS between trusted runtime services.\n\nShort-lived credentials where practical.\n\nTenant-scoped authorization.\n\nSeparate human identity from service identity.\n\nSigned artifacts.\n\nSBOM for deployable packages.\n\nSecrets outside images.\n\nLeast-privilege tool access.\n\nNetwork segmentation plus identity-based controls.\n\nAudit all release and action decisions.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0027",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "26. Multi-Tenancy",
+      "section_path": "DOC-SPEC-018 > 26. Multi-Tenancy",
+      "content": "A tenant ID must never be accepted solely from a client-supplied body field. It should be derived from authenticated identity and server-side authorization context.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Resource | Isolation rule |\n| --- | --- |\n| Artifact registry | Tenant namespace + authorization |\n| Model registry | Tenant-scoped model IDs |\n| Agent registry | Tenant/project scope |\n| Telemetry | Tenant/site/resource labels + query enforcement |\n| MQTT | Tenant/site ACLs |\n| REST | Tenant claims enforced at gateway/service |\n| Object storage | Tenant prefixes/buckets + encryption |\n| Knowledge base | Tenant-scoped indexes |\n| Knowledge graph | Tenant partition/subgraph |\n| Edge node | Assigned tenant/site identity |\n| Secrets | Tenant-scoped secret paths |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0028",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "27. Edge Offline / Disconnected Mode",
+      "section_path": "DOC-SPEC-018 > 27. Edge Offline / Disconnected Mode",
+      "content": "Pre-stage signed release bundles.\n\nCache model, feature recipe, agent package and required knowledge snapshot.\n\nContinue local inference according to policy.\n\nBuffer telemetry locally with bounded retention.\n\nQueue non-critical cloud actions.\n\nBlock actions that explicitly require central approval.\n\nOn reconnection, reconcile telemetry and deployment state.\n\nDetect conflicting desired state before applying updates.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0029",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "28. Monitor Alerts",
+      "section_path": "DOC-SPEC-018 > 28. Monitor Alerts",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Alert | Trigger | Default action |\n| --- | --- | --- |\n| Model Drift | Drift threshold exceeded | Notify + investigate |\n| Input Schema Drift | Schema mismatch | Block or quarantine |\n| Inference Latency | SLO breached | Scale/fallback |\n| Model Quality | Evaluation degradation | Canary rollback / review |\n| Agent Failure | Repeated tool/runtime failures | Fallback + alert |\n| MQTT Offline | Broker connection lost | Buffer + reconnect |\n| OPC UA Failure | Industrial gateway unavailable | Degraded state |\n| Certificate Expiry | Threshold window reached | Rotate/notify |\n| Resource Pressure | CPU/RAM/GPU threshold | Scale/throttle |\n| Knowledge Stale | Freshness SLA exceeded | Mark recommendations stale |\n| Security Denial Spike | Abnormal policy rejects | Security investigation |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0030",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "29. Monitor State Machine",
+      "section_path": "DOC-SPEC-018 > 29. Monitor State Machine",
+      "content": "PROVISIONED   ↓STARTING   ↓HEALTHY ──────────────┐   │                  │   │ degradation      │ recovery   ▼                  │DEGRADED ─────────────┘   │   │ failure   ▼FAILED   │   ├── rollback → HEALTHY   └── redeploy → STARTING",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0031",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "30. Deployment and Monitoring APIs — Example",
+      "section_path": "DOC-SPEC-018 > 30. Deployment and Monitoring APIs — Example",
+      "content": "POST /v1/deployments{  \"release_uid\": \"REL-2026-001\",  \"target_id\": \"EDGE-MH-01\",  \"strategy\": \"canary\",  \"traffic_percent\": 10}GET /v1/deployments/REL-2026-001/health{  \"state\": \"HEALTHY\",  \"latency_p95_ms\": 18,  \"error_rate\": 0.001,  \"model_drift\": 0.02,  \"agent_health\": \"READY\",  \"mqtt\": \"CONNECTED\",  \"opcua\": \"CONNECTED\"}",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0032",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "31. Directory Architecture",
+      "section_path": "DOC-SPEC-018 > 31. Directory Architecture",
+      "content": "deploy-monitor/├── control-plane/│   ├── release-manager/│   ├── deployment-controller/│   ├── target-registry/│   ├── policy-engine/│   ├── artifact-registry/│   └── audit/├── data-plane/│   ├── edge-runtime/│   ├── cloud-runtime/│   ├── model-server/│   ├── agent-runtime/│   └── protocol-gateway/│       ├── mqtt/│       ├── opcua/│       └── rest/├── monitoring/│   ├── collectors/│   ├── rules/│   ├── drift/│   ├── alerts/│   └── dashboards/├── contracts/│   ├── release/│   ├── deployment/│   ├── telemetry/│   └── health/├── infra/│   ├── docker/│   ├── helm/│   └── k8s/└── tests/    ├── edge/    ├── protocol/    ├── security/    ├── resilience/    └── deployment/",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0033",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "32. Recommended Tech Stack",
+      "section_path": "DOC-SPEC-018 > 32. Recommended Tech Stack",
+      "content": "Exact versions should be locked in a Software Bill of Materials and compatibility matrix before production. Version numbers above are architecture baselines rather than a claim that all components have been installed.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Layer | Baseline |\n| --- | --- |\n| Python | 3.12.x |\n| FastAPI | 0.1xx pinned release |\n| ONNX | Current project-pinned supported version |\n| ONNX Runtime | Current project-pinned supported version |\n| MQTT | MQTT 5.0 |\n| OPC UA | OPC UA specification / certified SDK as required |\n| OpenTelemetry | Current pinned stable SDK/collector |\n| PostgreSQL | 16.x or organization-approved |\n| Redis | 7.x or organization-approved |\n| Kafka/NATS | For high-volume event fabric where needed |\n| Docker | OCI-compatible current enterprise baseline |\n| Kubernetes | Current organization-supported release |\n| Prometheus | Current supported |\n| Grafana | Current supported |\n| Vault/KMS | Enterprise secret manager |\n| OPA | Policy-as-code baseline |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0034",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "33. Configuration",
+      "section_path": "DOC-SPEC-018 > 33. Configuration",
+      "content": "DEPLOYMENT_MODE=edge|cloud|hybridMODEL_RUNTIME=onnxruntimeMQTT_VERSION=5MQTT_TLS=trueMQTT_QOS_TELEMETRY=1MQTT_QOS_CRITICAL=2REST_TLS=trueOPCUA_ENABLED=trueOTEL_ENABLED=trueDRIFT_MONITORING=trueCANARY_PERCENT=10HEALTH_GATE_TIMEOUT_SEC=120ROLLBACK_ON_SLO_BREACH=trueEDGE_OFFLINE_MODE=trueLOCAL_TELEMETRY_BUFFER_HOURS=24MAX_AGENT_STEPS=20MAX_TOOL_TIMEOUT_SEC=30TENANT_ENFORCEMENT=strictARTIFACT_SIGNATURE_REQUIRED=true",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0035",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "34. Commands",
+      "section_path": "DOC-SPEC-018 > 34. Commands",
+      "content": "# Builddocker build -t ai-connex/deploy-controller:1.0.0 .# Testpytest tests/ -q# Validate Kubernetes manifestskubectl apply --dry-run=server -f infra/k8s/# Helmhelm upgrade --install ai-connex ./infra/helm/ai-connex   --namespace ai-connex --create-namespace# Inspect rolloutkubectl rollout status deployment/model-server -n ai-connex# Roll backkubectl rollout undo deployment/model-server -n ai-connex# MQTT smoke test (tool/client dependent)mosquitto_pub -h mqtt.internal -p 8883   --cafile ca.pem --cert client.pem --key client.key   -t ai-connex/TENANT/SITE/ASSET/telemetry/test   -m '{\"value\":1}'# REST healthcurl --fail --cert client.pem --key client.key   https://api.internal/v1/deployments/REL-001/health",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0036",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "35. POC — Industrial Compressor Health",
+      "section_path": "DOC-SPEC-018 > 35. POC — Industrial Compressor Health",
+      "content": "A practical POC should deploy one vibration/temperature model to an edge node, publish sensor telemetry over MQTT, optionally ingest industrial context through OPC UA, expose predictions through REST, run an Agentic monitoring workflow, and show the complete lineage on Deploy and Monitor pages.\n\nCompile/profiling stages create the manifest and feature contract.\n\nML Studio trains candidate models and exports the approved model to ONNX where supported.\n\nAgentic Studio creates an approved monitoring agent SPEC and runtime package.\n\nDeployment Control Plane creates a signed release.\n\nEdge target passes pre-flight checks.\n\nModel and agent are deployed in canary mode.\n\nMQTT carries sensor events.\n\nONNX Runtime performs local inference.\n\nREST exposes current prediction/status.\n\nMonitor Page displays latency, model drift, asset health and agent status.\n\nAn induced MQTT interruption tests buffering/recovery.\n\nAn induced model degradation tests alerting/rollback logic.\n\nJane explains the incident using evidence from telemetry and lineage.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0037",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "36. POC Success Criteria",
+      "section_path": "DOC-SPEC-018 > 36. POC Success Criteria",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Test | Target |\n| --- | --- |\n| Edge inference availability | ≥99% during test window |\n| p95 inference latency | Within model SLO |\n| MQTT recovery | Automatic reconnect + no silent loss |\n| Telemetry correlation | 100% of tested events traceable to release |\n| Rollback | Completed within defined RTO |\n| Tenant isolation | 100% negative authorization tests pass |\n| Signature validation | Unsigned/tampered artifact rejected |\n| Model drift alert | Detected within configured window |\n| Agent failure handling | No uncontrolled action |\n| Offline mode | Inference continues according to policy |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0038",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "37. Previous Stage — Chatbot/Jane Input",
+      "section_path": "DOC-SPEC-018 > 37. Previous Stage — Chatbot/Jane Input",
+      "content": "The previous chatbot stage supplies the deployment intent and approvals. Jane should produce a normalized deployment intent rather than directly executing deployment commands.\n\n{  \"intent_uid\": \"INT-...\",  \"goal\": \"deploy approved compressor-health model\",  \"release_ref\": \"REL-...\",  \"target\": \"EDGE-MH-01\",  \"mode\": \"hybrid\",  \"protocols\": [\"mqtt\",\"rest\",\"opcua\"],  \"approval_required\": true,  \"constraints\": {    \"latency_ms\": 50,    \"offline_operation\": true  }}",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0039",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "38. Output to Next Stage",
+      "section_path": "DOC-SPEC-018 > 38. Output to Next Stage",
+      "content": "Deployment produces a live Release/Runtime State that becomes the input to continuous monitoring. Monitor then feeds telemetry, incidents and evidence back into Jane and, where policy allows, into controlled retraining/redeployment workflows.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Output | Next consumer |\n| --- | --- |\n| release_uid | Monitor + audit |\n| runtime_state | Monitor Page |\n| endpoint metadata | User/application integration |\n| telemetry streams | Monitoring |\n| health status | Jane/UI |\n| drift events | ML governance |\n| agent incidents | Agentic Studio |\n| deployment evidence | Audit/compliance |\n| rollback state | Release manager |\n| retraining trigger | ML Studio via governed workflow |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0040",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "39. Closed-Loop Architecture",
+      "section_path": "DOC-SPEC-018 > 39. Closed-Loop Architecture",
+      "content": "DEPLOY  ↓SERVE  ↓OBSERVE  ↓DETECT  ↓EXPLAIN  ↓USER / POLICY DECISION  ↓RETRAIN / RECONFIGURE / ROLLBACK  ↓VALIDATE  ↓REDEPLOY\n\nThe loop is deliberately governed. Monitoring may recommend a change; it should not automatically retrain and redeploy a critical industrial model unless an explicit policy permits that action.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0041",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "40. Compliance Report #5 — Deploy & Monitor",
+      "section_path": "DOC-SPEC-018 > 40. Compliance Report #5 — Deploy & Monitor",
+      "content": "This is a design-stage compliance report, not a certification. Production compliance requires implementation evidence, penetration/security testing, operational validation, applicable industrial standards review and organization-specific regulatory/legal review.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Control | Implementation evidence | Status |\n| --- | --- | --- |\n| Artifact integrity | Checksum + signature verification | Planned |\n| Identity | Tenant/service/device identity | Planned |\n| Authorization | Policy engine + least privilege | Planned |\n| Transport security | TLS/mTLS for REST/MQTT/industrial gateway paths | Planned |\n| Auditability | Release and action audit events | Planned |\n| Model governance | Model card + evaluation + release version | Planned |\n| Agent governance | SPEC + policy + tool manifest | Planned |\n| Observability | OpenTelemetry traces/metrics/logs | Planned |\n| Resilience | Offline buffering + rollback | Planned |\n| Change management | Canary/blue-green + approval | Planned |\n| Data protection | Encryption + tenant isolation | Planned |\n| AI risk | Drift/quality monitoring + human escalation | Planned |\n| Supply chain | SBOM + signed packages | Planned |\n| Industrial protocol | OPC UA/MQTT controls | Planned |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0042",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "41. Standards and Research Basis",
+      "section_path": "DOC-SPEC-018 > 41. Standards and Research Basis",
+      "content": "NIST SP 800-207 defines zero-trust principles around protecting resources and avoiding implicit trust based on network location. citeturn0search0 NIST SP 800-207A extends this to cloud-native multi-cloud architectures using application/service identity, API gateways and related enforcement mechanisms. citeturn0search1\n\nThe NIST AI RMF 1.0 is a voluntary framework for managing AI risks; it is useful as a governance reference for AI-ConneX monitoring, evaluation and lifecycle controls. NIST notes that the framework is a living document and is being updated. citeturn0search11\n\nMQTT 5.0 is standardized by OASIS and explicitly targets lightweight publish/subscribe communication suitable for constrained M2M/IoT contexts. citeturn0search60\n\nONNX Runtime provides cross-platform inference and can run models across cloud, edge and mobile environments with hardware-specific acceleration. citeturn0search5turn0search9\n\nOPC UA provides an industrial communication and information-modeling foundation applicable to sensors, actuators, control systems, MES and ERP. citeturn0search6",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0043",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "42. Research/Reference Links",
+      "section_path": "DOC-SPEC-018 > 42. Research/Reference Links",
+      "content": "NIST SP 800-207 — Zero Trust Architecture: official NIST publication. urlNIST SP 800-207https://csrc.nist.gov/pubs/sp/800/207/final\n\nNIST SP 800-207A — Cloud-native/multi-cloud zero trust access control. urlNIST SP 800-207Ahttps://csrc.nist.gov/pubs/sp/800/207/a/final\n\nNIST AI RMF 1.0: official NIST AI risk-management resource. urlNIST AI RMFhttps://airc.nist.gov/airmf-resources/airmf/0-ai-rmf-1-0/\n\nOASIS MQTT Version 5.0 specification. urlOASIS MQTT 5.0https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html\n\nONNX Runtime documentation. urlONNX Runtimehttps://onnxruntime.ai/docs/\n\nOPC Foundation OPC UA Core specification. urlOPC UA Corehttps://profiles.opcfoundation.org/document/1",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-018-0044",
+      "document_id": "DOC-DOC-SPEC-018-V1",
+      "heading_level": 1,
+      "heading_text": "43. Final Architecture Recommendation",
+      "section_path": "DOC-SPEC-018 > 43. Final Architecture Recommendation",
+      "content": "AI-ConneX should implement Deploy and Monitor as two views over the same Release + Manifest + Telemetry graph rather than two independent applications.\n\nThis architecture joins the entire AI-ConneX pipeline: Jane → Brain → Data/ML/Agentic artifacts → Manifest → Release → Edge/Cloud runtime → industrial protocols → telemetry → monitoring → evidence → governed action. The industrialist sees a simple operational surface while the internal system retains deep technical control, lineage, observability and auditability.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Deploy Page answers | Monitor Page answers |\n| --- | --- |\n| What am I deploying? | What is running? |\n| Where will it run? | Where is it running? |\n| Which model/agent/version? | Which version is actually serving? |\n| What dependencies exist? | Which dependency is failing? |\n| Is it safe/allowed to release? | Is it healthy/trustworthy now? |\n| What is the rollout plan? | What happened during rollout? |\n| How do I rollback? | Should I rollback? |"
+      ]
+    }
+  ],
+  "extracted_slas": [
+    {
+      "sla_id": "SLA-DEFAULT-DOC-SPEC-018-01",
+      "component_name": "DeploymentManager",
+      "metric_name": "p95_latency_ms",
+      "target_value": 500.0,
+      "unit": "ms",
+      "comparison_op": "<=",
+      "workload_condition": "Standard interactive execution regime",
+      "severity_on_breach": "critical",
+      "source_spec_id": "DOC-SPEC-018"
+    }
+  ]
+}

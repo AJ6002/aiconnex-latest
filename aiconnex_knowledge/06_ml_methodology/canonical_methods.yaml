@@ -1,0 +1,404 @@
+canonical_methods:
+- method_id: ML-PROG-WEIBULL
+  name: Weibull Hazard & Degradation Model
+  problem_family: Prognostics
+  task_type: RUL estimation
+  lifecycle_phase: Modeling
+  required_data_structure:
+  - time_series_regular
+  - degradation_signal
+  minimum_sample_size: small_n_friendly
+  label_requirements: failure_timestamps
+  data_compatibility:
+    supports_multivariate: false
+    handles_irregular_sampling: false
+    handles_censored_data: true
+    supports_categorical: false
+    supports_missing_values: false
+  recommended_preprocessing:
+  - scaling
+  - detrending
+  - resampling
+  feature_engineering_patterns:
+  - health_indices
+  - monotonic_trend_extraction
+  model_family: parametric_survival
+  capacity_level: baseline
+  interpretability: high
+  primary_metrics:
+  - MAE_on_RUL
+  - C_index
+  - early_late_penalty
+  validation_patterns:
+  - time_series_split
+  - grouped_entity_split
+  canonical_baseline: linear_degradation
+  assumptions:
+  - monotonic_degradation
+  - known_shape_parameter
+  - independent_censoring
+  limitations:
+  - single_component_focus
+  - poor_on_abrupt_transient_failures
+  anti_patterns:
+  - do_not_use_without_visible_degradation_signal
+  resource_profile:
+    training_cost: low
+    inference_latency: instant
+    edge_feasible: 'yes'
+  source_documents:
+  - PLAT-DOC-ML-002
+  - PLAT-DOC-ML-006
+  authority: A
+  status: Approved
+- method_id: ML-PROG-LSTM-RUL
+  name: LSTM Deep Sequence RUL Estimator
+  problem_family: Prognostics
+  task_type: RUL estimation
+  lifecycle_phase: Modeling
+  required_data_structure:
+  - time_series_regular
+  - multivariate_sensor
+  minimum_sample_size: data_hungry
+  label_requirements: rul_labels
+  data_compatibility:
+    supports_multivariate: true
+    handles_irregular_sampling: false
+    handles_censored_data: false
+    supports_categorical: false
+    supports_missing_values: false
+  recommended_preprocessing:
+  - scaling
+  - rolling_window
+  - interpolation
+  feature_engineering_patterns:
+  - lag_features
+  - rolling_statistics
+  - fft_features
+  model_family: deep_sequence
+  capacity_level: high_capacity
+  interpretability: low
+  primary_metrics:
+  - MAE_on_RUL
+  - RMSE
+  - NASAv2_Score
+  validation_patterns:
+  - grouped_entity_split
+  - rolling_window_backtest
+  canonical_baseline: ML-PROG-WEIBULL
+  assumptions:
+  - consistent_sampling_rate
+  - representative_historical_cycles
+  limitations:
+  - requires_hundreds_of_run_to_failure_cycles
+  - black_box_predictions
+  anti_patterns:
+  - do_not_use_on_small_n_under_50_cycles
+  resource_profile:
+    training_cost: high
+    inference_latency: moderate
+    edge_feasible: 'no'
+  source_documents:
+  - PLAT-DOC-ML-004
+  - PLAT-DOC-ML-006
+  - PLAT-DOC-ML-008
+  authority: A
+  status: Approved
+- method_id: ML-ANOM-IFOREST
+  name: Isolation Forest Anomaly Detector
+  problem_family: Anomaly Detection
+  task_type: outlier detection
+  lifecycle_phase: Data Understanding
+  required_data_structure:
+  - tabular_unlabeled
+  - time_series_regular
+  minimum_sample_size: medium_n
+  label_requirements: unsupervised
+  data_compatibility:
+    supports_multivariate: true
+    handles_irregular_sampling: true
+    handles_censored_data: false
+    supports_categorical: false
+    supports_missing_values: false
+  recommended_preprocessing:
+  - scaling
+  - imputation
+  feature_engineering_patterns:
+  - rolling_mean
+  - rolling_std
+  - differencing
+  model_family: tree_based
+  capacity_level: medium
+  interpretability: high
+  primary_metrics:
+  - ROC_AUC
+  - Precision_at_K
+  - F1_Score
+  validation_patterns:
+  - stratified_kfold
+  - time_series_split
+  canonical_baseline: z_score_thresholding
+  assumptions:
+  - anomalies_are_few_and_different
+  limitations:
+  - struggles_with_high_dimensional_sparse_data
+  anti_patterns:
+  - do_not_use_as_primary_rul_predictor
+  resource_profile:
+    training_cost: low
+    inference_latency: fast
+    edge_feasible: 'yes'
+  source_documents:
+  - PLAT-DOC-ML-007
+  - PLAT-DOC-ML-009
+  authority: A
+  status: Approved
+- method_id: ML-FCST-SARIMAX
+  name: SARIMAX Seasonal Autoregressive Model
+  problem_family: Forecasting
+  task_type: multivariate forecasting
+  lifecycle_phase: Modeling
+  required_data_structure:
+  - time_series_regular
+  minimum_sample_size: medium_n
+  label_requirements: time_series_target
+  data_compatibility:
+    supports_multivariate: true
+    handles_irregular_sampling: false
+    handles_censored_data: false
+    supports_categorical: false
+    supports_missing_values: false
+  recommended_preprocessing:
+  - detrending
+  - differencing
+  - imputation
+  feature_engineering_patterns:
+  - exogenous_covariates
+  - seasonal_dummies
+  model_family: linear_statistical
+  capacity_level: baseline
+  interpretability: high
+  primary_metrics:
+  - MAPE
+  - RMSE
+  - MAE
+  validation_patterns:
+  - rolling_window_backtest
+  - time_series_split
+  canonical_baseline: naive_persistence
+  assumptions:
+  - stationarity_after_differencing
+  - linear_relationships
+  limitations:
+  - cannot_capture_complex_non_linear_dynamics
+  anti_patterns:
+  - do_not_use_on_unaligned_irregular_timestamps
+  resource_profile:
+    training_cost: low
+    inference_latency: fast
+    edge_feasible: 'yes'
+  source_documents:
+  - PLAT-DOC-ML-001
+  - PLAT-DOC-ML-009
+  authority: A
+  status: Approved
+- method_id: ML-CLASS-XGBOOST
+  name: XGBoost Gradient Boosted Trees
+  problem_family: Classification
+  task_type: binary classification
+  lifecycle_phase: Modeling
+  required_data_structure:
+  - tabular_labeled
+  minimum_sample_size: medium_n
+  label_requirements: binary_or_multiclass_labels
+  data_compatibility:
+    supports_multivariate: true
+    handles_irregular_sampling: true
+    handles_censored_data: false
+    supports_categorical: true
+    supports_missing_values: true
+  recommended_preprocessing:
+  - target_encoding
+  - imputation
+  feature_engineering_patterns:
+  - interaction_terms
+  - frequency_encoding
+  model_family: tree_based
+  capacity_level: high_capacity
+  interpretability: medium
+  primary_metrics:
+  - F1_Score
+  - ROC_AUC
+  - Log_Loss
+  - PR_AUC
+  validation_patterns:
+  - stratified_kfold
+  - grouped_entity_split
+  canonical_baseline: logistic_regression
+  assumptions:
+  - independent_sample_observations
+  limitations:
+  - risk_of_overfitting_without_early_stopping
+  anti_patterns:
+  - do_not_use_without_cross_validation_hyperparameter_tuning
+  resource_profile:
+    training_cost: moderate
+    inference_latency: fast
+    edge_feasible: 'yes'
+  source_documents:
+  - PLAT-DOC-ML-003
+  - PLAT-DOC-ML-007
+  - PLAT-DOC-ML-010
+  authority: A
+  status: Approved
+- method_id: ML-SURV-COX
+  name: Cox Proportional Hazards Survival Model
+  problem_family: Survival Analysis
+  task_type: time-to-event estimation
+  lifecycle_phase: Modeling
+  required_data_structure:
+  - tabular_labeled
+  - time_to_event
+  minimum_sample_size: small_n_friendly
+  label_requirements: censored_survival_data
+  data_compatibility:
+    supports_multivariate: true
+    handles_irregular_sampling: true
+    handles_censored_data: true
+    supports_categorical: true
+    supports_missing_values: false
+  recommended_preprocessing:
+  - scaling
+  - imputation
+  feature_engineering_patterns:
+  - interaction_covariates
+  - log_transform
+  model_family: parametric_survival
+  capacity_level: baseline
+  interpretability: high
+  primary_metrics:
+  - C_index
+  - Brier_score
+  - log_rank_p_value
+  validation_patterns:
+  - stratified_kfold
+  canonical_baseline: kaplan_meier_estimator
+  assumptions:
+  - proportional_hazards_over_time
+  - independent_censoring
+  limitations:
+  - assumes_constant_hazard_ratio
+  anti_patterns:
+  - do_not_use_when_hazard_ratios_cross_over_time
+  resource_profile:
+    training_cost: low
+    inference_latency: instant
+    edge_feasible: 'yes'
+  source_documents:
+  - PLAT-DOC-ML-002
+  - PLAT-DOC-ML-005
+  - PLAT-DOC-ML-008
+  authority: A
+  status: Approved
+- method_id: ML-REG-LGBM
+  name: LightGBM Gradient Boosted Regressor
+  problem_family: Regression
+  task_type: continuous value prediction
+  lifecycle_phase: Modeling
+  required_data_structure:
+  - tabular_labeled
+  minimum_sample_size: medium_n
+  label_requirements: continuous_target
+  data_compatibility:
+    supports_multivariate: true
+    handles_irregular_sampling: true
+    handles_censored_data: false
+    supports_categorical: true
+    supports_missing_values: true
+  recommended_preprocessing:
+  - target_encoding
+  - imputation
+  - log_transform
+  feature_engineering_patterns:
+  - interaction_terms
+  - polynomial_features
+  - frequency_encoding
+  model_family: tree_based
+  capacity_level: high_capacity
+  interpretability: medium
+  primary_metrics:
+  - RMSE
+  - MAE
+  - R2_Score
+  - MAPE
+  validation_patterns:
+  - kfold_cross_validation
+  - grouped_entity_split
+  canonical_baseline: linear_regression
+  assumptions:
+  - independent_sample_observations
+  limitations:
+  - risk_of_overfitting_without_early_stopping
+  - sensitive_to_noisy_targets
+  anti_patterns:
+  - do_not_use_without_cross_validation_hyperparameter_tuning
+  - do_not_use_on_tiny_datasets_under_100_rows
+  resource_profile:
+    training_cost: moderate
+    inference_latency: fast
+    edge_feasible: 'yes'
+  source_documents:
+  - PLAT-DOC-ML-003
+  - PLAT-DOC-ML-007
+  - PLAT-DOC-ML-010
+  authority: A
+  status: Approved
+- method_id: ML-REG-ELASTICNET
+  name: ElasticNet Regularized Linear Regression
+  problem_family: Regression
+  task_type: continuous value prediction
+  lifecycle_phase: Modeling
+  required_data_structure:
+  - tabular_labeled
+  minimum_sample_size: small_n_friendly
+  label_requirements: continuous_target
+  data_compatibility:
+    supports_multivariate: true
+    handles_irregular_sampling: true
+    handles_censored_data: false
+    supports_categorical: false
+    supports_missing_values: false
+  recommended_preprocessing:
+  - scaling
+  - imputation
+  - one_hot_encoding
+  feature_engineering_patterns:
+  - polynomial_features
+  - log_transform
+  model_family: linear_regularized
+  capacity_level: baseline
+  interpretability: high
+  primary_metrics:
+  - RMSE
+  - MAE
+  - R2_Score
+  validation_patterns:
+  - kfold_cross_validation
+  canonical_baseline: ordinary_least_squares
+  assumptions:
+  - linear_relationship_between_features_and_target
+  - no_severe_multicollinearity
+  limitations:
+  - cannot_capture_non_linear_dynamics
+  - requires_feature_scaling
+  anti_patterns:
+  - do_not_use_on_highly_non_linear_problems
+  resource_profile:
+    training_cost: low
+    inference_latency: instant
+    edge_feasible: 'yes'
+  source_documents:
+  - PLAT-DOC-ML-004
+  - PLAT-DOC-ML-007
+  authority: A
+  status: Approved

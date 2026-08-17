@@ -1,0 +1,16 @@
+# aiconnex_knowledge/03_deterministic/registries/upload_readiness_rules.yaml
+# ========================================================
+# Upload Readiness Rules Registry — Pre-Upload v1 Architecture
+#
+# Defines what "ready_for_upload = true" means, structurally separate from
+# the Required Fields Registry so the two concerns (what must be known vs.
+# when is that considered enough to proceed) can evolve independently.
+#
+# In v1 this simply mirrors "all required_fields.yaml entries satisfied",
+# but is expressed as its own registry so a future version could add
+# additional readiness conditions (e.g. no unresolved contradictions)
+# without touching required_fields.yaml.
+
+ready_if:
+  all_required_fields_satisfied: true
+  no_unresolved_contradictions: true

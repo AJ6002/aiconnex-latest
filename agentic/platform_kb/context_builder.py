@@ -18,6 +18,7 @@ from agentic.platform_kb.methodology_service import MethodologyService
 from agentic.platform_kb.equipment_service import EquipmentService
 from agentic.platform_kb.standards_service import StandardsService
 from agentic.platform_kb.tenant_service import TenantService
+from agentic.platform_kb.documentation_service import DocumentationService
 
 logger = logging.getLogger(__name__)
 
@@ -37,6 +38,7 @@ class ContextBuilder:
         equipment_service: Optional[EquipmentService] = None,
         standards_service: Optional[StandardsService] = None,
         tenant_service: Optional[TenantService] = None,
+        documentation_service: Optional[DocumentationService] = None,
     ):
         self.retrieval_service = retrieval_service or RetrievalService()
         self.terminology_service = terminology_service or TerminologyService()
@@ -44,6 +46,7 @@ class ContextBuilder:
         self.equipment_service = equipment_service or EquipmentService()
         self.standards_service = standards_service or StandardsService()
         self.tenant_service = tenant_service or TenantService()
+        self.documentation_service = documentation_service or DocumentationService()
 
     def get_tenant_context(
         self,
@@ -155,6 +158,72 @@ class ContextBuilder:
             }
 
         return {"found": False, "message": "No query parameters provided for standards lookup."}
+
+    def get_documentation_context(
+        self,
+        spec_id: Optional[str] = None,
+        component_name: Optional[str] = None,
+        studio: Optional[str] = None,
+        category: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        """
+        Returns authoritative product specifications, SLAs, error contracts, and state machines.
+        """
+        if spec_id:
+            spec = self.documentation_service.get_spec(spec_id)
+            if not spec:
+                return {"spec_id": spec_id, "found": False}
+            return {
+                "found": True,
+                "spec": spec.model_dump(),
+                "governing_slas": [s.model_dump() for s in spec.governing_slas],
+                "state_transitions": [t.model_dump() for t in spec.state_transitions],
+                "error_contracts": spec.error_contracts,
+                "acceptance_criteria": spec.acceptance_criteria,
+            }
+
+        if component_name:
+            specs = self.documentation_service.get_specs_for_component(component_name)
+            slas = self.documentation_service.get_performance_slas(component_name)
+            return {
+                "found": len(specs) > 0,
+                "component_name": component_name,
+                "specs_count": len(specs),
+                "specs": [s.model_dump() for s in specs],
+                "slas": [s.model_dump() for s in slas],
+            }
+
+        if studio:
+            specs = self.documentation_service.get_specs_by_studio(studio)
+            return {
+                "found": len(specs) > 0,
+                "studio": studio,
+                "specs_count": len(specs),
+                "specs": [s.model_dump() for s in specs],
+            }
+
+        if category:
+            specs = self.documentation_service.get_specs_by_category(category)
+            return {
+                "found": len(specs) > 0,
+                "category": category,
+                "specs_count": len(specs),
+                "specs": [s.model_dump() for s in specs],
+            }
+
+        return {"found": False, "message": "No query parameters provided for documentation lookup."}
+
+    def audit_plan_compliance(
+        self,
+        component_name: str,
+        reported_metrics: Dict[str, Any],
+    ) -> Dict[str, Any]:
+        """
+        Audits a proposed architecture plan or runtime benchmark metrics against
+        the official specification SLAs. Used by Judge Agent for automated compliance gating.
+        """
+        report = self.documentation_service.verify_compliance(component_name, reported_metrics)
+        return report.model_dump()
 
     def get_equipment_context(
         self,

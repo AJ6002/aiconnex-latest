@@ -1,0 +1,1128 @@
+version: '1.0'
+domain: standards_regulatory
+canonical_standards:
+- standard_id: STD-ISO-55000
+  designation: ISO 55000:2024
+  title: Asset Management — Overview, Principles and Terminology
+  issuing_body: ISO
+  standard_type: international_standard
+  version: '2024'
+  publication_date: '2024-07-01'
+  scope: Provides an overview of asset management, its principles, concepts, and terminology
+    across physical, digital, and financial assets.
+  applicability:
+  - plant_governance
+  - asset_lifecycle
+  - reliability_management
+  - maintenance_strategy
+  - digital_twins
+  jurisdiction: international
+  key_concepts:
+  - asset_management_system
+  - strategic_asset_management_plan
+  - asset_life_cycle
+  - value_realization
+  - asset_risk_management
+  supersedes: STD-ISO-55000-2014
+  superseded_by: null
+  related_source_ids:
+  - SRC-IND-STD-005
+  document_available: true
+  authority: A
+  status: Approved
+- standard_id: STD-ISO-55001
+  designation: ISO 55001:2024
+  title: Asset Management — Management Systems — Requirements
+  issuing_body: ISO
+  standard_type: international_standard
+  version: '2024'
+  publication_date: '2024-07-01'
+  scope: Specifies requirements for establishing, implementing, maintaining, and improving
+    an asset management system (AMS).
+  applicability:
+  - plant_governance
+  - asset_operations
+  - compliance_audit
+  - capital_planning
+  jurisdiction: international
+  key_concepts:
+  - AMS_requirements
+  - asset_policy
+  - operational_planning
+  - performance_evaluation
+  - continuous_improvement
+  supersedes: STD-ISO-55001-2014
+  superseded_by: null
+  related_source_ids:
+  - SRC-IND-STD-005
+  document_available: false
+  authority: A
+  status: Approved
+- standard_id: STD-ISO-14224
+  designation: ISO 14224:2016
+  title: Petroleum, Petrochemical and Natural Gas Industries — Collection and Exchange
+    of Reliability and Maintenance Data for Equipment
+  issuing_body: ISO
+  standard_type: international_standard
+  version: '2016'
+  publication_date: '2016-08-01'
+  scope: Defines a comprehensive data taxonomy, boundary definitions, failure mechanism
+    codes, and exchange formats for equipment reliability and maintenance data.
+  applicability:
+  - rotating_equipment
+  - static_equipment
+  - instrumentation
+  - safety_systems
+  - CMMS
+  - FMEA
+  jurisdiction: international
+  key_concepts:
+  - failure_mode_taxonomy
+  - boundary_definitions
+  - operating_hours
+  - MTBF_MTTR
+  - failure_mechanism_codes
+  - maintenance_record_structure
+  supersedes: STD-ISO-14224-2006
+  superseded_by: null
+  related_source_ids:
+  - SRC-IND-STD-004
+  document_available: true
+  authority: A
+  status: Approved
+- standard_id: STD-ISO-14224-2006
+  designation: ISO 14224:2006
+  title: Petroleum, Petrochemical and Natural Gas Industries — Collection and Exchange
+    of Reliability and Maintenance Data for Equipment (Edition 2)
+  issuing_body: ISO
+  standard_type: international_standard
+  version: '2006'
+  publication_date: '2006-12-01'
+  scope: Second edition defining reliability data collection practices, superseded
+    by the 2016 third edition.
+  applicability:
+  - historical_reliability_data
+  - legacy_cmms
+  jurisdiction: international
+  key_concepts:
+  - legacy_failure_codes
+  - reliability_database_schema
+  supersedes: null
+  superseded_by: STD-ISO-14224
+  related_source_ids:
+  - SRC-IND-STD-004
+  document_available: false
+  authority: A
+  status: Archived
+- standard_id: STD-ISO-13379-1
+  designation: ISO 13379-1:2012
+  title: 'Condition Monitoring and Diagnostics of Machines — Data Interpretation and
+    Diagnostics Techniques — Part 1: General Guidelines'
+  issuing_body: ISO
+  standard_type: international_standard
+  version: '2012'
+  publication_date: '2012-04-15'
+  scope: Provides general procedures and decision-logic guidelines for data interpretation
+    and diagnostic techniques to identify machine faults from condition monitoring
+    data.
+  applicability:
+  - condition_monitoring
+  - vibration_diagnostics
+  - acoustic_monitoring
+  - thermal_imaging
+  - fault_isolation
+  jurisdiction: international
+  key_concepts:
+  - diagnostic_process_model
+  - fault_manifestation
+  - symptom_matrix
+  - confidence_level
+  - confidence_metric
+  supersedes: null
+  superseded_by: null
+  related_source_ids:
+  - SRC-IND-STD-002
+  document_available: true
+  authority: A
+  status: Approved
+- standard_id: STD-ISO-13381-1
+  designation: ISO 13381-1:2015
+  title: 'Condition Monitoring and Diagnostics of Machines — Prognostics — Part 1:
+    General Guidelines'
+  issuing_body: ISO
+  standard_type: international_standard
+  version: '2015'
+  publication_date: '2015-11-01'
+  scope: Establishes a framework and mathematical/probabilistic guidelines for predicting
+    remaining useful life (RUL), time-to-failure (TTF), and future asset health states.
+  applicability:
+  - prognostics
+  - RUL_estimation
+  - health_index
+  - predictive_maintenance
+  - degradation_modeling
+  jurisdiction: international
+  key_concepts:
+  - remaining_useful_life
+  - confidence_interval
+  - degradation_trajectory
+  - health_index
+  - prognostic_horizon
+  - time_to_failure
+  supersedes: STD-ISO-13381-1-2004
+  superseded_by: null
+  related_source_ids:
+  - SRC-IND-STD-003
+  document_available: true
+  authority: A
+  status: Approved
+- standard_id: STD-ISO-17359
+  designation: ISO 17359:2018
+  title: Condition Monitoring and Diagnostics of Machines — General Guidelines
+  issuing_body: ISO
+  standard_type: international_standard
+  version: '2018'
+  publication_date: '2018-01-15'
+  scope: Outlines the generic process for setting up a condition monitoring program
+    for all types of industrial machines.
+  applicability:
+  - condition_monitoring
+  - criticality_assessment
+  - sensor_selection
+  - monitoring_interval
+  jurisdiction: international
+  key_concepts:
+  - monitoring_strategy
+  - failure_symptom_correlation
+  - criticality_ranking
+  - baseline_profiling
+  supersedes: STD-ISO-17359-2011
+  superseded_by: null
+  related_source_ids:
+  - SRC-IND-STD-002
+  document_available: false
+  authority: A
+  status: Approved
+- standard_id: STD-IEC-60812
+  designation: IEC 60812:2018
+  title: Failure Modes and Effects Analysis (FMEA and FMECA)
+  issuing_body: IEC
+  standard_type: international_standard
+  version: '2018'
+  publication_date: '2018-08-10'
+  scope: Explains how failure modes and effects analysis (FMEA) and failure modes,
+    effects and criticality analysis (FMECA) are planned, performed, and documented.
+  applicability:
+  - reliability_engineering
+  - risk_assessment
+  - preventive_maintenance
+  - safety_analysis
+  - system_design
+  jurisdiction: international
+  key_concepts:
+  - failure_cause
+  - failure_effect
+  - criticality_number
+  - risk_priority_number
+  - detectability
+  - severity
+  - occurrence
+  supersedes: STD-IEC-60812-2006
+  superseded_by: null
+  related_source_ids:
+  - SRC-IND-STD-001
+  document_available: true
+  authority: A
+  status: Approved
+- standard_id: STD-IEC-61508
+  designation: IEC 61508:2010
+  title: Functional Safety of Electrical/Electronic/Programmable Electronic Safety-Related
+    Systems
+  issuing_body: IEC
+  standard_type: international_standard
+  version: '2010'
+  publication_date: '2010-04-30'
+  scope: Foundational functional safety standard defining safety integrity levels
+    (SIL 1-4), safety lifecycle, and hardware/software probabilistic failure requirements.
+  applicability:
+  - safety_instrumented_systems
+  - process_safety
+  - SIS
+  - SIL_verification
+  - critical_shutdown
+  jurisdiction: international
+  key_concepts:
+  - safety_integrity_level_SIL
+  - probability_of_failure_on_demand_PFD
+  - safe_failure_fraction
+  - hazard_and_risk_analysis
+  supersedes: null
+  superseded_by: null
+  related_source_ids:
+  - SRC-IND-STD-001
+  document_available: false
+  authority: A
+  status: Approved
+- standard_id: STD-ISO-IEC-21838-2
+  designation: ISO/IEC 21838-2:2021
+  title: 'Information Technology — Top-Level Ontologies (TLO) — Part 2: Basic Formal
+    Ontology (BFO)'
+  issuing_body: ISO/IEC
+  standard_type: international_standard
+  version: '2021'
+  publication_date: '2021-09-01'
+  scope: Specifies Basic Formal Ontology (BFO 2020) as an international standard top-level
+    ontology for semantic interoperability and multi-domain data harmonization.
+  applicability:
+  - ontology_foundry
+  - data_harmonization
+  - semantic_graphs
+  - digital_twins
+  - knowledge_graphs
+  jurisdiction: international
+  key_concepts:
+  - continuant
+  - occurrent
+  - material_entity
+  - process
+  - quality
+  - disposition
+  - spatial_region
+  - temporal_region
+  supersedes: null
+  superseded_by: null
+  related_source_ids:
+  - SRC-IND-ONT-001
+  document_available: true
+  authority: A
+  status: Approved
+- standard_id: STD-IOF-CORE
+  designation: IOF Core 2023
+  title: Industrial Ontologies Foundry (IOF) Core & Maintenance Reference Ontology
+  issuing_body: IOF
+  standard_type: industry_standard
+  version: '2023'
+  publication_date: '2023-05-15'
+  scope: Provides domain-level ontologies for manufacturing, asset management, and
+    maintenance aligned to BFO top-level concepts.
+  applicability:
+  - manufacturing_systems
+  - maintenance_management
+  - asset_lifecycle
+  - equipment_taxonomy
+  jurisdiction: international
+  key_concepts:
+  - iof_Asset
+  - iof_PieceOfEquipment
+  - iof_Component
+  - iof_MaintenanceProcess
+  - iof_FailureEvent
+  - iof_HealthStateIndicator
+  supersedes: null
+  superseded_by: null
+  related_source_ids:
+  - SRC-IND-ONT-004
+  - SRC-IND-PAPER-001
+  document_available: true
+  authority: A
+  status: Approved
+- standard_id: STD-ROMAIN
+  designation: ROMAIN Maintenance Ontology
+  title: 'ROMAIN: A Root-Cause and Maintenance Activity Industrial Ontology'
+  issuing_body: ROMAIN Consortium
+  standard_type: technical_report
+  version: '1.0'
+  publication_date: '2020-03-01'
+  scope: Provides formal ontological models for maintenance activities, events, failure
+    root-causes, and execution work orders.
+  applicability:
+  - maintenance_work_orders
+  - root_cause_analysis
+  - maintenance_history
+  - CMMS_integration
+  jurisdiction: international
+  key_concepts:
+  - romain_MaintenanceEvent
+  - romain_MaintenanceTask
+  - romain_CorrectiveAction
+  - romain_PreventiveAction
+  supersedes: null
+  superseded_by: null
+  related_source_ids:
+  - SRC-IND-ONT-005
+  document_available: true
+  authority: A
+  status: Approved
+- standard_id: STD-NISTIR-8012
+  designation: NISTIR 8012
+  title: Standards for Prognostics and Health Management in Manufacturing Applications
+  issuing_body: NIST
+  standard_type: government_standard
+  version: '1.0'
+  publication_date: '2014-09-01'
+  scope: Identifies existing standards, technical gaps, and research priorities for
+    implementing PHM technologies across smart manufacturing systems.
+  applicability:
+  - smart_manufacturing
+  - PHM_deployment
+  - data_exchange
+  - testbed_validation
+  jurisdiction: US-federal
+  key_concepts:
+  - PHM_framework
+  - testbed_standards
+  - sensor_integration
+  - verification_and_validation
+  supersedes: null
+  superseded_by: null
+  related_source_ids:
+  - SRC-IND-NIST-001
+  document_available: true
+  authority: A
+  status: Approved
+- standard_id: STD-NIST-AMS-100-2
+  designation: NIST AMS 100-2
+  title: Measurement Science Roadmap for Prognostics and Health Management in Smart
+    Manufacturing Systems
+  issuing_body: NIST
+  standard_type: government_standard
+  version: '1.0'
+  publication_date: '2016-04-01'
+  scope: Outlines measurement challenges, roadmap targets, and performance verification
+    standards for condition-based maintenance and predictive analytics.
+  applicability:
+  - predictive_maintenance
+  - measurement_science
+  - sensor_calibration
+  - benchmark_datasets
+  jurisdiction: US-federal
+  key_concepts:
+  - measurement_uncertainty
+  - algorithm_benchmarking
+  - ground_truth_datasets
+  - PHM_maturity_model
+  supersedes: null
+  superseded_by: null
+  related_source_ids:
+  - SRC-IND-NIST-002
+  document_available: true
+  authority: A
+  status: Approved
+- standard_id: STD-NIST-SP-800-82
+  designation: NIST SP 800-82 Rev. 3
+  title: Guide to Operational Technology (OT) Security
+  issuing_body: NIST
+  standard_type: government_standard
+  version: Rev. 3
+  publication_date: '2023-09-26'
+  scope: Provides security guidance for Operational Technology (OT) and Industrial
+    Control Systems (ICS) including SCADA, DCS, and PLC architectures.
+  applicability:
+  - SCADA
+  - DCS
+  - PLC
+  - OT_security
+  - industrial_automation
+  - network_segmentation
+  jurisdiction: US-federal
+  key_concepts:
+  - OT_security_architecture
+  - Purdue_model
+  - defense_in_depth
+  - air_gap_boundary
+  - SCADA_telemetry_protection
+  supersedes: STD-NIST-SP-800-82-R2
+  superseded_by: null
+  related_source_ids:
+  - SRC-IND-NIST-004
+  document_available: true
+  authority: A
+  status: Approved
+- standard_id: STD-NIST-AI-100-1
+  designation: NIST AI 100-1
+  title: Artificial Intelligence Risk Management Framework (AI RMF 1.0)
+  issuing_body: NIST
+  standard_type: government_standard
+  version: '1.0'
+  publication_date: '2023-01-26'
+  scope: Provides a framework for managing risks associated with AI systems to ensure
+    trustworthiness, robustness, explainability, and safety in production deployment.
+  applicability:
+  - industrial_AI
+  - model_governance
+  - drift_detection
+  - explainability
+  - AI_safety
+  jurisdiction: US-federal
+  key_concepts:
+  - GOVERN_MAP_MEASURE_MANAGE
+  - trustworthy_AI
+  - model_drift
+  - uncertainty_quantification
+  - bias_mitigation
+  supersedes: null
+  superseded_by: null
+  related_source_ids:
+  - PLAT-DOC-ML-007
+  document_available: true
+  authority: A
+  status: Approved
+- standard_id: STD-CRISP-DM
+  designation: CRISP-DM 1.0
+  title: Cross-Industry Standard Process for Data Mining 1.0
+  issuing_body: CRISP-DM Consortium
+  standard_type: methodology_framework
+  version: '1.0'
+  publication_date: '2000-08-01'
+  scope: Defines the 6-phase standard lifecycle for data science and data mining projects
+    (Business Understanding through Deployment).
+  applicability:
+  - data_science_lifecycle
+  - MLOps
+  - exploratory_analysis
+  - model_validation
+  jurisdiction: international
+  key_concepts:
+  - Business_Understanding
+  - Data_Understanding
+  - Data_Preparation
+  - Modeling
+  - Evaluation
+  - Deployment
+  supersedes: null
+  superseded_by: STD-CRISP-MLQ
+  related_source_ids:
+  - PLAT-DOC-ML-001
+  document_available: true
+  authority: A
+  status: Approved
+- standard_id: STD-CRISP-MLQ
+  designation: CRISP-ML(Q)
+  title: The Machine Learning Lifecycle Process Model with Quality Assurance
+  issuing_body: CRISP-ML Working Group
+  standard_type: methodology_framework
+  version: '1.0'
+  publication_date: '2021-03-15'
+  scope: Extends CRISP-DM specifically for machine learning applications with explicit
+    quality assurance, monitoring, data drift, and degradation checkpoints.
+  applicability:
+  - ML_engineering
+  - industrial_analytics
+  - model_monitoring
+  - pipeline_testing
+  jurisdiction: international
+  key_concepts:
+  - quality_assurance_gates
+  - data_drift_monitoring
+  - concept_drift
+  - reproducibility
+  - silent_failure_detection
+  supersedes: STD-CRISP-DM
+  superseded_by: null
+  related_source_ids:
+  - PLAT-DOC-ML-003
+  document_available: true
+  authority: A
+  status: Approved
+- standard_id: STD-IEEE-TKDE-DS
+  designation: IEEE TKDE Data Science Trajectories
+  title: 'IEEE Transactions on Knowledge and Data Engineering: Analytical Trajectories
+    and Validation Frameworks'
+  issuing_body: IEEE
+  standard_type: technical_report
+  version: '2022'
+  publication_date: '2022-06-01'
+  scope: Provides rigorous mathematical and methodological standards for survival
+    analysis, hazard function modeling, and time-series validation in high-dimensional
+    engineering datasets.
+  applicability:
+  - survival_analysis
+  - hazard_modeling
+  - time_series_validation
+  - high_dimensional_analytics
+  jurisdiction: international
+  key_concepts:
+  - proportional_hazards_assumption
+  - censored_data_handling
+  - concordance_index
+  - time_dependent_covariates
+  supersedes: null
+  superseded_by: null
+  related_source_ids:
+  - PLAT-DOC-ML-005
+  document_available: true
+  authority: A
+  status: Approved
+- standard_id: STD-ISO-2858
+  designation: ISO 2858:1975
+  title: End-suction Centrifugal Pumps (Rating 16 bar) — Designation, Nominal Duty
+    Point and Dimensions
+  issuing_body: ISO
+  standard_type: international_standard
+  version: '1975'
+  publication_date: '1975-04-01'
+  scope: Defines nominal dimensions, shaft diameters, suction/discharge flanges, and
+    rating points for chemical and industrial end-suction centrifugal pumps.
+  applicability:
+  - centrifugal_pumps
+  - chemical_pumps
+  - water_pumps
+  jurisdiction: international
+  key_concepts:
+  - end_suction_geometry
+  - nominal_duty_point
+  - flange_ratings
+  - dimensional_interchangeability
+  supersedes: null
+  superseded_by: null
+  related_source_ids:
+  - PLAT-DOC-EQP-004
+  document_available: false
+  authority: A
+  status: Approved
+- standard_id: STD-ISO-5199
+  designation: ISO 5199:2002
+  title: Technical Specifications for Centrifugal Pumps — Class II
+  issuing_body: ISO
+  standard_type: international_standard
+  version: '2002'
+  publication_date: '2002-12-15'
+  scope: Specifies mechanical and hydraulic design requirements for Class II centrifugal
+    pumps used across chemical, refining, and general process industries.
+  applicability:
+  - centrifugal_pumps
+  - process_pumps
+  - mechanical_seals
+  - bearing_housings
+  jurisdiction: international
+  key_concepts:
+  - class_II_pump_design
+  - bearing_life_L10h
+  - casing_pressure_limits
+  - vibration_limits_ISO_10816
+  supersedes: null
+  superseded_by: null
+  related_source_ids:
+  - PLAT-DOC-EQP-004
+  document_available: false
+  authority: A
+  status: Approved
+- standard_id: STD-API-610
+  designation: API 610 12th Ed
+  title: Centrifugal Pumps for Petroleum, Petrochemical and Natural Gas Industries
+  issuing_body: API
+  standard_type: industry_standard
+  version: 12th Ed
+  publication_date: '2021-01-01'
+  scope: Primary standard for heavy-duty process centrifugal pumps in refinery and
+    petrochemical service (OH, BB, VS pump configurations).
+  applicability:
+  - refinery_pumps
+  - hydrocarbon_service
+  - heavy_duty_rotating_equipment
+  jurisdiction: international
+  key_concepts:
+  - pump_configurations_OH_BB_VS
+  - API_mechanical_seal_flush_plans
+  - minimum_continuous_stable_flow_MCSF
+  - NPSHa_margin
+  supersedes: STD-API-610-11TH
+  superseded_by: null
+  related_source_ids:
+  - PLAT-DOC-EQP-004
+  document_available: false
+  authority: A
+  status: Approved
+- standard_id: STD-ISO-5390
+  designation: ISO 5390:1977
+  title: Compressors — Classification and Definitions
+  issuing_body: ISO
+  standard_type: international_standard
+  version: '1977'
+  publication_date: '1977-12-01'
+  scope: Establishes classification hierarchy and standardized definitions for positive-displacement
+    and dynamic (turbo) gas compressors.
+  applicability:
+  - centrifugal_compressors
+  - rotary_screw_compressors
+  - reciprocating_compressors
+  - axial_compressors
+  jurisdiction: international
+  key_concepts:
+  - positive_displacement_vs_dynamic
+  - compression_ratio
+  - volumetric_efficiency
+  - surge_limit
+  - isentropic_efficiency
+  supersedes: null
+  superseded_by: null
+  related_source_ids:
+  - PLAT-DOC-EQP-001
+  document_available: true
+  authority: A
+  status: Approved
+- standard_id: STD-API-617
+  designation: API 617 8th Ed
+  title: Axial and Centrifugal Compressors and Expander-compressors for Petroleum,
+    Chemical and Gas Industry Services
+  issuing_body: API
+  standard_type: industry_standard
+  version: 8th Ed
+  publication_date: '2014-09-01'
+  scope: Covers minimum requirements for axial compressors, single-shaft and integrally
+    geared centrifugal compressors, and expander-compressors.
+  applicability:
+  - centrifugal_compressors
+  - gas_turbines
+  - refinery_compression
+  - dry_gas_seals
+  jurisdiction: international
+  key_concepts:
+  - anti_surge_control
+  - dry_gas_seal_system
+  - lateral_and_torsional_rotordynamics
+  - impeller_stress_limits
+  supersedes: null
+  superseded_by: null
+  related_source_ids:
+  - PLAT-DOC-EQP-001
+  document_available: false
+  authority: A
+  status: Approved
+- standard_id: STD-IEC-60034-1
+  designation: IEC 60034-1:2022
+  title: 'Rotating Electrical Machines — Part 1: Rating and Performance'
+  issuing_body: IEC
+  standard_type: international_standard
+  version: '2022'
+  publication_date: '2022-02-15'
+  scope: Applies to all rotating electrical machines (motors and generators), defining
+    duty types (S1-S10), insulation thermal classes (B, F, H), and temperature rise
+    limits.
+  applicability:
+  - induction_motors
+  - synchronous_motors
+  - generators
+  - drives
+  jurisdiction: international
+  key_concepts:
+  - duty_types_S1_S10
+  - insulation_class_F_H
+  - temperature_rise_limits
+  - efficiency_classes_IE1_IE4
+  - nameplate_ratings
+  supersedes: STD-IEC-60034-1-2017
+  superseded_by: null
+  related_source_ids:
+  - PLAT-DOC-EQP-002
+  document_available: false
+  authority: A
+  status: Approved
+- standard_id: STD-IEC-60034-7
+  designation: IEC 60034-7:2001
+  title: 'Rotating Electrical Machines — Part 7: Classification of Types of Construction,
+    Mounting Arrangements and Terminal Box Position (IM Code)'
+  issuing_body: IEC
+  standard_type: international_standard
+  version: '2001'
+  publication_date: '2001-03-01'
+  scope: Specifies the IM Code for designating mounting arrangements and structural
+    orientations of rotating electrical machines.
+  applicability:
+  - electric_motors
+  - mounting_configurations
+  - gearbox_couplings
+  jurisdiction: international
+  key_concepts:
+  - IM_Code_designation
+  - foot_mounting_IM_B3
+  - flange_mounting_IM_B5
+  - vertical_mounting_IM_V1
+  supersedes: null
+  superseded_by: null
+  related_source_ids:
+  - PLAT-DOC-EQP-002
+  document_available: true
+  authority: A
+  status: Approved
+- standard_id: STD-ISO-16812
+  designation: ISO 16812:2019
+  title: Petroleum, Petrochemical and Natural Gas Industries — Shell-and-Tube Heat
+    Exchangers
+  issuing_body: ISO
+  standard_type: international_standard
+  version: '2019'
+  publication_date: '2019-03-01'
+  scope: Specifies design, materials, fabrication, inspection, testing and preparation
+    for shipment of shell-and-tube heat exchangers in petrochemical service.
+  applicability:
+  - heat_exchangers
+  - shell_and_tube
+  - process_thermal_units
+  - fouling_monitoring
+  jurisdiction: international
+  key_concepts:
+  - fixed_tubesheet_vs_floating_head
+  - baffle_cut_and_spacing
+  - vibration_induced_tube_wear
+  - fouling_resistance_allowance
+  supersedes: STD-ISO-16812-2007
+  superseded_by: null
+  related_source_ids:
+  - PLAT-DOC-EQP-003
+  document_available: true
+  authority: A
+  status: Approved
+- standard_id: STD-TEMA-10TH
+  designation: TEMA 10th Ed
+  title: Standards of the Tubular Exchanger Manufacturers Association (TEMA 10th Edition)
+  issuing_body: TEMA
+  standard_type: industry_standard
+  version: 10th Ed
+  publication_date: '2019-01-01'
+  scope: Defines exchanger classification classes (R for refinery, C for commercial,
+    B for chemical) and standard mechanical construction nomenclature (e.g. BEM, AES).
+  applicability:
+  - shell_and_tube_exchangers
+  - thermal_design
+  - corrosion_allowances
+  jurisdiction: international
+  key_concepts:
+  - TEMA_classes_R_C_B
+  - exchanger_type_codes_AES_BEM_AET
+  - tubesheet_joint_standards
+  - corrosion_margins
+  supersedes: null
+  superseded_by: null
+  related_source_ids:
+  - PLAT-DOC-EQP-003
+  document_available: false
+  authority: A
+  status: Approved
+- standard_id: STD-ISO-6002
+  designation: ISO 6002:2021
+  title: Bolted Bonnet Wedge Gate Valves for Petroleum, Petrochemical and Allied Industries
+  issuing_body: ISO
+  standard_type: international_standard
+  version: '2021'
+  publication_date: '2021-05-01'
+  scope: Specifies dimensions, ratings, and testing requirements for bolted bonnet
+    steel wedge gate valves.
+  applicability:
+  - gate_valves
+  - isolation_valves
+  - piping_systems
+  jurisdiction: international
+  key_concepts:
+  - wedge_gate_geometry
+  - bolted_bonnet_joint
+  - seat_leakage_rates
+  - packing_box_design
+  supersedes: null
+  superseded_by: null
+  related_source_ids:
+  - PLAT-DOC-EQP-005
+  document_available: false
+  authority: A
+  status: Approved
+- standard_id: STD-API-600
+  designation: API 600 13th Ed
+  title: Steel Gate Valves — Flanged and Butt-welding Ends, Bolted Bonnets
+  issuing_body: API
+  standard_type: industry_standard
+  version: 13th Ed
+  publication_date: '2015-01-01'
+  scope: Industry benchmark specification for heavy-duty steel gate valves in petroleum
+    refinery service.
+  applicability:
+  - gate_valves
+  - refinery_piping
+  - fugitive_emissions
+  jurisdiction: international
+  key_concepts:
+  - API_trim_numbers
+  - fugitive_emissions_packing
+  - stem_diameter_minimums
+  supersedes: null
+  superseded_by: null
+  related_source_ids:
+  - PLAT-DOC-EQP-005
+  document_available: false
+  authority: A
+  status: Approved
+- standard_id: STD-API-650
+  designation: API 650 13th Ed
+  title: Welded Tanks for Oil Storage
+  issuing_body: API
+  standard_type: industry_standard
+  version: 13th Ed
+  publication_date: '2020-03-01'
+  scope: Specifies design, fabrication, welding, inspection, and erection requirements
+    for vertical cylindrical aboveground storage tanks.
+  applicability:
+  - storage_tanks
+  - crude_storage
+  - chemical_storage
+  - tank_farms
+  jurisdiction: international
+  key_concepts:
+  - shell_course_thickness
+  - floating_roof_drainage
+  - bottom_plate_annular_ring
+  - corrosion_allowance
+  supersedes: null
+  superseded_by: null
+  related_source_ids:
+  - PLAT-DOC-EQP-005
+  document_available: false
+  authority: A
+  status: Approved
+- standard_id: STD-ISA-75
+  designation: ISA-75 Series
+  title: Standards for Control Valve Sizing, Terminology and Testing
+  issuing_body: ISA
+  standard_type: industry_standard
+  version: '2019'
+  publication_date: '2019-10-01'
+  scope: Defines control valve flow coefficients (Cv/Kv), sizing equations for compressible/incompressible
+    flow, cavitation indices, and stroking speed testing.
+  applicability:
+  - globe_valves
+  - control_valves
+  - actuators
+  - flow_throttling
+  jurisdiction: international
+  key_concepts:
+  - flow_coefficient_Cv
+  - choked_flow_factor_FL
+  - cavitation_index_sigma
+  - equal_percentage_characteristic
+  supersedes: null
+  superseded_by: null
+  related_source_ids:
+  - PLAT-DOC-EQP-005
+  document_available: false
+  authority: A
+  status: Approved
+- standard_id: STD-ISO-5284
+  designation: ISO 5284:1986
+  title: Conveyor Belts — List of Equivalent Terms and Calculation Rules
+  issuing_body: ISO
+  standard_type: international_standard
+  version: '1986'
+  publication_date: '1986-07-01'
+  scope: Standardizes terminology, tensile calculations, take-up travel distances,
+    and troughability rules for heavy-duty bulk handling belt conveyors.
+  applicability:
+  - belt_conveyors
+  - bulk_material_handling
+  - mining_conveyors
+  jurisdiction: international
+  key_concepts:
+  - belt_tensile_rating
+  - troughing_angle
+  - idler_spacing
+  - take_up_tension
+  - slip_switch_threshold
+  supersedes: null
+  superseded_by: null
+  related_source_ids:
+  - PLAT-DOC-EQP-005
+  document_available: false
+  authority: A
+  status: Approved
+- standard_id: STD-OPC-UA-PART110
+  designation: 'OPC UA Part 110: 2023'
+  title: 'OPC Unified Architecture — Part 110: Asset Management Basics & Sub-Asset
+    Models'
+  issuing_body: OPC Foundation
+  standard_type: companion_specification
+  version: '1.0'
+  publication_date: '2023-04-01'
+  scope: Defines the canonical information model for industrial assets, identification
+    parameters, serial numbering, sub-asset nesting, and health status variables in
+    OPC UA.
+  applicability:
+  - industrial_automation
+  - SCADA
+  - digital_twins
+  - OPC_UA
+  - asset_discovery
+  jurisdiction: international
+  key_concepts:
+  - AssetType
+  - IVendorNameplateType
+  - ComponentList
+  - SubAssetHierarchy
+  - DeviceHealthEnumeration
+  supersedes: null
+  superseded_by: null
+  related_source_ids:
+  - PLAT-DOC-EQP-005
+  document_available: true
+  authority: A
+  status: Approved
+- standard_id: STD-OPC-UA-MACHINERY
+  designation: OPC UA for Machinery (VDMA 40001-1)
+  title: OPC UA Companion Specification for Machinery and Machine Tools
+  issuing_body: VDMA / OPC Foundation
+  standard_type: companion_specification
+  version: '1.0'
+  publication_date: '2022-09-01'
+  scope: Standardizes machine identification, operating states (ISA-TR88.00.02 / PackML),
+    machine tool components, and telemetry streams.
+  applicability:
+  - machine_tools
+  - manufacturing_machinery
+  - discrete_manufacturing
+  jurisdiction: international
+  key_concepts:
+  - MachineryItemType
+  - MachineStateModel
+  - PackML_State_Model
+  - OperatingModeMonitoring
+  supersedes: null
+  superseded_by: null
+  related_source_ids:
+  - PLAT-DOC-EQP-006
+  document_available: true
+  authority: A
+  status: Approved
+- standard_id: STD-OPC-UA-POWERTRAIN
+  designation: OPC UA Powertrain
+  title: 'OPC UA Companion Specification for Powertrain: Motors, Gearboxes and Inverters'
+  issuing_body: VDMA / OPC Foundation
+  standard_type: companion_specification
+  version: '1.0'
+  publication_date: '2023-01-15'
+  scope: Provides standardized telemetry variables and diagnostic status nodes for
+    electric powertrains (motor current signature, bearing temperature, gearbox oil
+    quality).
+  applicability:
+  - electric_motors
+  - gearboxes
+  - frequency_inverters
+  - powertrains
+  jurisdiction: international
+  key_concepts:
+  - PowertrainType
+  - MotorTelemetryNode
+  - GearboxVibrationIndex
+  - InverterThermalLoad
+  supersedes: null
+  superseded_by: null
+  related_source_ids:
+  - PLAT-DOC-EQP-007
+  document_available: true
+  authority: A
+  status: Approved
+- standard_id: STD-OPC-UA-AAS
+  designation: OPC UA for Asset Administration Shell (RAMI 4.0)
+  title: OPC UA Information Model for Asset Administration Shell (AAS)
+  issuing_body: Industrial Digital Twin Association / OPC Foundation
+  standard_type: companion_specification
+  version: '1.0'
+  publication_date: '2023-06-01'
+  scope: Maps the Industrie 4.0 Asset Administration Shell (AAS) metamodel into OPC
+    UA nodesets for interoperable digital twin instantiation.
+  applicability:
+  - digital_twins
+  - RAMI_4_0
+  - Industrie_4_0
+  - asset_administration_shell
+  jurisdiction: international
+  key_concepts:
+  - AAS_Metamodel
+  - SubmodelElement
+  - PropertyMapping
+  - DigitalTwin_Interoperability
+  supersedes: null
+  superseded_by: null
+  related_source_ids:
+  - PLAT-DOC-EQP-008
+  document_available: true
+  authority: A
+  status: Approved
+- standard_id: STD-EPA-WW-PACKAGE
+  designation: U.S. EPA Wastewater Fact Sheet — Package Plants
+  title: 'U.S. EPA Wastewater Technology Fact Sheet: Package Plants (EPA 832-F-00-016)'
+  issuing_body: EPA
+  standard_type: regulatory_guidance
+  version: '2000'
+  publication_date: '2000-09-01'
+  scope: Technical guidance and effluent compliance discharge limits for package wastewater
+    treatment systems (extended aeration, SBR, RBC, MBR).
+  applicability:
+  - wastewater_treatment
+  - effluent_quality
+  - BOD_TSS_limits
+  - environmental_compliance
+  jurisdiction: US-federal
+  key_concepts:
+  - BOD5_removal_efficiency
+  - TSS_discharge_standards
+  - extended_aeration_parameters
+  - sludge_settling_index
+  supersedes: null
+  superseded_by: null
+  related_source_ids:
+  - PLAT-DOC-EQP-009
+  document_available: true
+  authority: A
+  status: Approved
+- standard_id: STD-EPA-WW-MANUAL
+  designation: U.S. EPA Process Design Manual — WWTP Upgrades
+  title: U.S. EPA Process Design Manual for Upgrading Existing Wastewater Treatment
+    Plants (EPA 625/1-71-003)
+  issuing_body: EPA
+  standard_type: regulatory_guidance
+  version: '1974'
+  publication_date: '1974-10-01'
+  scope: Comprehensive process engineering and regulatory manual for municipal and
+    industrial wastewater plant capacity expansions and nutrient removal upgrades.
+  applicability:
+  - WWTP_process_design
+  - biological_treatment
+  - aeration_sizing
+  - clarifier_design
+  jurisdiction: US-federal
+  key_concepts:
+  - hydraulic_retention_time_HRT
+  - solids_retention_time_SRT
+  - mixed_liquor_suspended_solids_MLSS
+  - dissolved_oxygen_control
+  supersedes: null
+  superseded_by: null
+  related_source_ids:
+  - PLAT-DOC-EQP-010
+  document_available: true
+  authority: A
+  status: Approved
+- standard_id: STD-DOE-PUMP-SRC
+  designation: U.S. DOE Pumping System Sourcebook
+  title: 'Improving Pumping System Performance: A Sourcebook for Industry'
+  issuing_body: DOE
+  standard_type: government_standard
+  version: 2nd Ed
+  publication_date: '2006-05-01'
+  scope: United States Department of Energy guidance on pumping system energy efficiency,
+    life cycle cost (LCC) analysis, pump curves, and throttling vs VFD optimization.
+  applicability:
+  - pumping_systems
+  - energy_efficiency
+  - life_cycle_cost
+  - VFD_control
+  jurisdiction: US-federal
+  key_concepts:
+  - best_efficiency_point_BEP
+  - system_head_curve
+  - specific_speed
+  - pump_life_cycle_costing
+  - affinity_laws
+  supersedes: null
+  superseded_by: null
+  related_source_ids:
+  - PLAT-DOC-EQP-004
+  document_available: true
+  authority: A
+  status: Approved

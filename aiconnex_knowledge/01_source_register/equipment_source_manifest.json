@@ -1,0 +1,77 @@
+{
+  "manifest_type": "Equipment_Asset_Raw_Manifest",
+  "version": "1.0",
+  "total_sources": 10,
+  "sources": [
+    {
+      "source_id": "PLAT-DOC-EQP-001",
+      "filename": "ISO_5390_1977_Compressor_Classification.pdf",
+      "size_bytes": 349825,
+      "sha256_hash": "b86d1fc23b33ca64843cf0b7f77128e045b8d46cae91904d75d9bf6e916d3955",
+      "registered_at": "2026-08-14T18:24:52.556144+00:00"
+    },
+    {
+      "source_id": "PLAT-DOC-EQP-002",
+      "filename": "IEC_60034_7_Motor_Mounting.pdf",
+      "size_bytes": 19564,
+      "sha256_hash": "0089f40f9670e1ccc3492532f856d86910638c645b87b597b77d21ab2d210874",
+      "registered_at": "2026-08-14T18:24:52.580304+00:00"
+    },
+    {
+      "source_id": "PLAT-DOC-EQP-003",
+      "filename": "ISO_16812_2019_Heat_Exchangers.pdf",
+      "size_bytes": 478494,
+      "sha256_hash": "cc9b6d5a72ec885fdafa68743c125d10903efe2da3195133ff0c917f7aa0c576",
+      "registered_at": "2026-08-14T18:24:52.611047+00:00"
+    },
+    {
+      "source_id": "PLAT-DOC-EQP-004",
+      "filename": "DOE_Pumping_System_Sourcebook.pdf",
+      "size_bytes": 3229105,
+      "sha256_hash": "e8975ae00a5d74bfb9f1512f8b2cd85a56359f61d8109bbb18bfdc6d3eb52eb4",
+      "registered_at": "2026-08-14T18:24:52.673435+00:00"
+    },
+    {
+      "source_id": "PLAT-DOC-EQP-005",
+      "filename": "OPC_UA_Part_110_Asset_Management.md",
+      "size_bytes": 647,
+      "sha256_hash": "42ea1ae81c21a2733079f588aa7aa2174f839ed2e06010ac843abdb7a5ae432b",
+      "registered_at": "2026-08-14T18:24:52.689860+00:00"
+    },
+    {
+      "source_id": "PLAT-DOC-EQP-006",
+      "filename": "OPC_UA_For_Machinery.md",
+      "size_bytes": 570,
+      "sha256_hash": "0c87f6ea95f2e34043e4c80fd90e0840ab948597c08ff1c072021b0ca6d609a6",
+      "registered_at": "2026-08-14T18:24:52.702929+00:00"
+    },
+    {
+      "source_id": "PLAT-DOC-EQP-007",
+      "filename": "OPC_UA_Powertrain_Asset_Management.md",
+      "size_bytes": 461,
+      "sha256_hash": "4ecd278b931da493cdd292c9d84172df098a65b76806b55d3553a18905e69180",
+      "registered_at": "2026-08-14T18:24:52.714523+00:00"
+    },
+    {
+      "source_id": "PLAT-DOC-EQP-008",
+      "filename": "OPC_UA_Asset_Administration_Shell.md",
+      "size_bytes": 570,
+      "sha256_hash": "baa408df5a3c8bedbddba31e60d46d2a1d53330c43dbf44153d792af7d59d911",
+      "registered_at": "2026-08-14T18:24:52.727540+00:00"
+    },
+    {
+      "source_id": "PLAT-DOC-EQP-009",
+      "filename": "EPA_Wastewater_Package_Plants_Factsheet.pdf",
+      "size_bytes": 980,
+      "sha256_hash": "ab38a38abdc83439291dc67c0e34f3c70a8a8e7b9e57815c5e6ac126ff5a1bd1",
+      "registered_at": "2026-08-14T18:24:54.026984+00:00"
+    },
+    {
+      "source_id": "PLAT-DOC-EQP-010",
+      "filename": "EPA_Wastewater_Process_Design_Manual.pdf",
+      "size_bytes": 979,
+      "sha256_hash": "91804405251e4d1d8861f55ce94a5f599c739ab6f723b2da37c723bc8fa01736",
+      "registered_at": "2026-08-14T18:24:54.926116+00:00"
+    }
+  ]
+}

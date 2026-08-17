@@ -1,0 +1,13 @@
+{
+  "document_id": "DOC-IND-NASA-002-V1",
+  "source_id": "SRC-IND-NASA-002",
+  "title": "NASA Technical Report 19970009840 Vibration Analysis and Machine Diagnostics",
+  "version": "1997",
+  "document_type": "pdf",
+  "content_hash": "f09370fc2a67c3a1d953ff8060d06217d10adc75a223d6e4a611643bea0db9c0",
+  "page_count": 80,
+  "total_sections": 354,
+  "total_words": 24600,
+  "storage_uri": "s3://aiconnex-platform-kb-prod/industrial/NASA_TR_19970009840_Vibration.pdf",
+  "created_at": "2026-08-14T08:41:27.165527+00:00"
+}

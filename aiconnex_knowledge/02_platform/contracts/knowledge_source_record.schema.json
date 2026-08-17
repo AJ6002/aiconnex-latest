@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "KnowledgeSourceRecord",
+  "type": "object",
+  "properties": {
+    "source_id": { "type": "string" },
+    "title": { "type": "string" },
+    "knowledge_domain": { "type": "string" },
+    "source_type": { "type": "string" },
+    "source_location": { "type": "string" },
+    "authority_level": { "type": "string", "enum": ["A", "B", "C"] },
+    "owner": { "type": "string" },
+    "tenant_scope": { "type": "string" },
+    "license": { "type": "string" },
+    "version": { "type": "string" },
+    "status": { "type": "string", "enum": ["Pending", "Approved", "Rejected", "Deprecated"] },
+    "approved_at": { "type": ["string", "null"] }
+  },
+  "required": ["source_id", "title", "knowledge_domain", "source_type", "source_location", "authority_level", "owner", "tenant_scope", "license", "version", "status"]
+}

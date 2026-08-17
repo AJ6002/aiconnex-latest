@@ -1,0 +1,573 @@
+{
+  "document_id": "PLAT-DOC-011",
+  "section_count": 43,
+  "sections": [
+    {
+      "section_id": "SEC-0001",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 1,
+      "heading_text": "AIConnex System \u2014 Deep Architecture Audit",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit",
+      "content": "**Branch:** `30jul` \u00b7 **Audit Date:** 2026-07-31 \u00b7 **Commit HEAD:** `18f6dd0`\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0002",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 2,
+      "heading_text": "Table of Contents",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > Table of Contents",
+      "content": "1. [System Overview & End-to-End Flow](#1-system-overview--end-to-end-flow)\n2. [Layer 0 \u2014 Chatbot Interaction Layer](#2-layer-0--chatbot-interaction-layer)\n3. [Layer 1 \u2014 LangGraph Agentic Orchestrator](#3-layer-1--langgraph-agentic-orchestrator)\n4. [Layer 2 \u2014 ML Pipeline Engine](#4-layer-2--ml-pipeline-engine)\n5. [Layer 3 \u2014 Terminal UI (TUI)](#5-layer-3--terminal-ui-tui)\n6. [Cross-Cutting: LLM Configuration](#6-cross-cutting-llm-configuration)\n7. [Test Suite Coverage Matrix](#7-test-suite-coverage-matrix)\n8. [Git History & Branch Topology](#8-git-history--branch-topology)\n9. [File Inventory \u2014 Full System Map](#9-file-inventory--full-system-map)\n10. [Findings & Health Assessment](#10-findings--health-assessment)\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0003",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 2,
+      "heading_text": "1. System Overview & End-to-End Flow",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 1. System Overview & End-to-End Flow",
+      "content": "The AIConnex platform is a **4-layer** intelligent MLOps system that takes a user from natural language conversation to fully trained, evaluated, and deployed machine learning models.\n\n``` mermaid\ngraph TD\n    subgraph \"Layer 0 \u2014 Chatbot\"\n        U[\"User (Browser / TUI)\"] --> FE[\"React Frontend<br/>MainChatView.tsx\"]\n        FE -->|\"POST /api/pre_upload/chat\"| PROXY[\"Express Proxy<br/>server.ts :3000\"]\n        PROXY -->|\"\u2192 :5000\"| FLASK[\"Flask API<br/>app.py\"]\n        FLASK --> EXT[\"Intent Extraction<br/>extraction.py\"]\n        FLASK --> PUF[\"Pre-Upload Flow<br/>pre_upload_flow.py\"]\n        EXT --> VAL[\"Validation Gate<br/>validation.py\"]\n        VAL --> DISP[\"Dispatcher<br/>dispatcher.py\"]\n        DISP -->|\"LLM Response\"| LLM_R[\"llm_responder.py\"]\n    end\n\n    subgraph \"Layer 1 \u2014 LangGraph Agent\"\n        DISP -->|\"Workflow Intent\"| RUNNER[\"runner.py<br/>run_agent_pipeline()\"]\n        RUNNER --> GRAPH[\"StateGraph<br/>graph.py\"]\n        GRAPH --> PARSER[\"Conversation<br/>Parser Node\"]\n        PARSER -->|\"confidence < 0.85\"| CLAR[\"Clarification<br/>Node (HITL)\"]\n        PARSER -->|\"confidence \u2265 0.85\"| PLAN[\"Planning<br/>Engine Node\"]\n        CLAR --> PLAN\n        PLAN --> SCOUT[\"Scout<br/>Agent Node\"]\n        PLAN --> PLAT[\"Platform<br/>Agent Node\"]\n        PLAN --> MEM[\"Memory<br/>Agent Node\"]\n        SCOUT --> EVAL[\"Plan Evaluator<br/>Node\"]\n        PLAT --> EVAL\n        MEM --> EVAL\n        EVAL -->|\"More steps\"| PLAN\n        EVAL -->|\"Done\"| ENDG[\"END\"]\n    end\n\n    subgraph \"Layer 2 \u2014 ML Pipeline\"\n        PLAT -->|\"RegressionTrainer\"| MLRUN[\"runner.py<br/>PipelineRunner\"]\n        MLRUN --> SCOPE[\"SCOPE\"]\n        SCOPE --> ACQ[\"ACQUIRE\"]\n        ACQ --> SPLIT[\"SPLIT\"]\n        SPLIT --> ENG[\"ENGINEER\"]\n        ENG --> VG1[\"VG_1\"]\n        VG1 -->|\"Pass\"| TRAIN[\"TRAIN\"]\n        VG1 -->|\"Fail \u2192 G-02\"| ENG\n        TRAIN --> VG2[\"VG_2\"]\n        VG2 -->|\"Pass\"| DEPLOY[\"DEPLOY\"]\n        VG2 -->|\"Fail \u2192 G-03\"| TRAIN\n        DEPLOY --> REPORT[\"REPORT\"]\n    end\n\n    subgraph \"Layer 3 \u2014 TUI\"\n        TUI[\"tui_app.py<br/>Rich Live Dashboard\"] --> RUNNER\n        TUI --> SI[\"Status Inspector\"]\n        TUI --> DT[\"DAG Telemetry\"]\n    end\n```",
+      "content_type": "mixed",
+      "code_blocks": [
+        {
+          "language": "mermaid",
+          "code": "graph TD\n    subgraph \"Layer 0 \u2014 Chatbot\"\n        U[\"User (Browser / TUI)\"] --> FE[\"React Frontend<br/>MainChatView.tsx\"]\n        FE -->|\"POST /api/pre_upload/chat\"| PROXY[\"Express Proxy<br/>server.ts :3000\"]\n        PROXY -->|\"\u2192 :5000\"| FLASK[\"Flask API<br/>app.py\"]\n        FLASK --> EXT[\"Intent Extraction<br/>extraction.py\"]\n        FLASK --> PUF[\"Pre-Upload Flow<br/>pre_upload_flow.py\"]\n        EXT --> VAL[\"Validation Gate<br/>validation.py\"]\n        VAL --> DISP[\"Dispatcher<br/>dispatcher.py\"]\n        DISP -->|\"LLM Response\"| LLM_R[\"llm_responder.py\"]\n    end\n\n    subgraph \"Layer 1 \u2014 LangGraph Agent\"\n        DISP -->|\"Workflow Intent\"| RUNNER[\"runner.py<br/>run_agent_pipeline()\"]\n        RUNNER --> GRAPH[\"StateGraph<br/>graph.py\"]\n        GRAPH --> PARSER[\"Conversation<br/>Parser Node\"]\n        PARSER -->|\"confidence < 0.85\"| CLAR[\"Clarification<br/>Node (HITL)\"]\n        PARSER -->|\"confidence \u2265 0.85\"| PLAN[\"Planning<br/>Engine Node\"]\n        CLAR --> PLAN\n        PLAN --> SCOUT[\"Scout<br/>Agent Node\"]\n        PLAN --> PLAT[\"Platform<br/>Agent Node\"]\n        PLAN --> MEM[\"Memory<br/>Agent Node\"]\n        SCOUT --> EVAL[\"Plan Evaluator<br/>Node\"]\n        PLAT --> EVAL\n        MEM --> EVAL\n        EVAL -->|\"More steps\"| PLAN\n        EVAL -->|\"Done\"| ENDG[\"END\"]\n    end\n\n    subgraph \"Layer 2 \u2014 ML Pipeline\"\n        PLAT -->|\"RegressionTrainer\"| MLRUN[\"runner.py<br/>PipelineRunner\"]\n        MLRUN --> SCOPE[\"SCOPE\"]\n        SCOPE --> ACQ[\"ACQUIRE\"]\n        ACQ --> SPLIT[\"SPLIT\"]\n        SPLIT --> ENG[\"ENGINEER\"]\n        ENG --> VG1[\"VG_1\"]\n        VG1 -->|\"Pass\"| TRAIN[\"TRAIN\"]\n        VG1 -->|\"Fail \u2192 G-02\"| ENG\n        TRAIN --> VG2[\"VG_2\"]\n        VG2 -->|\"Pass\"| DEPLOY[\"DEPLOY\"]\n        VG2 -->|\"Fail \u2192 G-03\"| TRAIN\n        DEPLOY --> REPORT[\"REPORT\"]\n    end\n\n    subgraph \"Layer 3 \u2014 TUI\"\n        TUI[\"tui_app.py<br/>Rich Live Dashboard\"] --> RUNNER\n        TUI --> SI[\"Status Inspector\"]\n        TUI --> DT[\"DAG Telemetry\"]\n    end"
+        }
+      ],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0004",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 3,
+      "heading_text": "End-to-End User Journey (5 Phases)",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 1. System Overview & End-to-End Flow > End-to-End User Journey (5 Phases)",
+      "content": "| Phase | What Happens | Code Path |\n|-------|-------------|-----------|\n| **\u2460 Pre-Upload Chat** | User describes ML goal in natural language. 6-step state machine gathers intent, problem type, constraints, dataset expectations. Outputs `PreUploadContract` JSON. | `pre_upload_flow.py` \u2192 `pre_upload_extraction.py` (Qwen LLM) |\n| **\u2461 File Upload & Compilation** | User uploads ZIP dataset. Scout Agent invokes `UnifiedCompiler` (22-plugin pipeline). Produces `DatasetIntelligenceContract`. | `scout_node.py` \u2192 `aiconnex_zip_compiler` |\n| **\u2462 HITL Clarification** | If intent confidence < 0.85, Clarification Node generates LLM questions and pauses via `interrupt()`. User responds, confidence re-scored. | `clarification_node.py` \u2192 `clarification_generator.py` |\n| **\u2463 ML Execution** | Platform Agent resolves 3-5 candidate DAG recipes, trains in parallel via `ThreadPoolExecutor`, fits Stacked Ensemble, runs 3-Judge Evaluation Triad (Scorer \u2192 Judge \u2192 Selector). | `platform_node.py` \u2192 `multi_dag_resolver.py` \u2192 `aiconnex_ml/` |\n| **\u2464 Results & Memory** | Winner logged to MLflow, Memory Agent projects events into 4-layer `MemoryBank`, user sees results in chat/TUI. | `mlflow_logger.py` \u2192 `memory_agent.py` |\n\n---",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Phase | What Happens | Code Path |\n|-------|-------------|-----------|\n| **\u2460 Pre-Upload Chat** | User describes ML goal in natural language. 6-step state machine gathers intent, problem type, constraints, dataset expectations. Outputs `PreUploadContract` JSON. | `pre_upload_flow.py` \u2192 `pre_upload_extraction.py` (Qwen LLM) |\n| **\u2461 File Upload & Compilation** | User uploads ZIP dataset. Scout Agent invokes `UnifiedCompiler` (22-plugin pipeline). Produces `DatasetIntelligenceContract`. | `scout_node.py` \u2192 `aiconnex_zip_compiler` |\n| **\u2462 HITL Clarification** | If intent confidence < 0.85, Clarification Node generates LLM questions and pauses via `interrupt()`. User responds, confidence re-scored. | `clarification_node.py` \u2192 `clarification_generator.py` |\n| **\u2463 ML Execution** | Platform Agent resolves 3-5 candidate DAG recipes, trains in parallel via `ThreadPoolExecutor`, fits Stacked Ensemble, runs 3-Judge Evaluation Triad (Scorer \u2192 Judge \u2192 Selector). | `platform_node.py` \u2192 `multi_dag_resolver.py` \u2192 `aiconnex_ml/` |\n| **\u2464 Results & Memory** | Winner logged to MLflow, Memory Agent projects events into 4-layer `MemoryBank`, user sees results in chat/TUI. | `mlflow_logger.py` \u2192 `memory_agent.py` |"
+      ]
+    },
+    {
+      "section_id": "SEC-0005",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 2,
+      "heading_text": "2. Layer 0 \u2014 Chatbot Interaction Layer",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 2. Layer 0 \u2014 Chatbot Interaction Layer",
+      "content": "**Location:** `x:\\TAS\\AICONNEX\\chatbot\\`",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0006",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 3,
+      "heading_text": "Architecture",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 2. Layer 0 \u2014 Chatbot Interaction Layer > Architecture",
+      "content": "``` mermaid\ngraph LR\n    subgraph Backend\n        APP[\"app.py<br/>Flask :5000\"]\n        EXT[\"extraction.py<br/>Qwen Intent Extraction\"]\n        PUE[\"pre_upload_extraction.py<br/>Field Extraction\"]\n        PUF[\"pre_upload_flow.py<br/>6-Step State Machine\"]\n        VAL[\"validation.py<br/>Deterministic Gate\"]\n        DISP[\"dispatcher.py<br/>Intent Router\"]\n        LLM[\"llm_responder.py<br/>Qwen Response Gen\"]\n        INT[\"intents.py<br/>Taxonomy & Risk Tiers\"]\n        PS[\"pipeline_state.py<br/>Stage Tracker\"]\n        DICT[\"dictionary/<br/>Data Dictionary API\"]\n    end\n\n    subgraph Frontend\n        REACT[\"React 19 + TypeScript<br/>Vite + Tailwind v4\"]\n        MCV[\"MainChatView.tsx\"]\n        NAV[\"Navbar.tsx\"]\n        SIDE[\"Sidebar.tsx\"]\n        FOOT[\"Footer.tsx\"]\n    end\n\n    REACT --> MCV\n    MCV -->|\"POST /api/pre_upload/chat\"| APP\n    APP --> EXT\n    APP --> PUF\n    PUF --> PUE\n    EXT --> VAL\n    VAL --> DISP\n    DISP --> LLM\n    DISP -->|\"Workflow tasks\"| AGENT[\"aiconnex_agent.runner\"]\n```",
+      "content_type": "mixed",
+      "code_blocks": [
+        {
+          "language": "mermaid",
+          "code": "graph LR\n    subgraph Backend\n        APP[\"app.py<br/>Flask :5000\"]\n        EXT[\"extraction.py<br/>Qwen Intent Extraction\"]\n        PUE[\"pre_upload_extraction.py<br/>Field Extraction\"]\n        PUF[\"pre_upload_flow.py<br/>6-Step State Machine\"]\n        VAL[\"validation.py<br/>Deterministic Gate\"]\n        DISP[\"dispatcher.py<br/>Intent Router\"]\n        LLM[\"llm_responder.py<br/>Qwen Response Gen\"]\n        INT[\"intents.py<br/>Taxonomy & Risk Tiers\"]\n        PS[\"pipeline_state.py<br/>Stage Tracker\"]\n        DICT[\"dictionary/<br/>Data Dictionary API\"]\n    end\n\n    subgraph Frontend\n        REACT[\"React 19 + TypeScript<br/>Vite + Tailwind v4\"]\n        MCV[\"MainChatView.tsx\"]\n        NAV[\"Navbar.tsx\"]\n        SIDE[\"Sidebar.tsx\"]\n        FOOT[\"Footer.tsx\"]\n    end\n\n    REACT --> MCV\n    MCV -->|\"POST /api/pre_upload/chat\"| APP\n    APP --> EXT\n    APP --> PUF\n    PUF --> PUE\n    EXT --> VAL\n    VAL --> DISP\n    DISP --> LLM\n    DISP -->|\"Workflow tasks\"| AGENT[\"aiconnex_agent.runner\"]"
+        }
+      ],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0007",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 3,
+      "heading_text": "API Endpoints",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 2. Layer 0 \u2014 Chatbot Interaction Layer > API Endpoints",
+      "content": "| Method | Path | Purpose |\n|--------|------|---------|\n| `GET` | `/api/health` | System health check (9 services) |\n| `POST` | `/api/chat` | Main chat \u2014 intent extraction \u2192 validation \u2192 dispatch |\n| `POST` | `/api/pre_upload/chat` | Pre-upload requirement gathering (multi-turn) |\n| `GET` | `/api/dictionary/entries` | List data dictionary entries |\n| `GET` | `/api/dictionary/entries/<id>` | Get single dictionary entry |\n| `POST` | `/api/dictionary/entries` | Create/update dictionary entry |\n| `DELETE` | `/api/dictionary/entries/<id>` | Delete dictionary entry |",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Method | Path | Purpose |\n|--------|------|---------|\n| `GET` | `/api/health` | System health check (9 services) |\n| `POST` | `/api/chat` | Main chat \u2014 intent extraction \u2192 validation \u2192 dispatch |\n| `POST` | `/api/pre_upload/chat` | Pre-upload requirement gathering (multi-turn) |\n| `GET` | `/api/dictionary/entries` | List data dictionary entries |\n| `GET` | `/api/dictionary/entries/<id>` | Get single dictionary entry |\n| `POST` | `/api/dictionary/entries` | Create/update dictionary entry |\n| `DELETE` | `/api/dictionary/entries/<id>` | Delete dictionary entry |"
+      ]
+    },
+    {
+      "section_id": "SEC-0008",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 3,
+      "heading_text": "Intent Taxonomy (`intents.py`)",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 2. Layer 0 \u2014 Chatbot Interaction Layer > Intent Taxonomy (`intents.py`)",
+      "content": "| Intent | Risk Tier | Required Entities |\n|--------|-----------|-------------------|\n| `get_dataset_summary` | `READ_ONLY` | `dataset_id` |\n| `run_dataset_profiling` | `LOW_IMPACT` | `dataset_id` |\n| `run_dag_verification` | `LOW_IMPACT` | `dataset_id` |\n| `compile_training_recipe` | `HIGH_IMPACT` | `dataset_id` |\n| `deploy_pipeline` | `HIGH_IMPACT` | `dataset_id`, `target_environment` |\n| `check_pipeline_status` | `READ_ONLY` | `dataset_id` |\n| `greeting` | `READ_ONLY` | \u2014 |\n| `general_help` | `READ_ONLY` | \u2014 |\n| `out_of_scope` | `READ_ONLY` | \u2014 |",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Intent | Risk Tier | Required Entities |\n|--------|-----------|-------------------|\n| `get_dataset_summary` | `READ_ONLY` | `dataset_id` |\n| `run_dataset_profiling` | `LOW_IMPACT` | `dataset_id` |\n| `run_dag_verification` | `LOW_IMPACT` | `dataset_id` |\n| `compile_training_recipe` | `HIGH_IMPACT` | `dataset_id` |\n| `deploy_pipeline` | `HIGH_IMPACT` | `dataset_id`, `target_environment` |\n| `check_pipeline_status` | `READ_ONLY` | `dataset_id` |\n| `greeting` | `READ_ONLY` | \u2014 |\n| `general_help` | `READ_ONLY` | \u2014 |\n| `out_of_scope` | `READ_ONLY` | \u2014 |"
+      ]
+    },
+    {
+      "section_id": "SEC-0009",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 3,
+      "heading_text": "LLM Wiring Status",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 2. Layer 0 \u2014 Chatbot Interaction Layer > LLM Wiring Status",
+      "content": "| File | LLM Call | Fallback |\n|------|----------|----------|\n| `extraction.py` | \u2705 OpenRouter Qwen 2.5 Coder 32B | Regex keyword simulator |\n| `pre_upload_extraction.py` | \u2705 OpenRouter Qwen 2.5 Coder 32B | Regex/keyword rules |\n| `llm_responder.py` | \u2705 OpenRouter Qwen 2.5 Coder 32B | Hardcoded string templates |\n| `pre_upload_flow.py` | Indirect (via extraction) | \u2014 |\n| `validation.py` | \u274c Deterministic only | \u2014 |\n| `intents.py` | \u274c Static taxonomy | \u2014 |",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| File | LLM Call | Fallback |\n|------|----------|----------|\n| `extraction.py` | \u2705 OpenRouter Qwen 2.5 Coder 32B | Regex keyword simulator |\n| `pre_upload_extraction.py` | \u2705 OpenRouter Qwen 2.5 Coder 32B | Regex/keyword rules |\n| `llm_responder.py` | \u2705 OpenRouter Qwen 2.5 Coder 32B | Hardcoded string templates |\n| `pre_upload_flow.py` | Indirect (via extraction) | \u2014 |\n| `validation.py` | \u274c Deterministic only | \u2014 |\n| `intents.py` | \u274c Static taxonomy | \u2014 |"
+      ]
+    },
+    {
+      "section_id": "SEC-0010",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 3,
+      "heading_text": "Frontend Stack",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 2. Layer 0 \u2014 Chatbot Interaction Layer > Frontend Stack",
+      "content": "- **React 19** + TypeScript + Vite v6.2.3\n- **Tailwind CSS v4** + Framer Motion animations\n- **Express proxy** (`server.ts`) forwarding `/api/*` \u2192 Flask `:5000`\n- **Components**: `MainChatView`, `Navbar`, `Sidebar`, `Footer`, `NotificationsDrawer`, `ServicesModal`, `SecondaryViews`, `TASLogo`\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0011",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 2,
+      "heading_text": "3. Layer 1 \u2014 LangGraph Agentic Orchestrator",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 3. Layer 1 \u2014 LangGraph Agentic Orchestrator",
+      "content": "**Location:** `x:\\TAS\\AICONNEX\\aiconnex_agent\\`  \n**Total Python Files:** 46",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0012",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 3,
+      "heading_text": "StateGraph Topology",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 3. Layer 1 \u2014 LangGraph Agentic Orchestrator > StateGraph Topology",
+      "content": "``` mermaid\ngraph TD\n    START[\"START\"] --> CP[\"conversation_parser_node<br/>(6-submodule pipeline)\"]\n    CP -->|\"confidence < 0.85\"| CL[\"clarification_node<br/>(HITL interrupt)\"]\n    CP -->|\"confidence \u2265 0.85\"| PE[\"planning_engine_node<br/>(IntentPlanMapper + PlanValidator)\"]\n    CL --> PE\n    PE -->|\"target: scout\"| SC[\"scout_agent_node<br/>(UnifiedCompiler)\"]\n    PE -->|\"target: platform\"| PL[\"platform_agent_node<br/>(Multi-Candidate Engine)\"]\n    PE -->|\"target: memory\"| ME[\"memory_agent_node<br/>(Event-Sourced Memory)\"]\n    SC --> EV[\"plan_evaluator_node<br/>(Step Counter)\"]\n    PL --> EV\n    ME --> EV\n    EV -->|\"More steps remain\"| SC\n    EV -->|\"More steps remain\"| PL\n    EV -->|\"More steps remain\"| ME\n    EV -->|\"All steps done\"| END_NODE[\"END\"]\n\n    style CP fill:#4CAF50,color:#fff\n    style CL fill:#FF9800,color:#fff\n    style PE fill:#2196F3,color:#fff\n    style SC fill:#9C27B0,color:#fff\n    style PL fill:#F44336,color:#fff\n    style ME fill:#00BCD4,color:#fff\n    style EV fill:#795548,color:#fff\n```",
+      "content_type": "mixed",
+      "code_blocks": [
+        {
+          "language": "mermaid",
+          "code": "graph TD\n    START[\"START\"] --> CP[\"conversation_parser_node<br/>(6-submodule pipeline)\"]\n    CP -->|\"confidence < 0.85\"| CL[\"clarification_node<br/>(HITL interrupt)\"]\n    CP -->|\"confidence \u2265 0.85\"| PE[\"planning_engine_node<br/>(IntentPlanMapper + PlanValidator)\"]\n    CL --> PE\n    PE -->|\"target: scout\"| SC[\"scout_agent_node<br/>(UnifiedCompiler)\"]\n    PE -->|\"target: platform\"| PL[\"platform_agent_node<br/>(Multi-Candidate Engine)\"]\n    PE -->|\"target: memory\"| ME[\"memory_agent_node<br/>(Event-Sourced Memory)\"]\n    SC --> EV[\"plan_evaluator_node<br/>(Step Counter)\"]\n    PL --> EV\n    ME --> EV\n    EV -->|\"More steps remain\"| SC\n    EV -->|\"More steps remain\"| PL\n    EV -->|\"More steps remain\"| ME\n    EV -->|\"All steps done\"| END_NODE[\"END\"]\n\n    style CP fill:#4CAF50,color:#fff\n    style CL fill:#FF9800,color:#fff\n    style PE fill:#2196F3,color:#fff\n    style SC fill:#9C27B0,color:#fff\n    style PL fill:#F44336,color:#fff\n    style ME fill:#00BCD4,color:#fff\n    style EV fill:#795548,color:#fff"
+        }
+      ],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0013",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 3,
+      "heading_text": "Node Implementation Status",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 3. Layer 1 \u2014 LangGraph Agentic Orchestrator > Node Implementation Status",
+      "content": "| Node | Implementation | Location | Real LLM? |\n|------|---------------|----------|-----------|\n| `conversation_parser_node` | \u2705 Real (6-submodule pipeline) | `parser/conversation_parser.py` | \u2705 Yes |\n| `clarification_node` | \u2705 Real (HITL `interrupt()`) | `parser/clarification_node.py` | \u2705 Yes |\n| `planning_engine_node` | \u2705 Real (deterministic mapper + validator) | `planning/planning_engine.py` | \u274c Rule-based |\n| `scout_agent_node` | \u2705 Real (`UnifiedCompiler`) | `scout/scout_node.py` | \u274c Compiler |\n| `platform_agent_node` | \u2705 Real (parallel training + ensemble) | `platform/platform_node.py` | \u2705 Judge LLM |\n| `memory_agent_node` | \u2705 Real (event-sourced) | `memory/memory_agent.py` | \u274c Event store |\n| `plan_evaluator_node` | \u26a0\ufe0f Stub (step counter) | `nodes/stub_nodes.py` | \u274c Deterministic |",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Node | Implementation | Location | Real LLM? |\n|------|---------------|----------|-----------|\n| `conversation_parser_node` | \u2705 Real (6-submodule pipeline) | `parser/conversation_parser.py` | \u2705 Yes |\n| `clarification_node` | \u2705 Real (HITL `interrupt()`) | `parser/clarification_node.py` | \u2705 Yes |\n| `planning_engine_node` | \u2705 Real (deterministic mapper + validator) | `planning/planning_engine.py` | \u274c Rule-based |\n| `scout_agent_node` | \u2705 Real (`UnifiedCompiler`) | `scout/scout_node.py` | \u274c Compiler |\n| `platform_agent_node` | \u2705 Real (parallel training + ensemble) | `platform/platform_node.py` | \u2705 Judge LLM |\n| `memory_agent_node` | \u2705 Real (event-sourced) | `memory/memory_agent.py` | \u274c Event store |\n| `plan_evaluator_node` | \u26a0\ufe0f Stub (step counter) | `nodes/stub_nodes.py` | \u274c Deterministic |"
+      ]
+    },
+    {
+      "section_id": "SEC-0014",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 3,
+      "heading_text": "Master Agent State (`state.py`)",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 3. Layer 1 \u2014 LangGraph Agentic Orchestrator > Master Agent State (`state.py`)",
+      "content": "``` python\nclass MasterAgentState(BaseModel):\n    # Identity\n    session_id: str          # \"wf_<hex8>\"\n    \n    # Conversation\n    user_prompt: str\n    conversation_history: List[Dict]\n    active_agent: str        # \"parser\" | \"clarification\" | \"planning\" | ...\n    \n    # Parser Output\n    cuc: Optional[ConversationUnderstandingContract]\n    confidence_score: float  # 0.0 \u2013 1.0\n    clarification_questions: List[str]\n    \n    # Planning\n    plan_steps: List[TaskStep]\n    current_step_index: int\n    \n    # Scout\n    upload_path: Optional[str]\n    scout_enriched: Optional[ScoutEnrichedContract]\n    dic: Optional[DatasetIntelligenceContract]\n    compile_error: bool\n    \n    # Platform\n    predictions: Optional[Dict]\n    mcda_result: Optional[SelectionResult]\n    \n    # Memory\n    memory_context: str\n```",
+      "content_type": "mixed",
+      "code_blocks": [
+        {
+          "language": "python",
+          "code": "class MasterAgentState(BaseModel):\n    # Identity\n    session_id: str          # \"wf_<hex8>\"\n    \n    # Conversation\n    user_prompt: str\n    conversation_history: List[Dict]\n    active_agent: str        # \"parser\" | \"clarification\" | \"planning\" | ...\n    \n    # Parser Output\n    cuc: Optional[ConversationUnderstandingContract]\n    confidence_score: float  # 0.0 \u2013 1.0\n    clarification_questions: List[str]\n    \n    # Planning\n    plan_steps: List[TaskStep]\n    current_step_index: int\n    \n    # Scout\n    upload_path: Optional[str]\n    scout_enriched: Optional[ScoutEnrichedContract]\n    dic: Optional[DatasetIntelligenceContract]\n    compile_error: bool\n    \n    # Platform\n    predictions: Optional[Dict]\n    mcda_result: Optional[SelectionResult]\n    \n    # Memory\n    memory_context: str"
+        }
+      ],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0015",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 3,
+      "heading_text": "5-Stage Contract Pipeline",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 3. Layer 1 \u2014 LangGraph Agentic Orchestrator > 5-Stage Contract Pipeline",
+      "content": "| Stage | Contract | Purpose |\n|-------|----------|---------|\n| 1 | `ConversationUnderstandingContract` (CUC) | Parsed intent, entities, constraints |\n| 2 | `ScoutEnrichedContract` | Upload metadata, archive discovery, file inventory, parser selection |\n| 3 | `PreCompilerContract` | Compiler request parameters |\n| 4 | `DatasetIntelligenceContract` (DIC) | Dataset identity, statistics, quality report, problem candidates |\n| 5 | `SelectionResult` + `LeaderboardEntry[]` | MCDA winner, scorer/judge reports |",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Stage | Contract | Purpose |\n|-------|----------|---------|\n| 1 | `ConversationUnderstandingContract` (CUC) | Parsed intent, entities, constraints |\n| 2 | `ScoutEnrichedContract` | Upload metadata, archive discovery, file inventory, parser selection |\n| 3 | `PreCompilerContract` | Compiler request parameters |\n| 4 | `DatasetIntelligenceContract` (DIC) | Dataset identity, statistics, quality report, problem candidates |\n| 5 | `SelectionResult` + `LeaderboardEntry[]` | MCDA winner, scorer/judge reports |"
+      ]
+    },
+    {
+      "section_id": "SEC-0016",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 3,
+      "heading_text": "Parser Pipeline (6 Sub-Modules)",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 3. Layer 1 \u2014 LangGraph Agentic Orchestrator > Parser Pipeline (6 Sub-Modules)",
+      "content": "``` \nPromptBuilder \u2192 ContextManager \u2192 SemanticExtractor \u2192 OutputValidator \u2192 ConfidenceScorer \u2192 ClarificationGenerator\n     \u2502                \u2502                  \u2502                    \u2502                  \u2502                    \u2502\n   Build           Track            LLM Extract          Validate          LLM Score           LLM Generate\n   prompt          history          + regex fallback      to CUC           + rule fallback      + template fallback\n```",
+      "content_type": "mixed",
+      "code_blocks": [
+        {
+          "language": "text",
+          "code": "PromptBuilder \u2192 ContextManager \u2192 SemanticExtractor \u2192 OutputValidator \u2192 ConfidenceScorer \u2192 ClarificationGenerator\n     \u2502                \u2502                  \u2502                    \u2502                  \u2502                    \u2502\n   Build           Track            LLM Extract          Validate          LLM Score           LLM Generate\n   prompt          history          + regex fallback      to CUC           + rule fallback      + template fallback"
+        }
+      ],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0017",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 3,
+      "heading_text": "Platform Agent \u2014 Evaluation Triad",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 3. Layer 1 \u2014 LangGraph Agentic Orchestrator > Platform Agent \u2014 Evaluation Triad",
+      "content": "``` mermaid\ngraph LR\n    CAND[\"3-5 Candidate<br/>DAG Recipes\"] -->|\"ThreadPoolExecutor\"| TRAIN[\"Parallel<br/>Training\"]\n    TRAIN --> STACK[\"Stacked Ensemble<br/>Meta-Learner\"]\n    STACK --> SC[\"Scorer Agent<br/>(R\u00b2, RMSE, MAE,<br/>MAPE, Latency)\"]\n    SC --> JU[\"Judge Agent<br/>(LLM Qualitative<br/>Assessment)\"]\n    JU --> SEL[\"Selector Agent<br/>(MCDA: 50% Scorer<br/>+ 30% Judge<br/>+ 20% Intent)\"]\n    SEL --> WIN[\"Winner +<br/>Leaderboard\"]\n    WIN --> MLF[\"MLflow<br/>Logging\"]\n```",
+      "content_type": "mixed",
+      "code_blocks": [
+        {
+          "language": "mermaid",
+          "code": "graph LR\n    CAND[\"3-5 Candidate<br/>DAG Recipes\"] -->|\"ThreadPoolExecutor\"| TRAIN[\"Parallel<br/>Training\"]\n    TRAIN --> STACK[\"Stacked Ensemble<br/>Meta-Learner\"]\n    STACK --> SC[\"Scorer Agent<br/>(R\u00b2, RMSE, MAE,<br/>MAPE, Latency)\"]\n    SC --> JU[\"Judge Agent<br/>(LLM Qualitative<br/>Assessment)\"]\n    JU --> SEL[\"Selector Agent<br/>(MCDA: 50% Scorer<br/>+ 30% Judge<br/>+ 20% Intent)\"]\n    SEL --> WIN[\"Winner +<br/>Leaderboard\"]\n    WIN --> MLF[\"MLflow<br/>Logging\"]"
+        }
+      ],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0018",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 3,
+      "heading_text": "Memory Architecture",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 3. Layer 1 \u2014 LangGraph Agentic Orchestrator > Memory Architecture",
+      "content": "``` \nEvents \u2192 EventStore (Append-Only JSONL)\n    \u2193\nMemoryPolicyEngine (Route/Retain/Discard)\n    \u2193\nMemoryBuilder (Project into layers)\n    \u2193\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502 MemoryBank                              \u2502\n\u2502  \u251c\u2500\u2500 SessionMemory   (current workflow) \u2502\n\u2502  \u251c\u2500\u2500 EntityMemory    (datasets, models) \u2502\n\u2502  \u251c\u2500\u2500 ProceduralMemory(how-to recipes)   \u2502\n\u2502  \u2514\u2500\u2500 DecisionMemory  (why decisions)    \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n    \u2193\nSemanticMemoryBackend\n  \u251c\u2500\u2500 LocalFakeBackend (testing)\n  \u2514\u2500\u2500 Mem0Backend (production: Qdrant + nomic-embed-text)\n```\n\n---",
+      "content_type": "mixed",
+      "code_blocks": [
+        {
+          "language": "text",
+          "code": "Events \u2192 EventStore (Append-Only JSONL)\n    \u2193\nMemoryPolicyEngine (Route/Retain/Discard)\n    \u2193\nMemoryBuilder (Project into layers)\n    \u2193\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502 MemoryBank                              \u2502\n\u2502  \u251c\u2500\u2500 SessionMemory   (current workflow) \u2502\n\u2502  \u251c\u2500\u2500 EntityMemory    (datasets, models) \u2502\n\u2502  \u251c\u2500\u2500 ProceduralMemory(how-to recipes)   \u2502\n\u2502  \u2514\u2500\u2500 DecisionMemory  (why decisions)    \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n    \u2193\nSemanticMemoryBackend\n  \u251c\u2500\u2500 LocalFakeBackend (testing)\n  \u2514\u2500\u2500 Mem0Backend (production: Qdrant + nomic-embed-text)"
+        }
+      ],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0019",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 2,
+      "heading_text": "4. Layer 2 \u2014 ML Pipeline Engine",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 4. Layer 2 \u2014 ML Pipeline Engine",
+      "content": "**Location:** `x:\\TAS\\AICONNEX\\aiconnex_ml\\`  \n**Version:** `2.0.0`",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0020",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 3,
+      "heading_text": "10-Node DAG with Self-Healing Loops",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 4. Layer 2 \u2014 ML Pipeline Engine > 10-Node DAG with Self-Healing Loops",
+      "content": "``` mermaid\ngraph TD\n    S[\"SCOPE<br/>Manifest Validation\"] --> A[\"ACQUIRE<br/>S3/Local Data Load\"]\n    A --> SP[\"SPLIT<br/>Topology-Enforced\"]\n    SP --> E[\"ENGINEER<br/>8-Step Feature Pipeline\"]\n    E --> V1[\"VG_1<br/>Data Quality Gate\"]\n    V1 -->|\"Pass\"| T[\"TRAIN<br/>Regression / Anomaly\"]\n    V1 -->|\"Fail\"| G02[\"G-02 Repair Loop<br/>(\u22643 retries)\"]\n    G02 -->|\"Mutate config\"| E\n    T --> V2[\"VG_2<br/>Model Quality Gate\"]\n    V2 -->|\"Pass\"| D[\"DEPLOY<br/>Mark deployed\"]\n    V2 -->|\"Fail\"| G03[\"G-03 Mutation Loop<br/>(\u22642 retries)\"]\n    G03 -->|\"Double HPO / shift algo\"| T\n    D --> R[\"REPORT<br/>JSON + Markdown\"]\n    R --> F[\"FINALIZE<br/>Save manifest\"]\n\n    style V1 fill:#FF9800,color:#fff\n    style V2 fill:#FF9800,color:#fff\n    style G02 fill:#F44336,color:#fff\n    style G03 fill:#F44336,color:#fff\n```",
+      "content_type": "mixed",
+      "code_blocks": [
+        {
+          "language": "mermaid",
+          "code": "graph TD\n    S[\"SCOPE<br/>Manifest Validation\"] --> A[\"ACQUIRE<br/>S3/Local Data Load\"]\n    A --> SP[\"SPLIT<br/>Topology-Enforced\"]\n    SP --> E[\"ENGINEER<br/>8-Step Feature Pipeline\"]\n    E --> V1[\"VG_1<br/>Data Quality Gate\"]\n    V1 -->|\"Pass\"| T[\"TRAIN<br/>Regression / Anomaly\"]\n    V1 -->|\"Fail\"| G02[\"G-02 Repair Loop<br/>(\u22643 retries)\"]\n    G02 -->|\"Mutate config\"| E\n    T --> V2[\"VG_2<br/>Model Quality Gate\"]\n    V2 -->|\"Pass\"| D[\"DEPLOY<br/>Mark deployed\"]\n    V2 -->|\"Fail\"| G03[\"G-03 Mutation Loop<br/>(\u22642 retries)\"]\n    G03 -->|\"Double HPO / shift algo\"| T\n    D --> R[\"REPORT<br/>JSON + Markdown\"]\n    R --> F[\"FINALIZE<br/>Save manifest\"]\n\n    style V1 fill:#FF9800,color:#fff\n    style V2 fill:#FF9800,color:#fff\n    style G02 fill:#F44336,color:#fff\n    style G03 fill:#F44336,color:#fff"
+        }
+      ],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0021",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 3,
+      "heading_text": "Split Policies (Zero Leakage)",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 4. Layer 2 \u2014 ML Pipeline Engine > Split Policies (Zero Leakage)",
+      "content": "| Topology | Strategy | Guard |\n|----------|----------|-------|\n| `time_series` | Strict chronological position split | No shuffle, no random |\n| `multi_entity_time_series` | Group-chronological by `entity_column` | No entity appears in multiple splits |\n| `tabular` | Stratified random | Standard sklearn split |",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Topology | Strategy | Guard |\n|----------|----------|-------|\n| `time_series` | Strict chronological position split | No shuffle, no random |\n| `multi_entity_time_series` | Group-chronological by `entity_column` | No entity appears in multiple splits |\n| `tabular` | Stratified random | Standard sklearn split |"
+      ]
+    },
+    {
+      "section_id": "SEC-0022",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 3,
+      "heading_text": "Feature Engineering Pipeline (`engineer_node.py`)",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 4. Layer 2 \u2014 ML Pipeline Engine > Feature Engineering Pipeline (`engineer_node.py`)",
+      "content": "| Step | Module | Algorithm |\n|------|--------|-----------|\n| 1 | `schema_mapping.py` | Plant tag \u2192 canonical name translation |\n| 2 | `time_alignment.py` | Multi-rate resampling, `merge_asof` lab lag |\n| 3 | `quality_checks.py` | Stuck sensors (var < 1e-8), null rates, duplicates |\n| 4 | `contract.py` | Required column + dtype enforcement |\n| 5 | `lag.py` + `rolling.py` + `spectral.py` | Lag features, rolling stats, FFT/RMS/kurtosis |\n| 6 | `scaling.py` | StandardScaler/RobustScaler (train-only fit) |\n| 7 | `mode_normalization.py` | Per-operating-mode StandardScaler |\n| 8 | `validation.py` | PSI drift check, collinearity > 0.95 pruning |",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Step | Module | Algorithm |\n|------|--------|-----------|\n| 1 | `schema_mapping.py` | Plant tag \u2192 canonical name translation |\n| 2 | `time_alignment.py` | Multi-rate resampling, `merge_asof` lab lag |\n| 3 | `quality_checks.py` | Stuck sensors (var < 1e-8), null rates, duplicates |\n| 4 | `contract.py` | Required column + dtype enforcement |\n| 5 | `lag.py` + `rolling.py` + `spectral.py` | Lag features, rolling stats, FFT/RMS/kurtosis |\n| 6 | `scaling.py` | StandardScaler/RobustScaler (train-only fit) |\n| 7 | `mode_normalization.py` | Per-operating-mode StandardScaler |\n| 8 | `validation.py` | PSI drift check, collinearity > 0.95 pruning |"
+      ]
+    },
+    {
+      "section_id": "SEC-0023",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 3,
+      "heading_text": "Regression Track",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 4. Layer 2 \u2014 ML Pipeline Engine > Regression Track",
+      "content": "| Module | Purpose | Key Algorithms |\n|--------|---------|----------------|\n| `registry.py` | 12 algorithms | Linear, Ridge, Lasso, ElasticNet, RF, XGBoost, LightGBM, CatBoost, GBR, SVR, KNN, MLP |\n| `baselines.py` | Default-param benchmarks | Quick-fit all registry models |\n| `hpo.py` | Hyperparameter optimization | `RandomizedSearchCV` + `PredefinedSplit` (no leakage) |\n| `losses.py` | Custom losses | PHM08 asymmetric RUL ($e^{-d/13}-1$ vs $e^{+d/10}-1$), Huber |\n| `evaluation.py` | Full metrics suite | RMSE, MAE, MAPE, R\u00b2, NRMSE, bootstrap CI (200 iter) |\n| `robustness.py` | Stress testing | Gaussian noise (5-20% std), sensor dropout (10-30%) |\n| `drift.py` | Production monitoring | Holdout RMSE degradation %, PSI feature drift |\n| `trainer.py` | Track orchestrator | Contract \u2192 Baseline \u2192 HPO \u2192 Eval \u2192 Robustness \u2192 Export |",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Module | Purpose | Key Algorithms |\n|--------|---------|----------------|\n| `registry.py` | 12 algorithms | Linear, Ridge, Lasso, ElasticNet, RF, XGBoost, LightGBM, CatBoost, GBR, SVR, KNN, MLP |\n| `baselines.py` | Default-param benchmarks | Quick-fit all registry models |\n| `hpo.py` | Hyperparameter optimization | `RandomizedSearchCV` + `PredefinedSplit` (no leakage) |\n| `losses.py` | Custom losses | PHM08 asymmetric RUL ($e^{-d/13}-1$ vs $e^{+d/10}-1$), Huber |\n| `evaluation.py` | Full metrics suite | RMSE, MAE, MAPE, R\u00b2, NRMSE, bootstrap CI (200 iter) |\n| `robustness.py` | Stress testing | Gaussian noise (5-20% std), sensor dropout (10-30%) |\n| `drift.py` | Production monitoring | Holdout RMSE degradation %, PSI feature drift |\n| `trainer.py` | Track orchestrator | Contract \u2192 Baseline \u2192 HPO \u2192 Eval \u2192 Robustness \u2192 Export |"
+      ]
+    },
+    {
+      "section_id": "SEC-0024",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 3,
+      "heading_text": "Anomaly Track",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 4. Layer 2 \u2014 ML Pipeline Engine > Anomaly Track",
+      "content": "| Module | Purpose | Key Algorithms |\n|--------|---------|----------------|\n| `registry.py` | 8 algorithms | Isolation Forest, LOF, Elliptic Envelope, DBSCAN, One-Class SVM, PCA, XGB Classifier, RF Classifier |\n| `data_loader.py` | Supervision-mode loading | Supervised / Semi-supervised / Unsupervised |\n| `threshold.py` | Decision calibration | Percentile, cost-minimization grid, SME override |\n| `operating_modes.py` | Regime detection | KMeans clustering, per-mode threshold routing |\n| `evaluation.py` | Anomaly metrics | Precision, Recall, F1, PR-AUC, ROC-AUC, FAR/week, detection latency |\n| `drift.py` | Two-path drift | KS-test + PSI \u2192 recalibrate threshold vs retrain model |\n| `trainer.py` | Track orchestrator | Contract \u2192 Mode load \u2192 Baseline \u2192 Threshold \u2192 Eval \u2192 Export |",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Module | Purpose | Key Algorithms |\n|--------|---------|----------------|\n| `registry.py` | 8 algorithms | Isolation Forest, LOF, Elliptic Envelope, DBSCAN, One-Class SVM, PCA, XGB Classifier, RF Classifier |\n| `data_loader.py` | Supervision-mode loading | Supervised / Semi-supervised / Unsupervised |\n| `threshold.py` | Decision calibration | Percentile, cost-minimization grid, SME override |\n| `operating_modes.py` | Regime detection | KMeans clustering, per-mode threshold routing |\n| `evaluation.py` | Anomaly metrics | Precision, Recall, F1, PR-AUC, ROC-AUC, FAR/week, detection latency |\n| `drift.py` | Two-path drift | KS-test + PSI \u2192 recalibrate threshold vs retrain model |\n| `trainer.py` | Track orchestrator | Contract \u2192 Mode load \u2192 Baseline \u2192 Threshold \u2192 Eval \u2192 Export |"
+      ]
+    },
+    {
+      "section_id": "SEC-0025",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 3,
+      "heading_text": "Monitoring & Serving",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 4. Layer 2 \u2014 ML Pipeline Engine > Monitoring & Serving",
+      "content": "| Module | Purpose |\n|--------|---------|\n| `validation_gate_2.py` | Post-train model quality gate (RMSE, R\u00b2, MAPE, Precision, Recall, PR-AUC, FAR thresholds) |\n| `edge_monitor.py` | Lightweight edge inference, tag translation, JSONL alerts, periodic PSI drift |\n| `reporter.py` | JSON + Markdown report with matplotlib residual plots |\n| `serving.py` | `Predictor` class for real-time/batch inference from manifest artifacts |\n\n---",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Module | Purpose |\n|--------|---------|\n| `validation_gate_2.py` | Post-train model quality gate (RMSE, R\u00b2, MAPE, Precision, Recall, PR-AUC, FAR thresholds) |\n| `edge_monitor.py` | Lightweight edge inference, tag translation, JSONL alerts, periodic PSI drift |\n| `reporter.py` | JSON + Markdown report with matplotlib residual plots |\n| `serving.py` | `Predictor` class for real-time/batch inference from manifest artifacts |"
+      ]
+    },
+    {
+      "section_id": "SEC-0026",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 2,
+      "heading_text": "5. Layer 3 \u2014 Terminal UI (TUI)",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 5. Layer 3 \u2014 Terminal UI (TUI)",
+      "content": "**Location:** `x:\\TAS\\AICONNEX\\agentic_terminla_UI\\`",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0027",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 3,
+      "heading_text": "Components",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 5. Layer 3 \u2014 Terminal UI (TUI) > Components",
+      "content": "| File | Purpose | Key Function |\n|------|---------|-------------|\n| `tui_app.py` | Main Rich Live dashboard + interactive chat loop | `run_interactive_tui_chat()`, `run_tui_session()`, `make_layout()` |\n| `components/status_inspector.py` | Header panel showing active agent, confidence, step index | `render_status_inspector()` |\n| `components/dag_telemetry.py` | Live event stream panel | `render_telemetry_panel()` |",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| File | Purpose | Key Function |\n|------|---------|-------------|\n| `tui_app.py` | Main Rich Live dashboard + interactive chat loop | `run_interactive_tui_chat()`, `run_tui_session()`, `make_layout()` |\n| `components/status_inspector.py` | Header panel showing active agent, confidence, step index | `render_status_inspector()` |\n| `components/dag_telemetry.py` | Live event stream panel | `render_telemetry_panel()` |"
+      ]
+    },
+    {
+      "section_id": "SEC-0028",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 3,
+      "heading_text": "Features",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 5. Layer 3 \u2014 Terminal UI (TUI) > Features",
+      "content": "- Real-time streaming of LangGraph node execution events\n- Active agent name, confidence score, step index display\n- File upload detection and automatic path injection\n- HITL clarification question extraction and interactive prompting\n- Multi-turn conversation memory",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0029",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 3,
+      "heading_text": "Rust AOE Codebase (Embedded)",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 5. Layer 3 \u2014 Terminal UI (TUI) > Rust AOE Codebase (Embedded)",
+      "content": "- `Cargo.toml` + `src/` \u2014 Agent of Empires v1.13.1 Ratatui session multiplexer\n- Unix-targeted; Python Rich TUI is the official Windows implementation\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0030",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 3,
+      "heading_text": "Primary LLM",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 6. Cross-Cutting: LLM Configuration > Primary LLM",
+      "content": "| Setting | Value |\n|---------|-------|\n| Provider | OpenRouter |\n| Model | `qwen/qwen-2.5-coder-32b-instruct` |\n| Base URL | `https://openrouter.ai/api/v1` |\n| Auth | `OPENROUTER_API_KEY` env var |",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Setting | Value |\n|---------|-------|\n| Provider | OpenRouter |\n| Model | `qwen/qwen-2.5-coder-32b-instruct` |\n| Base URL | `https://openrouter.ai/api/v1` |\n| Auth | `OPENROUTER_API_KEY` env var |"
+      ]
+    },
+    {
+      "section_id": "SEC-0031",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 3,
+      "heading_text": "Fallback Chain",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 6. Cross-Cutting: LLM Configuration > Fallback Chain",
+      "content": "``` \nOpenRouter Qwen 2.5 Coder 32B\n    \u2193 (if key missing or API error)\nOllama Local (gpt-oss:120b-cloud @ localhost:11434)\n    \u2193 (if unavailable)\nOpenAI (gpt-4o-mini)\n    \u2193 (if all fail)\nHeuristic/Regex/Template Fallback\n```",
+      "content_type": "mixed",
+      "code_blocks": [
+        {
+          "language": "text",
+          "code": "OpenRouter Qwen 2.5 Coder 32B\n    \u2193 (if key missing or API error)\nOllama Local (gpt-oss:120b-cloud @ localhost:11434)\n    \u2193 (if unavailable)\nOpenAI (gpt-4o-mini)\n    \u2193 (if all fail)\nHeuristic/Regex/Template Fallback"
+        }
+      ],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0032",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 3,
+      "heading_text": "LLM Call Sites",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 6. Cross-Cutting: LLM Configuration > LLM Call Sites",
+      "content": "| Component | Module | LLM Function |\n|-----------|--------|-------------|\n| Chatbot | `extraction.py` | `_call_qwen()` \u2014 intent extraction |\n| Chatbot | `pre_upload_extraction.py` | `_call_qwen()` \u2014 field extraction |\n| Chatbot | `llm_responder.py` | `generate_llm_response()` \u2014 response synthesis |\n| Agent | `semantic_extractor.py` | `_extract_via_llm()` \u2014 CUC extraction |\n| Agent | `confidence_scorer.py` | `_score_via_llm()` \u2014 confidence assessment |\n| Agent | `clarification_generator.py` | `_generate_via_llm()` \u2014 question generation |\n| Agent | `judge_agent.py` | `judge_candidate()` \u2014 qualitative evaluation |\n| Memory | `mem0_adapter.py` | Embedding via `nomic-embed-text` (Ollama) |\n\n---",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Component | Module | LLM Function |\n|-----------|--------|-------------|\n| Chatbot | `extraction.py` | `_call_qwen()` \u2014 intent extraction |\n| Chatbot | `pre_upload_extraction.py` | `_call_qwen()` \u2014 field extraction |\n| Chatbot | `llm_responder.py` | `generate_llm_response()` \u2014 response synthesis |\n| Agent | `semantic_extractor.py` | `_extract_via_llm()` \u2014 CUC extraction |\n| Agent | `confidence_scorer.py` | `_score_via_llm()` \u2014 confidence assessment |\n| Agent | `clarification_generator.py` | `_generate_via_llm()` \u2014 question generation |\n| Agent | `judge_agent.py` | `judge_candidate()` \u2014 qualitative evaluation |\n| Memory | `mem0_adapter.py` | Embedding via `nomic-embed-text` (Ollama) |"
+      ]
+    },
+    {
+      "section_id": "SEC-0033",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 2,
+      "heading_text": "7. Test Suite Coverage Matrix",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 7. Test Suite Coverage Matrix",
+      "content": "**Total Test Files:** 61 (44 root + 17 nested)  \n**All tests:** \u2705 Real implementations (zero stubs in test code)",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0034",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 3,
+      "heading_text": "Root Test Files (44)",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 7. Test Suite Coverage Matrix > Root Test Files (44)",
+      "content": "| Test File | Target | Category |\n|-----------|--------|----------|\n| `test_tui_app.py` | TUI session runner | Integration |\n| `test_tui_dag_telemetry.py` | Telemetry panel rendering | Unit |\n| `test_tui_status_inspector.py` | Status panel rendering | Unit |\n| `test_agent_contracts.py` | 5-stage Pydantic schemas | Contract |\n| `test_agent_state.py` | MasterAgentState | Unit |\n| `test_anomaly_pipeline.py` | Anomaly detection (IF, Mahalanobis) | Integration |\n| `test_clarification_node.py` | HITL interrupt + resume | Integration |\n| `test_cli.py` | CLI argument parsing | Unit |\n| `test_compiler_regression_suite.py` | Multi-table dataset compilation | Regression |\n| `test_config.py` | Environment variable overrides | Unit |\n| `test_data_quality.py` | Constant columns, nulls, Cartesian joins | Unit |\n| `test_ensemble.py` | Stacked Ensemble meta-learner | Unit |\n| `test_evaluation_triad.py` | 3-Judge evaluation triad | Integration |\n| `test_graph_runner.py` | `execute_and_stream()` | Integration |\n| `test_intelligence_layer.py` | 7-stage dataset intelligence | Integration |\n| `test_langgraph_topology.py` | StateGraph construction | Unit |\n| `test_llm_backend_switch.py` | LLM backend switching | Integration |\n| `test_mem0_adapter.py` | Mem0 semantic memory | Integration |\n| `test_memory_agent_node.py` | Memory agent graph execution | Integration |\n| `test_memory_builder.py` | 4-layer memory projection | Unit |\n| `test_memory_event_store.py` | Append-only persistence | Unit |\n| `test_memory_policy_engine.py` | Event routing rules | Unit |\n| `test_memory_replay.py` | Event replay reconstruction | Unit |\n| `test_memory_semantic_backend.py` | LocalFake + Semantic contracts | Unit |\n| `test_mlflow_logger.py` | MLflow experiment tracking | Unit |\n| `test_multi_dag_resolver.py` | 1,993 DAG spec resolution | Unit |\n| `test_multi_format.py` | CSV/TXT/MAT/Parquet/JSON/SQLite | Unit |\n| `test_parser_extractor_and_validator.py` | SemanticExtractor + OutputValidator | Unit |\n| `test_parser_prompt_and_context.py` | PromptBuilder + ContextManager | Unit |\n| `test_parser_scorer_and_generator.py` | ConfidenceScorer + ClarificationGenerator | Unit |\n| `test_phase5c_contracts.py` | Phase 5c schemas | Contract |\n| `test_phase5c_e2e.py` | Full Phase 5c end-to-end | Integration |\n| `test_planning_engine_node.py` | Planning node execution | Unit |\n| `test_planning_intent_mapper.py` | Intent \u2192 plan mapping | Unit |\n| `test_planning_plan_validator.py` | Plan structural validation | Unit |\n| `test_platform_node.py` | Platform agent training | Integration |\n| `test_plugin_pipeline.py` | 22-plugin compiler pipeline | Integration |\n| `test_real_conversation_parser_node.py` | Real parser node | Integration |\n| `test_regression_pipeline.py` | XGBoost/RF/LightGBM/Ridge | Integration |\n| `test_scout_node.py` | Scout compilation + DIC creation | Integration |\n| `test_split_policy.py` | Zero-leakage temporal splitting | Unit |\n| `test_stub_nodes.py` | Legacy facade delegation | Unit |",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Test File | Target | Category |\n|-----------|--------|----------|\n| `test_tui_app.py` | TUI session runner | Integration |\n| `test_tui_dag_telemetry.py` | Telemetry panel rendering | Unit |\n| `test_tui_status_inspector.py` | Status panel rendering | Unit |\n| `test_agent_contracts.py` | 5-stage Pydantic schemas | Contract |\n| `test_agent_state.py` | MasterAgentState | Unit |\n| `test_anomaly_pipeline.py` | Anomaly detection (IF, Mahalanobis) | Integration |\n| `test_clarification_node.py` | HITL interrupt + resume | Integration |\n| `test_cli.py` | CLI argument parsing | Unit |\n| `test_compiler_regression_suite.py` | Multi-table dataset compilation | Regression |\n| `test_config.py` | Environment variable overrides | Unit |\n| `test_data_quality.py` | Constant columns, nulls, Cartesian joins | Unit |\n| `test_ensemble.py` | Stacked Ensemble meta-learner | Unit |\n| `test_evaluation_triad.py` | 3-Judge evaluation triad | Integration |\n| `test_graph_runner.py` | `execute_and_stream()` | Integration |\n| `test_intelligence_layer.py` | 7-stage dataset intelligence | Integration |\n| `test_langgraph_topology.py` | StateGraph construction | Unit |\n| `test_llm_backend_switch.py` | LLM backend switching | Integration |\n| `test_mem0_adapter.py` | Mem0 semantic memory | Integration |\n| `test_memory_agent_node.py` | Memory agent graph execution | Integration |\n| `test_memory_builder.py` | 4-layer memory projection | Unit |\n| `test_memory_event_store.py` | Append-only persistence | Unit |\n| `test_memory_policy_engine.py` | Event routing rules | Unit |\n| `test_memory_replay.py` | Event replay reconstruction | Unit |\n| `test_memory_semantic_backend.py` | LocalFake + Semantic contracts | Unit |\n| `test_mlflow_logger.py` | MLflow experiment tracking | Unit |\n| `test_multi_dag_resolver.py` | 1,993 DAG spec resolution | Unit |\n| `test_multi_format.py` | CSV/TXT/MAT/Parquet/JSON/SQLite | Unit |\n| `test_parser_extractor_and_validator.py` | SemanticExtractor + OutputValidator | Unit |\n| `test_parser_prompt_and_context.py` | PromptBuilder + ContextManager | Unit |\n| `test_parser_scorer_and_generator.py` | ConfidenceScorer + ClarificationGenerator | Unit |\n| `test_phase5c_contracts.py` | Phase 5c schemas | Contract |\n| `test_phase5c_e2e.py` | Full Phase 5c end-to-end | Integration |\n| `test_planning_engine_node.py` | Planning node execution | Unit |\n| `test_planning_intent_mapper.py` | Intent \u2192 plan mapping | Unit |\n| `test_planning_plan_validator.py` | Plan structural validation | Unit |\n| `test_platform_node.py` | Platform agent training | Integration |\n| `test_plugin_pipeline.py` | 22-plugin compiler pipeline | Integration |\n| `test_real_conversation_parser_node.py` | Real parser node | Integration |\n| `test_regression_pipeline.py` | XGBoost/RF/LightGBM/Ridge | Integration |\n| `test_scout_node.py` | Scout compilation + DIC creation | Integration |\n| `test_split_policy.py` | Zero-leakage temporal splitting | Unit |\n| `test_stub_nodes.py` | Legacy facade delegation | Unit |"
+      ]
+    },
+    {
+      "section_id": "SEC-0035",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 3,
+      "heading_text": "Nested Test Suites",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 7. Test Suite Coverage Matrix > Nested Test Suites",
+      "content": "| Directory | Files | Focus |\n|-----------|-------|-------|\n| `tests/unit/` | 8 files | Evaluate, explain, features, preprocess, split, stress, train, validate_raw |\n| `tests/integration/` | 1 file | Full end-to-end smoke test |\n| `tests/contracts/` | 2 files | Manifest schema, report schema validation |\n| `tests/deployment/` | 1 file | Inference serialization + REST serving |\n| `tests/matrix/` | 1 file | 13 algorithm family matrix |\n| `tests/test_scenarios/` | 6 files | RUL censoring, sparse lag, novelty, changepoint, sensor dropout, multi-regime |\n| `tests/benchmarks/` | 1 file | Metric regression vs `baseline_metrics.json` |\n| `tests/fixtures/` | 3 files | Test data generation |\n\n---",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Directory | Files | Focus |\n|-----------|-------|-------|\n| `tests/unit/` | 8 files | Evaluate, explain, features, preprocess, split, stress, train, validate_raw |\n| `tests/integration/` | 1 file | Full end-to-end smoke test |\n| `tests/contracts/` | 2 files | Manifest schema, report schema validation |\n| `tests/deployment/` | 1 file | Inference serialization + REST serving |\n| `tests/matrix/` | 1 file | 13 algorithm family matrix |\n| `tests/test_scenarios/` | 6 files | RUL censoring, sparse lag, novelty, changepoint, sensor dropout, multi-regime |\n| `tests/benchmarks/` | 1 file | Metric regression vs `baseline_metrics.json` |\n| `tests/fixtures/` | 3 files | Test data generation |"
+      ]
+    },
+    {
+      "section_id": "SEC-0036",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 3,
+      "heading_text": "Branches",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 8. Git History & Branch Topology > Branches",
+      "content": "| Branch | Status | Purpose |\n|--------|--------|---------|\n| `30jul` | \u2705 Active (HEAD) | Current development branch |\n| `28_july_agentic` | Merged into | Parent agentic development branch |\n| `main` | Stable | Production baseline |\n| `mlflow-integration` | Feature | MLflow integration work |\n| `spe` | Feature | SPE-specific work |\n| `UI-integration` | Local | UI integration experiments |\n| `bug-fix-for-satish_data` | Local | Dataset-specific fixes |",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Branch | Status | Purpose |\n|--------|--------|---------|\n| `30jul` | \u2705 Active (HEAD) | Current development branch |\n| `28_july_agentic` | Merged into | Parent agentic development branch |\n| `main` | Stable | Production baseline |\n| `mlflow-integration` | Feature | MLflow integration work |\n| `spe` | Feature | SPE-specific work |\n| `UI-integration` | Local | UI integration experiments |\n| `bug-fix-for-satish_data` | Local | Dataset-specific fixes |"
+      ]
+    },
+    {
+      "section_id": "SEC-0037",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 3,
+      "heading_text": "Recent 30 Commits (Reverse Chronological)",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 8. Git History & Branch Topology > Recent 30 Commits (Reverse Chronological)",
+      "content": "``` \n18f6dd0 feat(agent): integrate MLflow Tracing SDK, LangStudio visualizer & OpenRouter Qwen routing\n0c681d8 fix(tests): ensure captured output is defined in test_cli.py\n8a3bf21 feat(phase5c): complete multi-candidate stacked ensemble engine, evaluation triad, and MLflow logging\n6f097f9 fix(scout): enforce Scout error handling, add master architecture doc and H2O launcher\nc3f3f75 docs: sync context_log.md for 30jul branch creation\na02b294 test(scout): update test_scout_node.py assertions to match Bug #1 fix\n4e06c60 fix(agentic): resolve critical bugs #1 (scout interrupt fallthrough) and #2 (stable session_id)\nad250e4 chore: ignore h2o-3 and h2o_ref reference benchmark directories\n78dc2b1 docs: Phase 0 to Phase 5b full build doc\na8df59f docs: sync context_log.md - record mlflow-integration branch creation\n164bb43 feat(scout): Phase 5b - real UnifiedCompiler-backed Scout node (gaps 1,2,3,4,7)\nedac1f6 chore(tests): delete test_scout_integration.py - deleted ScoutAgent class\na281e29 chore(tests): remove 4 broken tests referencing deleted ScoutAgent/patch_proposer/sandbox_runner\n4c0b146 docs: full branch summary of the LangGraph agentic phased build\n215f353 feat(parser): ConfidenceScorer + ClarificationGenerator now make real LLM calls\n9036948 docs: phased architecture audit - real vs fake/stub status across all phases\n9ff6221 chore(agent): remove 8 orphaned legacy Node1-6 files superseded by stub_nodes.py\nf4fd76d fix(memory): mem0 reuses OLLAMA_MODEL cloud model instead of forcing llama3.1\n92e7322 feat(planning): Phase 4 - IntentPlanMapper + PlanValidator + real Planning Engine node\nc6748f9 fix(agent): restore Phase 4 TaskStep/ExecutionPlan schema + test assertions\n7ee8bab feat(parser): SemanticExtractor now makes a real LLM call by default\n5707de5 feat(agent): add AICONNEX_LLM_BACKEND switch (Ollama default, OpenAI opt-in)\n46be37a docs: add Phase 5a.6 mem0 Sprint 2 plan\n4d745f9 test(memory): add skippable Mem0Backend integration tests\nae09b1d feat(memory): semantic search on query_status read path (Phase 5a.6 Task 3)\nfa49d2f feat(memory): mirror Entity memory into semantic backend on write path\n85df7e9 feat(memory): SemanticMemoryBackend interface, LocalFakeBackend, mem0 adapter\naaf8cac feat(memory): replay + provenance rebuild from event log (Phase 5a.5)\n7c812bf feat(memory): event-sourced Memory Agent node wired into LangGraph (Phase 5a.4)\n0dd470d feat(memory): deterministic MemoryBuilder projecting events into 4 layers (Phase 5a.3)\n```",
+      "content_type": "mixed",
+      "code_blocks": [
+        {
+          "language": "text",
+          "code": "18f6dd0 feat(agent): integrate MLflow Tracing SDK, LangStudio visualizer & OpenRouter Qwen routing\n0c681d8 fix(tests): ensure captured output is defined in test_cli.py\n8a3bf21 feat(phase5c): complete multi-candidate stacked ensemble engine, evaluation triad, and MLflow logging\n6f097f9 fix(scout): enforce Scout error handling, add master architecture doc and H2O launcher\nc3f3f75 docs: sync context_log.md for 30jul branch creation\na02b294 test(scout): update test_scout_node.py assertions to match Bug #1 fix\n4e06c60 fix(agentic): resolve critical bugs #1 (scout interrupt fallthrough) and #2 (stable session_id)\nad250e4 chore: ignore h2o-3 and h2o_ref reference benchmark directories\n78dc2b1 docs: Phase 0 to Phase 5b full build doc\na8df59f docs: sync context_log.md - record mlflow-integration branch creation\n164bb43 feat(scout): Phase 5b - real UnifiedCompiler-backed Scout node (gaps 1,2,3,4,7)\nedac1f6 chore(tests): delete test_scout_integration.py - deleted ScoutAgent class\na281e29 chore(tests): remove 4 broken tests referencing deleted ScoutAgent/patch_proposer/sandbox_runner\n4c0b146 docs: full branch summary of the LangGraph agentic phased build\n215f353 feat(parser): ConfidenceScorer + ClarificationGenerator now make real LLM calls\n9036948 docs: phased architecture audit - real vs fake/stub status across all phases\n9ff6221 chore(agent): remove 8 orphaned legacy Node1-6 files superseded by stub_nodes.py\nf4fd76d fix(memory): mem0 reuses OLLAMA_MODEL cloud model instead of forcing llama3.1\n92e7322 feat(planning): Phase 4 - IntentPlanMapper + PlanValidator + real Planning Engine node\nc6748f9 fix(agent): restore Phase 4 TaskStep/ExecutionPlan schema + test assertions\n7ee8bab feat(parser): SemanticExtractor now makes a real LLM call by default\n5707de5 feat(agent): add AICONNEX_LLM_BACKEND switch (Ollama default, OpenAI opt-in)\n46be37a docs: add Phase 5a.6 mem0 Sprint 2 plan\n4d745f9 test(memory): add skippable Mem0Backend integration tests\nae09b1d feat(memory): semantic search on query_status read path (Phase 5a.6 Task 3)\nfa49d2f feat(memory): mirror Entity memory into semantic backend on write path\n85df7e9 feat(memory): SemanticMemoryBackend interface, LocalFakeBackend, mem0 adapter\naaf8cac feat(memory): replay + provenance rebuild from event log (Phase 5a.5)\n7c812bf feat(memory): event-sourced Memory Agent node wired into LangGraph (Phase 5a.4)\n0dd470d feat(memory): deterministic MemoryBuilder projecting events into 4 layers (Phase 5a.3)"
+        }
+      ],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0038",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 3,
+      "heading_text": "Build Phases (Chronological)",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 8. Git History & Branch Topology > Build Phases (Chronological)",
+      "content": "| Phase | What Was Built | Key Commits |\n|-------|---------------|-------------|\n| **Phase 0** | Package foundation, graph topology, state model | Initial commits |\n| **Phase 1** | Stub nodes, basic routing | `stub_nodes.py` |\n| **Phase 2** | Contracts (CUC, Scout, Pre-Compiler, DIC) | Schema files |\n| **Phase 3** | Parser pipeline (6 sub-modules with real LLM) | `215f353`, `7ee8bab` |\n| **Phase 4** | Planning engine (IntentPlanMapper + PlanValidator) | `92e7322` |\n| **Phase 5a** | Memory architecture (EventStore \u2192 MemoryBuilder \u2192 Replay \u2192 Mem0) | `0dd470d` \u2192 `ae09b1d` |\n| **Phase 5b** | Real Scout node (UnifiedCompiler integration) | `164bb43` |\n| **Phase 5c** | Platform agent (multi-candidate training, ensemble, evaluation triad, MLflow) | `8a3bf21` |\n| **Phase 6** | MLflow Tracing SDK, LangStudio, OpenRouter routing | `18f6dd0` |\n| **Phase 7** | Chatbot integration (LLM wiring, dispatcher \u2192 agent pipeline) | Session work (not yet committed) |\n\n---",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Phase | What Was Built | Key Commits |\n|-------|---------------|-------------|\n| **Phase 0** | Package foundation, graph topology, state model | Initial commits |\n| **Phase 1** | Stub nodes, basic routing | `stub_nodes.py` |\n| **Phase 2** | Contracts (CUC, Scout, Pre-Compiler, DIC) | Schema files |\n| **Phase 3** | Parser pipeline (6 sub-modules with real LLM) | `215f353`, `7ee8bab` |\n| **Phase 4** | Planning engine (IntentPlanMapper + PlanValidator) | `92e7322` |\n| **Phase 5a** | Memory architecture (EventStore \u2192 MemoryBuilder \u2192 Replay \u2192 Mem0) | `0dd470d` \u2192 `ae09b1d` |\n| **Phase 5b** | Real Scout node (UnifiedCompiler integration) | `164bb43` |\n| **Phase 5c** | Platform agent (multi-candidate training, ensemble, evaluation triad, MLflow) | `8a3bf21` |\n| **Phase 6** | MLflow Tracing SDK, LangStudio, OpenRouter routing | `18f6dd0` |\n| **Phase 7** | Chatbot integration (LLM wiring, dispatcher \u2192 agent pipeline) | Session work (not yet committed) |"
+      ]
+    },
+    {
+      "section_id": "SEC-0039",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 3,
+      "heading_text": "By Layer",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 9. File Inventory \u2014 Full System Map > By Layer",
+      "content": "| Layer | Location | Python Files | Key Modules |\n|-------|----------|-------------|-------------|\n| **Chatbot Backend** | `chatbot/backend/` | 16 | app, extraction, dispatcher, llm_responder, pre_upload_flow, intents, validation, pipeline_state, dictionary/* |\n| **Chatbot Frontend** | `chatbot/frontend/` | \u2014 | 8 React/TS components + Express proxy |\n| **Agent Core** | `aiconnex_agent/` | 46 | graph, state, runner, llm, schemas, studio |\n| **Agent Parser** | `aiconnex_agent/parser/` | 8 | prompt_builder, context_manager, semantic_extractor, output_validator, confidence_scorer, clarification_generator, conversation_parser, clarification_node |\n| **Agent Planning** | `aiconnex_agent/planning/` | 4 | intent_plan_mapper, plan_validator, planning_engine |\n| **Agent Scout** | `aiconnex_agent/scout/` | 4 | scout_node, compiler_adapter, strategy_peek |\n| **Agent Platform** | `aiconnex_agent/platform/` | 7 | platform_node, multi_dag_resolver, scorer_agent, judge_agent, selector_agent, mlflow_logger |\n| **Agent Memory** | `aiconnex_agent/memory/` | 11 | events, event_store, policy_engine, memory_layers, memory_builder, replay, memory_agent, backends/* |\n| **ML Pipeline** | `aiconnex_ml/` | 30 | runner, config, engineer_node, serving, shared/*, regression/*, anomaly/*, monitoring/* |\n| **TUI** | `agentic_terminla_UI/` | 4 | tui_app, status_inspector, dag_telemetry |\n| **Tests** | `tests/` | 61 | Unit, integration, contracts, deployment, matrix, scenarios, benchmarks |\n| **ZIP Compiler** | `aiconnex_zip_compiler/` | ~30+ | UnifiedCompiler, 22-plugin pipeline, intelligence layer |",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Layer | Location | Python Files | Key Modules |\n|-------|----------|-------------|-------------|\n| **Chatbot Backend** | `chatbot/backend/` | 16 | app, extraction, dispatcher, llm_responder, pre_upload_flow, intents, validation, pipeline_state, dictionary/* |\n| **Chatbot Frontend** | `chatbot/frontend/` | \u2014 | 8 React/TS components + Express proxy |\n| **Agent Core** | `aiconnex_agent/` | 46 | graph, state, runner, llm, schemas, studio |\n| **Agent Parser** | `aiconnex_agent/parser/` | 8 | prompt_builder, context_manager, semantic_extractor, output_validator, confidence_scorer, clarification_generator, conversation_parser, clarification_node |\n| **Agent Planning** | `aiconnex_agent/planning/` | 4 | intent_plan_mapper, plan_validator, planning_engine |\n| **Agent Scout** | `aiconnex_agent/scout/` | 4 | scout_node, compiler_adapter, strategy_peek |\n| **Agent Platform** | `aiconnex_agent/platform/` | 7 | platform_node, multi_dag_resolver, scorer_agent, judge_agent, selector_agent, mlflow_logger |\n| **Agent Memory** | `aiconnex_agent/memory/` | 11 | events, event_store, policy_engine, memory_layers, memory_builder, replay, memory_agent, backends/* |\n| **ML Pipeline** | `aiconnex_ml/` | 30 | runner, config, engineer_node, serving, shared/*, regression/*, anomaly/*, monitoring/* |\n| **TUI** | `agentic_terminla_UI/` | 4 | tui_app, status_inspector, dag_telemetry |\n| **Tests** | `tests/` | 61 | Unit, integration, contracts, deployment, matrix, scenarios, benchmarks |\n| **ZIP Compiler** | `aiconnex_zip_compiler/` | ~30+ | UnifiedCompiler, 22-plugin pipeline, intelligence layer |"
+      ]
+    },
+    {
+      "section_id": "SEC-0040",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 3,
+      "heading_text": "Total Estimated Python Files: **~200+**",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 9. File Inventory \u2014 Full System Map > Total Estimated Python Files: **~200+**",
+      "content": "---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0041",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 3,
+      "heading_text": "Strengths",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 10. Findings & Health Assessment > Strengths",
+      "content": "| Finding | Details |\n|---------|---------|\n| **Zero stub nodes in execution path** | All 6 main agent nodes (parser, clarification, planning, scout, platform, memory) are real implementations. Only `plan_evaluator_node` remains a deterministic step counter. |\n| **100% LLM-powered responses** | All chatbot response paths use live OpenRouter Qwen 2.5 Coder 32B with graceful fallbacks. |\n| **Industrial-grade ML pipeline** | Self-healing loops (G-02/G-03), topology-enforced splitting (zero leakage), PHM08 asymmetric RUL loss, per-operating-mode normalization. |\n| **Comprehensive test suite** | 61 test files covering contracts, unit, integration, scenarios, benchmarks, deployment. |\n| **Event-sourced memory** | Append-only EventStore \u2192 deterministic MemoryBuilder \u2192 4-layer MemoryBank \u2192 optional Mem0 semantic search. |\n| **Multi-candidate evaluation** | Parallel training + Stacked Ensemble + 3-Judge Triad (Scorer 50% + Judge 30% + Intent 20%). |",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Finding | Details |\n|---------|---------|\n| **Zero stub nodes in execution path** | All 6 main agent nodes (parser, clarification, planning, scout, platform, memory) are real implementations. Only `plan_evaluator_node` remains a deterministic step counter. |\n| **100% LLM-powered responses** | All chatbot response paths use live OpenRouter Qwen 2.5 Coder 32B with graceful fallbacks. |\n| **Industrial-grade ML pipeline** | Self-healing loops (G-02/G-03), topology-enforced splitting (zero leakage), PHM08 asymmetric RUL loss, per-operating-mode normalization. |\n| **Comprehensive test suite** | 61 test files covering contracts, unit, integration, scenarios, benchmarks, deployment. |\n| **Event-sourced memory** | Append-only EventStore \u2192 deterministic MemoryBuilder \u2192 4-layer MemoryBank \u2192 optional Mem0 semantic search. |\n| **Multi-candidate evaluation** | Parallel training + Stacked Ensemble + 3-Judge Triad (Scorer 50% + Judge 30% + Intent 20%). |"
+      ]
+    },
+    {
+      "section_id": "SEC-0042",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 3,
+      "heading_text": "Items to Note",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 10. Findings & Health Assessment > Items to Note",
+      "content": "| Finding | Severity | Details |\n|---------|----------|---------|\n| `plan_evaluator_node` is still a stub | Low | Deterministic step counter \u2014 functions correctly but lacks LLM-driven plan re-evaluation. |\n| `pipeline_state.py` uses `_FAKE_REGISTRY` | Low | In-memory dict for dataset stage tracking \u2014 not persisted across restarts. |\n| Duplicate `MasterAgentState` import in `graph.py` | Trivial | Lines 14 & 15 both import the same class. |\n| Chatbot session work not yet committed | Medium | All Phase 7 changes (LLM wiring, dispatcher, llm_responder) exist on disk but haven't been git committed. |\n| `compiler_adapter.py` leaves `problem_candidates` empty | Low | Notes that `IntelligenceOrchestrator` is not yet wired for auto-detection. |\n| Confidence threshold `0.85` hardcoded in 2 places | Low | `graph.py` and `conversation_parser.py` \u2014 should be a config constant. |",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Finding | Severity | Details |\n|---------|----------|---------|\n| `plan_evaluator_node` is still a stub | Low | Deterministic step counter \u2014 functions correctly but lacks LLM-driven plan re-evaluation. |\n| `pipeline_state.py` uses `_FAKE_REGISTRY` | Low | In-memory dict for dataset stage tracking \u2014 not persisted across restarts. |\n| Duplicate `MasterAgentState` import in `graph.py` | Trivial | Lines 14 & 15 both import the same class. |\n| Chatbot session work not yet committed | Medium | All Phase 7 changes (LLM wiring, dispatcher, llm_responder) exist on disk but haven't been git committed. |\n| `compiler_adapter.py` leaves `problem_candidates` empty | Low | Notes that `IntelligenceOrchestrator` is not yet wired for auto-detection. |\n| Confidence threshold `0.85` hardcoded in 2 places | Low | `graph.py` and `conversation_parser.py` \u2014 should be a config constant. |"
+      ]
+    },
+    {
+      "section_id": "SEC-0043",
+      "document_id": "PLAT-DOC-011",
+      "heading_level": 3,
+      "heading_text": "System Health Summary",
+      "section_path": "AIConnex System \u2014 Deep Architecture Audit > 10. Findings & Health Assessment > System Health Summary",
+      "content": "| Metric | Value |\n|--------|-------|\n| **Production Readiness** | \ud83d\udfe2 High \u2014 all execution paths are real, LLM-powered, with fallbacks |\n| **Code Quality** | \ud83d\udfe2 High \u2014 Pydantic schemas, type safety, clean module boundaries |\n| **Test Coverage** | \ud83d\udfe2 High \u2014 61 test files, all real implementations |\n| **Architecture Integrity** | \ud83d\udfe2 High \u2014 Clean 4-layer separation, no circular dependencies |\n| **Remaining Stubs** | \ud83d\udfe1 1 (plan_evaluator_node \u2014 functional but deterministic) |\n| **Uncommitted Work** | \ud83d\udfe1 Phase 7 chatbot integration changes on disk only |",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Metric | Value |\n|--------|-------|\n| **Production Readiness** | \ud83d\udfe2 High \u2014 all execution paths are real, LLM-powered, with fallbacks |\n| **Code Quality** | \ud83d\udfe2 High \u2014 Pydantic schemas, type safety, clean module boundaries |\n| **Test Coverage** | \ud83d\udfe2 High \u2014 61 test files, all real implementations |\n| **Architecture Integrity** | \ud83d\udfe2 High \u2014 Clean 4-layer separation, no circular dependencies |\n| **Remaining Stubs** | \ud83d\udfe1 1 (plan_evaluator_node \u2014 functional but deterministic) |\n| **Uncommitted Work** | \ud83d\udfe1 Phase 7 chatbot integration changes on disk only |"
+      ]
+    }
+  ]
+}

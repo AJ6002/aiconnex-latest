@@ -1,0 +1,13 @@
+{
+  "document_id": "DOC-IND-STD-004-V1",
+  "source_id": "SRC-IND-STD-004",
+  "title": "ISO 14224:2016 Collection & Exchange of Reliability Data for Equipment",
+  "version": "2016",
+  "document_type": "pdf",
+  "content_hash": "150553cac13c16dba828fda015a84e6b9fb7d002fb2171f6e614f483251dfe0f",
+  "page_count": 283,
+  "total_sections": 875,
+  "total_words": 86285,
+  "storage_uri": "s3://aiconnex-platform-kb-prod/industrial/ISO_14224_2016_Reliability_Data.pdf",
+  "created_at": "2026-08-14T08:41:26.027800+00:00"
+}

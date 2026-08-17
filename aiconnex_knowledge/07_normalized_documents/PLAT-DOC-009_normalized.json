@@ -1,0 +1,995 @@
+{
+  "document_id": "PLAT-DOC-009",
+  "section_count": 87,
+  "sections": [
+    {
+      "section_id": "SEC-0001",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 2,
+      "heading_text": "Executive Pitch Deck & Business Storyboard (16 Slides)",
+      "section_path": "AIConnex \u2014 Enterprise Industrial AI Platform > Executive Pitch Deck & Business Storyboard (16 Slides)",
+      "content": "---\n\n> **Presentation Theme**: AIConnex \u2014 Enterprise AI Acceleration Platform for Industrial Intelligence  \n> **Target Audience**: C-Suite Executives, Plant Managers, Operations Leaders, Engineering Directors  \n> **Language Style**: Simple, direct, plain English. No fancy corporate jargon or complicated code terms.\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0002",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 1,
+      "heading_text": "Table of Contents",
+      "section_path": "Table of Contents",
+      "content": "1. [Slide 1: Cover](#slide-1-cover)\n2. [Slide 2: The Reality Today](#slide-2-the-reality-today)\n3. [Slide 3: The AI Adoption Gap](#slide-3-the-ai-adoption-gap)\n4. [Slide 4: Why Existing Solutions Fall Short](#slide-4-why-existing-solutions-fall-short)\n5. [Slide 5: Introducing AIConnex](#slide-5-introducing-aiconnex)\n6. [Slide 6: Business Journey](#slide-6-business-journey)\n7. [Slide 7: What Makes AIConnex Different](#slide-7-what-makes-aiconnex-different)\n8. [Slide 8: Platform Capabilities](#slide-8-platform-capabilities)\n9. [Slide 9: Example Business Problems](#slide-9-example-business-problems)\n10. [Slide 10: Typical Customer Journey](#slide-10-typical-customer-journey)\n11. [Slide 11: Competitive Landscape](#slide-11-competitive-landscape)\n12. [Slide 12: Why AIConnex](#slide-12-why-aiconnex)\n13. [Slide 13: Business Benefits](#slide-13-business-benefits)\n14. [Slide 14: Flexible Deployment Options](#slide-14-flexible-deployment-options)\n15. [Slide 15: Strategic Roadmap](#slide-15-strategic-roadmap)\n16. [Slide 16: Closing & One Core Message](#slide-16-closing--one-core-message)\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0003",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Header",
+      "section_path": "Table of Contents > Slide 1: Cover > Header",
+      "content": "> **AIConnex**  \n> **Enterprise Industrial AI Platform**",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0004",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Subtitle",
+      "section_path": "Table of Contents > Slide 1: Cover > Subtitle",
+      "content": "> Turn Industrial Data into Real Business Value",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0005",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Visual Layout Recommendation",
+      "section_path": "Table of Contents > Slide 1: Cover > Visual Layout Recommendation",
+      "content": "* **Theme**: Modern industrial technology background \u2014 dark slate backdrop with simple blue connection lines.\n* **Branding**: AIConnex logo on top left; client logo placeholder on top right.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0006",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "On-Slide Content",
+      "section_path": "Table of Contents > Slide 1: Cover > On-Slide Content",
+      "content": "* **Tagline**: The simple way to build AI for factory and plant operations.\n* **Core Promise**: Turn your raw operational data into smart business decisions \u2014 fast.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0007",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Presenter Talking Points",
+      "section_path": "Table of Contents > Slide 1: Cover > Presenter Talking Points",
+      "content": "> *\"Welcome everyone. Today we are introducing AIConnex\u2014an easy-to-use AI platform designed to turn raw factory and plant data into real business predictions without needing custom code or months of complex engineering.\"*\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0008",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Header",
+      "section_path": "Table of Contents > Slide 2: The Reality Today > Header",
+      "content": "> **The Reality Today: Industrial Data is Enormous, High-Speed, and Trapped**",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0009",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Subtitle",
+      "section_path": "Table of Contents > Slide 2: The Reality Today > Subtitle",
+      "content": "> Millions of Sensor Readings Flow Daily \u2014 But Manual Tools Can't Handle the Scale",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0010",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Visual Layout Recommendation",
+      "section_path": "Table of Contents > Slide 2: The Reality Today > Visual Layout Recommendation",
+      "content": "* **Layout**: Left side displays high-volume data sources; right side explains why large-scale sensor data breaks manual workflows and requires MLOps.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0011",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 4,
+      "heading_text": "1. Industrial Data is Huge and Fast",
+      "section_path": "Table of Contents > Slide 2: The Reality Today > On-Slide Content > 1. Industrial Data is Huge and Fast",
+      "content": "* Continuous 24/7 telemetry from SCADA, PLCs, turbines, and compressors.\n* Hundreds of sensor tags generating **millions of rows of data every single day**.\n* Fragmented across multi-GB historian archives, exported CSVs, and plant spreadsheets.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0012",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 4,
+      "heading_text": "2. Manual Workflows Break Down at Scale",
+      "section_path": "Table of Contents > Slide 2: The Reality Today > On-Slide Content > 2. Manual Workflows Break Down at Scale",
+      "content": "* Traditional spreadsheets and manual scripts crash or take weeks on high-frequency sensor streams.\n* Engineers spend months trying to align timestamps and join massive multi-table files.\n* Critical equipment failure signals get buried in massive data noise.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0013",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 4,
+      "heading_text": "3. Why an MLOps Platform is Required",
+      "section_path": "Table of Contents > Slide 2: The Reality Today > On-Slide Content > 3. Why an MLOps Platform is Required",
+      "content": "* Big sensor data requires **automated pipelines**\u2014not manual, one-off scripts.\n* An MLOps platform automates data ingestion, large-scale cleaning, model training, and real-time monitoring.\n\n> \ud83d\udea8 **The Bottom Line**: Large data creates a massive operational bottleneck. Without automated MLOps, 90% of industrial sensor data goes to waste.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0014",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Presenter Talking Points",
+      "section_path": "Table of Contents > Slide 2: The Reality Today > Presenter Talking Points",
+      "content": "> *\"Industrial plants generate millions of sensor readings every day from SCADA systems, PLCs, and heavy machinery. The problem isn't just that data lives in different files\u2014it's that the volume and speed are too large for manual tools or spreadsheets. Manual workflows break under this weight. That is why an MLOps platform like AIConnex is necessary: it automates the heavy lifting of large-scale data ingestion and model building so you can turn massive sensor streams into real-time business value.\"*\n\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0015",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Header",
+      "section_path": "Table of Contents > Slide 3: The AI Adoption Gap > Header",
+      "content": "> **The AI Adoption Gap**",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0016",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Subtitle",
+      "section_path": "Table of Contents > Slide 3: The AI Adoption Gap > Subtitle",
+      "content": "> 80% of Project Time is Spent Before AI Even Starts",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0017",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Visual Layout Recommendation",
+      "section_path": "Table of Contents > Slide 3: The AI Adoption Gap > Visual Layout Recommendation",
+      "content": "* **Layout**: Horizontal timeline arrow with a large highlight over the early data steps.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0018",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "On-Slide Content",
+      "section_path": "Table of Contents > Slide 3: The AI Adoption Gap > On-Slide Content",
+      "content": "``` text\nRaw Data  \u2794  Cleaning  \u2794  Understanding  \u2794  Preparing  \u2794  Building Models  \u2794  Launching\n \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n            MOST TIME IS SPENT BEFORE AI STARTS\n```\n\n* **What Usually Happens**:\n  * Raw sensor data arrives in mixed formats and messy spreadsheets.\n  * Engineers spend months manually fixing data before building an AI model.\n  * Time and budget run out during data preparation.",
+      "content_type": "mixed",
+      "code_blocks": [
+        {
+          "language": "text",
+          "code": "Raw Data  \u2794  Cleaning  \u2794  Understanding  \u2794  Preparing  \u2794  Building Models  \u2794  Launching\n \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n            MOST TIME IS SPENT BEFORE AI STARTS"
+        }
+      ],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0019",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Presenter Talking Points",
+      "section_path": "Table of Contents > Slide 3: The AI Adoption Gap > Presenter Talking Points",
+      "content": "> *\"When companies try to build AI today, they hit a wall. Cleaning and organizing raw data takes 80% of the project time. Most projects get stuck in data prep before an AI model is ever trained.\"*\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0020",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Header",
+      "section_path": "Table of Contents > Slide 4: Why Existing Solutions Fall Short > Header",
+      "content": "> **Why Existing Tools Leave a Gap**",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0021",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Subtitle",
+      "section_path": "Table of Contents > Slide 4: Why Existing Solutions Fall Short > Subtitle",
+      "content": "> Today's Tools Work Well for Clean Data \u2014 But Plant Data is Never Clean",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0022",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Visual Layout Recommendation",
+      "section_path": "Table of Contents > Slide 4: Why Existing Solutions Fall Short > Visual Layout Recommendation",
+      "content": "* **Layout**: Two columns: \"What Existing Tools Do Well\" vs. \"What They Assume\".",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0023",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 4,
+      "heading_text": "Existing Tools Work Well At:",
+      "section_path": "Table of Contents > Slide 4: Why Existing Solutions Fall Short > On-Slide Content > Existing Tools Work Well At:",
+      "content": "* \u2699\ufe0f **Training AI Models**\n* \ud83d\udcca **Picking Math Algorithms**\n* \ud83d\ude80 **Hosting Models in the Cloud**",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0024",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 4,
+      "heading_text": "But They Assume:",
+      "section_path": "Table of Contents > Slide 4: Why Existing Solutions Fall Short > On-Slide Content > But They Assume:",
+      "content": "* \u274c **Your data is already clean and organized**\n* \u274c **All data comes from one simple table**\n* \u274c **You have a team of AI coders**\n\n> **Factory Reality is Different**: Sensor data is messy, spread across multiple files, and managed by plant managers\u2014not cloud coders.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0025",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Presenter Talking Points",
+      "section_path": "Table of Contents > Slide 4: Why Existing Solutions Fall Short > Presenter Talking Points",
+      "content": "> *\"Current tools like cloud AI suites do a good job training models if your data is already clean. But factory data is never clean. Existing tools ignore the hardest part: getting messy sensor data ready in the first place.\"*\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0026",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Header",
+      "section_path": "Table of Contents > Slide 5: Introducing AIConnex > Header",
+      "content": "> **Introducing AIConnex**",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0027",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Subtitle",
+      "section_path": "Table of Contents > Slide 5: Introducing AIConnex > Subtitle",
+      "content": "> The Simple Way to Turn Factory Data into Ready-to-Use AI",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0028",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Visual Layout Recommendation",
+      "section_path": "Table of Contents > Slide 5: Introducing AIConnex > Visual Layout Recommendation",
+      "content": "* **Layout**: Large, easy-to-read central box with clear summary points.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0029",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "On-Slide Content",
+      "section_path": "Table of Contents > Slide 5: Introducing AIConnex > On-Slide Content",
+      "content": "> **AIConnex bridges the gap between factory data and working AI by guiding your team step-by-step from your business goal to a ready-to-use prediction model.**\n\n* **How AIConnex Helps**:\n  * Starts with your **business goal**, not complex code.\n  * Handles **messy sensor files** automatically.\n  * Gives you a **simple, repeatable path** to working AI.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0030",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Presenter Talking Points",
+      "section_path": "Table of Contents > Slide 5: Introducing AIConnex > Presenter Talking Points",
+      "content": "> *\"AIConnex solves this problem. It is a simple platform that guides your team from a plain-English business goal directly to a working AI prediction model.\"*\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0031",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Header",
+      "section_path": "Table of Contents > Slide 6: Business Journey > Header",
+      "content": "> **The Simple 7-Step Journey**",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0032",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Subtitle",
+      "section_path": "Table of Contents > Slide 6: Business Journey > Subtitle",
+      "content": "> A Clear Path from Business Goal to Working AI",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0033",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Visual Layout Recommendation",
+      "section_path": "Table of Contents > Slide 6: Business Journey > Visual Layout Recommendation",
+      "content": "* **Layout**: 7 horizontal step blocks with zero technical jargon.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0034",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "On-Slide Content",
+      "section_path": "Table of Contents > Slide 6: Business Journey > On-Slide Content",
+      "content": "``` text\nBusiness Goal \u2794 Guided Setup \u2794 Data Check \u2794 Smart Prep \u2794 Build Models \u2794 Review \u2794 Ready to Use\n```\n\n1. **Business Goal**: Tell us what you want to achieve in plain words.\n2. **Guided Setup**: Answer simple questions about your machine and target goal.\n3. **Data Check**: Automatic check of your files, columns, and sensor readings.\n4. **Smart Prep**: Automatic cleaning, time alignment, and feature creation.\n5. **Build Models**: Automatically tests multiple AI options in parallel.\n6. **Review**: Easy-to-understand results and safety checks.\n7. **Ready to Use**: One-click connection to your daily plant tools.",
+      "content_type": "mixed",
+      "code_blocks": [
+        {
+          "language": "text",
+          "code": "Business Goal \u2794 Guided Setup \u2794 Data Check \u2794 Smart Prep \u2794 Build Models \u2794 Review \u2794 Ready to Use"
+        }
+      ],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0035",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Presenter Talking Points",
+      "section_path": "Table of Contents > Slide 6: Business Journey > Presenter Talking Points",
+      "content": "> *\"The AIConnex journey is simple. You state your goal, answer a few setup questions, upload your files, and the platform automatically cleans the data, builds the models, and hands you a ready-to-use tool.\"*\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0036",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Header",
+      "section_path": "Table of Contents > Slide 7: What Makes AIConnex Different > Header",
+      "content": "> **3 Reasons AIConnex is Different**",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0037",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Subtitle",
+      "section_path": "Table of Contents > Slide 7: What Makes AIConnex Different > Subtitle",
+      "content": "> Built for Business Goals \u2014 Not Complex Coding",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0038",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Visual Layout Recommendation",
+      "section_path": "Table of Contents > Slide 7: What Makes AIConnex Different > Visual Layout Recommendation",
+      "content": "* **Layout**: 3 clear vertical cards comparing AIConnex to traditional math-only tools, with an highlight badge on **Extensible Recipe Plugins**.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0039",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "On-Slide Content",
+      "section_path": "Table of Contents > Slide 7: What Makes AIConnex Different > On-Slide Content",
+      "content": "``` text\n      INSTEAD OF: Fixed \"one-size-fits-all\" tools with rigid recipes\n      \n      \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n      \u2502              AICONNEX 3 CORE DIFFERENCES                    \u2502\n      \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n```\n\n1. \ud83d\udcbc **Business-First**: We start with your business goal and safety limits, not confusing settings.\n2. \ud83c\udfed **Industrial-First**: Built specifically for factory sensors, machine time-series, and plant rules.\n3. \ud83d\udd04 **Workflow-First & Extensible**: Guides your team through a clear process, while allowing you to **plug in your own custom data recipes, plant rules, or domain algorithms** without changing the core stack.\n\n---",
+      "content_type": "mixed",
+      "code_blocks": [
+        {
+          "language": "text",
+          "code": "      INSTEAD OF: Fixed \"one-size-fits-all\" tools with rigid recipes\n      \n      \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n      \u2502              AICONNEX 3 CORE DIFFERENCES                    \u2502\n      \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518"
+        }
+      ],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0040",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Header",
+      "section_path": "Table of Contents > Slide 8: Platform Capabilities > Header",
+      "content": "> **What the Platform Does**",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0041",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Subtitle",
+      "section_path": "Table of Contents > Slide 8: Platform Capabilities > Subtitle",
+      "content": "> Everything You Need to Build and Use Industrial AI",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0042",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Visual Layout Recommendation",
+      "section_path": "Table of Contents > Slide 8: Platform Capabilities > Visual Layout Recommendation",
+      "content": "* **Layout**: 8 clean feature cards with easy icons.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0043",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "On-Slide Content",
+      "section_path": "Table of Contents > Slide 8: Platform Capabilities > On-Slide Content",
+      "content": "1. \ud83c\udfaf **Guided Setup**: Simple questions that translate your goals into clear AI tasks.\n2. \ud83d\udd0d **Automatic Data Check**: Instantly reads raw files and finds key sensor patterns.\n3. \ud83e\uddf9 **Smart Data Cleaning & Extensible Recipes**: Fixes missing numbers and aligns timestamps automatically\u2014or **plug in your own custom cleaning recipes**.\n4. \u2699\ufe0f **Contract-Driven Model Building**: Dynamically selects data transforms and algorithm options based on your specific dataset and goal.\n5. \ud83d\udcc8 **History Tracking**: Keeps a clear record of every test, recipe, and dataset used.\n6. \ud83d\udcca **Clear Explanations**: Shows plant managers exactly why predictions are made.\n7. \ud83d\udd0c **Plug-and-Play Adaptability**: Add new data sources or custom plant algorithms without redesigning the software stack.\n8. \ud83d\udee1\ufe0f **Enterprise Safety**: Built-in safety checks so models never break plant rules.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0044",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Presenter Talking Points",
+      "section_path": "Table of Contents > Slide 8: Platform Capabilities > Presenter Talking Points",
+      "content": "> *\"AIConnex is contract-driven and metadata-aware. There is no rigid, one-size-fits-all recipe. Data transforms and algorithms are selected dynamically per dataset. Best of all, it's plug-and-play: your team can bring their own custom data recipes or plant algorithms and plug them right into the platform without touching the underlying architecture.\"*\n\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0045",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Header",
+      "section_path": "Table of Contents > Slide 9: Example Business Problems > Header",
+      "content": "> **Real Factory Problems We Solve**",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0046",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Subtitle",
+      "section_path": "Table of Contents > Slide 9: Example Business Problems > Subtitle",
+      "content": "> Ready-to-Use Solutions for Everyday Operations",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0047",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Visual Layout Recommendation",
+      "section_path": "Table of Contents > Slide 9: Example Business Problems > Visual Layout Recommendation",
+      "content": "* **Layout**: 8 problem boxes in a 2x4 grid with clear icons.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0048",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "On-Slide Content",
+      "section_path": "Table of Contents > Slide 9: Example Business Problems > On-Slide Content",
+      "content": "1. \ud83d\udd27 **Equipment Failure Risk**: Predict machine breakdowns before they happen.\n2. \u26a1 **Energy Waste**: Find high-power usage spikes and cut energy bills.\n3. \ud83c\udfaf **Product Quality Drops**: Spot quality drops early to reduce scrap and waste.\n4. \ud83d\udcc8 **Demand Surges**: Forecast utility and product needs accurately.\n5. \ud83d\udca7 **Water Quality Drift**: Optimize chemical dosing and stay environmentally compliant.\n6. \ud83d\udee1\ufe0f **Asset Health**: Track machine wear and tear across pumps, motors, and turbines.\n7. \ud83d\udea8 **Early Failure Warnings**: Get alerts on heat spikes, vibration, or pressure shifts.\n8. \ud83d\udd0d **Root Cause Finder**: Find out exactly which machine sensor caused a plant delay.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0049",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Presenter Talking Points",
+      "section_path": "Table of Contents > Slide 9: Example Business Problems > Presenter Talking Points",
+      "content": "> *\"We don't sell generic software. We solve real plant problems\u2014like predicting machine failure, cutting energy waste, catching quality drops early, and finding the root cause of downtime.\"*\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0050",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Header",
+      "section_path": "Table of Contents > Slide 10: Typical Customer Journey > Header",
+      "content": "> **Your Experience with AIConnex**",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0051",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Subtitle",
+      "section_path": "Table of Contents > Slide 10: Typical Customer Journey > Subtitle",
+      "content": "> From Raw Data to Working AI in a Few Simple Steps \u2014 Inside Your Secure Tenant Workspace",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0052",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Visual Layout Recommendation",
+      "section_path": "Table of Contents > Slide 10: Typical Customer Journey > Visual Layout Recommendation",
+      "content": "* **Layout**: 7-step horizontal visual workflow enclosed within a prominent **Tenant Workspace Security & Isolation Boundary**.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0053",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "On-Slide Content",
+      "section_path": "Table of Contents > Slide 10: Typical Customer Journey > On-Slide Content",
+      "content": "``` text\n \ud83c\udfe2 ENTERPRISE TENANT WORKSPACE (Isolated Data & Compute)\n \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n \u2502 1. Tell Us Goal \u2794 2. Upload Data \u2794 3. Data Check \u2794 4. Approve Plan \u2794 5. Train \u2794 6. Pick \u2794 7. Use \u2502\n \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n```\n\n* **Step 1: Tell Us Your Goal** \u2014 Type what you want to solve in plain words inside your dedicated Tenant Workspace.\n* **Step 2: Upload Data** \u2014 Drag and drop your raw CSVs or sensor logs into tenant-isolated storage.\n* **Step 3: Review Findings** \u2014 See automated data checks, schema insights, and zero cross-tenant leakage guarantees.\n* **Step 4: Approve Plan** \u2014 Confirm plant safety limits and tenant domain guardrails.\n* **Step 5: Train Models** \u2014 AIConnex tests multiple model options automatically in tenant-isolated compute.\n* **Step 6: Pick Best** \u2014 Compare results on an easy-to-read tenant leaderboard.\n* **Step 7: Use Model** \u2014 Connect predictions directly into your daily work via secure REST endpoints.",
+      "content_type": "mixed",
+      "code_blocks": [
+        {
+          "language": "text",
+          "code": " \ud83c\udfe2 ENTERPRISE TENANT WORKSPACE (Isolated Data & Compute)\n \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n \u2502 1. Tell Us Goal \u2794 2. Upload Data \u2794 3. Data Check \u2794 4. Approve Plan \u2794 5. Train \u2794 6. Pick \u2794 7. Use \u2502\n \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518"
+        }
+      ],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0054",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Presenter Talking Points",
+      "section_path": "Table of Contents > Slide 10: Typical Customer Journey > Presenter Talking Points",
+      "content": "> *\"Working with AIConnex is straightforward and completely secure. Everything happens inside your dedicated enterprise tenant workspace\u2014from stating your goal and uploading raw sensor logs to approving plant safety limits, training models in tenant-isolated compute, picking the winner on your private leaderboard, and deploying to daily work.\"*\n\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0055",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Header",
+      "section_path": "Table of Contents > Slide 11: Competitive Landscape > Header",
+      "content": "> **How We Compare: Solving a Different Problem**",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0056",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Subtitle",
+      "section_path": "Table of Contents > Slide 11: Competitive Landscape > Subtitle",
+      "content": "> We Focus on Making AI Work for Business \u2014 Not Building Coder Tools",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0057",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Visual Layout Recommendation",
+      "section_path": "Table of Contents > Slide 11: Competitive Landscape > Visual Layout Recommendation",
+      "content": "* **Layout**: Simple comparison table showing primary focus areas.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0058",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "On-Slide Content",
+      "section_path": "Table of Contents > Slide 11: Competitive Landscape > On-Slide Content",
+      "content": "| Tool Category | Popular Options | What They Focus On | **How AIConnex is Different** |\n| :--- | :--- | :--- | :--- |\n| **Cloud Platforms** | AWS SageMaker, Azure ML | Building servers for coders | AIConnex removes tech setup so plant teams can use AI. |\n| **Data Platforms** | Databricks, Snowflake | Storing massive databases | AIConnex connects raw data directly to business decisions. |\n| **AutoML Tools** | DataRobot, H2O.ai | Fine-tuning math code | AIConnex cleans and understands data *before* training. |\n| **AIConnex** | **AIConnex** | **Simple Path from Business Goal to AI** | **Built specifically for industrial teams & plant data.** |\n\n> **Key Difference**: *We aren't trying to build another coder tool. We solve a different problem: taking messy plant data and turning it into real business value.*",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Tool Category | Popular Options | What They Focus On | **How AIConnex is Different** |\n| :--- | :--- | :--- | :--- |\n| **Cloud Platforms** | AWS SageMaker, Azure ML | Building servers for coders | AIConnex removes tech setup so plant teams can use AI. |\n| **Data Platforms** | Databricks, Snowflake | Storing massive databases | AIConnex connects raw data directly to business decisions. |\n| **AutoML Tools** | DataRobot, H2O.ai | Fine-tuning math code | AIConnex cleans and understands data *before* training. |\n| **AIConnex** | **AIConnex** | **Simple Path from Business Goal to AI** | **Built specifically for industrial teams & plant data.** |"
+      ]
+    },
+    {
+      "section_id": "SEC-0059",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Presenter Talking Points",
+      "section_path": "Table of Contents > Slide 11: Competitive Landscape > Presenter Talking Points",
+      "content": "> *\"We don't view big cloud platforms as competitors because we solve a different problem. Cloud platforms build complex servers for software coders. AIConnex provides a simple path that takes plant data and turns it into working business predictions.\"*\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0060",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Header",
+      "section_path": "Table of Contents > Slide 12: Why AIConnex > Header",
+      "content": "> **Why Teams Pick AIConnex**",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0061",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Subtitle",
+      "section_path": "Table of Contents > Slide 12: Why AIConnex > Subtitle",
+      "content": "> Less Team Friction. Faster Results.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0062",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Visual Layout Recommendation",
+      "section_path": "Table of Contents > Slide 12: Why AIConnex > Visual Layout Recommendation",
+      "content": "* **Layout**: Side-by-side comparison: The Old Way vs. The AIConnex Way.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0063",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 4,
+      "heading_text": "The Old Way (Months of Hand-Offs & Delay)",
+      "section_path": "Table of Contents > Slide 12: Why AIConnex > On-Slide Content > The Old Way (Months of Hand-Offs & Delay)",
+      "content": "``` text\nBusiness Goal \u2794 Data Team \u2794 Coders \u2794 AI Experts \u2794 Long Wait \u2794 Model\n```\n* \u274c Too many hand-offs between different departments.\n* \u274c Months spent translating goals into tech language.\n* \u274c High project risk and fragile custom scripts.",
+      "content_type": "mixed",
+      "code_blocks": [
+        {
+          "language": "text",
+          "code": "Business Goal \u2794 Data Team \u2794 Coders \u2794 AI Experts \u2794 Long Wait \u2794 Model"
+        }
+      ],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0064",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 4,
+      "heading_text": "The AIConnex Way (Weeks to Results)",
+      "section_path": "Table of Contents > Slide 12: Why AIConnex > On-Slide Content > The AIConnex Way (Weeks to Results)",
+      "content": "``` text\nBusiness Goal  \u2794  AIConnex Platform  \u2794  Working AI\n```\n* \u2705 Direct path from business goal to working prediction.\n* \u2705 Plant managers and engineers work together easily.\n* \u2705 Repeatable, reliable process across all plant sites.",
+      "content_type": "mixed",
+      "code_blocks": [
+        {
+          "language": "text",
+          "code": "Business Goal  \u2794  AIConnex Platform  \u2794  Working AI"
+        }
+      ],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0065",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Presenter Talking Points",
+      "section_path": "Table of Contents > Slide 12: Why AIConnex > Presenter Talking Points",
+      "content": "> *\"In a traditional project, your goal passes through data coders and scientists over many months. AIConnex connects your business goal directly to a working model in a simple, repeatable way.\"*\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0066",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Header",
+      "section_path": "Table of Contents > Slide 13: Business Benefits > Header",
+      "content": "> **Clear Business Benefits**",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0067",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Subtitle",
+      "section_path": "Table of Contents > Slide 13: Business Benefits > Subtitle",
+      "content": "> Save Time, Reduce Risk, and Get Real Value",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0068",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Visual Layout Recommendation",
+      "section_path": "Table of Contents > Slide 13: Business Benefits > Visual Layout Recommendation",
+      "content": "* **Layout**: 6 benefit cards with clear icons.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0069",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "On-Slide Content",
+      "section_path": "Table of Contents > Slide 13: Business Benefits > On-Slide Content",
+      "content": "1. \u23f1\ufe0f **Less Engineering Effort**: Stop wasting months manually fixing spreadsheets.\n2. \u26a1 **Faster Results**: Launch projects in **2 to 4 weeks** instead of 4 months.\n3. \ud83d\udcd0 **Standard Process**: Replace messy personal scripts with a clean, reliable system.\n4. \ud83d\udcc9 **Fewer Mistakes**: Built-in plant safety checks prevent unrealistic models.\n5. \ud83e\udd1d **Better Teamwork**: Helps plant managers and technical teams work together easily.\n6. \ud83d\udd04 **Reusable Assets**: Use successful AI setups across multiple factory sites.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0070",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Presenter Talking Points",
+      "section_path": "Table of Contents > Slide 13: Business Benefits > Presenter Talking Points",
+      "content": "> *\"AIConnex brings clear benefits: less engineering time, 75% faster delivery, fewer mistakes, better teamwork, and reusable setups across all your factories.\"*\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0071",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Header",
+      "section_path": "Table of Contents > Slide 14: Flexible Deployment Options > Header",
+      "content": "> **Flexible Deployment Options**",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0072",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Subtitle",
+      "section_path": "Table of Contents > Slide 14: Flexible Deployment Options > Subtitle",
+      "content": "> Works Anywhere \u2014 Cloud, Factory Floor, or On-Premise",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0073",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Visual Layout Recommendation",
+      "section_path": "Table of Contents > Slide 14: Flexible Deployment Options > Visual Layout Recommendation",
+      "content": "* **Layout**: 4 clean deployment cards.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0074",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "On-Slide Content",
+      "section_path": "Table of Contents > Slide 14: Flexible Deployment Options > On-Slide Content",
+      "content": "* \u2601\ufe0f **Cloud**: Run on AWS, Azure, or Google Cloud securely.\n* \ud83c\udfe2 **On-Premise**: Run completely inside your local plant servers.\n* \ud83d\udd00 **Hybrid**: Keep sensitive sensor data inside your plant while running models online.\n* \ud83d\udd0c **Easy Integration**: Connects easily to SAP, SCADA systems, and plant databases.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0075",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Presenter Talking Points",
+      "section_path": "Table of Contents > Slide 14: Flexible Deployment Options > Presenter Talking Points",
+      "content": "> *\"Security and location matter. AIConnex can run anywhere\u2014in your cloud, inside your plant servers, or as a hybrid setup\u2014and connects smoothly with your existing plant tools.\"*\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0076",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Header",
+      "section_path": "Table of Contents > Slide 15: Strategic Roadmap > Header",
+      "content": "> **Our Product Vision**",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0077",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Subtitle",
+      "section_path": "Table of Contents > Slide 15: Strategic Roadmap > Subtitle",
+      "content": "> Continuous Growth to Support Your Enterprise",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0078",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Visual Layout Recommendation",
+      "section_path": "Table of Contents > Slide 15: Strategic Roadmap > Visual Layout Recommendation",
+      "content": "* **Layout**: 3 clear horizontal steps (Today, Next, Future).",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0079",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 4,
+      "heading_text": "Today (Guided AI Workflows)",
+      "section_path": "Table of Contents > Slide 15: Strategic Roadmap > On-Slide Content > Today (Guided AI Workflows)",
+      "content": "* Easy setup assistant & guided data cleaning.\n* Automatic file checks and model building.\n* Clear results dashboard and simple export.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0080",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 4,
+      "heading_text": "Next (Multi-Plant Growth)",
+      "section_path": "Table of Contents > Slide 15: Strategic Roadmap > On-Slide Content > Next (Multi-Plant Growth)",
+      "content": "* Manage models across multiple factories in one dashboard.\n* Automatic alerts if data changes over time.\n* Direct connectors for SAP and plant software.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0081",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 4,
+      "heading_text": "Future (Smart Autonomous Plants)",
+      "section_path": "Table of Contents > Slide 15: Strategic Roadmap > On-Slide Content > Future (Smart Autonomous Plants)",
+      "content": "* Self-updating plant prediction models.\n* Compact AI models built directly into machine hardware.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0082",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Presenter Talking Points",
+      "section_path": "Table of Contents > Slide 15: Strategic Roadmap > Presenter Talking Points",
+      "content": "> *\"Our vision is clear: we start by giving you easy guided workflows today, help you manage multiple plants tomorrow, and build toward smart automated operations in the future.\"*\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0083",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Header",
+      "section_path": "Table of Contents > Slide 16: Closing & Key Takeaway > Header",
+      "content": "> **Start Getting Value From Your Data Today**",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0084",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Subtitle",
+      "section_path": "Table of Contents > Slide 16: Closing & Key Takeaway > Subtitle",
+      "content": "> Spend Less Time Fixing Data. Spend More Time Getting Business Results.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0085",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Visual Layout Recommendation",
+      "section_path": "Table of Contents > Slide 16: Closing & Key Takeaway > Visual Layout Recommendation",
+      "content": "* **Layout**: Clear closing slide with the single core message in a bold box.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0086",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "On-Slide Content",
+      "section_path": "Table of Contents > Slide 16: Closing & Key Takeaway > On-Slide Content",
+      "content": "> ### \ud83d\udca1 The One Message to Remember:\n> **\"AIConnex helps your organization turn raw plant data into working AI solutions through a simple, guided process that connects business goals directly to results.\"**\n\n* **Next Step: 2-Week Trial (Proof of Concept)**:\n  * Upload a sample of your plant data.\n  * See automatic data cleaning and model results.\n  * Test predictions on your real operational problems.\n* **Contact Us**:\n  * \ud83d\udce7 **Email**: contact@aiconnex.ai\n  * \ud83c\udf10 **Website**: www.aiconnex.ai",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0087",
+      "document_id": "PLAT-DOC-009",
+      "heading_level": 3,
+      "heading_text": "Presenter Talking Points",
+      "section_path": "Table of Contents > Slide 16: Closing & Key Takeaway > Presenter Talking Points",
+      "content": "> *\"If you remember just one thing today: AIConnex helps you spend less time fixing data and more time getting real value from AI. We invite you to start a simple 2-week trial using your own plant data.\"*",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    }
+  ]
+}

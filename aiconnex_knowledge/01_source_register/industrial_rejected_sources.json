@@ -1,0 +1,20 @@
+[
+  {
+    "source_id": "SRC-IND-REJ-001",
+    "title": "Generic Business Plan Template (Untracked)",
+    "knowledge_domain": "industrial",
+    "source_type": "Non-Technical Template",
+    "source_location": "Industrail_KB_raw_data/06_archive_and_untracked/business_plan_template.pdf",
+    "authority_level": "C",
+    "owner": "External",
+    "tenant_scope": "global",
+    "license": "Unknown",
+    "version": "1.0",
+    "status": "Rejected",
+    "size_bytes": 388577,
+    "sha256_checksum": "d70bb3a9d2ef09415962f4478022286c1a40a785fc46e3bac9ea368437a726b5",
+    "approved_at": null,
+    "rejection_reason": "Out of scope \u2014 business plan template contains no PHM, ontology, or industrial engineering knowledge.",
+    "superseded_by": null
+  }
+]

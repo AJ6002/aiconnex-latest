@@ -1,0 +1,10 @@
+{
+  "collection_name": "platform_kb_embeddings",
+  "embedding_model": "all-MiniLM-L6-v2",
+  "vector_dimension": 384,
+  "total_vectors": 2795,
+  "industrial_vectors": 2439,
+  "platform_vectors": 356,
+  "last_updated": "2026-08-14T08:58:54.535916+00:00",
+  "status": "Active"
+}

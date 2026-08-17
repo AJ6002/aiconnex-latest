@@ -1,0 +1,608 @@
+{
+  "document_id": "DOC-DOC-SPEC-014-V1",
+  "source_id": "DOC-SPEC-014",
+  "title": "AI-ConneX Agentic Studio Main Agent and Agentic Toolkit Documentation",
+  "studio": "AgenticStudio",
+  "category": "Architecture",
+  "target_subsystems": [
+    "MainAgent",
+    "AgenticToolkit",
+    "ToolDispatcher"
+  ],
+  "summary": "Master supervisor agent architecture, sub-agent delegation protocol, tool execution sandbox, and error recovery policies.",
+  "sha256": "7cad7aa8c1d461b9dcb77aa481bffe550f58ea67115f8613e5cf5df05c4b859f",
+  "file_size_bytes": 52209,
+  "statistics": {
+    "headings_count": 48,
+    "paragraphs_count": 148,
+    "tables_count": 16,
+    "sections_count": 49,
+    "estimated_words": 4325
+  },
+  "sections": [
+    {
+      "section_id": "SEC-DOC-SPEC-014-0001",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "Overview",
+      "section_path": "DOC-SPEC-014 > Overview",
+      "content": "AI-ConneX\n\nAGENTIC STUDIO — MAIN AGENT & AGENTIC TOOLKIT\n\nR&D • Architecture • Runtime Integration • Industrial Operations • POC • Compliance Report #5Version 1.0 | 14 August 2026",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0002",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "Document Control",
+      "section_path": "DOC-SPEC-014 > Document Control",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Field | Definition |\n| --- | --- |\n| Platform | AI-ConneX — Industrial Solutions |\n| Studio | Agentic Studio |\n| Outputs | Main Agent + Agentic Toolkit |\n| Predecessors | Jane/Chatbot → Agent SPEC → Agent Runtime → Knowledge Foundation |\n| Main Agent role | Industrial-facing autonomous coordinator operating under a signed SPEC |\n| Toolkit role | Reusable operator capabilities for monitoring, diagnosis, alerts, workflows and governed actions |\n| Primary users | Industrialists, operators, maintenance/engineering teams |\n| Report | Compliance / Engineering Report #5 |\n| Status | Reference architecture / implementation baseline |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0003",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "1. Executive Summary",
+      "section_path": "DOC-SPEC-014 > 1. Executive Summary",
+      "content": "The Main Agent and Agentic Toolkit are the operational outputs of Agentic Studio. The Main Agent is not another unrestricted chatbot: it is the industrial execution persona instantiated from an Agent SPEC and backed by Agent Runtime, RAG, Knowledge Graph, Knowledge Base, telemetry, evaluated models and governed tools. The Agentic Toolkit is the reusable capability layer that lets an industrial organization monitor assets, interpret state, create alerts, generate reports, investigate events, coordinate maintenance workflows and perform approved actions without requiring a dedicated data scientist or agent engineer for every routine.\n\nThe central separation is: Main Agent = accountable coordinator; Toolkit = reusable capabilities; Runtime = enforcement/execution engine; SPEC = contract; Knowledge Foundation = evidence; Policy = authorization; Visualizer = human operational view.\n\nUSER / INDUSTRIALIST        |      JANE        |    USER INTENT        |   AGENT BUILDER        |    AGENT SPEC        |  AGENT RUNTIME        |  +-----+-----------------------------+  | Knowledge / Models / Telemetry    |  |                                   |  +----------------+------------------+                   |             MAIN AGENT                   |        +----------+-----------+        |      AGENTIC TOOLKIT |        +----------+-----------+                   |       alerts / reports / workflows       diagnostics / monitoring       governed industrial actions                   |              OT/IT systems                   |             VISUALIZER                   |              OPERATOR",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0004",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "2. What Is the Main Agent?",
+      "section_path": "DOC-SPEC-014 > 2. What Is the Main Agent?",
+      "content": "The Main Agent is the single industrial-facing agent instance produced by Agentic Studio for a specific user, site, operational objective or managed industrial environment. It maintains the execution context, interprets current evidence, plans within the permitted action envelope, invokes toolkit capabilities, explains outcomes and escalates when evidence or authority is insufficient.\n\nIt is instantiated from a versioned Agent SPEC.\n\nIt never receives unrestricted tool access.\n\nIt uses the Knowledge Foundation for grounded evidence.\n\nIt uses telemetry for current operational state.\n\nIt may call evaluated ML Studio models through their contracts.\n\nIt delegates side effects to the Agentic Toolkit/Tool Gateway.\n\nIt records decisions, evidence, tool calls and outcomes.\n\nIt can operate in INFORM, RECOMMEND, APPROVE-THEN-ACT or configured AUTONOMOUS modes.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0005",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "3. What Is the Agentic Toolkit?",
+      "section_path": "DOC-SPEC-014 > 3. What Is the Agentic Toolkit?",
+      "content": "The Agentic Toolkit is the reusable capability catalog around the Main Agent. A toolkit capability is a typed, versioned operation with defined inputs, outputs, permissions, side effects, limits and observability. Toolkit capabilities can be composed into industrial workflows.\n\nToolkit capabilities are not all equal. Read-only operations can generally have lower autonomy requirements than actions that modify operational or business state.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Toolkit family | Examples |\n| --- | --- |\n| Observe | live asset state, trends, KPI snapshot |\n| Diagnose | health assessment, anomaly investigation, root-cause candidates |\n| Visualize | FFT, spectrum, trend, envelope, heatmap, row/column marking |\n| Alert | create/close/acknowledge alert, escalation |\n| Report | shift report, maintenance summary, incident report |\n| Investigate | event timeline, evidence bundle, similar incidents |\n| Maintain | maintenance recommendation, work-order draft |\n| Workflow | approval request, assignment, escalation |\n| Model | invoke approved ML model, compare predictions |\n| Knowledge | retrieve SOP, manual, graph context |\n| Integrate | ERP/MES/CMMS/SCADA/IoT connector operations |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0006",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "4. Why Main Agent + Toolkit?",
+      "section_path": "DOC-SPEC-014 > 4. Why Main Agent + Toolkit?",
+      "content": "A monolithic agent becomes difficult to govern because reasoning, knowledge access, permissions, integrations and side effects become inseparable. A toolkit makes capabilities explicit and testable. The Main Agent can then coordinate capabilities without owning every implementation detail.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Monolithic design problem | AI-ConneX design |\n| --- | --- |\n| Huge prompt with all procedures | Knowledge Foundation |\n| All APIs exposed to model | Toolkit allow-list |\n| No clear action boundary | Side-effect classification |\n| Hard to audit | Per-capability trace + audit |\n| Vendor-specific integrations | Connector/tool adapters |\n| Hard to reuse | Versioned toolkit capabilities |\n| One failure affects everything | Capability isolation/circuit breakers |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0007",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "5. R&D Objectives",
+      "section_path": "DOC-SPEC-014 > 5. R&D Objectives",
+      "content": "Create an industrial agent that is useful without pretending to be a human engineer.\n\nConvert complex industrial workflows into reusable capabilities.\n\nSeparate reasoning from authorization and side effects.\n\nProvide evidence-backed explanations.\n\nOperate with degraded capability when data, models or integrations fail.\n\nMake every capability testable independently.\n\nSupport multi-site and multi-asset deployments without cross-scope leakage.\n\nAllow industrialists to configure outcomes rather than implement agent code.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0008",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "6. Research Hypotheses",
+      "section_path": "DOC-SPEC-014 > 6. Research Hypotheses",
+      "content": "A constrained coordinator plus typed tools is safer than a monolithic autonomous agent.\n\nIndustrial utility improves when current telemetry, historical knowledge and asset topology are available together.\n\nExplicit capability contracts reduce accidental side effects.\n\nEvidence and action provenance improves operator trust and incident reconstruction.\n\nProgressive autonomy is more appropriate for industrial deployment than unconditional autonomy.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0009",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "7. Previous Stage Input — Jane / Chatbot",
+      "section_path": "DOC-SPEC-014 > 7. Previous Stage Input — Jane / Chatbot",
+      "content": "Jane captures the human's intent and negotiation about the plan. The output should be a structured intent, not merely conversation text.\n\n{  \"intent_uid\": \"INT-...\",  \"user_goal\": \"Monitor compressor health and alert maintenance\",  \"site_uid\": \"PLANT-01\",  \"asset_scope\": [\"COMP-02\"],  \"desired_outcome\": \"early_warning\",  \"autonomy_requested\": \"RECOMMEND\",  \"notification_channels\": [\"dashboard\",\"email\"],  \"constraints\": {    \"business_hours\": true,    \"maintenance_team\": \"ROTATING_EQUIPMENT\"  }}\n\nAgent Builder converts this intent into a signed Agent SPEC. The Main Agent never treats arbitrary later chat text as permission to expand its capabilities.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0010",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "8. Agent SPEC as the Main Agent Contract",
+      "section_path": "DOC-SPEC-014 > 8. Agent SPEC as the Main Agent Contract",
+      "content": "The signed SPEC is authoritative. The Main Agent can select among permitted capabilities but cannot create permission through reasoning.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| SPEC control | Main Agent effect |\n| --- | --- |\n| identity | Defines agent identity and purpose |\n| scope | Limits tenant/site/assets |\n| knowledge refs | Defines permitted sources |\n| model refs | Pins evaluated models |\n| tool refs | Defines toolkit capabilities |\n| autonomy | Sets action boundary |\n| approval policy | Defines human approval points |\n| budgets | Limits calls/tokens/time |\n| evidence policy | Defines grounding requirements |\n| escalation | Defines when agent must stop/escalate |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0011",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "9. Main Agent Lifecycle",
+      "section_path": "DOC-SPEC-014 > 9. Main Agent Lifecycle",
+      "content": "CREATE  -> LOAD SPEC  -> VERIFY SIGNATURE  -> RESOLVE SCOPE  -> INITIALIZE CONTEXT  -> OBSERVE  -> RETRIEVE  -> PLAN  -> PROPOSE  -> POLICY CHECK  -> TOOL EXECUTION  -> VERIFY RESULT  -> EXPLAIN  -> AUDIT  -> WAIT / MONITOR / ESCALATE",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0012",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "10. Main Agent Internal Loop",
+      "section_path": "DOC-SPEC-014 > 10. Main Agent Internal Loop",
+      "content": "while execution_active:    observe()    context = gather_evidence(        rag=True, graph=True, telemetry=True    )    plan = reason_within_spec(context)    proposal = validate_plan(plan)    decision = policy.evaluate(proposal)    if decision == \"DENY\":        explain_and_audit()        break    if decision == \"APPROVAL_REQUIRED\":        request_human_approval()        continue    result = toolkit.execute(proposal)    verify(result)    update_state()    audit()\n\nThe model is therefore one component of the loop, not the security boundary.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0013",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "11. Toolkit Capability Contract",
+      "section_path": "DOC-SPEC-014 > 11. Toolkit Capability Contract",
+      "content": "{  \"capability_uid\": \"CAP-ALERT-CREATE\",  \"version\": \"1.4.0\",  \"name\": \"create_alert\",  \"description\": \"Create a maintenance alert\",  \"input_schema\": \"ALERT-V3\",  \"output_schema\": \"ALERT-RESULT-V2\",  \"side_effect\": \"WRITE\",  \"risk_class\": \"OPERATIONAL\",  \"requires_approval\": true,  \"allowed_scopes\": [\"PLANT-01\"],  \"idempotency\": \"required\",  \"timeout_seconds\": 20,  \"audit_required\": true}",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0014",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "12. Toolkit Architecture",
+      "section_path": "DOC-SPEC-014 > 12. Toolkit Architecture",
+      "content": "MAIN AGENT                         |                  Capability Planner                         |                  Toolkit Registry                         |        +----------------+----------------+        |                |                |    Observe           Diagnose         Visualize        |                |                |      data             models           math/physics        |                |                |        +----------------+----------------+                         |                    Policy Gateway                         |                 Connector Adapters              /        |        |                   CMMS      MES      SCADA    ERP",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0015",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "13. Capability Classes",
+      "section_path": "DOC-SPEC-014 > 13. Capability Classes",
+      "content": "The exact classification is site-specific. A 'write' to a maintenance system is not equivalent to a control command to a physical machine.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Class | Typical autonomy |\n| --- | --- |\n| READ | Generally safe to execute automatically |\n| ANALYZE | Automatic with evidence/quality checks |\n| RECOMMEND | Produces proposal only |\n| NOTIFY | May execute subject to notification policy |\n| WRITE | Approval/policy dependent |\n| CONTROL | Highest risk; normally explicit authorization and strict boundary |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0016",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "14. Industrial Visualizer Toolkit",
+      "section_path": "DOC-SPEC-014 > 14. Industrial Visualizer Toolkit",
+      "content": "The Visualizer is a toolkit capability, not the Main Agent itself. It turns telemetry, mathematical transforms, model outputs and event markers into operator-readable views. Examples include FFT/spectrum analysis, time trends, envelope analysis, anomaly overlays, row/column marking and asset-state dashboards.\n\nFFT for vibration/frequency-domain analysis.\n\nTime-domain trend with detected events.\n\nSpectrogram for changing frequency content.\n\nThreshold and model-score overlays.\n\nPer-row/per-column annotations for structured datasets.\n\nAsset topology visualization from Knowledge Graph.\n\nEvidence markers linking a visual event to telemetry/document/model provenance.\n\nThe visualizer should never imply that a mathematical transformation is a diagnosis. It displays computed evidence and model results with units, windows, timestamps and provenance.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0017",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "15. Main Agent + Knowledge Foundation",
+      "section_path": "DOC-SPEC-014 > 15. Main Agent + Knowledge Foundation",
+      "content": "Main Agent   |   +--> RAG: \"What approved procedure applies?\"   |   +--> KG: \"What components/sensors are connected?\"   |   +--> Telemetry: \"What is happening now?\"   |   +--> Model: \"What does the evaluated model estimate?\"   |   +--> Toolkit: \"What bounded operation is allowed?\"\n\nThis prevents the Main Agent from using a single source for every type of question.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0018",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "16. Failure Analysis",
+      "section_path": "DOC-SPEC-014 > 16. Failure Analysis",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Failure | Why it matters | AI-ConneX response |\n| --- | --- | --- |\n| Hallucinated action | Can cause operational damage | typed plan + policy + toolkit boundary |\n| Excessive agency | Too much permission/autonomy | least privilege + capability allow-list |\n| Prompt injection | Untrusted text manipulates plan | data/authority separation |\n| Wrong asset | Action applied to wrong machine | scope validation + asset UID |\n| Stale telemetry | False current-state decision | freshness gate |\n| Model drift | Poor prediction | model version/evaluation + monitoring |\n| Tool failure | Unknown side effect | timeouts + reconciliation |\n| Duplicate action | Repeated alert/order | idempotency keys |\n| Runaway loop | Cost and action explosion | step/time/tool budgets |\n| Operator distrust | Black-box result | evidence pack + explanation |\n| Integration outage | Toolkit unavailable | degraded mode + escalation |\n| Cross-tenant leakage | Confidentiality breach | scope filters at every layer |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0019",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "17. Excessive Agency Design",
+      "section_path": "DOC-SPEC-014 > 17. Excessive Agency Design",
+      "content": "OWASP defines excessive agency as damaging actions enabled by excessive functionality, permissions or autonomy. The Main Agent therefore does not receive a broad API surface and choose freely. The SPEC selects capabilities; policy checks each call; the gateway executes; and high-consequence operations can require approval. citeturn0search2\n\nAgent decides WHAT it proposes        |SPEC decides WHAT exists        |Policy decides WHETHER it is allowed        |Gateway decides HOW it executes        |Audit records WHAT happened",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0020",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "18. Human-in-the-Loop",
+      "section_path": "DOC-SPEC-014 > 18. Human-in-the-Loop",
+      "content": "The toolkit must not be used to bypass PLC/SCADA safety systems or site safety procedures.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Action | Default recommendation |\n| --- | --- |\n| View telemetry | Automatic |\n| Retrieve procedure | Automatic |\n| Run analysis | Automatic |\n| Generate report | Automatic |\n| Create informational alert | Configurable |\n| Create maintenance request | Approval by policy |\n| Create work order | Approval by policy |\n| Change business record | Explicit authorization |\n| Physical control command | Separate OT safety boundary; explicit authorization |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0021",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "19. Industrial Safety Boundary",
+      "section_path": "DOC-SPEC-014 > 19. Industrial Safety Boundary",
+      "content": "AI-ConneX should normally operate above the industrial control safety layer. The Main Agent can monitor and recommend; where a control integration exists, the interface must enforce an independent safety and authorization boundary. Agentic AI should not be treated as a substitute for SIS, interlocks, PLC safety logic or validated control systems.\n\nISO 23247-2 provides a manufacturing digital-twin reference architecture, while ISO 23247-4 addresses information exchange across user, service, access and proximity networks. These are useful architectural anchors for keeping agent services and industrial entities/interfaces separated. citeturn0search11turn0search15",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0022",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "20. Agentic Toolkit Registry",
+      "section_path": "DOC-SPEC-014 > 20. Agentic Toolkit Registry",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Registry field | Purpose |\n| --- | --- |\n| capability_uid | Stable identity |\n| version | Immutable capability version |\n| schema | Input/output contract |\n| risk_class | Risk classification |\n| side_effect | READ/WRITE/CONTROL |\n| scope | Tenant/site/asset constraints |\n| dependencies | Services/connectors/models |\n| approval | Human approval rule |\n| SLO | Performance expectation |\n| health | Current availability |\n| owner | Responsible team |\n| audit_policy | Required audit data |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0023",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "21. Main Agent State",
+      "section_path": "DOC-SPEC-014 > 21. Main Agent State",
+      "content": "AgentState├── identity├── intent├── spec_ref├── execution_uid├── site_scope├── asset_scope├── current_observation├── evidence_pack├── plan├── pending_approval├── tool_history├── outcomes├── escalations├── budgets└── audit_ref\n\nPersistent state must be durable and versioned so a long-running monitoring agent can recover after service restart without accidentally repeating side effects.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0024",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "22. Main Agent Output",
+      "section_path": "DOC-SPEC-014 > 22. Main Agent Output",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Output | Consumer |\n| --- | --- |\n| Operational response | Industrialist/operator |\n| Evidence bundle | Visualizer/audit |\n| Alert/event | Notification/workflow |\n| Recommendation | Operator/maintenance |\n| Workflow request | Toolkit/CMMS/MES |\n| Model result | Dashboard/decision layer |\n| Execution trace | Observability |\n| Audit record | Governance/compliance |\n| Escalation | Human operator |\n| Updated agent state | Next monitoring cycle |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0025",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "23. Output to the Next Stage",
+      "section_path": "DOC-SPEC-014 > 23. Output to the Next Stage",
+      "content": "After the Main Agent and Toolkit complete a cycle, the next stage is generally the operational/consumer layer: Visualizer, notification/workflow systems, CMMS/MES/ERP integrations, audit/governance, or a new Runtime monitoring cycle. It should not automatically feed arbitrary outputs back into the model as truth.\n\n{  \"execution_uid\": \"EXEC-...\",  \"agent_uid\": \"AGENT-...\",  \"spec_ref\": \"SPEC-...:v3\",  \"status\": \"COMPLETED\",  \"decision\": \"ALERT_CREATED\",  \"evidence_refs\": [\"DOC-...\",\"SIG-...\",\"KG-...\",\"MODEL-...\"],  \"tool_calls\": [\"CAP-ALERT-CREATE:v1.4.0\"],  \"result\": {...},  \"next_actions\": [...],  \"escalation\": null,  \"audit_ref\": \"AUDIT-...\"}",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0026",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "24. Tech Stack",
+      "section_path": "DOC-SPEC-014 > 24. Tech Stack",
+      "content": "Exact patch releases should be locked in the repository's dependency files and validated in CI; the versions above are a reference baseline, not a certification of compatibility.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Layer | Recommended baseline |\n| --- | --- |\n| Runtime | Python 3.12.x |\n| API | FastAPI + OpenAPI 3.1 |\n| Schemas | Pydantic 2.x / JSON Schema 2020-12 |\n| Agent orchestration | Custom state machine / durable workflow engine |\n| Policy | OPA/Rego |\n| Identity | OIDC/OAuth 2.1-compatible IdP |\n| Tool gateway | FastAPI/gRPC service |\n| Messaging | Kafka 3.x or NATS |\n| Cache/state | Redis 7.x + PostgreSQL |\n| Knowledge | PostgreSQL + vector store + graph DB |\n| Telemetry | TimescaleDB/InfluxDB + OTEL |\n| Models | ML Studio registry + vLLM/managed endpoint as required |\n| Observability | OpenTelemetry + Prometheus/Grafana/Jaeger-compatible backend |\n| Deployment | Docker + Kubernetes |\n| Secrets | Vault/KMS/cloud secret manager |\n| Testing | pytest + contract/replay/chaos/security tests |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0027",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "25. Infrastructure Requirements",
+      "section_path": "DOC-SPEC-014 > 25. Infrastructure Requirements",
+      "content": "Kubernetes-capable production environment or equivalent isolated services.\n\nPostgreSQL for durable metadata/state.\n\nRedis for ephemeral coordination/cache where required.\n\nMessage bus for telemetry/events.\n\nGraph + vector + object storage services.\n\nModel inference endpoint.\n\nPolicy engine and identity provider.\n\nTool Gateway with network segmentation.\n\nCentral observability and audit storage.\n\nSite connectivity appropriate to IT/OT architecture.\n\nBackup, disaster recovery and key management.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0028",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "26. Configuration",
+      "section_path": "DOC-SPEC-014 > 26. Configuration",
+      "content": "agent:  autonomy_mode: RECOMMEND  max_steps: 20  max_runtime_seconds: 120  max_tool_calls: 8  require_evidence: truetoolkit:  default_policy: DENY  allow_unregistered: false  write_requires_approval: true  control_requires_explicit_authorization: truescope:  tenant_uid: TENANT-01  site_uids: [PLANT-01]  asset_families: [compressor]telemetry:  max_age_seconds: 30observability:  traces: true  metrics: true  logs: true  audit: true",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0029",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "27. Directory Architecture",
+      "section_path": "DOC-SPEC-014 > 27. Directory Architecture",
+      "content": "agentic_studio/├── main_agent/│   ├── identity/│   ├── state/│   ├── planner/│   ├── executor/│   ├── evidence/│   ├── escalation/│   └── policies/├── toolkit/│   ├── registry/│   ├── contracts/│   ├── observe/│   ├── diagnose/│   ├── visualize/│   ├── alert/│   ├── report/│   ├── investigate/│   ├── workflow/│   ├── model/│   └── integrations/├── gateway/│   ├── auth/│   ├── policy/│   ├── idempotency/│   └── connectors/├── spec/├── knowledge_foundation/├── runtime/├── audit/├── api/├── tests/└── deployment/",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0030",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "28. APIs",
+      "section_path": "DOC-SPEC-014 > 28. APIs",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Endpoint | Purpose |\n| --- | --- |\n| POST /v1/agents | Instantiate Main Agent from SPEC |\n| GET /v1/agents/{uid} | Agent status |\n| POST /v1/agents/{uid}/execute | Run an execution cycle |\n| POST /v1/agents/{uid}/pause | Pause monitoring |\n| POST /v1/agents/{uid}/resume | Resume |\n| GET /v1/agents/{uid}/state | Current durable state |\n| GET /v1/toolkit/capabilities | List permitted capabilities |\n| POST /v1/toolkit/{capability}/validate | Validate capability call |\n| POST /v1/toolkit/{capability}/execute | Execute governed capability |\n| POST /v1/approvals | Create approval request |\n| POST /v1/approvals/{uid}/decision | Record human decision |\n| GET /v1/executions/{uid} | Execution trace/result |\n| GET /v1/audit/{uid} | Audit record |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0031",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "29. Example Main Agent Execute API",
+      "section_path": "DOC-SPEC-014 > 29. Example Main Agent Execute API",
+      "content": "POST /v1/agents/AGENT-001/execute{  \"intent_uid\": \"INT-001\",  \"trigger\": \"TELEMETRY_EVENT\",  \"event_uid\": \"EVT-8891\",  \"requested_output\": \"ASSESS_AND_ALERT\"}\n\nThe server resolves the signed SPEC and durable state; the client does not submit a new permission set in the execution request.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0032",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "30. CLI Commands",
+      "section_path": "DOC-SPEC-014 > 30. CLI Commands",
+      "content": "# create agent from signed SPECpython -m main_agent.create --spec specs/compressor_monitor.yaml# inspectpython -m main_agent.status --agent AGENT-001# execute a replay eventpython -m main_agent.run --agent AGENT-001 --event samples/event.json# list toolkitpython -m toolkit.list --scope PLANT-01# validate capabilitypython -m toolkit.validate --capability CAP-ALERT-CREATE --input alert.json# run capability contract testspytest tests/toolkit/ -q# replay full agent executionpython -m audit.replay --execution EXEC-001# builddocker build -t aconnext-main-agent:1.0 .docker compose -f deployment/docker-compose.yml up --build# deploykubectl apply -f deployment/kubernetes/",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0033",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "31. APIs Between Major AI-ConneX Stages",
+      "section_path": "DOC-SPEC-014 > 31. APIs Between Major AI-ConneX Stages",
+      "content": "CHATBOT  -> Intent Contract       |       vAGENT BUILDER  -> Agent SPEC       |       vKNOWLEDGE FOUNDATION + RUNTIME  -> Evidence / Model / Capability context       |       vMAIN AGENT  -> Toolkit calls / decisions       |       vTOOLKIT + GATEWAY  -> operational results       |       +--> VISUALIZER       +--> NOTIFICATION       +--> CMMS / MES / ERP       +--> AUDIT       +--> next monitoring cycle",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0034",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "32. Observability",
+      "section_path": "DOC-SPEC-014 > 32. Observability",
+      "content": "Every Main Agent execution should have a correlation/execution UID. Traces should cover intent ingestion, SPEC resolution, retrieval, graph queries, telemetry reads, model calls, policy decisions, toolkit calls and final outcome. OpenTelemetry is a vendor-neutral framework for generating, collecting and exporting traces, metrics and logs, making it suitable for this distributed architecture. citeturn0search5turn0search7",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Metric | Purpose |\n| --- | --- |\n| agent_execution_duration | End-to-end latency |\n| agent_steps_total | Loop complexity |\n| tool_calls_total | Capability usage |\n| tool_denials_total | Policy/security |\n| approval_wait_seconds | Human bottleneck |\n| evidence_sufficiency_rate | Grounding quality |\n| telemetry_staleness | Data quality |\n| model_error_rate | Model reliability |\n| tool_failure_rate | Integration health |\n| duplicate_prevented_total | Idempotency effectiveness |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0035",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "33. Security Controls",
+      "section_path": "DOC-SPEC-014 > 33. Security Controls",
+      "content": "Default-deny toolkit registry.\n\nSigned/versioned Agent SPEC.\n\nOIDC identity and service-to-service authentication.\n\nTenant/site/asset authorization.\n\nSeparate credentials from model context.\n\nInput/output schema validation.\n\nPrompt-injection-resistant authority separation.\n\nTool result treated as untrusted data.\n\nNetwork segmentation for industrial integrations.\n\nImmutable audit events for consequential actions.\n\nRate, time and step budgets.\n\nSecret rotation and short-lived credentials.\n\nHuman approval for configured risk classes.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0036",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "34. Key Failure: Main Agent Becomes a Super-Agent",
+      "section_path": "DOC-SPEC-014 > 34. Key Failure: Main Agent Becomes a Super-Agent",
+      "content": "Risk: a general-purpose agent accumulates dozens of connectors and begins making decisions outside its intended industrial purpose.\n\nMitigation: each Main Agent is purpose-bound to a signed SPEC; capabilities are allow-listed; scope is explicit; toolkit capabilities are versioned; autonomy is configurable; and the gateway rejects capabilities outside the contract.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0037",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "35. Key Failure: Toolkit Becomes a Hidden Backdoor",
+      "section_path": "DOC-SPEC-014 > 35. Key Failure: Toolkit Becomes a Hidden Backdoor",
+      "content": "Risk: a toolkit capability internally invokes another powerful capability or bypasses policy.\n\nMitigation: every capability is registered, versioned and observable; nested calls inherit the original execution identity and scope; policy is enforced at the gateway boundary; unregistered side effects are denied.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0038",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "36. Key Failure: Automation Without Ground Truth",
+      "section_path": "DOC-SPEC-014 > 36. Key Failure: Automation Without Ground Truth",
+      "content": "Risk: the Main Agent produces an impressive explanation but the underlying telemetry is stale or the procedure is obsolete.\n\nMitigation: Evidence Pack requires source/version/freshness metadata; configured actions require evidence thresholds; stale telemetry can force abstention; retired KB documents are excluded; model scope is validated.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0039",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "37. Key Failure: Industrialist Cannot Understand Why",
+      "section_path": "DOC-SPEC-014 > 37. Key Failure: Industrialist Cannot Understand Why",
+      "content": "Risk: operators reject the system because it cannot explain the basis for an alert.\n\nMitigation: every important output exposes a compact reason chain: observed state → evidence → model estimate → rule/policy → capability executed → result. Visualizer markers link directly to the evidence.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0040",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "38. Key Failure: Infinite Agent Loop",
+      "section_path": "DOC-SPEC-014 > 38. Key Failure: Infinite Agent Loop",
+      "content": "Risk: agent repeatedly retrieves, reasons and calls tools.\n\nMitigation: maximum steps, wall-clock budget, tool-call budget, token budget, repeated-plan detection, circuit breakers and escalation.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0041",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "39. Proof of Concept — Compressor Health Main Agent",
+      "section_path": "DOC-SPEC-014 > 39. Proof of Concept — Compressor Health Main Agent",
+      "content": "POC objective: demonstrate that an industrialist can configure a compressor-monitoring objective through Jane and receive a governed Main Agent that continuously observes, analyzes and alerts without requiring a data scientist to manually orchestrate each step.\n\nJane captures the intent and requested autonomy.\n\nAgent Builder generates and signs a SPEC.\n\nRuntime loads the SPEC and initializes Main Agent state.\n\nTelemetry supplies vibration/temperature.\n\nKnowledge Graph resolves COMP-02 topology and relevant components.\n\nRAG retrieves the approved bearing procedure.\n\nML Studio model v2.1.0 estimates health/degradation.\n\nMain Agent builds an evidence-backed plan.\n\nPolicy permits the configured alert capability.\n\nToolkit creates a maintenance alert with an idempotency key.\n\nVisualizer displays the trend/FFT/model score and marks the triggering interval.\n\nAudit stores the complete execution lineage.\n\nReplay verifies deterministic safeguards and no duplicate alert.\n\nStale telemetry test forces abstention.\n\nPrompt-injection test confirms retrieved text cannot expand permissions.\n\nUnregistered work-order capability is denied.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0042",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "40. POC Acceptance Criteria",
+      "section_path": "DOC-SPEC-014 > 40. POC Acceptance Criteria",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Test | Expected result |\n| --- | --- |\n| Intent-to-SPEC | Correct scope and autonomy |\n| SPEC signature | Accepted only when valid |\n| Evidence | RAG/KG/telemetry/model refs recorded |\n| Model | Correct version/scope |\n| Toolkit | Only permitted capabilities visible |\n| Alert | Correct asset + idempotency |\n| Visualizer | Trigger and evidence traceable |\n| Stale telemetry | No configured consequential action |\n| Prompt injection | No permission escalation |\n| Unauthorized tool | Denied |\n| Restart | State recovered without duplicate side effect |\n| Audit | Complete execution lineage |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0043",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "41. Compliance Report #5",
+      "section_path": "DOC-SPEC-014 > 41. Compliance Report #5",
+      "content": "This is an engineering readiness mapping, not a legal certification.\n\nNIST's AI RMF and its Generative AI Profile are useful governance anchors because they organize trustworthy-AI risk management across the lifecycle. NIST also released a 2026 concept note for a Critical Infrastructure Profile, directly relevant to industrial deployments. citeturn0search0turn0search6",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Control area | Evidence / design response |\n| --- | --- |\n| Governance | SPEC registry, toolkit registry, ownership |\n| Risk management | Risk-classified capabilities + autonomy modes |\n| Access control | Tenant/site/asset scoped authorization |\n| Least privilege | Default-deny capability registry |\n| Human oversight | Approval workflow |\n| Traceability | Execution UID + evidence/tool provenance |\n| Data integrity | Versioned contracts and immutable identifiers |\n| Model governance | Pinned model versions and evaluation refs |\n| Industrial boundary | Gateway + OT separation + independent safety |\n| Security | Identity, secrets isolation, policy gateway |\n| Monitoring | OpenTelemetry traces/metrics/logs |\n| Incident response | Durable state + execution replay |\n| Availability | Retries, circuit breakers, degraded modes |\n| Accountability | Signed SPEC + audit records |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0044",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "42. Research and Standards References",
+      "section_path": "DOC-SPEC-014 > 42. Research and Standards References",
+      "content": "NIST AI RMF / Generative AI Profile: cross-sector guidance for managing trustworthy AI risks across the lifecycle. citeturn0search0\n\nOWASP LLM06:2025 Excessive Agency: directly relevant to the Main Agent/toolkit separation because it identifies excessive functionality, permissions and autonomy as root causes of damaging agent actions. citeturn0search2\n\nOWASP Agentic Skills Top 10: useful for treating reusable agent skills/capabilities as a distinct execution-security layer. citeturn0search9\n\nISO 23247-1:2021: manufacturing digital-twin framework principles. citeturn0search1\n\nISO 23247-2:2021: manufacturing digital-twin reference architecture. citeturn0search11\n\nISO 23247-4:2021: technical requirements for information exchange between entities. citeturn0search15\n\nISO 23247-5:2026: digital thread across the manufacturing digital-twin lifecycle, highly relevant to AI-ConneX execution/data lineage. citeturn0search3\n\nISO 23247-6:2026: digital twin composition and interoperability, relevant to federating multiple industrial/site capabilities. citeturn0search8\n\nOpenTelemetry: vendor-neutral traces, metrics, logs and related observability signals for the distributed agent/toolkit architecture. citeturn0search5turn0search7",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0045",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "43. Industrialist Value Proposition",
+      "section_path": "DOC-SPEC-014 > 43. Industrialist Value Proposition",
+      "content": "The goal is not to remove engineers. It is to remove repetitive orchestration and reduce the amount of specialist effort required for routine monitoring, evidence collection, reporting and controlled workflow management.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Without AI-ConneX | With Main Agent + Toolkit |\n| --- | --- |\n| Manually inspect dashboards | Agent monitors configured assets |\n| Know where procedures are | Grounded retrieval |\n| Need analyst for every anomaly | Reusable diagnostic capabilities |\n| Need developer for every alert workflow | Configured toolkit workflow |\n| Hard to connect evidence | Evidence Pack + Visualizer |\n| Hard to explain alerts | Reason/evidence chain |\n| Automation is risky | Progressive autonomy + policy |\n| Vendor-specific scripts | Versioned capability adapters |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0046",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "44. Main Agent vs Agentic Toolkit vs Runtime",
+      "section_path": "DOC-SPEC-014 > 44. Main Agent vs Agentic Toolkit vs Runtime",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Component | Primary responsibility | Must not do |\n| --- | --- | --- |\n| Main Agent | Coordinate reasoning and industrial objective | Authorize itself or bypass policy |\n| Agentic Toolkit | Provide reusable capabilities | Become an unrestricted API surface |\n| Agent Runtime | Execute state machine and enforce contract | Invent permissions |\n| Agent SPEC | Declare scope, tools, models, autonomy | Execute actions |\n| Knowledge Foundation | Ground with evidence/state | Authorize actions |\n| Policy Gateway | Allow/deny operations | Reason about industrial objectives |\n| Visualizer | Make evidence understandable | Claim diagnosis from visualization alone |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0047",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "45. Final Contract",
+      "section_path": "DOC-SPEC-014 > 45. Final Contract",
+      "content": "CHATBOT  -> user intent  -> AGENT SPEC  -> MAIN AGENT INSTANCE  -> evidence + reasoning  -> TOOLKIT CAPABILITY  -> POLICY / APPROVAL  -> TOOL GATEWAY  -> INDUSTRIAL RESULT  -> VISUALIZER / WORKFLOW / AUDIT  -> MONITORING LOOPCore rule:MAIN AGENT COORDINATES.TOOLKIT CAPABILITIES.RUNTIME ENFORCES.SPEC CONSTRAINS.POLICY AUTHORIZES.KNOWLEDGE GROUNDS.VISUALIZER EXPLAINS.AUDIT PROVES.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0048",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "46. Production Readiness Gates",
+      "section_path": "DOC-SPEC-014 > 46. Production Readiness Gates",
+      "content": "Every production Main Agent has a signed, versioned SPEC.\n\nEvery toolkit capability has an owner, schema, risk class and test suite.\n\nDefault-deny policy is enabled.\n\nOT/control integrations have independent safety/authorization boundaries.\n\nEvidence provenance is complete for consequential decisions.\n\nTelemetry freshness requirements are tested.\n\nModel version and scope are pinned.\n\nIdempotency and reconciliation are tested for writes.\n\nPrompt injection and tool-result injection tests pass.\n\nCross-tenant/site/asset isolation tests pass.\n\nAgent loop budgets and kill/pause controls are operational.\n\nAudit and OpenTelemetry coverage are production-ready.\n\nDisaster recovery and durable-state replay have been tested.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-014-0049",
+      "document_id": "DOC-DOC-SPEC-014-V1",
+      "heading_level": 1,
+      "heading_text": "47. Conclusion",
+      "section_path": "DOC-SPEC-014 > 47. Conclusion",
+      "content": "The Main Agent is the operational brain presented to the industrialist, but it is deliberately not the security or capability boundary. The Agentic Toolkit is the industrial capability layer that turns the brain's intent into reusable, typed operations. Together they convert AI-ConneX from a collection of AI services into an operational system that can monitor, investigate, explain, alert and coordinate industrial work under explicit governance.\n\nThe strongest architectural property is separation of concerns: Jane understands intent; the Agent SPEC defines the contract; the Knowledge Foundation provides evidence; the Main Agent coordinates; the Toolkit provides capabilities; Policy authorizes; the Gateway executes; the Visualizer explains; and Audit preserves accountability.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    }
+  ],
+  "extracted_slas": [
+    {
+      "sla_id": "SLA-DEFAULT-DOC-SPEC-014-01",
+      "component_name": "MainAgent",
+      "metric_name": "p95_latency_ms",
+      "target_value": 500.0,
+      "unit": "ms",
+      "comparison_op": "<=",
+      "workload_condition": "Standard interactive execution regime",
+      "severity_on_breach": "critical",
+      "source_spec_id": "DOC-SPEC-014"
+    }
+  ]
+}

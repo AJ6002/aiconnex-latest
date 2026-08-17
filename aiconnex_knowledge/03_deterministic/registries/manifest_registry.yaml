@@ -1,0 +1,72 @@
+# Platform Manifest Registry (System Schema Evolution Truth)
+manifests:
+  PreUploadManifest:
+    schema_version: "1.0"
+    status: "Active"
+    owner: "PreUploadAgent"
+    compatible_versions: ["1.0"]
+    parent_manifest_types: []
+    required_fields: ["dataset_name", "files", "checksums"]
+  ConversationPlan:
+    schema_version: "1.0"
+    status: "Active"
+    owner: "WorkflowPlanner"
+    compatible_versions: ["1.0"]
+    parent_manifest_types: ["PreUploadManifest"]
+    required_fields: ["plan_id", "steps", "intent"]
+  ArchiveManifest:
+    schema_version: "1.0"
+    status: "Active"
+    owner: "PlatformAgent"
+    compatible_versions: ["1.0"]
+    parent_manifest_types: ["PreUploadManifest"]
+    required_fields: ["archive_id", "s3_uri", "created_at"]
+  DatasetExplorationManifest:
+    schema_version: "1.0"
+    status: "Active"
+    owner: "ScoutAgent"
+    compatible_versions: ["1.0"]
+    parent_manifest_types: ["PreUploadManifest"]
+    required_fields: ["exploration_id", "schema_inference", "missing_values"]
+  PipelineLockManifest:
+    schema_version: "1.0"
+    status: "Active"
+    owner: "WorkflowPlanner"
+    compatible_versions: ["1.0"]
+    parent_manifest_types: ["ConversationPlan"]
+    required_fields: ["lock_id", "dag_id", "status"]
+  WorkflowManifest:
+    schema_version: "1.0"
+    status: "Active"
+    owner: "WorkflowPlanner"
+    compatible_versions: ["1.0"]
+    parent_manifest_types: ["PipelineLockManifest"]
+    required_fields: ["workflow_id", "tasks", "dependencies"]
+  CompilationContract:
+    schema_version: "1.0"
+    status: "Active"
+    owner: "ScoutAgent"
+    compatible_versions: ["1.0"]
+    parent_manifest_types: ["DatasetExplorationManifest"]
+    required_fields: ["contract_id", "source_tables", "join_keys"]
+  CompiledDatasetManifest:
+    schema_version: "1.0"
+    status: "Active"
+    owner: "PlatformAgent"
+    compatible_versions: ["1.0"]
+    parent_manifest_types: ["CompilationContract"]
+    required_fields: ["compiled_id", "row_count", "parquet_path"]
+  TrainingManifest:
+    schema_version: "1.0"
+    status: "Active"
+    owner: "PlatformAgent"
+    compatible_versions: ["1.0"]
+    parent_manifest_types: ["CompiledDatasetManifest"]
+    required_fields: ["training_id", "model_type", "hyperparams", "metrics"]
+  ModelManifest:
+    schema_version: "1.0"
+    status: "Active"
+    owner: "PlatformAgent"
+    compatible_versions: ["1.0"]
+    parent_manifest_types: ["TrainingManifest"]
+    required_fields: ["model_id", "onnx_uri", "accuracy", "created_at"]

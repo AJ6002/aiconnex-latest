@@ -44,7 +44,7 @@ export const DataExplorerView: React.FC<DataExplorerViewProps> = ({
   onProceedToPrepare,
   onApproveDeliverables,
 }) => {
-  const [activeTab, setActiveTab] = useState<'pre-prepare' | 'post-prepare' | 'post-fe' | 'post-train' | 'ad-hoc'>('pre-prepare');
+  const [activeTab, setActiveTab] = useState<'pre-prepare' | 'exhaustive-eda' | 'post-prepare' | 'post-fe' | 'post-train' | 'ad-hoc'>('pre-prepare');
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [actionsOpen, setActionsOpen] = useState(false);
   const [backendProfile, setBackendProfile] = useState<any>(null);
@@ -101,10 +101,11 @@ export const DataExplorerView: React.FC<DataExplorerViewProps> = ({
   // Pipeline stage tabs
   const tabs = [
     { id: 'pre-prepare', label: 'Pre-Prepare', badge: 'Brain', number: 1 },
-    { id: 'post-prepare', label: 'Post-Prepare', badge: 'Prepare', number: 2 },
-    { id: 'post-fe', label: 'Post-F.E', badge: 'Feature Engineered', number: 3 },
-    { id: 'post-train', label: 'Post-Train', badge: 'Training', number: 4 },
-    { id: 'ad-hoc', label: 'Ad-Hoc Explorer', badge: 'Visual Query', number: 5 }
+    { id: 'exhaustive-eda', label: 'Exhaustive EDA', badge: 'fg-Profiler', number: 2 },
+    { id: 'post-prepare', label: 'Post-Prepare', badge: 'Prepare', number: 3 },
+    { id: 'post-fe', label: 'Post-F.E', badge: 'Feature Engineered', number: 4 },
+    { id: 'post-train', label: 'Post-Train', badge: 'Training', number: 5 },
+    { id: 'ad-hoc', label: 'Ad-Hoc Explorer', badge: 'Visual Query', number: 6 }
   ];
 
   // Render correct subpage
@@ -122,6 +123,46 @@ export const DataExplorerView: React.FC<DataExplorerViewProps> = ({
             onApproveDeliverables={onApproveDeliverables}
           />
         );
+      case 'exhaustive-eda':
+        const effectiveRunId = (runId && runId !== 'undefined' && runId !== 'null') ? runId : 'run_20250115_143022';
+        const activeCsvName = compiledCsvPath ? compiledCsvPath.replace(/\\/g, '/').split('/').pop() : 'all_groups_combined.csv';
+        return (
+          <div className="p-6 max-w-[1700px] mx-auto animate-fadeIn space-y-4">
+            <div className="flex items-center justify-between bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+              <div className="flex items-center gap-3.5">
+                <div className="w-10 h-10 flex items-center justify-center bg-[#FF6B35]/10 border border-[#FF6B35]/30 rounded-xl text-[#FF6B35]">
+                  <span className="material-symbols-outlined text-xl">insights</span>
+                </div>
+                <div>
+                  <h2 className="text-base font-bold text-slate-900 flex items-center gap-2.5">
+                    Exhaustive Statistical EDA Report
+                    <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-bold">
+                      Live fg-data-profiling
+                    </span>
+                  </h2>
+                  <p className="text-xs text-slate-500 mt-1 flex items-center gap-2">
+                    <span>Source: <strong className="text-slate-700 font-mono bg-slate-100 border border-slate-200 px-2 py-0.5 rounded">{activeCsvName}</strong></span>
+                    <span className="text-slate-300">•</span>
+                    <span>Real histograms, time-series PACF &amp; missingness heatmaps (&lt; 2 MB fast load)</span>
+                  </p>
+                </div>
+              </div>
+              <button 
+                onClick={() => setActiveTab('pre-prepare')}
+                className="px-4 py-2 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold rounded-xl transition-all border border-slate-200 hover:border-slate-300 shadow-2xs cursor-pointer flex items-center gap-1.5"
+              >
+                <span>← Back to Pre-Prepare</span>
+              </button>
+            </div>
+            
+            <iframe 
+              src={`http://localhost:8000/api/v1/reports/${effectiveRunId}/eda_report.html?theme=${theme}&file_path=${encodeURIComponent(compiledCsvPath || '')}`}
+              className="w-full h-[82vh] rounded-2xl border border-slate-200 shadow-sm bg-white transition-all"
+              title="Exhaustive Data Profiling Report"
+            />
+          </div>
+        );
+
       case 'post-prepare':
         return (
           <PostPrepare 
@@ -161,6 +202,7 @@ export const DataExplorerView: React.FC<DataExplorerViewProps> = ({
         return <PrePrepare onProceed={() => setActiveTab('post-prepare')} />;
     }
   };
+
 
   return (
     <div className="flex flex-col min-h-screen bg-canvas font-sans animate-slideInRight">

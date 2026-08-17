@@ -1,0 +1,110 @@
+# Canonical Tenant Knowledge Registry (Sprint 6)
+# Authoritative Seed Registry for Tenant Organizations, Projects, and Assets
+# Implements Cognite Spaces Model: (Global Reference) <-- [:INSTANCE_OF] -- (Project Asset)
+
+tenants:
+  - tenant_id: "TENANT-DEMO-ACME"
+    name: "Acme Petrochemical Corp"
+    industry: "Oil & Gas"
+    tier: "enterprise"
+    status: "active"
+    adopted_standards:
+      - "STD-ISO-14224"
+      - "STD-API-610"
+      - "STD-ISO-55000"
+    custom_glossary: []
+
+projects:
+  - project_id: "PROJ-ACME-HOUSTON"
+    tenant_id: "TENANT-DEMO-ACME"
+    name: "Houston Refinery Plant #4"
+    plant_type: "Refinery"
+    status: "active"
+  - project_id: "PROJ-ACME-ROTTERDAM"
+    tenant_id: "TENANT-DEMO-ACME"
+    name: "Rotterdam Chemical Complex"
+    plant_type: "Chemical Plant"
+    status: "active"
+
+assets:
+  - asset_id: "ASSET-P201A"
+    tenant_id: "TENANT-DEMO-ACME"
+    project_id: "PROJ-ACME-HOUSTON"
+    equipment_id: "EQP-PUMP-CENTRIFUGAL"
+    tag_number: "P-201A"
+    description: "Main crude distillation unit feed pump, end-suction centrifugal type, 150 kW electric motor drive"
+    location: "Unit 2 (Crude Distillation), Ground Floor Bay 3"
+    manufacturer: "Flowserve"
+    model_number: "Durco Mark 3 ANSI"
+    install_date: "2021-04-15"
+    custom_metadata:
+      design_flow_rate_m3_h: 240.0
+      discharge_pressure_bar: 18.5
+      fluid_handled: "Heavy Crude Oil"
+      criticality: "High"
+    status: "operational"
+
+  - asset_id: "ASSET-C301"
+    tenant_id: "TENANT-DEMO-ACME"
+    project_id: "PROJ-ACME-HOUSTON"
+    equipment_id: "EQP-COMP-CENTRIFUGAL"
+    tag_number: "C-301"
+    description: "Wet gas compressor, multi-stage centrifugal, 500 kW steam turbine drive"
+    location: "Unit 3 (FCC), Compressor House Mezzanine"
+    manufacturer: "Atlas Copco"
+    model_number: "GT-050 Series"
+    install_date: "2019-11-20"
+    custom_metadata:
+      suction_pressure_bar: 2.1
+      discharge_pressure_bar: 14.2
+      gas_type: "Hydrocarbon Wet Gas"
+      criticality: "High"
+    status: "operational"
+
+  - asset_id: "ASSET-V101"
+    tenant_id: "TENANT-DEMO-ACME"
+    project_id: "PROJ-ACME-HOUSTON"
+    equipment_id: "EQP-VALVE-GLOBE"
+    tag_number: "V-101"
+    description: "Feed water flow control valve, globe body with pneumatic diaphragm actuator"
+    location: "Unit 1 (Boiler Feed), Pipe Rack Tier 2"
+    manufacturer: "Emerson Fisher"
+    model_number: "Fisher ET Easy-e"
+    install_date: "2022-01-10"
+    custom_metadata:
+      valve_size_inch: 4.0
+      pressure_rating_class: 300
+      fail_action: "Fail Close (FC)"
+    status: "operational"
+
+  - asset_id: "ASSET-R-P401"
+    tenant_id: "TENANT-DEMO-ACME"
+    project_id: "PROJ-ACME-ROTTERDAM"
+    equipment_id: "EQP-PUMP-CENTRIFUGAL"
+    tag_number: "P-401"
+    description: "Cooling water circulation pump, horizontal split-case centrifugal, 75 kW"
+    location: "CW Pump House Building B"
+    manufacturer: "KSB"
+    model_number: "Omega 200-350"
+    install_date: "2020-08-30"
+    custom_metadata:
+      cooling_circuit: "Secondary Loop"
+      flow_rate_m3_h: 380.0
+      head_m: 45.0
+    status: "operational"
+
+  - asset_id: "ASSET-R-HX501"
+    tenant_id: "TENANT-DEMO-ACME"
+    project_id: "PROJ-ACME-ROTTERDAM"
+    equipment_id: "EQP-HEX-SHELLTUBE"
+    tag_number: "HX-501"
+    description: "Product stream cooler, TEMA Type AES shell and tube heat exchanger"
+    location: "Unit 5 (Olefins Purification), Bay 1"
+    manufacturer: "Alfa Laval"
+    model_number: "TEMA-AES-800"
+    install_date: "2018-06-12"
+    custom_metadata:
+      shell_design_pressure_bar: 25.0
+      tube_design_pressure_bar: 16.0
+      heat_transfer_area_m2: 450.0
+    status: "operational"

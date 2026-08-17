@@ -1,0 +1,13 @@
+{
+  "document_id": "DOC-IND-STD-001-V1",
+  "source_id": "SRC-IND-STD-001",
+  "title": "IEC 60812:2018 Failure Modes and Effects Analysis (FMEA and FMECA)",
+  "version": "2018",
+  "document_type": "pdf",
+  "content_hash": "644ccfcff407896577f03943216fd605591cd2e914f764414d2d51bafc3ca828",
+  "page_count": 15,
+  "total_sections": 80,
+  "total_words": 5202,
+  "storage_uri": "s3://aiconnex-platform-kb-prod/industrial/IEC_60812_2018_FMEA_FMECA.pdf",
+  "created_at": "2026-08-14T08:41:25.300447+00:00"
+}

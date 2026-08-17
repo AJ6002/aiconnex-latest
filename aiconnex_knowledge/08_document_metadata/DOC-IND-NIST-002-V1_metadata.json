@@ -1,0 +1,13 @@
+{
+  "document_id": "DOC-IND-NIST-002-V1",
+  "source_id": "SRC-IND-NIST-002",
+  "title": "NIST AMS 100-2 Measurement Science Roadmap for PHM in Manufacturing",
+  "version": "2016",
+  "document_type": "pdf",
+  "content_hash": "95db28650aa4f6dc6d02596ae94fead5b14bfe29c2b341e8a6812527e19e624c",
+  "page_count": 66,
+  "total_sections": 31,
+  "total_words": 23987,
+  "storage_uri": "s3://aiconnex-platform-kb-prod/industrial/NIST_AMS_100_2_PHM_Roadmap.pdf",
+  "created_at": "2026-08-14T08:41:26.442422+00:00"
+}

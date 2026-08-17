@@ -1,0 +1,594 @@
+{
+  "document_id": "DOC-DOC-SPEC-003-V1",
+  "source_id": "DOC-SPEC-003",
+  "title": "AI-ConneX Data Studio Data Profiler Detailed Documentation",
+  "studio": "DataStudio",
+  "category": "Performance",
+  "target_subsystems": [
+    "DataProfiler",
+    "ScoutAgent",
+    "QualityAnalyzer"
+  ],
+  "summary": "Statistical profiling SLAs, column distribution metrics, null ratio thresholds, and dataset exploration performance contracts.",
+  "sha256": "36576a2f10a135d9679be194042c2be3a31168ec6de2440bcb4c2eba9b754e8b",
+  "file_size_bytes": 52047,
+  "statistics": {
+    "headings_count": 49,
+    "paragraphs_count": 148,
+    "tables_count": 15,
+    "sections_count": 48,
+    "estimated_words": 4087
+  },
+  "sections": [
+    {
+      "section_id": "SEC-DOC-SPEC-003-0001",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "Overview",
+      "section_path": "DOC-SPEC-003 > Overview",
+      "content": "AI-ConneX\n\nData Studio — Data Profiler\n\nProof of Concept • R&D • Technical Architecture • Manifest Generation\n\nIndustrial Data Intelligence LayerCompiler → Data Profiler → Manifest-UID.jsonStage Report / Compilation Report #1",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0002",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "1. Executive Summary",
+      "section_path": "DOC-SPEC-003 > 1. Executive Summary",
+      "content": "The AI-ConneX Data Studio Data Profiler is the intelligence layer immediately after the Data Studio Compiler. The Compiler converts heterogeneous industrial source material into a validated, unified dataset. The Profiler then determines what the compiled dataset actually contains: its structure, semantics, statistical characteristics, quality indicators, relationships, temporal behavior, units, cardinality, distributions and suitability for downstream industrial AI workflows.\n\nThe Profiler also reconnects the technical facts discovered from the dataset with the intent established by the AI-ConneX Chatbot and the operational decisions made by the Compiler. These combined facts become a single machine-readable identity document called manifest-UID.json.\n\nThe key architectural idea is that a dataset is not considered fully understood merely because it has been normalized. The Compiler answers 'Can we make this data structurally usable?'; the Profiler answers 'What is this data, how does it behave, how reliable is it, and how does it relate to the user's industrial objective?'",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0003",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "2. Position of the Data Profiler in AI-ConneX",
+      "section_path": "DOC-SPEC-003 > 2. Position of the Data Profiler in AI-ConneX",
+      "content": "USER  |  vAI-ConneX CHATBOT  |  | User intent / objective / constraints  vDATA STUDIO COMPILER  |  | Unified + validated dataset  | schema.json  | lineage.json  | compilation_report.json  vDATA STUDIO DATA PROFILER  |  +--> Structural profiling  +--> Statistical profiling  +--> Semantic profiling  +--> Data-quality profiling  +--> Relationship profiling  +--> Temporal profiling  +--> Unit / measurement profiling  +--> Intent-aware profiling  +--> Profile scoring  +--> Manifest generation  |  +--------------------------------------+  | Merge previous intent + current      |  | profiling findings + compiler facts  |  +--------------------------------------+                    |                    v             manifest-UID.json                    |                    v       NEXT AI-ConneX DATA/AI STAGES",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0004",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 2,
+      "heading_text": "3.1 Primary Input from Compiler",
+      "section_path": "DOC-SPEC-003 > 3.1 Primary Input from Compiler",
+      "content": "{  \"dataset_id\": \"ACX-CMP-00042\",  \"artifact\": \"dataset.parquet\",  \"schema\": \"schema.json\",  \"metadata\": \"metadata.json\",  \"lineage\": \"lineage.json\",  \"compilation_report\": \"compilation_report.json\",  \"status\": \"SUCCESS\"}\n\nThe Profiler should trust the Compiler's artifact contract but independently verify critical properties. The Compiler's report is evidence about transformation; it is not a substitute for profiling.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0005",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 2,
+      "heading_text": "3.2 User Intent from Previous Chatbot Stage",
+      "section_path": "DOC-SPEC-003 > 3.2 User Intent from Previous Chatbot Stage",
+      "content": "{  \"intent_id\": \"ACX-INT-00042\",  \"industrial_domain\": \"manufacturing\",  \"objective\": \"predict machine failure\",  \"target_entity\": \"CNC machine\",  \"important_signals\": [\"temperature\", \"vibration\", \"motor_speed\"],  \"time_horizon\": \"next 24 hours\",  \"constraints\": {    \"preserve_source_context\": true,    \"explainability\": \"required\"  }}\n\nThis intent is carried forward rather than discarded. It allows the Profiler to distinguish between generic data statistics and statistics that matter to the industrial objective.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0006",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "4. Current-Stage Profiler Intent",
+      "section_path": "DOC-SPEC-003 > 4. Current-Stage Profiler Intent",
+      "content": "The Profiler can also receive current-stage instructions. For example, an operator may ask it to identify candidate target variables, assess missingness in sensor streams, detect timestamp gaps, or determine whether a dataset is suitable for time-series forecasting.\n\n{  \"profiling_request\": {    \"mode\": \"industrial_full\",    \"check_time_series\": true,    \"check_sensor_quality\": true,    \"infer_relationships\": true,    \"generate_manifest\": true  }}",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0007",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "5. Intent + Dataset Knowledge Merge",
+      "section_path": "DOC-SPEC-003 > 5. Intent + Dataset Knowledge Merge",
+      "content": "The Profiler creates a unified context from three evidence streams:\n\nThe resulting manifest is therefore an operational data contract, not merely a profiling report.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Evidence | Source | Role |\n| --- | --- | --- |\n| User Intent | Chatbot | Why the user needs the data. |\n| Transformation Context | Compiler | What happened to the data before profiling. |\n| Observed Dataset Facts | Profiler | What the data actually contains and how it behaves. |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0008",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "6. R&D Problem Definition",
+      "section_path": "DOC-SPEC-003 > 6. R&D Problem Definition",
+      "content": "Traditional profiling tools generally answer generic questions: number of rows, columns, data types, null counts, unique values, descriptive statistics and distributions. Industrial AI-ConneX requires a broader concept of profiling because industrial datasets are usually temporal, sensor-driven, multi-asset, unit-dependent and purpose-specific.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0009",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 2,
+      "heading_text": "6.1 R&D Questions",
+      "section_path": "DOC-SPEC-003 > 6.1 R&D Questions",
+      "content": "How can the Profiler automatically characterize heterogeneous industrial variables after normalization?\n\nHow can generic statistics be transformed into industrially meaningful metadata?\n\nHow can the Profiler distinguish a useful sensor signal from an identifier, categorical label or administrative field?\n\nHow can time-series properties such as sampling frequency, gaps, irregular intervals and drift be detected automatically?\n\nHow can data quality be quantified without pretending that statistical quality equals engineering correctness?\n\nHow can the user's original objective influence which profiling checks receive priority?\n\nHow can the resulting metadata become a stable manifest that downstream AI-ConneX modules can consume?",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0010",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "7. Research Foundation",
+      "section_path": "DOC-SPEC-003 > 7. Research Foundation",
+      "content": "Data profiling has a strong foundation in data quality, schema discovery, metadata management and data integration research. AI-ConneX extends this foundation by making profiling intent-aware and industrial-domain-aware.\n\nGreat Expectations provides a useful reference for the separation between expectations, validation and validation results; its current documentation describes validation definitions that associate data batches with expectation suites and return validation results. citeturn0search0turn0search2\n\nApache DataFusion is relevant to the proposed implementation because it uses Apache Arrow as an in-memory format and provides SQL/DataFrame APIs with support for CSV, Parquet, JSON and Avro, making it a viable high-performance analytical engine for profiling workloads. citeturn0search11turn0search14",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0011",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "8. Data Profiler Pipeline",
+      "section_path": "DOC-SPEC-003 > 8. Data Profiler Pipeline",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Stage | Function | Output |\n| --- | --- | --- |\n| 1. Intake | Load Compiler artifacts and intent | Profiler job context |\n| 2. Integrity Check | Verify artifact/schema/report consistency | Input integrity status |\n| 3. Structural Profile | Rows, columns, types, schema | Structural metadata |\n| 4. Statistical Profile | Min/max/mean/quantiles/cardinality/distributions | Statistical metadata |\n| 5. Quality Profile | Nulls, duplicates, anomalies, validity | Quality metadata |\n| 6. Semantic Profile | Infer business/engineering meaning | Semantic metadata |\n| 7. Temporal Profile | Sampling, gaps, frequency, ordering, drift | Temporal metadata |\n| 8. Relationship Profile | Keys, correlations, dependencies, joins | Relationship metadata |\n| 9. Intent-Aware Analysis | Prioritize features relevant to objective | Intent relevance |\n| 10. Profile Score | Summarize quality/readiness | Profile score |\n| 11. Manifest Builder | Merge intent + compiler + profile facts | manifest-UID.json |\n| 12. Compliance Report | Generate stage evidence | Report #1 |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0012",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "9. Structural Profiling",
+      "section_path": "DOC-SPEC-003 > 9. Structural Profiling",
+      "content": "Dataset row and column counts.\n\nColumn names and canonical names.\n\nPhysical and logical data types.\n\nNullable/non-nullable fields.\n\nCandidate identifiers and keys.\n\nCardinality and uniqueness.\n\nNested structures where applicable.\n\nSchema hash and profile version.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0013",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "10. Statistical Profiling",
+      "section_path": "DOC-SPEC-003 > 10. Statistical Profiling",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Variable Type | Core Metrics |\n| --- | --- |\n| Numeric | min, max, mean, median, standard deviation, quantiles, zero rate, negative rate |\n| Categorical | unique count, frequency distribution, rare categories, entropy |\n| Boolean | true/false distribution, null rate |\n| Datetime | min/max timestamp, span, interval distribution |\n| Text | length distribution, token characteristics, null/empty rate |\n| Identifier | uniqueness, repetition pattern, format pattern |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0014",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "11. Industrial / Sensor Profiling",
+      "section_path": "DOC-SPEC-003 > 11. Industrial / Sensor Profiling",
+      "content": "For industrial sensor data, generic statistics are insufficient. The Profiler should additionally inspect:\n\nSampling interval and approximate sampling frequency.\n\nIrregular timestamps.\n\nMissing time windows.\n\nFlat-line sensors.\n\nConstant-value sensors.\n\nSudden spikes and discontinuities.\n\nOut-of-range observations where engineering limits are known.\n\nSensor drift and distribution shift.\n\nNoise indicators.\n\nUnit consistency.\n\nMachine/asset/channel cardinality.\n\nCross-sensor correlation and lag relationships.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0015",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "12. Semantic Profiling",
+      "section_path": "DOC-SPEC-003 > 12. Semantic Profiling",
+      "content": "Semantic profiling attempts to determine what a field represents, independently of its raw column name. The Profiler can combine canonical names from the Compiler, datatype, units, value ranges, naming patterns, metadata, and domain vocabulary.\n\nExample:Column: temperatureType: floatUnit: °CRange: 21.2–94.7Context: CNC machineCorrelation: bearing_vibrationSemantic classification:asset_signal.temperaturemeasurement_type = temperatureengineering_domain = machine_health",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0016",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "13. Intent-Aware Profiling",
+      "section_path": "DOC-SPEC-003 > 13. Intent-Aware Profiling",
+      "content": "A central AI-ConneX feature is that the Profiler does not treat all columns equally. If the user's objective is predictive maintenance, vibration, temperature, current, pressure and RPM may receive deeper analysis than an administrative operator ID.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| User Goal | High-Priority Profiling |\n| --- | --- |\n| Predictive maintenance | Sensor health, temporal continuity, anomalies, lag/correlation, target availability |\n| Quality prediction | Process variables, batch identifiers, defect labels, leakage risks |\n| Energy optimization | Power, current, load, runtime, energy-per-unit patterns |\n| Production forecasting | Time index, production counts, seasonality, downtime, shift structure |\n| Fault detection | Rare-event labels, anomaly patterns, sensor synchronization |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0017",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "14. Key R&D Failures Identified",
+      "section_path": "DOC-SPEC-003 > 14. Key R&D Failures Identified",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Failure | Why It Happens | AI-ConneX Solution |\n| --- | --- | --- |\n| Profiling only file structure | Generic tools stop at columns/types. | Industrial semantic + temporal profiling. |\n| Wrong datatype inference | Mixed numeric/text values confuse inference. | Multi-pass type inference + confidence + sampling. |\n| Missing values misunderstood | Null rate alone hides time gaps. | Separate cell-level missingness from temporal missingness. |\n| Flat-line sensors missed | A column can be non-null but useless. | Variance, run-length and change-rate analysis. |\n| Outliers treated as errors | Extreme values may be real machine events. | Context-aware anomaly classification; preserve evidence. |\n| Correlations misunderstood | Correlation does not imply causation. | Label as association; never infer causality automatically. |\n| Identifier mistaken for feature | High-cardinality columns can look informative. | ID detection and semantic classification. |\n| Target leakage | Future/derived information may appear in features. | Intent-aware temporal and lineage checks. |\n| Sampling mismatch | Sensors operate at different rates. | Per-signal frequency and synchronization profiling. |\n| Unit inconsistency | Same semantic variable may contain different units. | Unit metadata + compiler lineage + conversion verification. |\n| Profile becomes stale | Industrial datasets change over time. | Profile versioning and profile timestamps. |\n| Too much metadata | Raw profiling can overwhelm downstream agents. | Tiered manifest: summary + detailed references. |\n| LLM hallucination | Agent may invent semantics. | Evidence-backed semantic inference with confidence and provenance. |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0018",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "15. How AI-ConneX Overcomes the Failures",
+      "section_path": "DOC-SPEC-003 > 15. How AI-ConneX Overcomes the Failures",
+      "content": "Use deterministic computation for all numeric statistics.\n\nSeparate observed facts from inferred semantics.\n\nAttach confidence and provenance to inferred metadata.\n\nPreserve source and Compiler lineage.\n\nUse domain-specific profiling policies.\n\nPerform temporal checks for datasets containing timestamps.\n\nDetect candidate identifiers before feature-quality scoring.\n\nNever delete anomalies simply because they are statistically unusual.\n\nDistinguish data-quality warnings from hard failures.\n\nVersion every manifest and profile execution.\n\nMake the manifest reproducible from dataset hash + profile configuration + profiler version.\n\nUse an agent only for interpretation and prioritization, not for arithmetic.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0019",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "16. Profile Assignment",
+      "section_path": "DOC-SPEC-003 > 16. Profile Assignment",
+      "content": "Every successful profiling run receives a Profile UID. The UID identifies the profile execution and allows downstream systems to distinguish different versions of the same underlying dataset.\n\nProfile UID example:ACX-PROF-20260814-7F31A2C9Recommended identity inputs:dataset_hashcompiler_job_idprofile_config_hashprofiler_versionexecution_timestamp\n\nThe Profile UID should not replace the Dataset UID. Dataset identity, compilation identity and profiling identity should remain separately traceable.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0020",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "17. manifest-UID.json — Final Data Contract",
+      "section_path": "DOC-SPEC-003 > 17. manifest-UID.json — Final Data Contract",
+      "content": "After profiling, AI-ConneX merges the previous Chatbot intent, Compiler metadata and current Profiler findings. The resulting document is named using the manifest UID.\n\nmanifest-UID.json{  \"manifest_uid\": \"ACX-MAN-00042\",  \"dataset\": {    \"dataset_uid\": \"ACX-IND-00042\",    \"artifact\": \"dataset.parquet\",    \"sha256\": \"...\"  },  \"intent\": {    \"intent_uid\": \"ACX-INT-00042\",    \"domain\": \"manufacturing\",    \"objective\": \"predict_machine_failure\",    \"target_entity\": \"CNC_machine\"  },  \"compiler\": {    \"compiler_job_id\": \"ACX-CMP-00042\",    \"status\": \"SUCCESS\",    \"schema_version\": \"1.0\",    \"lineage\": \"lineage.json\"  },  \"profile\": {    \"profile_uid\": \"ACX-PROF-20260814-7F31A2C9\",    \"profile_version\": \"1.0\",    \"rows\": 999842,    \"columns\": 18,    \"quality_score\": 0.91,    \"readiness\": \"CONDITIONALLY_READY\"  },  \"features\": {    \"high_relevance\": [      \"temperature\",      \"vibration\",      \"motor_speed\"    ],    \"candidate_target\": \"failure_event\",    \"candidate_time_index\": \"timestamp\"  },  \"quality\": {    \"null_rate\": 0.012,    \"duplicate_rate\": 0.001,    \"temporal_gaps\": 4,    \"anomaly_columns\": 3  },  \"next_stage\": {    \"recommended\": \"AI_DATA_PREPARATION\",    \"input_contract\": \"manifest-UID.json\"  }}",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0021",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "18. Manifest Layers",
+      "section_path": "DOC-SPEC-003 > 18. Manifest Layers",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Layer | Meaning |\n| --- | --- |\n| Identity | What dataset/profile/manifest is this? |\n| Intent | Why was the dataset requested? |\n| Compilation | How was the dataset prepared? |\n| Profile | What does the dataset contain? |\n| Quality | How reliable/complete is it? |\n| Semantic | What do variables represent? |\n| Relationships | How do variables/entities relate? |\n| Readiness | Can downstream AI workflows use it? |\n| Lineage | Where did every important fact come from? |\n| Next-stage contract | What should consume the manifest next? |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0022",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "19. Profile Score and Readiness",
+      "section_path": "DOC-SPEC-003 > 19. Profile Score and Readiness",
+      "content": "The Profile Score is not a universal 'truth score'. It is a configurable operational score summarizing the observed fitness of the dataset for the stated intent.\n\nExample weighted score:Quality              25%Completeness         20%Structural validity  15%Temporal integrity   15%Semantic confidence  10%Consistency          10%Intent suitability    5%Final = weighted score",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Score | Status | Meaning |\n| --- | --- | --- |\n| 0.90–1.00 | READY | Strong candidate for downstream processing |\n| 0.75–0.89 | CONDITIONALLY_READY | Usable with documented warnings |\n| 0.50–0.74 | REVIEW_REQUIRED | Human/engineering review recommended |\n| < 0.50 | NOT_READY | Major issues require remediation |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0023",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "20. Proof of Concept",
+      "section_path": "DOC-SPEC-003 > 20. Proof of Concept",
+      "content": "The POC should demonstrate that the Profiler converts a compiled industrial dataset into a useful machine-readable description rather than merely producing a generic statistics table.\n\nPOC INPUTdataset.parquetschema.jsonmetadata.jsonlineage.jsoncompilation_report.jsonintent.json                |                v        DATA PROFILER ENGINE                |        +-------+-------+        |       |       |     Quality  Semantic Temporal        |       |       |        +-------+-------+                |                v       Profile UID + Scores                |                v       Manifest Builder                |                v        manifest-UID.json",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0024",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 2,
+      "heading_text": "20.1 POC Acceptance Criteria",
+      "section_path": "DOC-SPEC-003 > 20.1 POC Acceptance Criteria",
+      "content": "Correctly reports row/column counts.\n\nCorrectly identifies logical datatypes for benchmark columns.\n\nReports missingness and cardinality.\n\nDetects timestamp range and sampling behavior.\n\nDetects intentionally inserted flat-line sensor segments.\n\nDetects known duplicate records.\n\nIdentifies candidate identifier columns.\n\nProduces semantic classifications with evidence/confidence.\n\nCombines Chatbot intent with Compiler metadata.\n\nProduces a valid manifest-UID.json conforming to its schema.\n\nProduces a human-readable Compliance Report #1.\n\nRepeated execution on the same immutable input produces reproducible deterministic metrics.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0025",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "21. Example POC Dataset",
+      "section_path": "DOC-SPEC-003 > 21. Example POC Dataset",
+      "content": "industrial_compiled/|+-- dataset.parquet+-- schema.json+-- metadata.json+-- lineage.json+-- compilation_report.json+-- intent.jsonExample fields:timestampmachine_idtemperaturevibrationmotor_speedpressurepowermaintenance_event",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0026",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "22. Recommended Technology Stack",
+      "section_path": "DOC-SPEC-003 > 22. Recommended Technology Stack",
+      "content": "Versions above should be treated as a proposed baseline and pinned after the POC dependency lockfile is tested. The documented current Great Expectations release page used for this design identifies GX 1.19.1; its current validation workflow supports Validation Definitions and result objects. citeturn0search0turn0search2\n\nDataFusion's documentation describes its Arrow-based in-memory architecture and built-in CSV, Parquet, JSON and Avro support. This makes it particularly relevant where the Profiler must scan large compiled datasets without loading every row into Python memory. citeturn0search11turn0search14",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Layer | Technology / Version | Purpose |\n| --- | --- | --- |\n| Runtime | Python 3.12.x | Profiler orchestration |\n| DataFrame | Polars 1.x | Fast columnar profiling |\n| Query Engine | Apache DataFusion 46.x+ (pin tested release) | Large analytical scans |\n| Memory Format | Apache Arrow 18.x+ (pin tested release) | Columnar interoperability |\n| Storage | Apache Parquet | Compiled dataset input |\n| Statistics | NumPy 2.x / SciPy 1.x | Numerical metrics |\n| API | FastAPI 0.1xx+ | Profiler service |\n| Validation | Great Expectations 1.19.x | Optional expectation-based quality validation |\n| Schema | Pydantic 2.x | Manifest/API contract validation |\n| Database | PostgreSQL 16.x+ | Job/profile metadata |\n| Object Storage | S3-compatible / MinIO | Dataset and manifest artifacts |\n| Testing | pytest 8.x | Automated testing |\n| Packaging | Docker 27.x+ | Reproducible deployment |\n| Config | YAML | Profile policies |\n| Observability | OpenTelemetry | Tracing and metrics |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0027",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 2,
+      "heading_text": "23.1 Development / POC",
+      "section_path": "DOC-SPEC-003 > 23.1 Development / POC",
+      "content": "64-bit Windows/Linux/macOS.\n\nPython 3.12.x.\n\n8 GB RAM minimum; 16 GB+ recommended.\n\nSSD with at least 2× active dataset size available for temporary operations.\n\n4+ CPU cores recommended for profiling workloads.\n\nDocker Desktop/Engine for containerized deployment.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0028",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 2,
+      "heading_text": "23.2 Production",
+      "section_path": "DOC-SPEC-003 > 23.2 Production",
+      "content": "16–32+ GB RAM depending on dataset size and concurrency.\n\nObject storage for immutable artifacts.\n\nPostgreSQL for metadata and execution state.\n\nWorker queue for long-running jobs.\n\nResource quotas per profiling job.\n\nTLS, authentication and role-based access control.\n\nAudit logging and immutable manifest storage.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0029",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "24. Configuration",
+      "section_path": "DOC-SPEC-003 > 24. Configuration",
+      "content": "# config/profiler.yamlprofiler:  version: \"1.0\"  mode: \"industrial_full\"  sample_rows: 100000  exact_row_count: true  infer_semantics: true  infer_units: true  temporal_analysis: true  relationship_analysis: true  generate_manifest: truequality:  null_threshold_warning: 0.05  null_threshold_failure: 0.30  duplicate_threshold_warning: 0.01  detect_flatline: true  detect_outliers: true  detect_temporal_gaps: truesemantic:  minimum_confidence: 0.80  human_review_below: 0.70scoring:  quality: 0.25  completeness: 0.20  structural_validity: 0.15  temporal_integrity: 0.15  semantic_confidence: 0.10  consistency: 0.10  intent_suitability: 0.05storage:  input_dir: \"./data/input\"  profile_dir: \"./profiles\"  manifest_dir: \"./manifests\"  report_dir: \"./reports\"",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0030",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "25. Commands",
+      "section_path": "DOC-SPEC-003 > 25. Commands",
+      "content": "# Create environmentpython -m venv .venv# Windows.venv\\Scripts\\activate# Linux/macOSsource .venv/bin/activate# Installpip install -r requirements.txt# Run APIuvicorn app.main:app --reload --host 0.0.0.0 --port 8100# Profile a compiled datasetpython -m profiler.cli profile \\  --dataset ./data/input/dataset.parquet \\  --schema ./data/input/schema.json \\  --intent ./data/input/intent.json \\  --config ./config/profiler.yaml# Generate manifestpython -m profiler.cli manifest \\  --profile ./profiles/ACX-PROF-XXXX.json \\  --compiler ./data/input/compilation_report.json \\  --intent ./data/input/intent.json \\  --output ./manifests/manifest-UID.json# Validate manifestpython -m profiler.cli validate-manifest \\  --manifest ./manifests/manifest-UID.json# Testspytest -q",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0031",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "26. Directory Architecture",
+      "section_path": "DOC-SPEC-003 > 26. Directory Architecture",
+      "content": "ai-connex-data-studio-profiler/|+-- app/|   +-- main.py|   +-- api/|   |   +-- routes_profile.py|   |   +-- routes_manifest.py|   |   +-- routes_report.py|   |   +-- routes_status.py|   +-- core/|       +-- config.py|       +-- logging.py|+-- profiler/|   +-- intake.py|   +-- integrity.py|   +-- structural.py|   +-- statistical.py|   +-- quality.py|   +-- semantic.py|   +-- temporal.py|   +-- relationships.py|   +-- intent.py|   +-- scoring.py|   +-- manifest.py|   +-- reporter.py|   +-- uid.py|+-- agent/|   +-- semantic_helper.py|   +-- prompts.py|   +-- schemas.py|   +-- evidence.py|+-- schemas/|   +-- profile.schema.json|   +-- manifest.schema.json|   +-- intent.schema.json|+-- config/|   +-- profiler.yaml|   +-- domains/|       +-- manufacturing.yaml|       +-- energy.yaml|+-- data/|   +-- input/|   +-- staging/|+-- profiles/+-- manifests/+-- reports/+-- tests/|   +-- unit/|   +-- integration/|   +-- fixtures/|+-- requirements.txt+-- pyproject.toml+-- Dockerfile+-- docker-compose.yml+-- README.md",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0032",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "27. API Specification",
+      "section_path": "DOC-SPEC-003 > 27. API Specification",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Method | Endpoint | Purpose |\n| --- | --- | --- |\n| POST | /v1/profile | Start profiling job |\n| GET | /v1/profile/{profile_uid} | Get profile status/summary |\n| GET | /v1/profile/{profile_uid}/metrics | Get detailed profile metrics |\n| GET | /v1/profile/{profile_uid}/report | Get Compliance Report #1 |\n| POST | /v1/manifest | Build manifest from intent + compiler + profile |\n| GET | /v1/manifest/{manifest_uid} | Retrieve manifest |\n| GET | /health | Health check |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0033",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 2,
+      "heading_text": "27.1 Profile Request",
+      "section_path": "DOC-SPEC-003 > 27.1 Profile Request",
+      "content": "POST /v1/profileContent-Type: application/json{  \"dataset_uri\": \"s3://industrial/compiled/ACX-CMP-00042/dataset.parquet\",  \"schema_uri\": \"s3://industrial/compiled/ACX-CMP-00042/schema.json\",  \"compiler_report_uri\": \"s3://industrial/compiled/ACX-CMP-00042/compilation_report.json\",  \"intent_uri\": \"s3://industrial/intents/ACX-INT-00042.json\",  \"profile_mode\": \"industrial_full\"}",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0034",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 2,
+      "heading_text": "27.2 Profile Response",
+      "section_path": "DOC-SPEC-003 > 27.2 Profile Response",
+      "content": "{  \"profile_uid\": \"ACX-PROF-20260814-7F31A2C9\",  \"status\": \"COMPLETED\",  \"profile_uri\": \".../profile.json\",  \"report_uri\": \".../report_1.json\",  \"manifest_uri\": \".../manifest-UID.json\"}",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0035",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "28. Compliance Report #1 — Data Profiler Stage",
+      "section_path": "DOC-SPEC-003 > 28. Compliance Report #1 — Data Profiler Stage",
+      "content": "Compliance Report #1 is the formal evidence that the Data Profiler executed its defined checks and generated a traceable profile. It should not be interpreted as a legal certification by itself.\n\n{  \"report_id\": \"ACX-REP-PROF-00042\",  \"stage\": \"DATA_STUDIO_DATA_PROFILER\",  \"status\": \"SUCCESS\",  \"profile_uid\": \"ACX-PROF-20260814-7F31A2C9\",  \"input\": {    \"compiler_job_id\": \"ACX-CMP-00042\",    \"dataset_hash\": \"...\",    \"rows\": 999842,    \"columns\": 18  },  \"checks\": {    \"structural\": \"PASS\",    \"statistical\": \"PASS\",    \"quality\": \"PASS_WITH_WARNINGS\",    \"semantic\": \"PASS\",    \"temporal\": \"PASS_WITH_WARNINGS\",    \"relationships\": \"PASS\"  },  \"findings\": {    \"null_rate\": 0.012,    \"duplicate_rate\": 0.001,    \"temporal_gaps\": 4,    \"flatline_signals\": 1,    \"candidate_ids\": [\"machine_id\"],    \"candidate_target\": \"maintenance_event\"  },  \"score\": {    \"overall\": 0.91,    \"readiness\": \"CONDITIONALLY_READY\"  },  \"manifest\": {    \"manifest_uid\": \"ACX-MAN-00042\",    \"artifact\": \"manifest-UID.json\"  }}",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0036",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 2,
+      "heading_text": "28.1 Compliance Report Sections",
+      "section_path": "DOC-SPEC-003 > 28.1 Compliance Report Sections",
+      "content": "Input identity and hashes.\n\nCompiler provenance.\n\nProfiler version/configuration.\n\nChecks executed.\n\nMetrics observed.\n\nWarnings and failures.\n\nSemantic inference confidence.\n\nIntent relevance.\n\nProfile score.\n\nReadiness classification.\n\nManifest UID.\n\nExecution timestamp and environment.\n\nTrace/log references.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0037",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "29. What the Profiler Outputs for the Next AI-ConneX Stage",
+      "section_path": "DOC-SPEC-003 > 29. What the Profiler Outputs for the Next AI-ConneX Stage",
+      "content": "The immediate canonical output is manifest-UID.json. Downstream stages should consume this manifest rather than having to reconstruct context from raw reports.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Artifact | Purpose | Consumer |\n| --- | --- | --- |\n| manifest-UID.json | Unified context/data contract | Next AI-ConneX stage |\n| profile.json | Detailed profiling evidence | Profiler/analytics/debugging |\n| report_1.json | Compliance/operational report | Audit/operations |\n| profile_summary.json | Compact metrics | UI/dashboard |\n| schema snapshot | Schema at profile time | Schema-aware downstream tools |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0038",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "30. Data Flow: Chatbot → Compiler → Profiler → Manifest",
+      "section_path": "DOC-SPEC-003 > 30. Data Flow: Chatbot → Compiler → Profiler → Manifest",
+      "content": "CHATBOT  |  | intent_uid  | industrial domain  | objective  | constraints  vCOMPILER  |  | dataset_uid  | canonical schema  | transformations  | lineage  | validation  vPROFILER  |  | observed structure  | statistics  | quality  | semantics  | temporal behavior  | relationships  | intent relevance  vMANIFEST BUILDER  |  +-- chatbot intent  +-- compiler provenance  +-- profiler observations  +-- readiness score  +-- next-stage contract  vmanifest-UID.json",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0039",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "31. Important Architectural Distinction",
+      "section_path": "DOC-SPEC-003 > 31. Important Architectural Distinction",
+      "content": "The Profiler does not overwrite the user's intent with what it discovers. It stores intent and observed reality as separate evidence layers. If the user asks for machine-failure prediction but the dataset contains no credible failure label, the manifest should say exactly that. The system should not invent a target variable.\n\nintent.objective = \"predict_machine_failure\"profile.finding:  candidate_target = null  reason = \"No validated failure-event label detected\"manifest.readiness:  status = \"REVIEW_REQUIRED\"",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0040",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "32. Security, Governance and Compliance Design",
+      "section_path": "DOC-SPEC-003 > 32. Security, Governance and Compliance Design",
+      "content": "Do not expose raw industrial data to an external LLM unless explicitly authorized.\n\nPrefer sending schema summaries, samples or metadata to the agent rather than complete datasets.\n\nRecord which metadata was supplied to the agent.\n\nHash datasets and manifests for integrity.\n\nKeep source artifacts immutable.\n\nUse role-based access control.\n\nEncrypt data in transit and at rest.\n\nSeparate tenant/customer namespaces.\n\nRecord profiler execution identity and configuration.\n\nMaintain retention policies appropriate to industrial data.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0041",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "33. Testing Strategy",
+      "section_path": "DOC-SPEC-003 > 33. Testing Strategy",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Test Type | Examples |\n| --- | --- |\n| Unit | Metric calculations, UID generation, schema inference |\n| Integration | Parquet + Compiler report + intent → profile |\n| Regression | Known industrial datasets produce expected profile |\n| Property | Null/cardinality metrics remain mathematically consistent |\n| Performance | Large Parquet scans and concurrent profiling |\n| Security | Path traversal, malicious metadata, unauthorized artifact access |\n| Reproducibility | Same dataset/config produces same deterministic statistics |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0042",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "34. Research Evaluation / Benchmark",
+      "section_path": "DOC-SPEC-003 > 34. Research Evaluation / Benchmark",
+      "content": "A research-grade evaluation should compare the AI-ConneX Profiler against generic profiling and validation baselines.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| System | Role |\n| --- | --- |\n| Manual engineer analysis | Human baseline |\n| Generic dataframe profiling | Basic statistical baseline |\n| Data validation framework | Quality-validation baseline |\n| LLM-only metadata interpretation | Agent-only baseline |\n| AI-ConneX Data Profiler | Proposed intent-aware industrial profiler |",
+        "| Metric | Definition |\n| --- | --- |\n| Metric correctness | Profiler metric versus ground truth |\n| Semantic accuracy | Correct semantic classification / total evaluated columns |\n| Temporal detection accuracy | Correctly detected gaps/interval anomalies |\n| Target detection precision | Correct candidate target suggestions / suggestions |\n| False positive rate | Incorrect warnings / total warnings |\n| Manifest completeness | Required manifest fields present and valid |\n| Reproducibility | Same deterministic input/config → same results |\n| Runtime | End-to-end profiling time |\n| Memory | Peak memory consumption |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0043",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "35. Research-Paper and Technical References",
+      "section_path": "DOC-SPEC-003 > 35. Research-Paper and Technical References",
+      "content": "Rahm, E., & Bernstein, P. A. (2001). A survey of approaches to automatic schema matching. The VLDB Journal, 10, 334–350.\n\nWang, R. Y., & Strong, D. M. (1996). Beyond Accuracy: What Data Quality Means to Data Consumers. Journal of Management Information Systems, 12(4), 5–33.\n\nDoan, A., Halevy, A. Y., & Ives, Z. G. Principles of Data Integration. Morgan Kaufmann.\n\nGreat Expectations documentation — data validation, Expectations, Validation Definitions and validation results. Current documentation identifies the 1.19.1 documentation set. https://docs.greatexpectations.io/docs/core/run_validations/\n\nApache DataFusion documentation — Arrow-based in-memory analytical engine, SQL/DataFrame APIs and data-source support. https://datafusion.apache.org/\n\nApache Arrow documentation — columnar memory format and interoperability. https://arrow.apache.org/docs/\n\nApache Parquet documentation/specification — columnar storage and metadata concepts. https://parquet.apache.org/docs/\n\nDe Mauro, A., Greco, M., & Grimaldi, M. (2016). A formal definition of Big Data based on its essential features. Library Review / related Big Data characterization literature.\n\nKelleher, J. D., Mac Namee, B., & D'Arcy, A. Fundamentals of Machine Learning for Predictive Data Analytics. MIT Press.\n\nRecent industrial/smart-manufacturing data-quality research should be included in the final paper after the exact AI-ConneX benchmark and industrial datasets are fixed.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0044",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "36. Suggested Research Paper Contribution Statement",
+      "section_path": "DOC-SPEC-003 > 36. Suggested Research Paper Contribution Statement",
+      "content": "AI-ConneX Data Profiler proposes an intent-aware industrial data profiling layerthat combines deterministic structural/statistical profiling, temporal and sensorquality analysis, semantic inference, provenance from an upstream data compiler,and user-intent context into a unified machine-readable manifest.The approach separates observed dataset facts from inferred semantics and preserveslineage, confidence and reproducibility for downstream industrial AI workflows.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0045",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "37. R&D Roadmap",
+      "section_path": "DOC-SPEC-003 > 37. R&D Roadmap",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Phase | Deliverable |\n| --- | --- |\n| P0 | Define profile schema and manifest contract |\n| P1 | Structural + statistical profiler |\n| P2 | Industrial sensor/temporal profiler |\n| P3 | Semantic inference + confidence |\n| P4 | Intent-aware scoring |\n| P5 | Manifest builder + Compliance Report #1 |\n| P6 | Compiler integration |\n| P7 | Downstream AI/ML stage integration |\n| P8 | Benchmark + ablation study + research paper |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0046",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "38. Final Design Principle",
+      "section_path": "DOC-SPEC-003 > 38. Final Design Principle",
+      "content": "The AI-ConneX Data Profiler converts a compiled dataset from a structurally usable artifact into an understood, contextualized and traceable data asset. Its most important output is therefore not the statistics themselves; it is the machine-readable manifest that preserves why the data exists, how it was compiled, what was discovered about it, how confident those discoveries are, and whether the dataset is suitable for the next AI-ConneX stage.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0047",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "Appendix A — Recommended Manifest UID Naming",
+      "section_path": "DOC-SPEC-003 > Appendix A — Recommended Manifest UID Naming",
+      "content": "manifest-<MANIFEST_UID>.jsonExample:manifest-ACX-MAN-00042.jsonRelated:dataset-ACX-IND-00042.parquetprofile-ACX-PROF-20260814-7F31A2C9.jsonreport-1-ACX-REP-PROF-00042.jsonlineage-ACX-CMP-00042.json",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-003-0048",
+      "document_id": "DOC-DOC-SPEC-003-V1",
+      "heading_level": 1,
+      "heading_text": "Appendix B — Terminology",
+      "section_path": "DOC-SPEC-003 > Appendix B — Terminology",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Term | Definition |\n| --- | --- |\n| Dataset UID | Stable identity of the compiled dataset artifact. |\n| Profile UID | Identity of one profiling execution/version. |\n| Manifest UID | Identity of the merged intent + compiler + profile contract. |\n| Intent | User/business/industrial objective supplied by the Chatbot. |\n| Observed fact | A property directly measured from the dataset. |\n| Inference | A semantic or contextual conclusion derived from evidence. |\n| Confidence | Degree of support for an inferred property. |\n| Lineage | Record of source and transformation provenance. |\n| Readiness | Assessment of suitability for a specified downstream objective. |"
+      ]
+    }
+  ],
+  "extracted_slas": [
+    {
+      "sla_id": "SLA-MEM-DOC-SPEC-003-01",
+      "component_name": "DataProfiler",
+      "metric_name": "max_memory_mb",
+      "target_value": 16384.0,
+      "unit": "MB",
+      "comparison_op": "<=",
+      "workload_condition": "RAM minimum; 16 GB",
+      "severity_on_breach": "warning",
+      "source_spec_id": "DOC-SPEC-003"
+    }
+  ]
+}

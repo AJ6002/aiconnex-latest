@@ -1,0 +1,149 @@
+{
+  "document_id": "PLAT-DOC-002",
+  "section_count": 11,
+  "sections": [
+    {
+      "section_id": "SEC-0001",
+      "document_id": "PLAT-DOC-002",
+      "heading_level": 1,
+      "heading_text": "AIConnex Master System Architecture & Execution Guide",
+      "section_path": "AIConnex Master System Architecture & Execution Guide",
+      "content": "---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0002",
+      "document_id": "PLAT-DOC-002",
+      "heading_level": 2,
+      "heading_text": "1. High-Level Flow of the System",
+      "section_path": "AIConnex Master System Architecture & Execution Guide > 1. High-Level Flow of the System",
+      "content": "AIConnex is an **Agentic MLOps Platform**. It takes a user from a simple natural language conversation to fully trained, evaluated, and deployed Machine Learning models.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0003",
+      "document_id": "PLAT-DOC-002",
+      "heading_level": 3,
+      "heading_text": "The 5-Phase High-Level Journey",
+      "section_path": "AIConnex Master System Architecture & Execution Guide > 1. High-Level Flow of the System > The 5-Phase High-Level Journey",
+      "content": "``` \n \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510     \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510     \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510     \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510     \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n \u2502 Phase 1: Chat  \u2502 \u2500\u2500\u25ba \u2502 Phase 2: Scout \u2502 \u2500\u2500\u25ba \u2502 Phase 3: HITL  \u2502 \u2500\u2500\u25ba \u2502Phase 4:Platform\u2502 \u2500\u2500\u25ba \u2502 Phase 5: Result\u2502\n \u2502 Natural Language\u2502    \u2502 File Profiling \u2502     \u2502 Plant Manager  \u2502     \u2502 Parallel ML    \u2502     \u2502 Leaderboard &  \u2502\n \u2502 Intent Parsing \u2502     \u2502 & Compilation  \u2502     \u2502 Confirmation   \u2502     \u2502 Training & MCDA\u2502     \u2502 Model Export   \u2502\n \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518     \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518     \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518     \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518     \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n```",
+      "content_type": "mixed",
+      "code_blocks": [
+        {
+          "language": "text",
+          "code": " \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510     \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510     \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510     \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510     \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n \u2502 Phase 1: Chat  \u2502 \u2500\u2500\u25ba \u2502 Phase 2: Scout \u2502 \u2500\u2500\u25ba \u2502 Phase 3: HITL  \u2502 \u2500\u2500\u25ba \u2502Phase 4:Platform\u2502 \u2500\u2500\u25ba \u2502 Phase 5: Result\u2502\n \u2502 Natural Language\u2502    \u2502 File Profiling \u2502     \u2502 Plant Manager  \u2502     \u2502 Parallel ML    \u2502     \u2502 Leaderboard &  \u2502\n \u2502 Intent Parsing \u2502     \u2502 & Compilation  \u2502     \u2502 Confirmation   \u2502     \u2502 Training & MCDA\u2502     \u2502 Model Export   \u2502\n \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518     \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518     \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518     \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518     \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518"
+        }
+      ],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0004",
+      "document_id": "PLAT-DOC-002",
+      "heading_level": 3,
+      "heading_text": "Simple Factory Analogy",
+      "section_path": "AIConnex Master System Architecture & Execution Guide > 1. High-Level Flow of the System > Simple Factory Analogy",
+      "content": "Think of AIConnex as an **Automated Custom Car Factory**:\n1. **Phase 1 (The Receptionist)**: Asks what kind of car you want (e.g. speed, fuel efficiency, budget).\n2. **Phase 2 (The Parts Inspector)**: Inspects the raw metals and engine parts you delivered (`HTDS-v1.csv`), measures quality, and cleans them.\n3. **Phase 3 (The Workshop Manager)**: Asks you 2\u20133 final non-technical questions to confirm your preferences before building.\n4. **Phase 4 (The Assembly Line)**: Builds 3 to 5 candidate engines in parallel (XGBoost, LightGBM, RandomForest), tests them on a racetrack, and combines the best parts into an Ensemble.\n5. **Phase 5 (The Handover)**: Delivers the winner to you with a complete performance scorecard logged to MLflow.\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0005",
+      "document_id": "PLAT-DOC-002",
+      "heading_level": 2,
+      "heading_text": "2. Low-Level System Flow (Step-by-Step Data Execution)",
+      "section_path": "AIConnex Master System Architecture & Execution Guide > 2. Low-Level System Flow (Step-by-Step Data Execution)",
+      "content": "Here is the exact data path from the moment the user types a prompt to the final model export.\n\n``` mermaid\nsequenceDiagram\n    autonumber\n    actor User\n    participant React as React Frontend (:3000)\n    participant Flask as Flask API (:5000)\n    participant Parser as Conversation Parser Agent\n    participant Scout as Scout Agent (Compiler)\n    participant HITL as LLM HITL Flow\n    participant Platform as Platform Agent (ML Harness)\n    participant MLflow as MLflow / Telemetry\n\n    User->>React: 1. Types prompt (\"Predict TDS for HTDS data\")\n    React->>Flask: 2. POST /api/pre_upload/chat\n    Flask->>Parser: 3. Runs Qwen 32B extraction\n    Parser-->>Flask: 4. Returns Conversation Understanding Contract (CUC)\n    \n    User->>Scout: 5. Provides dataset path (HTDS-v1.csv)\n    Scout->>Scout: 6. Executes 22-Plugin UnifiedCompiler\n    Scout-->>Flask: 7. Generates Dataset Intelligence Contract (DIC) + all_groups_combined.csv\n    \n    Flask->>HITL: 8. Triggers HITL clarification questions\n    HITL->>User: 9. Asks non-technical ETP plant manager questions\n    User-->>HITL: 10. Responds (e.g. \"Focus on Chemical Shock Alert, TDS parameter\")\n    HITL->>HITL: 11. Resolves candidate DAG recipes (e.g. DAG_414, DAG_654)\n    \n    HITL->>Platform: 12. Passes Compilation Package to Platform Agent\n    Platform->>Platform: 13. Trains 3-5 candidates in parallel via ThreadPoolExecutor\n    Platform->>Platform: 14. Fits StackedEnsembleMetaLearner\n    Platform->>Platform: 15. Runs 3-Judge MCDA Evaluation (Scorer + LLM Judge + Selector)\n    Platform->>MLflow: 16. Logs metrics ($R^2$, MAE, RMSE) and model binaries to ./mlruns\n    Platform-->>User: 17. Displays final Leaderboard in Terminal / UI\n```",
+      "content_type": "mixed",
+      "code_blocks": [
+        {
+          "language": "mermaid",
+          "code": "sequenceDiagram\n    autonumber\n    actor User\n    participant React as React Frontend (:3000)\n    participant Flask as Flask API (:5000)\n    participant Parser as Conversation Parser Agent\n    participant Scout as Scout Agent (Compiler)\n    participant HITL as LLM HITL Flow\n    participant Platform as Platform Agent (ML Harness)\n    participant MLflow as MLflow / Telemetry\n\n    User->>React: 1. Types prompt (\"Predict TDS for HTDS data\")\n    React->>Flask: 2. POST /api/pre_upload/chat\n    Flask->>Parser: 3. Runs Qwen 32B extraction\n    Parser-->>Flask: 4. Returns Conversation Understanding Contract (CUC)\n    \n    User->>Scout: 5. Provides dataset path (HTDS-v1.csv)\n    Scout->>Scout: 6. Executes 22-Plugin UnifiedCompiler\n    Scout-->>Flask: 7. Generates Dataset Intelligence Contract (DIC) + all_groups_combined.csv\n    \n    Flask->>HITL: 8. Triggers HITL clarification questions\n    HITL->>User: 9. Asks non-technical ETP plant manager questions\n    User-->>HITL: 10. Responds (e.g. \"Focus on Chemical Shock Alert, TDS parameter\")\n    HITL->>HITL: 11. Resolves candidate DAG recipes (e.g. DAG_414, DAG_654)\n    \n    HITL->>Platform: 12. Passes Compilation Package to Platform Agent\n    Platform->>Platform: 13. Trains 3-5 candidates in parallel via ThreadPoolExecutor\n    Platform->>Platform: 14. Fits StackedEnsembleMetaLearner\n    Platform->>Platform: 15. Runs 3-Judge MCDA Evaluation (Scorer + LLM Judge + Selector)\n    Platform->>MLflow: 16. Logs metrics ($R^2$, MAE, RMSE) and model binaries to ./mlruns\n    Platform-->>User: 17. Displays final Leaderboard in Terminal / UI"
+        }
+      ],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0006",
+      "document_id": "PLAT-DOC-002",
+      "heading_level": 3,
+      "heading_text": "Granular Execution Steps",
+      "section_path": "AIConnex Master System Architecture & Execution Guide > 2. Low-Level System Flow (Step-by-Step Data Execution) > Granular Execution Steps",
+      "content": "| Step # | Module / File | What Happens | Input Data | Output Data |\n|---|---|---|---|---|\n| **Step 1** | `chatbot/backend/extraction.py` | Extracts user intent and parameters using OpenRouter Qwen 32B. | User chat string | `cuc` JSON object |\n| **Step 2** | `aiconnex_agent/planning/planning_engine.py` | Maps CUC intent to a 7-step execution plan sequence. | `cuc` contract | `plan_steps: List[TaskStep]` |\n| **Step 3** | `aiconnex_zip_compiler/compiler.py` | Runs `UnifiedCompiler` auto-discovery probe (22 plugins) on raw file. | `HTDS-v1.csv` | `all_groups_combined.csv` + `dic` contract |\n| **Step 4** | `chatbot/backend/hitl_flow.py` | Executes LLM-driven non-technical HITL prompt loop. | User business preferences | `hitl_contract.json` + `resolved_dag_pool` |\n| **Step 5** | `aiconnex_agent/platform/multi_dag_resolver.py` | Queries `dag_conditions_mapping.json` (1,993 DAGs) for 3\u20135 distinct algorithms. | `HITLContract` | `List[CandidateRecipe]` |\n| **Step 6** | `aiconnex_agent/platform/platform_node.py` | Spins up `ThreadPoolExecutor` to train base candidates in parallel. | `CandidateRecipe[]` | Trained model binaries + predictions |\n| **Step 7** | `aiconnex_ml/regression/trainer.py` | Fits `StackedEnsembleMetaLearner` combining predictions. | Base model predictions | Stacked Meta-Learner Model |\n| **Step 8** | `aiconnex_agent/platform/evaluation/` | Runs MCDA Evaluation Triad (50% Scorer + 30% LLM Judge + 20% Intent). | Models + Metrics | `SelectionResult` Winner |\n| **Step 9** | `aiconnex_agent/telemetry/emitters.py` | Logs parameters, metrics, and manifest artifacts to MLflow. | `SelectionResult` | `./mlruns` experiment record |\n\n---",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Step # | Module / File | What Happens | Input Data | Output Data |\n|---|---|---|---|---|\n| **Step 1** | `chatbot/backend/extraction.py` | Extracts user intent and parameters using OpenRouter Qwen 32B. | User chat string | `cuc` JSON object |\n| **Step 2** | `aiconnex_agent/planning/planning_engine.py` | Maps CUC intent to a 7-step execution plan sequence. | `cuc` contract | `plan_steps: List[TaskStep]` |\n| **Step 3** | `aiconnex_zip_compiler/compiler.py` | Runs `UnifiedCompiler` auto-discovery probe (22 plugins) on raw file. | `HTDS-v1.csv` | `all_groups_combined.csv` + `dic` contract |\n| **Step 4** | `chatbot/backend/hitl_flow.py` | Executes LLM-driven non-technical HITL prompt loop. | User business preferences | `hitl_contract.json` + `resolved_dag_pool` |\n| **Step 5** | `aiconnex_agent/platform/multi_dag_resolver.py` | Queries `dag_conditions_mapping.json` (1,993 DAGs) for 3\u20135 distinct algorithms. | `HITLContract` | `List[CandidateRecipe]` |\n| **Step 6** | `aiconnex_agent/platform/platform_node.py` | Spins up `ThreadPoolExecutor` to train base candidates in parallel. | `CandidateRecipe[]` | Trained model binaries + predictions |\n| **Step 7** | `aiconnex_ml/regression/trainer.py` | Fits `StackedEnsembleMetaLearner` combining predictions. | Base model predictions | Stacked Meta-Learner Model |\n| **Step 8** | `aiconnex_agent/platform/evaluation/` | Runs MCDA Evaluation Triad (50% Scorer + 30% LLM Judge + 20% Intent). | Models + Metrics | `SelectionResult` Winner |\n| **Step 9** | `aiconnex_agent/telemetry/emitters.py` | Logs parameters, metrics, and manifest artifacts to MLflow. | `SelectionResult` | `./mlruns` experiment record |"
+      ]
+    },
+    {
+      "section_id": "SEC-0007",
+      "document_id": "PLAT-DOC-002",
+      "heading_level": 2,
+      "heading_text": "3. Agentic Architecture & How Agents Work",
+      "section_path": "AIConnex Master System Architecture & Execution Guide > 3. Agentic Architecture & How Agents Work",
+      "content": "The system uses a **State-Driven Multi-Agent Architecture** orchestrated by **LangGraph**. Responsibility is divided among 7 specialized agents.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0008",
+      "document_id": "PLAT-DOC-002",
+      "heading_level": 3,
+      "heading_text": "LangGraph Topology Diagram",
+      "section_path": "AIConnex Master System Architecture & Execution Guide > 3. Agentic Architecture & How Agents Work > LangGraph Topology Diagram",
+      "content": "``` mermaid\ngraph TD\n    START[\"__start__\"] --> PARSER[\"conversation_parser_node\"]\n    PARSER -->|\"confidence < 0.85\"| CLAR[\"clarification_node (HITL)\"]\n    PARSER -->|\"confidence \u2265 0.85\"| PLAN[\"planning_engine_node\"]\n    CLAR --> PLAN\n    PLAN --> SCOUT[\"scout_agent_node\"]\n    SCOUT --> EVAL[\"plan_evaluator_node\"]\n    EVAL -->|\"Step 2\"| PLAT[\"platform_agent_node\"]\n    EVAL -->|\"Step 3\"| MEM[\"memory_agent_node\"]\n    PLAT --> EVAL\n    MEM --> EVAL\n    EVAL -->|\"All Steps Done\"| END_NODE[\"__end__\"]\n\n    style PARSER fill:#4CAF50,color:#fff\n    style CLAR fill:#FF9800,color:#fff\n    style PLAN fill:#2196F3,color:#fff\n    style SCOUT fill:#9C27B0,color:#fff\n    style PLAT fill:#F44336,color:#fff\n    style MEM fill:#00BCD4,color:#fff\n    style EVAL fill:#795548,color:#fff\n```",
+      "content_type": "mixed",
+      "code_blocks": [
+        {
+          "language": "mermaid",
+          "code": "graph TD\n    START[\"__start__\"] --> PARSER[\"conversation_parser_node\"]\n    PARSER -->|\"confidence < 0.85\"| CLAR[\"clarification_node (HITL)\"]\n    PARSER -->|\"confidence \u2265 0.85\"| PLAN[\"planning_engine_node\"]\n    CLAR --> PLAN\n    PLAN --> SCOUT[\"scout_agent_node\"]\n    SCOUT --> EVAL[\"plan_evaluator_node\"]\n    EVAL -->|\"Step 2\"| PLAT[\"platform_agent_node\"]\n    EVAL -->|\"Step 3\"| MEM[\"memory_agent_node\"]\n    PLAT --> EVAL\n    MEM --> EVAL\n    EVAL -->|\"All Steps Done\"| END_NODE[\"__end__\"]\n\n    style PARSER fill:#4CAF50,color:#fff\n    style CLAR fill:#FF9800,color:#fff\n    style PLAN fill:#2196F3,color:#fff\n    style SCOUT fill:#9C27B0,color:#fff\n    style PLAT fill:#F44336,color:#fff\n    style MEM fill:#00BCD4,color:#fff\n    style EVAL fill:#795548,color:#fff"
+        }
+      ],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0009",
+      "document_id": "PLAT-DOC-002",
+      "heading_level": 3,
+      "heading_text": "Core Architectural Rules",
+      "section_path": "AIConnex Master System Architecture & Execution Guide > 3. Agentic Architecture & How Agents Work > Core Architectural Rules",
+      "content": "1. **State-Driven Functional Nodes**: Each agent node is a pure function:\n   $$\\text{node\\_output} = f(\\text{MasterAgentState})$$\n   Agents receive the complete master state dictionary, modify only their specific keys, and return the updated state.\n2. **Decoupled Edge Routing**: Agents do **not** call other agents directly. The LangGraph engine inspects state flags (like `confidence_score` or `current_step_index`) to determine which node runs next.\n3. **Human-in-the-Loop (HITL) Interrupts**: When an agent needs human input (e.g. strategy choices or clarifying questions), it invokes LangGraph's `interrupt()` function. The graph **pauses synchronously**, saves a checkpoint to disk, and waits for user input before resuming seamlessly.\n4. **Session Correlation ID**: Every session generates an immutable `session_id` (`wf_<hex8>`). All output directories, MLflow runs, event logs, and dataset exports are tied to this correlation ID.\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0010",
+      "document_id": "PLAT-DOC-002",
+      "heading_level": 2,
+      "heading_text": "4. The 3-Layer Manifest Architecture",
+      "section_path": "AIConnex Master System Architecture & Execution Guide > 4. The 3-Layer Manifest Architecture",
+      "content": "To make AIConnex auditable and reproducible, state is organized into **3 Manifest Layers** that feed into a final **Compilation Package**:\n\n``` text\n1. CONVERSATION MANIFEST LAYER\n   \u251c\u2500\u2500 Conversation History\n   \u251c\u2500\u2500 User Intent & Constraints\n   \u2514\u2500\u2500 Conversation Understanding Contract (CUC)\n            \u2502\n            \u25bc\n2. DISCOVERY MANIFEST LAYER\n   \u251c\u2500\u2500 File Inventory & Upload Metadata\n   \u251c\u2500\u2500 Schema Manifest & Data Types\n   \u251c\u2500\u2500 Quality Manifest (Missing, Outliers, Skew)\n   \u2514\u2500\u2500 Dataset Intelligence Contract (DIC)\n            \u2502\n            \u25bc\n3. DECISION MANIFEST LAYER\n   \u251c\u2500\u2500 HITL Operational Preferences (Goal, Target, Sensitivity)\n   \u251c\u2500\u2500 Candidate Recipe Manifests (DAG_414, DAG_654)\n   \u2514\u2500\u2500 Execution Approval Sign-off\n            \u2502\n            \u25bc\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502                 COMPILATION PACKAGE                         \u2502\n\u2502  (The single standardized folder handed off to Phase 2)     \u2502\n\u2502  \u251c\u2500\u2500 conversation_manifest.json                             \u2502\n\u2502  \u251c\u2500\u2500 discovery_manifest.json                                \u2502\n\u2502  \u251c\u2500\u2500 decision_manifest.json                                 \u2502\n\u2502  \u2514\u2500\u2500 all_groups_combined.csv                                \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n```",
+      "content_type": "mixed",
+      "code_blocks": [
+        {
+          "language": "text",
+          "code": "1. CONVERSATION MANIFEST LAYER\n   \u251c\u2500\u2500 Conversation History\n   \u251c\u2500\u2500 User Intent & Constraints\n   \u2514\u2500\u2500 Conversation Understanding Contract (CUC)\n            \u2502\n            \u25bc\n2. DISCOVERY MANIFEST LAYER\n   \u251c\u2500\u2500 File Inventory & Upload Metadata\n   \u251c\u2500\u2500 Schema Manifest & Data Types\n   \u251c\u2500\u2500 Quality Manifest (Missing, Outliers, Skew)\n   \u2514\u2500\u2500 Dataset Intelligence Contract (DIC)\n            \u2502\n            \u25bc\n3. DECISION MANIFEST LAYER\n   \u251c\u2500\u2500 HITL Operational Preferences (Goal, Target, Sensitivity)\n   \u251c\u2500\u2500 Candidate Recipe Manifests (DAG_414, DAG_654)\n   \u2514\u2500\u2500 Execution Approval Sign-off\n            \u2502\n            \u25bc\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502                 COMPILATION PACKAGE                         \u2502\n\u2502  (The single standardized folder handed off to Phase 2)     \u2502\n\u2502  \u251c\u2500\u2500 conversation_manifest.json                             \u2502\n\u2502  \u251c\u2500\u2500 discovery_manifest.json                                \u2502\n\u2502  \u251c\u2500\u2500 decision_manifest.json                                 \u2502\n\u2502  \u2514\u2500\u2500 all_groups_combined.csv                                \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518"
+        }
+      ],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0011",
+      "document_id": "PLAT-DOC-002",
+      "heading_level": 3,
+      "heading_text": "Summary of Manifest Layers",
+      "section_path": "AIConnex Master System Architecture & Execution Guide > 4. The 3-Layer Manifest Architecture > Summary of Manifest Layers",
+      "content": "- **Conversation Layer**: Understands *what the user wants*.\n- **Discovery Layer**: Understands *what the dataset contains*.\n- **Decision Layer**: Understands *how the plant manager wants the model built*.\n- **Compilation Package**: The complete, immutable handoff payload consumed by the Platform Agent to execute training without human intervention.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    }
+  ]
+}

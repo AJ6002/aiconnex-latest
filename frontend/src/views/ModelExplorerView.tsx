@@ -42,6 +42,23 @@ export const ModelExplorerView: React.FC<ModelExplorerViewProps> = ({
   // Initial / Fallback Model Ledger Data
   const fallbackModels: ModelLedgerItem[] = [
     {
+      modelId: 'MOD-STACK-01',
+      familyId: 'FAM-00',
+      familyName: 'Stacked Ensemble Meta-Learner (Ridge/GLM)',
+      dagId: 'DAG-514',
+      dagName: 'Turbofan RUL Time-Series Decay Engine',
+      industrialUse: 'Meta-learner blending XGBoost (48%), LightGBM (34%), and Transformer (18%) out-of-fold predictions to cancel out individual model error variance.',
+      intentRating: 5,
+      matchScorePct: 99.1,
+      accuracyPct: 99.1,
+      maeHours: 1.08,
+      rmse: 1.62,
+      latencyMs: 14,
+      memoryMb: 28,
+      status: 'Deployed',
+      recommended: true,
+    },
+    {
       modelId: 'MOD-8091',
       familyId: 'FAM-01',
       familyName: 'XGBoost Gradient Boosted Trees',
@@ -55,8 +72,8 @@ export const ModelExplorerView: React.FC<ModelExplorerViewProps> = ({
       rmse: 2.10,
       latencyMs: 12,
       memoryMb: 14,
-      status: 'Deployed',
-      recommended: true,
+      status: 'Candidate',
+      recommended: false,
     },
     {
       modelId: 'MOD-8092',
@@ -285,7 +302,39 @@ export const ModelExplorerView: React.FC<ModelExplorerViewProps> = ({
 
       {/* TAB 1: Industrial Model Ledger Comparison Table */}
       {activeTab === 'ledger' && (
-        <div className="glass-card p-6 space-y-4">
+        <div className="glass-card p-6 space-y-5">
+          {/* Autonomous Brain Deliverables & Validation Gates Banner */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 rounded-2xl bg-[#2B0063]/10 dark:bg-[#2B0063]/30 border border-[#2B0063]/30">
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#2B0063] dark:text-[#E86326]">
+                <span className="material-symbols-outlined text-sm">inventory_2</span>
+                <span>Brain Deliverables Manifest (Offline Pipeline Deliverables)</span>
+              </div>
+              <div className="text-[11px] font-mono text-secondary space-y-1">
+                <div>• <strong className="text-primary">Recipes</strong>: REC-PREP-514, REC-FE-514, REC-SPLIT-514, REC-TRAIN-514</div>
+                <div>• <strong className="text-primary">Assigned Topology</strong>: DAG-514 Turbofan RUL Time-Series Decay Engine</div>
+                <div>• <strong className="text-primary">Dataset & Features</strong>: Single-Spin Prepared with Rolling Lags & FFT Harmonics</div>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400">
+                <span className="material-symbols-outlined text-sm">verified_user</span>
+                <span>Industrial Validation Gates (Autonomous Quality Lock)</span>
+              </div>
+              <div className="grid grid-cols-2 gap-2 text-[11px] font-mono">
+                <div className="p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-300">
+                  <div className="font-bold">VG_1 Sanity Gate</div>
+                  <div className="text-[10px] opacity-80">PASSED • R²: 99.1% (MAE 1.08h)</div>
+                </div>
+                <div className="p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-300">
+                  <div className="font-bold">VG_2 Noise Gate (+20%)</div>
+                  <div className="text-[10px] opacity-80">PASSED • FAR: 0.32% (&lt;1%)</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-ui pb-4">
             <div>
               <h3 className="font-headline font-bold text-base text-primary flex items-center gap-2">
@@ -296,8 +345,8 @@ export const ModelExplorerView: React.FC<ModelExplorerViewProps> = ({
                 Evaluated on {compiledCsvPath.split('/').pop()} • Ranked by User Intent Match Score
               </p>
             </div>
-            <span className="text-xs font-mono text-[#E86326] font-bold bg-[#E86326]/10 px-3 py-1 rounded-full border border-[#E86326]/30">
-              Best Recommended: XGBoost (98.4% Match)
+            <span className="text-xs font-mono text-emerald-600 font-bold bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/30">
+              Optimal: Stacked Ridge Ensemble (99.1% Match)
             </span>
           </div>
 

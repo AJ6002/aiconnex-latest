@@ -78,6 +78,7 @@ export default function App() {
   const [activeFamily, setActiveFamily] = useState<string>('');
   const [userPrompt, setUserPrompt] = useState<string>('');
   const [initialOnboardingInputs, setInitialOnboardingInputs] = useState<any>(null);
+  const [pendingCucSeed, setPendingCucSeed] = useState<any>(null);
 
   // Domain Data States
   const [models, setModels] = useState<ModelRegistryItem[]>(INITIAL_MODELS);
@@ -905,7 +906,13 @@ export default function App() {
           )}
 
           {currentView === 'workspace' && (
-            <WorkspaceView />
+            <WorkspaceView
+              onSelectCompiledCsv={(csvPath, _filename) => {
+                setCompiledCsvPath(csvPath);
+                navigateTo('data_explorer');
+              }}
+              onNavigateTo={(v) => navigateTo(v as ViewMode)}
+            />
           )}
 
           {currentView === 'quotas' && (
@@ -994,7 +1001,39 @@ export default function App() {
         isDocked={isChatDocked}
         onDockChange={setIsChatDocked}
         onSessionCreated={setJaneSessionId}
-        onUploadRequested={() => {
+        onUploadRequested={(cucSeed) => {
+          // Store the CUC seed from Jane's conversation
+          setPendingCucSeed(cucSeed || null);
+          // Pre-populate CompilerView wizard with Jane's extracted intent
+          if (cucSeed) {
+            setInitialOnboardingInputs({
+              targetColumn: cucSeed.target_hint || '',
+              problemType: cucSeed.task_family || 'regression',
+              domain: cucSeed.domain || '',
+              assetType: cucSeed.asset_type || '',
+              primaryIntent: cucSeed.primary_intent || '',
+            });
+          }
+          // Fire background seed call to bridge Jane session into LangGraph
+          if (janeSessionId && cucSeed) {
+            fetch('http://localhost:8000/api/jane/seed', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ session_id: janeSessionId, cuc_seed: cucSeed }),
+            })
+              .then(r => r.json())
+              .then(d => console.log('[App] /api/jane/seed response:', d))
+              .catch(err => {
+                // Non-fatal: fall back to direct compile path
+                console.warn('[App] /api/jane/seed failed (non-fatal):', err);
+                // Try fallback port
+                fetch('http://localhost:5000/api/jane/seed', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ session_id: janeSessionId, cuc_seed: cucSeed }),
+                }).catch(() => {});
+              });
+          }
           setIsChatDocked(true);
           setIsChatModalOpen(true);
           navigateTo('compiler');

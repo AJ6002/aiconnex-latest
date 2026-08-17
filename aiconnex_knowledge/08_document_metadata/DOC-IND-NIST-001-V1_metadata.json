@@ -1,0 +1,13 @@
+{
+  "document_id": "DOC-IND-NIST-001-V1",
+  "source_id": "SRC-IND-NIST-001",
+  "title": "NISTIR 8012 Standards for PHM in Manufacturing Applications",
+  "version": "2014",
+  "document_type": "pdf",
+  "content_hash": "a448882be3cae50d66cfb3e9746a1f6bdd2c6e0b5db49ecc631d88e02b239c0d",
+  "page_count": 48,
+  "total_sections": 58,
+  "total_words": 15183,
+  "storage_uri": "s3://aiconnex-platform-kb-prod/industrial/NISTIR_8012_PHM_Standards.pdf",
+  "created_at": "2026-08-14T08:41:26.233337+00:00"
+}

@@ -8,7 +8,7 @@ interface ChatBotModalProps {
   isDocked?: boolean;
   onDockChange?: (docked: boolean) => void;
   onSessionCreated?: (sessionId: string) => void;
-  onUploadRequested?: () => void;
+  onUploadRequested?: (cucSeed?: any) => void;
   externalNarration?: string | null;
   interruptData?: any;
   onInterruptResolved?: () => void;
@@ -303,7 +303,7 @@ export const ChatBotModal: React.FC<ChatBotModalProps> = ({
         if (data.action_required === 'OPEN_UPLOAD_CONTROLLER') {
           setTimeout(() => {
             if (onUploadRequested) {
-              onUploadRequested();
+              onUploadRequested(data.cuc_seed || null);
             }
           }, 1000);
         }

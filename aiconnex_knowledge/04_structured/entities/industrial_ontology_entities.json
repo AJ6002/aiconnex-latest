@@ -1,0 +1,6127 @@
+[
+  {
+    "uri": "http://purl.obolibrary.org/obo/BFO_0000001",
+    "name": "entity",
+    "comment": "(Elucidation) An entity is anything that exists or has existed or will exist",
+    "ontology": "BFO",
+    "type": "Class"
+  },
+  {
+    "uri": "http://purl.obolibrary.org/obo/BFO_0000002",
+    "name": "continuant",
+    "comment": "(Elucidation) A continuant is an entity that persists, endures, or continues to exist through time while maintaining its identity",
+    "ontology": "BFO",
+    "type": "Class"
+  },
+  {
+    "uri": "http://purl.obolibrary.org/obo/BFO_0000003",
+    "name": "occurrent",
+    "comment": "(Elucidation) An occurrent is an entity that unfolds itself in time or it is the start or end of such an entity or it is a temporal or spatiotemporal region",
+    "ontology": "BFO",
+    "type": "Class"
+  },
+  {
+    "uri": "http://purl.obolibrary.org/obo/BFO_0000004",
+    "name": "independent continuant",
+    "comment": "b is an independent continuant =Def b is a continuant & there is no c such that b specifically depends on c or b generically depends on c",
+    "ontology": "BFO",
+    "type": "Class"
+  },
+  {
+    "uri": "http://purl.obolibrary.org/obo/BFO_0000006",
+    "name": "spatial region",
+    "comment": "(Elucidation) A spatial region is a continuant entity that is a continuant part of the spatial projection of a portion of spacetime at a given time",
+    "ontology": "BFO",
+    "type": "Class"
+  },
+  {
+    "uri": "http://purl.obolibrary.org/obo/BFO_0000008",
+    "name": "temporal region",
+    "comment": "(Elucidation) A temporal region is an occurrent over which processes can unfold",
+    "ontology": "BFO",
+    "type": "Class"
+  },
+  {
+    "uri": "http://purl.obolibrary.org/obo/BFO_0000009",
+    "name": "two-dimensional spatial region",
+    "comment": "(Elucidation) A two-dimensional spatial region is a spatial region that is a whole consisting of a surface together with zero or more surfaces which may have spatial regions of lower dimension as parts",
+    "ontology": "BFO",
+    "type": "Class"
+  },
+  {
+    "uri": "http://purl.obolibrary.org/obo/BFO_0000011",
+    "name": "spatiotemporal region",
+    "comment": "(Elucidation) A spatiotemporal region is an occurrent that is an occurrent part of spacetime",
+    "ontology": "BFO",
+    "type": "Class"
+  },
+  {
+    "uri": "http://purl.obolibrary.org/obo/BFO_0000015",
+    "name": "process",
+    "comment": "(Elucidation) p is a process means p is an occurrent that has some temporal proper part and for some time t, p has some material entity as participant",
+    "ontology": "BFO",
+    "type": "Class"
+  },
+  {
+    "uri": "http://purl.obolibrary.org/obo/BFO_0000016",
+    "name": "disposition",
+    "comment": "(Elucidation) A disposition b is a realizable entity such that if b ceases to exist then its bearer is physically changed & b's realization occurs when and because this bearer is in some special physical circumstances & this realization occurs in virtue of the bearer's physical make-up",
+    "ontology": "BFO",
+    "type": "Class"
+  },
+  {
+    "uri": "http://purl.obolibrary.org/obo/BFO_0000017",
+    "name": "realizable entity",
+    "comment": "(Elucidation) A realizable entity is a specifically dependent continuant that inheres in some independent continuant which is not a spatial region & which is of a type some instances of which are realized in processes of a correlated type",
+    "ontology": "BFO",
+    "type": "Class"
+  },
+  {
+    "uri": "http://purl.obolibrary.org/obo/BFO_0000018",
+    "name": "zero-dimensional spatial region",
+    "comment": "(Elucidation) A zero-dimensional spatial region is one or a collection of more than one spatially disjoint points in space",
+    "ontology": "BFO",
+    "type": "Class"
+  },
+  {
+    "uri": "http://purl.obolibrary.org/obo/BFO_0000019",
+    "name": "quality",
+    "comment": "(Elucidation) A quality is a specifically dependent continuant that, in contrast to roles and dispositions, does not require any further process in order to be realized",
+    "ontology": "BFO",
+    "type": "Class"
+  },
+  {
+    "uri": "http://purl.obolibrary.org/obo/BFO_0000020",
+    "name": "specifically dependent continuant",
+    "comment": "b is a specifically dependent continuant =Def b is a continuant & there is some independent continuant c which is not a spatial region & which is such that b specifically depends on c",
+    "ontology": "BFO",
+    "type": "Class"
+  },
+  {
+    "uri": "http://purl.obolibrary.org/obo/BFO_0000023",
+    "name": "role",
+    "comment": "(Elucidation) A role b is a realizable entity such that b exists because there is some single bearer that is in some special physical, social, or institutional set of circumstances in which this bearer does not have to be & b is not such that, if it ceases to exist, then the physical make-up of the bearer is thereby changed",
+    "ontology": "BFO",
+    "type": "Class"
+  },
+  {
+    "uri": "http://purl.obolibrary.org/obo/BFO_0000024",
+    "name": "fiat object part",
+    "comment": "(Elucidation) A fiat object part b is a material entity & such that if b exists then it is continuant part of some object c & demarcated from the remainder of c by one or more fiat surfaces",
+    "ontology": "BFO",
+    "type": "Class"
+  },
+  {
+    "uri": "http://purl.obolibrary.org/obo/BFO_0000026",
+    "name": "one-dimensional spatial region",
+    "comment": "(Elucidation) A one-dimensional spatial region is a whole consisting of a line together with zero or more lines which may have points as parts",
+    "ontology": "BFO",
+    "type": "Class"
+  },
+  {
+    "uri": "http://purl.obolibrary.org/obo/BFO_0000027",
+    "name": "object aggregate",
+    "comment": "(Elucidation) An object aggregate is a material entity consisting exactly of a plurality (\u22651) of objects as member parts which together form a unit",
+    "ontology": "BFO",
+    "type": "Class"
+  },
+  {
+    "uri": "http://purl.obolibrary.org/obo/BFO_0000028",
+    "name": "three-dimensional spatial region",
+    "comment": "(Elucidation) A three-dimensional spatial region is a whole consisting of a spatial volume together with zero or more spatial volumes which may have spatial regions of lower dimension as parts",
+    "ontology": "BFO",
+    "type": "Class"
+  },
+  {
+    "uri": "http://purl.obolibrary.org/obo/BFO_0000029",
+    "name": "site",
+    "comment": "(Elucidation) A site is a three-dimensional immaterial entity whose boundaries either (partially or wholly) coincide with the boundaries of one or more material entities or have locations determined in relation to some material entity",
+    "ontology": "BFO",
+    "type": "Class"
+  },
+  {
+    "uri": "http://purl.obolibrary.org/obo/BFO_0000030",
+    "name": "object",
+    "comment": "(Elucidation) An object is a material entity which manifests causal unity & is of a type instances of which are maximal relative to the sort of causal unity manifested",
+    "ontology": "BFO",
+    "type": "Class"
+  },
+  {
+    "uri": "http://purl.obolibrary.org/obo/BFO_0000031",
+    "name": "generically dependent continuant",
+    "comment": "(Elucidation) A generically dependent continuant is an entity that exists in virtue of the fact that there is at least one of what may be multiple copies which is the content or the pattern that multiple copies would share",
+    "ontology": "BFO",
+    "type": "Class"
+  },
+  {
+    "uri": "http://purl.obolibrary.org/obo/BFO_0000034",
+    "name": "function",
+    "comment": "(Elucidation) A function is a disposition that exists in virtue of its bearer's physical make-up & this physical make-up is something the bearer possesses because it came into being either through evolution (in the case of natural biological entities) or through intentional design (in the case of artefacts) in order to realize processes of a certain sort",
+    "ontology": "BFO",
+    "type": "Class"
+  },
+  {
+    "uri": "http://purl.obolibrary.org/obo/BFO_0000035",
+    "name": "process boundary",
+    "comment": "p is a process boundary =Def p is a temporal part of a process & p has no proper temporal parts",
+    "ontology": "BFO",
+    "type": "Class"
+  },
+  {
+    "uri": "http://purl.obolibrary.org/obo/BFO_0000038",
+    "name": "one-dimensional temporal region",
+    "comment": "(Elucidation) A one-dimensional temporal region is a temporal region that is a whole that has a temporal interval and zero or more temporal intervals and temporal instants as parts",
+    "ontology": "BFO",
+    "type": "Class"
+  },
+  {
+    "uri": "http://purl.obolibrary.org/obo/BFO_0000040",
+    "name": "material entity",
+    "comment": "(Elucidation) A material entity is an independent continuant that at all times at which it exists has some portion of matter as continuant part",
+    "ontology": "BFO",
+    "type": "Class"
+  },
+  {
+    "uri": "http://purl.obolibrary.org/obo/BFO_0000140",
+    "name": "continuant fiat boundary",
+    "comment": "(Elucidation) A continuant fiat boundary b is an immaterial entity that is of zero, one or two dimensions & such that there is no time t when b has a spatial region as continuant part & whose location is determined in relation to some material entity",
+    "ontology": "BFO",
+    "type": "Class"
+  },
+  {
+    "uri": "http://purl.obolibrary.org/obo/BFO_0000141",
+    "name": "immaterial entity",
+    "comment": "b is an immaterial entity =Def b is an independent continuant which is such that there is no time t when it has a material entity as continuant part",
+    "ontology": "BFO",
+    "type": "Class"
+  },
+  {
+    "uri": "http://purl.obolibrary.org/obo/BFO_0000142",
+    "name": "fiat line",
+    "comment": "(Elucidation) A fiat line is a one-dimensional continuant fiat boundary that is continuous",
+    "ontology": "BFO",
+    "type": "Class"
+  },
+  {
+    "uri": "http://purl.obolibrary.org/obo/BFO_0000145",
+    "name": "relational quality",
+    "comment": "b is a relational quality =Def b is a quality & there exists c and d such that c and d are not identical & b specifically depends on c & b specifically depends on d",
+    "ontology": "BFO",
+    "type": "Class"
+  },
+  {
+    "uri": "http://purl.obolibrary.org/obo/BFO_0000146",
+    "name": "fiat surface",
+    "comment": "(Elucidation) A fiat surface is a two-dimensional continuant fiat boundary that is self-connected",
+    "ontology": "BFO",
+    "type": "Class"
+  },
+  {
+    "uri": "http://purl.obolibrary.org/obo/BFO_0000147",
+    "name": "fiat point",
+    "comment": "(Elucidation) A fiat point is a zero-dimensional continuant fiat boundary that consists of a single point",
+    "ontology": "BFO",
+    "type": "Class"
+  },
+  {
+    "uri": "http://purl.obolibrary.org/obo/BFO_0000148",
+    "name": "zero-dimensional temporal region",
+    "comment": "(Elucidation) A zero-dimensional temporal region is a temporal region that is a whole consisting of one or more separated temporal instants as parts",
+    "ontology": "BFO",
+    "type": "Class"
+  },
+  {
+    "uri": "http://purl.obolibrary.org/obo/BFO_0000182",
+    "name": "history",
+    "comment": "(Elucidation) A history is a process that is the sum of the totality of processes taking place in the spatiotemporal region occupied by the material part of a material entity",
+    "ontology": "BFO",
+    "type": "Class"
+  },
+  {
+    "uri": "http://purl.obolibrary.org/obo/BFO_0000202",
+    "name": "temporal interval",
+    "comment": "(Elucidation) A temporal interval is a one-dimensional temporal region that is continuous, thus without gaps or breaks",
+    "ontology": "BFO",
+    "type": "Class"
+  },
+  {
+    "uri": "http://purl.obolibrary.org/obo/BFO_0000203",
+    "name": "temporal instant",
+    "comment": "(Elucidation) A temporal instant is a zero-dimensional temporal region that has no proper temporal part",
+    "ontology": "BFO",
+    "type": "Class"
+  },
+  {
+    "uri": "http://purl.obolibrary.org/obo/BFO_0000144",
+    "name": "process profile",
+    "comment": "",
+    "ontology": "BFO",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/ActionSpecification",
+    "name": "action specification",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Agent",
+    "name": "agent",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/AgentRole",
+    "name": "agent role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Agreement",
+    "name": "agreement",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Algorithm",
+    "name": "algorithm",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Assembly",
+    "name": "assembly",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/AssemblyProcess",
+    "name": "assembly process",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/BusinessFunction",
+    "name": "business function",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/BusinessOrganization",
+    "name": "business organization",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/BusinessProcess",
+    "name": "business process",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Buyer",
+    "name": "buyer",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/BuyerRole",
+    "name": "buyer role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/BuyingBusinessProcess",
+    "name": "buying business process",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Capability",
+    "name": "capability",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Classifier",
+    "name": "classifier",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/CommercialService",
+    "name": "commercial service",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/CommercialServiceAgreement",
+    "name": "commercial service agreement",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/CommercialServiceSpecification",
+    "name": "commercial service specification",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/ComputingProcess",
+    "name": "computing process",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Consumable",
+    "name": "consumable",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/ConsumableRole",
+    "name": "consumable role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Customer",
+    "name": "customer",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/CustomerRole",
+    "name": "customer role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Denoter",
+    "name": "denoter",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/DescriptiveInformationContentEntity",
+    "name": "descriptive information content entity",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/DesignSpecification",
+    "name": "design specification",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/DesignativeInformationContentEntity",
+    "name": "designative information content entity",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/DesignedFunction",
+    "name": "designed function",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/DirectiveInformationContentEntity",
+    "name": "directive information content entity",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/EncodedAlgorithm",
+    "name": "encoded algorithm",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/EngineeredSystem",
+    "name": "engineered system",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/EquipmentRole",
+    "name": "equipment role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Event",
+    "name": "event",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/GainOfRole",
+    "name": "gain of role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/GroupOfAgents",
+    "name": "group of agents",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/GroupOfPersons",
+    "name": "group of persons",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Identifier",
+    "name": "identifier",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/InformationContentEntity",
+    "name": "information content entity",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/InputSpecification",
+    "name": "input specification",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/LossOfRole",
+    "name": "loss of role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/MaintainableMaterialItem",
+    "name": "maintainable material item",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/MaintainableMaterialItemRole",
+    "name": "maintainable material item role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Manufacturer",
+    "name": "manufacturer",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/ManufacturerRole",
+    "name": "manufacturer role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/ManufacturingProcess",
+    "name": "manufacturing process",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/MaterialArtifact",
+    "name": "material artifact",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/MaterialComponent",
+    "name": "material component",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/MaterialComponentRole",
+    "name": "material component role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/MaterialLocationChangeProcess",
+    "name": "material location change process",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/MaterialProduct",
+    "name": "material product",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/MaterialProductRole",
+    "name": "material product role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/MaterialResource",
+    "name": "material resource",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/MaterialResourceRole",
+    "name": "material resource role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/MaterialState",
+    "name": "material state",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/MeasuredValueExpression",
+    "name": "measured value expression",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/MeasurementCapability",
+    "name": "measurement capability",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/MeasurementInformationContentEntity",
+    "name": "measurement information content entity",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/MeasurementProcess",
+    "name": "measurement process",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/ObjectiveSpecification",
+    "name": "objective specification",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Organization",
+    "name": "organization",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/OrganizationIdentifier",
+    "name": "organization identifier",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/OrganizedGroupOfAgents",
+    "name": "organized group of agents",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/OutputObjectiveSpecification",
+    "name": "output objective specification",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Person",
+    "name": "person",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/PhysicalLocationIdentifier",
+    "name": "physical location identifier",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/PieceOfEquipment",
+    "name": "piece of equipment",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/PlanSpecification",
+    "name": "plan specification",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/PlannedProcess",
+    "name": "planned process",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/ProcessCharacteristic",
+    "name": "process characteristic",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/ProcuringBusinessProcess",
+    "name": "procuring business process",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/ProductProductionProcess",
+    "name": "product production process",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/RawMaterial",
+    "name": "raw material",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/RawMaterialRole",
+    "name": "raw material role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/RequirementSpecification",
+    "name": "requirement specification",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/SellingBusinessProcess",
+    "name": "offering for sale business process",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/ServiceProvider",
+    "name": "service provider",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/ServiceProviderRole",
+    "name": "service provider role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Supplier",
+    "name": "supplier",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/SupplierRole",
+    "name": "supplier role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/SupplyingBusinessProcess",
+    "name": "supplying business process",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/System",
+    "name": "system",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/TemporalDurationValueExpression",
+    "name": "temporal duration value expression",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/TemporalInstantValueExpression",
+    "name": "temporal instant value expression",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/ValueExpression",
+    "name": "value expression",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/DegradedState",
+    "name": "degraded state",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/DispositionToExhibitUndesirableBehavior",
+    "name": "disposition to exhibit undesirable behavior",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/DispositionToFail",
+    "name": "disposition to fail",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/FailedState",
+    "name": "failed state",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/FailureEffect",
+    "name": "failure effect",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/FailureEvent",
+    "name": "failure event",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/FailureModeCode",
+    "name": "failure mode code",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/FailureProcess",
+    "name": "failure process",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/FunctioningProcess",
+    "name": "functioning process",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/MaintenanceActivity",
+    "name": "maintenance activity",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/MaintenanceProcess",
+    "name": "maintenance process",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/MaintenanceState",
+    "name": "maintenance state",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/MaintenanceStrategy",
+    "name": "maintenance strategy",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/MaintenanceWorkOrderRecord",
+    "name": "maintenance work order record",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/OperatingState",
+    "name": "operating state",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/QualificationSpecification",
+    "name": "qualification specification",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/QualifiedMaintenancePerson",
+    "name": "qualified maintenance person",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/RequiredFunction",
+    "name": "required function",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/SupportingMaintenanceActivity",
+    "name": "supporting maintenance activity",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/UndesireableDisposition",
+    "name": "undesireable disposition",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Airway",
+    "name": "airway",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/AppraisalProcess",
+    "name": "appraisal process",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/ArrivalProcess",
+    "name": "arrival process",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/BillOfLading",
+    "name": "bill of lading",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Cargo",
+    "name": "cargo",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/CargoRole",
+    "name": "cargo role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Carrier",
+    "name": "carrier",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Change",
+    "name": "change",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Consignee",
+    "name": "consignee",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/ConsigneeRole",
+    "name": "consignee role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/ConsigningProcess",
+    "name": "consigning process",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/ConsignorRole",
+    "name": "consignor role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Container",
+    "name": "container",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/ContainerIdentifier",
+    "name": "container identifier",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/DepartureProcess",
+    "name": "departure process",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/DistributionCenter",
+    "name": "distribution center",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Distributor",
+    "name": "distributor",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/DistributorRole",
+    "name": "distributor role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Facility",
+    "name": "facility",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Factory",
+    "name": "factory",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/FreightContainer",
+    "name": "freight container",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/FreightForwarder",
+    "name": "freight forwarder",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/FreightForwarderRole",
+    "name": "freight forwarder role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/FreightForwardingBusinessFunction",
+    "name": "freight forwarding business function",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/FreightForwardingProcess",
+    "name": "freight forwarding process",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/FreightForwardingService",
+    "name": "freight forwarding service",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/GeospatialLocation",
+    "name": "geospatial location",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/GeospatialSite",
+    "name": "geospatial site",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/GlobalLocationNumber",
+    "name": "global location number",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/GroupOfSuppliers",
+    "name": "group of suppliers",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/IndustrialInventory",
+    "name": "industrial inventory",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/IndustrialInventoryRole",
+    "name": "industrial inventory role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Industry",
+    "name": "industry",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/IntegratedCarrierBusinessOrganization",
+    "name": "integrated carrier business organization",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/InventoryManagementProcess",
+    "name": "inventory management process",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Load",
+    "name": "load",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/LoadRole",
+    "name": "load role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/LocationIdentificationScheme",
+    "name": "location identification scheme",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/LocationRole",
+    "name": "location role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/LogisticUnit",
+    "name": "logistic unit",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/LogisticUnitRole",
+    "name": "logistic unit role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/LogisticsProcess",
+    "name": "logistics process",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/LogisticsService",
+    "name": "logistics service",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/LogisticsServiceProviderRole",
+    "name": "logistics service provider role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Lot",
+    "name": "lot",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/LotIdentifier",
+    "name": "lot identifier",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/LotRole",
+    "name": "lot role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Make-To-OrderProductionCapability",
+    "name": "make-to-order production capability",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Make-To-StockProductionCapability",
+    "name": "make-to-stock production capability",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/ManufacturingService",
+    "name": "manufacturing service",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/ManufacturingServiceProviderRole",
+    "name": "manufacturing service provider role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/ManufacturingSupplyChain",
+    "name": "manufacturing supply chain system",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/MaterialTradeItem",
+    "name": "material trade item",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/MaterialTradeItemRole",
+    "name": "material trade item role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/PackagingPlanSpecification",
+    "name": "packaging plan specification",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/PackagingProcess",
+    "name": "packaging process",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/PackagingService",
+    "name": "packaging service",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/PackagingServiceProviderRole",
+    "name": "packaging service provider role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/PieceofTransportEquipment",
+    "name": "piece of transport equipment",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/ProductionCapability",
+    "name": "production capability",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/PurchaseOrder",
+    "name": "purchase order",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/ReceivingProcess",
+    "name": "receiving process",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Retailer",
+    "name": "retailer",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/RetailerRole",
+    "name": "retailer role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Seaway",
+    "name": "seaway",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/ServiceConsumerRole",
+    "name": "service consumer role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/ServiceSupplyChain",
+    "name": "service supply chain system",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/ShipFromLocation",
+    "name": "ship from location",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/ShipFromLocationRole",
+    "name": "ship from location role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/ShipToLocation",
+    "name": "ship to location",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/ShipToLocationRole",
+    "name": "ship to location role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Shipment",
+    "name": "shipment",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/ShipmentPlanSpecification",
+    "name": "shipment plan specification",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/ShipmentPreparationProcess",
+    "name": "shipment preparation process",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/ShipmentRole",
+    "name": "shipment role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/ShipmentState",
+    "name": "shipment state",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Shipper",
+    "name": "consignor",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/ShippingRoute",
+    "name": "shipping route",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/StorageCapability",
+    "name": "storage capability",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/StorageFacility",
+    "name": "storage facility",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/StorageProcess",
+    "name": "storage process",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/StorageService",
+    "name": "storage service",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/StorageServiceProviderRole",
+    "name": "storage service provider role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Sublot",
+    "name": "sublot",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/SublotRole",
+    "name": "sublot role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/SupplierEvaluationProcess",
+    "name": "supplier evaluation process",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/SupplyChainAgent",
+    "name": "supply chain agent",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/SupplyChainAgentRole",
+    "name": "supply chain agent role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/SupplyChainNode",
+    "name": "supply chain node",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/SupplyChainNodeRole",
+    "name": "supply chain node role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/SupplyChainObjectiveSpecification",
+    "name": "supply chain objective specification",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/SupplyChainPlanSpecification",
+    "name": "supply chain plan specification",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/SupplyChainProcess",
+    "name": "supply chain process",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/SupplyChainSystem",
+    "name": "supply chain system",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/SupplyChainTransportProcess",
+    "name": "supply chain transport process",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/SupplyRelationship",
+    "name": "supply relationship",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/SystemCapability",
+    "name": "system capability",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Traceability",
+    "name": "traceability",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/TraceableResourceUnit",
+    "name": "traceable resource unit",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/TraceableResourceUnitRole",
+    "name": "traceable resource unit role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/TrackingEvent",
+    "name": "tracking event",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Trailer",
+    "name": "trailer",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/TranspoortEquipmentRole",
+    "name": "transport equipment role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/TransportProcess",
+    "name": "transport process",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/TransportationBusinessFunction",
+    "name": "transportation business function",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/TransportationService",
+    "name": "transportation service",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/TransportationServiceProviderRole",
+    "name": "transportation service provider role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/TravelProcess",
+    "name": "travel process",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Wagon",
+    "name": "wagon",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/WarehousingPlanSpecification",
+    "name": "warehousing plan specification",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/WarehousingProcess",
+    "name": "warehousing process",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/Wholesaler",
+    "name": "wholesaler",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "https://spec.industrialontologies.org/ontology/construct/WholesalerRole",
+    "name": "wholesaler role",
+    "comment": "",
+    "ontology": "IOF",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#AcousticSensor",
+    "name": "Acoustic Sensor",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ActiveSonarSystem",
+    "name": "Active Sonar System",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#AgriculturalFacility",
+    "name": "Agricultural Facility",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Aircraft",
+    "name": "Aircraft",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#AircraftManufacturingFacility",
+    "name": "Aircraft Manufacturing Facility",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Airport",
+    "name": "Airport",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#AlkalineElectricBattery",
+    "name": "Alkaline Electric Battery",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#AmmunitionDepot",
+    "name": "Ammunition Depot",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#AntiBacterialArtifactFunction",
+    "name": "Anti-Bacterial Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#AntiMicrobialArtifactFunction",
+    "name": "Anti-Microbial Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ApartmentBuilding",
+    "name": "Apartment Building",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArmoredPersonnelCarrier",
+    "name": "Armored Personnel Carrier",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Arrow",
+    "name": "Arrow",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArticleOfClothing",
+    "name": "Article of Clothing",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArticleOfSolidWaste",
+    "name": "Article of Solid Waste",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Artifact",
+    "name": "Artifact",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactDesignContentEntity",
+    "name": "Artifact Design",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactDimensionSpecification",
+    "name": "Dimension Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunction",
+    "name": "Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactFunctionSpecification",
+    "name": "Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactIdentifier",
+    "name": "Artifact Identifier",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactLocation",
+    "name": "Artifact Location",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactModel",
+    "name": "Artifact Model",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtifactModelName",
+    "name": "Artifact Model Name",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ArtificialEye",
+    "name": "Artificial Eye",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#AssaultRifle",
+    "name": "Assault Rifle",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Automobile",
+    "name": "Automobile",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#BaseOfOperations",
+    "name": "Base of Operations",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Bicycle",
+    "name": "Bicycle",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#BidirectionalTransducer",
+    "name": "Bidirectional Transducer",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#BiologicalWeapon",
+    "name": "Biological Weapon",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Biological_Depot",
+    "name": "Biological Depot",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Bond",
+    "name": "Bond",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Book",
+    "name": "Book",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Bow",
+    "name": "Bow",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Bridge",
+    "name": "Bridge",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Bullet",
+    "name": "Bullet",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Bus",
+    "name": "Bus",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Canal",
+    "name": "Canal",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Cannon",
+    "name": "Cannon",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Cartridge",
+    "name": "Cartridge",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CatalystArtifactFunction",
+    "name": "Catalyst Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CatalystArtifactFunctionSpecification",
+    "name": "Catalyst Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CellularTelecommunicationNetwork",
+    "name": "Cellular Telecommunication Network",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ChemicalDepot",
+    "name": "Chemical Depot",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ChemicalManufacturingFacility",
+    "name": "Chemical Manufacturing Facility",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ChemicalReactionArtifactFunction",
+    "name": "Chemical Reaction Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ChemicalReactionArtifactFunctionSpecification",
+    "name": "Chemical Reaction Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ChemicalWeapon",
+    "name": "Chemical Weapon",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Church",
+    "name": "Church",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CombatOutpost",
+    "name": "Combat Outpost",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CommandPostFacility",
+    "name": "Command Post Facility",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CommunicationArtifactFunction",
+    "name": "Communication Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CommunicationArtifactFunctionSpecification",
+    "name": "Communication Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CommunicationInstrument",
+    "name": "Communication Instrument",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Computer",
+    "name": "Computer",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ComputerNetwork",
+    "name": "Computer Network",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Container",
+    "name": "Container",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ContainingArtifactFunction",
+    "name": "Containing Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ContainingArtifactFunctionSpecification",
+    "name": "Containing Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ControlSurface",
+    "name": "Control Surface",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ControlledAccessHighway",
+    "name": "Controlled-Access Highway",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ConveyanceArtifactFunction",
+    "name": "Conveyance Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ConveyanceArtifactFunctionSpecification",
+    "name": "Conveyance Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CoolingArtifactFunction",
+    "name": "Cooling Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CoolingArtifactFunctionSpecification",
+    "name": "Cooling Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CounterfeitFinancialInstrument",
+    "name": "Counterfeit Financial Instrument",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CounterfeitInstrument",
+    "name": "Counterfeit Instrument",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CounterfeitLegalInstrument",
+    "name": "Counterfeit Legal Instrument",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Coupling",
+    "name": "Coupling",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CoveringArtifactFunction",
+    "name": "Covering Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CoveringArtifactFunctionSpecification",
+    "name": "Covering Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CrushingArtifactFunction",
+    "name": "Crushing Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CrushingArtifactFunctionSpecification",
+    "name": "Crushing Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CuttingArtifactFunction",
+    "name": "Cutting Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CuttingArtifactFunctionSpecification",
+    "name": "Cutting Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#CuttingWeapon",
+    "name": "Cutting Weapon",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Dam",
+    "name": "Dam",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#DamagingArtifactFunction",
+    "name": "Damaging Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#DamagingArtifactFunctionSpecification",
+    "name": "Damaging Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Database",
+    "name": "Database",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#DeceptionArtifactFunction",
+    "name": "Deception Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#DeceptionArtifactFunctionSpecification",
+    "name": "Deception Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#DecontaminationFacility",
+    "name": "Decontamination Facility",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Decoy",
+    "name": "Decoy",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#DefoliantArtifactFunction",
+    "name": "Defoliant Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Denture",
+    "name": "Denture",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#DetergentArtifactFunction",
+    "name": "Detergent Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#DetergentArtifactFunctionSpecification",
+    "name": "Detergent Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#DetonatingArtifactFunction",
+    "name": "Detonating Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#DetonatingArtifactFunctionSpecification",
+    "name": "Detonating Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#DieselEngine",
+    "name": "Diesel Engine",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#DigitalStorageDevice",
+    "name": "Digital Storage Device",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#DistributionPort",
+    "name": "Distribution Port",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Document",
+    "name": "Document",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#EducationArtifactFunction",
+    "name": "Education Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#EducationArtifactFunctionSpecification",
+    "name": "Education Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#EducationalFacility",
+    "name": "Educational Facility",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ElectricBattery",
+    "name": "Electric Battery",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ElectricGenerator",
+    "name": "Electric Generator",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ElectricMotor",
+    "name": "Electric Motor",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ElectricPowerStation",
+    "name": "Electric Power Station",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ElectricalPowerSource",
+    "name": "Electrical Power Source",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ElectromagneticCommunicationArtifactFunction",
+    "name": "Electromagnetic Communication Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ElectromagneticCommunicationArtifactFunctionSpecification",
+    "name": "Electromagnetic Communication Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ElectromagneticShieldingArtifactFunction",
+    "name": "Electromagnetic Shielding Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ElectromagneticShieldingArtifactFunctionSpecification",
+    "name": "Electromagnetic Shielding Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#EmailBox",
+    "name": "Email Box",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#EmailMessage",
+    "name": "Email Message",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#EmulsifierArtifactFunction",
+    "name": "Emulsifier Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#EmulsifierArtifactFunctionSpecification",
+    "name": "Emulsifier Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Engine",
+    "name": "Engine",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#EnhancingArtifactFunction",
+    "name": "Enhancing Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#EnhancingArtifactFunctionSpecification",
+    "name": "Enhancing Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#EntertainmentFacility",
+    "name": "Entertainment Facility",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ExplosiveArtifactFunction",
+    "name": "Explosive Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ExplosiveArtifactFunctionSpecification",
+    "name": "Explosive Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ExplosiveWeapon",
+    "name": "Explosive Weapon",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ExternalCombustionEngine",
+    "name": "External Combustion Engine",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Facility",
+    "name": "Facility",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Factory",
+    "name": "Factory",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Farm",
+    "name": "Farm",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#FertilizerArtifactFunction",
+    "name": "Fertilizer Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#FertilizerArtifactFunctionSpecification",
+    "name": "Fertilizer Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#FiltrationArtifactFunction",
+    "name": "Filtration Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#FiltrationArtifactFunctionSpecification",
+    "name": "Filtration Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#FinancialArtifactFunction",
+    "name": "Financial Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#FinancialArtifactFunctionSpecification",
+    "name": "Financial Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#FinancialFacility",
+    "name": "Financial Facility",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#FinancialInstrument",
+    "name": "Financial Instrument",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#FireStation",
+    "name": "Fire Station",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Firearm",
+    "name": "Firearm",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Fort",
+    "name": "Fort",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ForwardOperationsBase",
+    "name": "Forward Operations Base",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#FossilFuelPowerPlant",
+    "name": "Fossil Fuel Power Plant",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#FragmentationArtifactFunction",
+    "name": "Fragmentation Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#FragranceArtifactFunction",
+    "name": "Fragrance Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#FragranceArtifactFunctionSpecification",
+    "name": "Fragrance Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#FuelArtifactFunction",
+    "name": "Fuel Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#FuelArtifactFunctionSpecification",
+    "name": "Fuel Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#FungicideArtifactFunction",
+    "name": "Fungicide Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#GasProcessingFacility",
+    "name": "Gas Processing Facility",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#GasTurbine",
+    "name": "Gas Turbine",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#GasolineEngine",
+    "name": "Gasoline Engine",
+    "comment": "Label choice here is somewhat pragmatic and doesn't reflect the actual differentiating criteria. Some may refer to engines of this type as 'Otto cycle', but that is only partially correct, since many spark ignition engines use a two stroke cycle and Otto cycle engines are four stroke spark ignition engines.",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#GovernmentArtifactFunction",
+    "name": "Government Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#GovernmentArtifactFunctionSpecification",
+    "name": "Government Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#GovernmentBuilding",
+    "name": "Government Building",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Grenade",
+    "name": "Grenade",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#GroceryStore",
+    "name": "Grocery Store",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#GroundMotorVehicle",
+    "name": "Ground Motor Vehicle",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#GroundVehicle",
+    "name": "Ground Vehicle",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#HandGun",
+    "name": "Hand Gun",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#HealingArtifactFunction",
+    "name": "Healing Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#HealingArtifactFunctionSpecification",
+    "name": "Healing Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#HealthcareArtifactFunction",
+    "name": "Healthcare Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#HealthcareArtifactFunctionSpecification",
+    "name": "Healthcare Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#HealthcareFacility",
+    "name": "Medical Facility",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#HearingAid",
+    "name": "Hearing Aid",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#HeatingArtifactFunction",
+    "name": "Heating Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#HeatingArtifactFunctionSpecification",
+    "name": "Heating Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#HeavyMachineGun",
+    "name": "Heavy Machine Gun",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Heliport",
+    "name": "Heliport",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#HerbicideArtifactFunction",
+    "name": "Herbicide Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Highway",
+    "name": "Highway",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#HighwayInterchange",
+    "name": "Highway Interchange",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Hospital",
+    "name": "Hospital",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#HospitalityArtifactFunction",
+    "name": "Hospitality Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#HospitalityArtifactFunctionSpecification",
+    "name": "Hospitality Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Hostel",
+    "name": "Hostel",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Hotel",
+    "name": "Hotel",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#House",
+    "name": "House",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Howitzer",
+    "name": "Howitzer",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#HydraulicPowerSource",
+    "name": "Hydraulic Power Source",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#HydroelectricPowerPlant",
+    "name": "Hydroelectric Power Plant",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Image",
+    "name": "Image",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ImmaterialArtifact",
+    "name": "Immaterial Artifact",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ImprovisedExplosiveDevice",
+    "name": "Improvised Explosive Device",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#IncendiaryWeapon",
+    "name": "Incendiary Weapon",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#InfantryFightingVehicle",
+    "name": "Infantry Fighting Vehicle",
+    "comment": "Comment: Infantry Fighting Vehicles (IFVs) are differentiated from Armored Personnel Carriers (APCs) because they are designed to give direct fire support to the dismounted infantry and so usually have significantly enhanced armament. IFVs also often have improved armour and firing ports (allowing the infantry to fire personal weapons while mounted).",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#InformationBearingArtifact",
+    "name": "Information Bearing Artifact",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#InformationMediumArtifact",
+    "name": "Information Medium Artifact",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#InformationProcessingArtifact",
+    "name": "Information Processing Artifact",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Infrastructure",
+    "name": "Infrastructure",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#InsecticideArtifactFunction",
+    "name": "Insecticide Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#InternalCombustionEngine",
+    "name": "Internal Combustion Engine",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#JetEngine",
+    "name": "Jet Engine",
+    "comment": "Needs to be aligned with Space Object Ontology. Some jet engines (most) utilize turbines, but some do not. Most rocket engines do not, but some do.",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#JournalArticle",
+    "name": "Journal Article",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#LandMine",
+    "name": "Land Mine",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Landfill",
+    "name": "Landfill",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#LandlineTelephone",
+    "name": "Landline Telephone",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#LargeScaleRocketLauncher",
+    "name": "Large-Scale Rocket Launcher",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#LeadAcidElectricBattery",
+    "name": "Lead Acid Electric Battery",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#LegalArtifactFunction",
+    "name": "Legal Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#LegalArtifactFunctionSpecification",
+    "name": "Legal Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#LegalInstrument",
+    "name": "Legal Instrument",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#LightMachineGun",
+    "name": "Light Machine Gun",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#LithiumIonElectricBattery",
+    "name": "Lithium-ion Electric Battery",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Locomotive",
+    "name": "Locomotive",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#LongGun",
+    "name": "Long Gun",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MachineBearing",
+    "name": "Machine Bearing",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MachineElement",
+    "name": "Machine Element",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MailingFacility",
+    "name": "Mailing Facility",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Maintenance_Facility",
+    "name": "Maintenance Facility",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ManualTool",
+    "name": "Manual Tool",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MassSpecification",
+    "name": "Mass Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MaximumSpeedArtifactFunction",
+    "name": "Maximum Speed Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MaximumSpeedArtifactFunctionSpecification",
+    "name": "Maximum Speed Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MedicalArtifact",
+    "name": "Medical Artifact",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MedicalDepot",
+    "name": "Medical Depot",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MediumMachineGun",
+    "name": "Medium Machine Gun",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Message",
+    "name": "Message",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MilitaryArtifactFunction",
+    "name": "Military Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MilitaryArtifactFunctionSpecification",
+    "name": "Military Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MilitaryBase",
+    "name": "Military Base",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MilitaryFacility",
+    "name": "Military Facility",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MilitaryHeadquartersFacility",
+    "name": "Military Headquarters Facility",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Mine",
+    "name": "Mine",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MinimumSpeedArtifactFunction",
+    "name": "Minimum Speed Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MinimumSpeedArtifactFunctionSpecification",
+    "name": "Minimum Speed Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MissileLaunchSite",
+    "name": "Missile Launch Site",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MissileLauncher",
+    "name": "Missile Launcher",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MobileTelephone",
+    "name": "Mobile Telephone",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Money",
+    "name": "Money",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Mortar",
+    "name": "Mortar",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Mosque",
+    "name": "Mosque",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Motel",
+    "name": "Motel",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MotionArtifactFunction",
+    "name": "Motion Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MotionArtifactFunctionSpecification",
+    "name": "Motion Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MotorVehicleManufacturingFacility",
+    "name": "Motor Vehicle Manufacturing Facility",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Motorcycle",
+    "name": "Motorcycle",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#MountedGun",
+    "name": "Mounted Gun",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#NeutralizationArtifactFunction",
+    "name": "Neutralization Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#NeutralizationArtifactFunctionSpecification",
+    "name": "Neutralization Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#NickelCadmiumElectricBattery",
+    "name": "Nickel Cadmium Electric Battery",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#NickelMetalHydrideElectricBattery",
+    "name": "Nickel-metal Hydride Electric Battery",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#NominalSpeedArtifactFunction",
+    "name": "Nominal Speed Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#NominalSpeedArtifactFunctionSpecification",
+    "name": "Nominal Speed Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#NuclearPowerPlant",
+    "name": "Nuclear Power Plant",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#NuclearReactor",
+    "name": "Nuclear Reactor",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#NuclearStorageDepot",
+    "name": "Nuclear Storage Depot",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#NuclearWeapon",
+    "name": "Nuclear Weapon",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#OcularProsthesis",
+    "name": "Ocular Prosthesis",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#OfficeBuilding",
+    "name": "Office Building",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#OpenPitMine",
+    "name": "Open Pit Mine",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#OperatingPostureSpecification",
+    "name": "Operating Posture Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#OpticalCommunicationArtifactFunction",
+    "name": "Optical Communication Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#OpticalCommunicationArtifactFunctionSpecification",
+    "name": "Optical Communication Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#OpticalInstrument",
+    "name": "Optical Instrument",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#OxidizerArtifactFunction",
+    "name": "Oxidizer Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#OxidizerArtifactFunctionSpecification",
+    "name": "Oxidizer Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PartsList",
+    "name": "Parts List",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PassiveSonarSystem",
+    "name": "Passive Sonar System",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Domain/SpaceObjectOntology#Payload",
+    "name": "Payload",
+    "comment": "Depending on the nature of the Flight or Mission, the Payload of a Vehicle may include cargo, passengers, flight crew, munitions, scientific instruments or experiments, or other equipment. Extra fuel, when optionally carried, is also considered part of the payload.\n(Adapted from: https://en.wikipedia.org/wiki/Payload)",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Domain/SpaceObjectOntology#PayloadCapacity",
+    "name": "Payload Capacity",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Domain/SpaceObjectOntology#PayloadCapacitySpecification",
+    "name": "Payload Capacity Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Periscope",
+    "name": "Periscope",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PesticideArtifactFunction",
+    "name": "Pesticide Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PesticideArtifactFunctionSpecification",
+    "name": "Pesticide Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PetrochemicalRefinery",
+    "name": "Petrochemical Refinery",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PetroleumDepot",
+    "name": "Petroleum Depot",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PetroleumManufacturingFacility",
+    "name": "Petroleum Manufacturing Facility",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Pier",
+    "name": "Pier",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Pipeline",
+    "name": "Pipeline",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PneumaticPowerSource",
+    "name": "Pneumatic Power Source",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PoisonArtifactFunction",
+    "name": "Poison Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PoisonArtifactFunctionSpecification",
+    "name": "Poison Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PoliceStation",
+    "name": "Police Station",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Port",
+    "name": "Port",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PortionOfAmmunition",
+    "name": "Portion of Ammunition",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PortionOfFood",
+    "name": "Portion of Food",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PortionOfFuel",
+    "name": "Portion of Fuel",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PortionOfMaterial",
+    "name": "Portion of Material",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PortionOfPaper",
+    "name": "Portion of Paper",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PortionOfProcessedMaterial",
+    "name": "Portion of Processed Material",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PortionOfWasteMaterial",
+    "name": "Portion of Waste Material",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PostOffice",
+    "name": "Post Office",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PowerSource",
+    "name": "Power Source",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PowerTool",
+    "name": "Power Tool",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PowerTransmissionLine",
+    "name": "Power Transmission Line",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PrecisionGuidedMissile",
+    "name": "Precision-Guided Missile",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PrimaryCellElectricBattery",
+    "name": "Primary Cell Electric Battery",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ProductTransportFacility",
+    "name": "Product Transport Facility",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ProjectileLauncher",
+    "name": "Projectile Launcher",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Propeller",
+    "name": "Propeller",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PropulsionArtifactFunction",
+    "name": "Propulsion Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PropulsionArtifactFunctionSpecification",
+    "name": "Propulsion Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PropulsionComponent",
+    "name": "Propulsion Component",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PropulsionSystem",
+    "name": "Propulsion System",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Prosthesis",
+    "name": "Prosthesis",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ProstheticArm",
+    "name": "Prosthetic Arm",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ProstheticFoot",
+    "name": "Prosthetic Foot",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ProstheticHand",
+    "name": "Prosthetic Hand",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ProstheticLeg",
+    "name": "Prosthetic Leg",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PublicSafetyArtifactFunction",
+    "name": "Public Safety Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PublicSafetyArtifactFunctionSpecification",
+    "name": "Public Safety Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PublicSafetyFacility",
+    "name": "Public Safety Facility",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#PumpingStation",
+    "name": "Pumping Station",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#QualitySpecification",
+    "name": "Quality Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RadarSystem",
+    "name": "Radar System",
+    "comment": "Consider adding the axioms:\n'bearer of' some 'Observation Artifact Function'\nhas_part min 0 'Radio Receiver'\nhas_part some 'Radio Antenna'\nhas_part some 'Radio Transmitter'",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RadioAntenna",
+    "name": "Radio Antenna",
+    "comment": "Consider adding the following axioms:\n'bearer of' some 'Radio Communication Artifact Function'\n'bearer of' some 'Radio Communication Reception Artifact Function'\n'bearer of' some 'Radio Wave Conversion Artifact Function'",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RadioCommunicationArtifactFunction",
+    "name": "Radio Communication Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RadioCommunicationArtifactFunctionSpecification",
+    "name": "Radio Communication Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RadioFrequencySensor",
+    "name": "Radio Frequency Sensor",
+    "comment": "TO DO: Clarify this definition",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RadiologicalWeapon",
+    "name": "Radiological Weapon",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RailFacility",
+    "name": "Rail Facility",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RailTransportVehicle",
+    "name": "Rail Transport Vehicle",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Railway",
+    "name": "Railway",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RailwayCrossing",
+    "name": "Railway Crossing",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RailwayJunction",
+    "name": "Railway Junction",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ReactantArtifactFunction",
+    "name": "Reactant Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ReactantArtifactFunctionSpecification",
+    "name": "Reactant Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ReciprocatingSteamEngine",
+    "name": "Reciprocating Steam Engine",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Refinery",
+    "name": "Refinery",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ReligiousArtifactFunction",
+    "name": "Religious Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ReligiousArtifactFunctionSpecification",
+    "name": "Religious Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ReligiousFacility",
+    "name": "Religious Facility",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Report",
+    "name": "Report",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ResearchAndDevelopmentArtifactFunction",
+    "name": "Research and Development Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ResearchAndDevelopmentArtifactFunctionSpecification",
+    "name": "Research and Development Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Reservoir",
+    "name": "Reservoir",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ResidentialArtifactFunction",
+    "name": "Residential Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ResidentialArtifactFunctionSpecification",
+    "name": "Residential Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ResidentialFacility",
+    "name": "Residential Facility",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RetailArtifactFunction",
+    "name": "Retail Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RetailArtifactFunctionSpecification",
+    "name": "Retail Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RetailFacility",
+    "name": "Commercial Facility",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Revolver",
+    "name": "Revolver",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Rifle",
+    "name": "Rifle",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Road",
+    "name": "Road",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RoadJunction",
+    "name": "Road Junction",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RocketEngine",
+    "name": "Rocket Engine",
+    "comment": "Needs to be aligned with Space Object Ontology. Some jet engines (most) utilize turbines, but some do not. Most rocket engines do not, but some do.",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RocketLauncher",
+    "name": "Rocket Launcher",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RocketPod",
+    "name": "Rocket Pod",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RocketPropelledGrenade",
+    "name": "Rocket-Propelled Grenade",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#RoundShot",
+    "name": "Round Shot",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#School",
+    "name": "School",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Screen",
+    "name": "Screen",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SeatOfLocalGovernment",
+    "name": "Seat of Local Government",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SeatOfNationalGovernment",
+    "name": "Seat of National Government",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SecondaryCellElectricBattery",
+    "name": "Secondary Cell Electric Battery",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SemiAutomaticPistol",
+    "name": "Semi-automatic Pistol",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Sensor",
+    "name": "Sensor",
+    "comment": "Consider adding the following axioms:\n'bearer of' some 'Measurement Artifact Function'\n'bearer of' some 'Observation Artifact Function'",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SensorSystem",
+    "name": "Sensor System",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ServiceArtifactFunction",
+    "name": "Service Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ServiceArtifactFunctionSpecification",
+    "name": "Service Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SewageTreatmentFacility",
+    "name": "Sewage Treatment Facility",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Shaft",
+    "name": "Shaft",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Shell",
+    "name": "Shell",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Shop",
+    "name": "Shop",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Shotgun",
+    "name": "Shotgun",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ShouldFiredRocketLauncher",
+    "name": "Shoulder-Fired Rocket Launcher",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SolventArtifactFunction",
+    "name": "Solvent Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SolventArtifactFunctionSpecification",
+    "name": "Solvent Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SonarSystem",
+    "name": "Sonar System",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Spacecraft",
+    "name": "Spacecraft",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SpeedArtifactFunction",
+    "name": "Speed Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SpeedArtifactFunctionSpecification",
+    "name": "Speed Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Spreadsheet",
+    "name": "Spreadsheet",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Stage",
+    "name": "Stage",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SteamEngine",
+    "name": "Steam Engine",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#StirlingEngine",
+    "name": "Stirling Engine",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Stock",
+    "name": "Stock",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#StorageFacility",
+    "name": "Storage Facility",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SubmachineGun",
+    "name": "Submachine Gun",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SubmersibleArtifactFunction",
+    "name": "Submersible Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SubmersibleArtifactFunctionSpecification",
+    "name": "Submersible Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SurfactantArtifactFunction",
+    "name": "Surfactant Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SurfactantArtifactFunctionSpecification",
+    "name": "Surfactant Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SwitchArtifactFunction",
+    "name": "Switch Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#SwitchArtifactFunctionSpecification",
+    "name": "Switch Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Synagogue",
+    "name": "Synagogue",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Tank",
+    "name": "Tank",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TelecommunicationEndpoint",
+    "name": "Telecommunication Endpoint",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TelecommunicationInfrastructure",
+    "name": "Telecommunication Infrastructure",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TelecommunicationInstrument",
+    "name": "Telecommunication Instrument",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TelecommunicationNetwork",
+    "name": "Telecommunication Network",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TelecommunicationNetworkNode",
+    "name": "Telecommunication Network Node",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TelecommunicationSwitchingNode",
+    "name": "Telecommunication Switching Node",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Telephone",
+    "name": "Telephone",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TelephoneLine",
+    "name": "Telephone Line",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TelephoneNetwork",
+    "name": "Telephone Network",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TelephoneSubscriberLine",
+    "name": "Telephone Subscriber Line",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TerroristTrainingCamp",
+    "name": "Terrorist Training Camp",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#ThermalPowerPlant",
+    "name": "Thermal Power Plant",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TimekeepingInstrument",
+    "name": "Timekeeping Instrument",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TitleDocument",
+    "name": "Title Document",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Tool",
+    "name": "Tool",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Torpedo",
+    "name": "Torpedo",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TorpedoTube",
+    "name": "Torpedo Tube",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Trail",
+    "name": "Trail",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Train",
+    "name": "Train",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TrainingCamp",
+    "name": "Training Camp",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Transcript",
+    "name": "Transcript",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Transducer",
+    "name": "Transducer",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TransportationFacility",
+    "name": "Transportation Facility",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TransportationInfrastructure",
+    "name": "Transportation Infrastructure",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Truck",
+    "name": "Truck",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Tunnel",
+    "name": "Tunnel",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#TurbineSteamEngine",
+    "name": "Turbine Steam Engine",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#UndergroundMine",
+    "name": "Underground Mine",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#UnderwaterMine",
+    "name": "Underwater Mine",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#UnguidedRocket",
+    "name": "Unguided Rocket",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Vehicle",
+    "name": "Vehicle",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#VehicleEnduranceArtifactFunctionSpecification",
+    "name": "Vehicle Endurance Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#VehicleRangeArtifactFunctionSpecification",
+    "name": "Vehicle Range Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#VehicleTrack",
+    "name": "Vehicle Track",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#VehicleTrackPoint",
+    "name": "Vehicle Track Point",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Video",
+    "name": "Video",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#VisualProsthesis",
+    "name": "Visual Prosthesis",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Warehouse",
+    "name": "Warehouse",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#WashingFacility",
+    "name": "Washing Facility",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#WasteManagementArtifactFunction",
+    "name": "Waste Management Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#WasteManagementArtifactFunctionSpecification",
+    "name": "Waste Management Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#WasteManagementFacility",
+    "name": "Waste Management Facility",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#WaterTower",
+    "name": "Water Tower",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#WaterTreatmentFacility",
+    "name": "Water Treatment Facility",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Watercraft",
+    "name": "Watercraft",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Weapon",
+    "name": "Weapon",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#WeaponManufacturingFacility",
+    "name": "Weapon Manufacturing Facility",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#Web_Page",
+    "name": "Web Page",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#WettingAgentArtifactFunction",
+    "name": "Wetting Agent Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#WettingAgentArtifactFunctionSpecification",
+    "name": "Wetting Agent Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#WindFarm",
+    "name": "Wind Farm",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#WiredCommunicationArtifactFunction",
+    "name": "Wired Communication Artifact Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#WiredCommunicationArtifactFunctionSpecification",
+    "name": "Wired Communication Artifact Function Specification",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/ArtifactOntology#WirelessTelecommunicationNetwork",
+    "name": "Wireless Telecommunication Network",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Act",
+    "name": "Act",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfAdvising",
+    "name": "Act of Advising",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfApologizing",
+    "name": "Act of Apologizing",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfAppraisal",
+    "name": "Act of Appraisal",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Domain/AirForceAircraftMaintenanceOntology#ActOfArrival",
+    "name": "Act of Arrival",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfArtifactEmployment",
+    "name": "Act of Artifact Employment",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfArtifactModification",
+    "name": "Act of Artifact Modification",
+    "comment": "Comment: Excluded from this class would be instaces of role change or creation such as introduction of an artifact as a piece of evidence in a trial or loading of artifacts onto a ship for transport.",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfArtifactProcessing",
+    "name": "Act of Artifact Processing",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfAssassination",
+    "name": "Act of Assassination",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfAssignment",
+    "name": "Act of Assignment",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfAssociation",
+    "name": "Act of Association",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfBuying",
+    "name": "Act of Buying",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCargoTransportation",
+    "name": "Act of Cargo Transportation",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCeremony",
+    "name": "Act of Ceremony",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfChangeOfResidence",
+    "name": "Act of Change of Residence",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCommanding",
+    "name": "Act of Commanding",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCommissiveCommunication",
+    "name": "Act of Commissive Communication",
+    "comment": "Examples: agreeing, betting, guaranteeing, inviting, offering, promising, swearing, volunteering",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCommunication",
+    "name": "Act of Communication",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCommunicationByMedia",
+    "name": "Act of Communication by Media",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCondoling",
+    "name": "Act of Condoling",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfConductingMassMediaInterview",
+    "name": "Act of Conducting Mass Media Interview",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfConfessing",
+    "name": "Act of Confessing",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfCongratulating",
+    "name": "Act of Congratulating",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfContractFormation",
+    "name": "Act of Contract Formation",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfDeceptiveCommunication",
+    "name": "Act of Deceptive Communication",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfDeclarativeCommunication",
+    "name": "Act of Declarative Communication",
+    "comment": "Examples: Baptism, Sentencing a person to imprisonment, Pronouncing a couple husband and wife, Declaring war",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfDecoyUse",
+    "name": "Act of Decoy Use",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfDenying",
+    "name": "Act of Denying",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Domain/AirForceAircraftMaintenanceOntology#ActOfDeparture",
+    "name": "Act of Departure",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfDirectiveCommunication",
+    "name": "Act of Directive Communication",
+    "comment": "Examples: advising, admonishing, asking, begging, dismissing, excusing, forbidding, instructing, ordering, permitting, requesting, requiring, suggesting, urging, warning",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfDonating",
+    "name": "Act of Donating",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfEducationalTrainingAcquisition",
+    "name": "Act of Educational Training Acquisition",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfEducationalTrainingInstruction",
+    "name": "Act of Educational Training Instruction",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfEmployment",
+    "name": "Act of Employment",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfEncounter",
+    "name": "Act of Encounter",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfEntertainment",
+    "name": "Act of Entertainment",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfEspionage",
+    "name": "Act of Espionage",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfExpressiveCommunication",
+    "name": "Act of Expressive Communication",
+    "comment": "Examples: apologizing, condoling, congratulating, greeting, thanking, accepting (acknowledging an acknowledgment)",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfFacilityUse",
+    "name": "Act of Facility Use",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfFinancialDeposit",
+    "name": "Act of Financial Deposit",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfFinancialInstrumentUse",
+    "name": "Act of Financial Instrument Use",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfFinancialWithdrawal",
+    "name": "Act of Financial Withdrawal",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfFunding",
+    "name": "Act of Funding",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfGovernment",
+    "name": "Act of Government",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfHomicide",
+    "name": "Act of Homicide",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfIdentifying",
+    "name": "Act of Identifying",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfInhabitancy",
+    "name": "Act of Inhabitancy",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfIntelligenceGathering",
+    "name": "Act of Intelligence Gathering",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfInterpersonalRelationship",
+    "name": "Act of Interpersonal Relationship",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfInviting",
+    "name": "Act of Inviting",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfIssuingMassMediaArticle",
+    "name": "Act of Issuing Mass Media Article",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfIssuingMassMediaDocumentary",
+    "name": "Act of Issuing Mass Media Documentary",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfIssuingMassMediaPressRelease",
+    "name": "Act of Issuing Mass Media Press Release",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfLegalInstrumentUse",
+    "name": "Act of Legal Instrument Use",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfLoaning",
+    "name": "Act of Loaning",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfLocationChange",
+    "name": "Act of Location Change",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfMassMediaCommunication",
+    "name": "Act of Mass Media Communication",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfMeeting",
+    "name": "Act of Meeting",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfMilitaryForce",
+    "name": "Act of Military Force",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfMilitaryService",
+    "name": "Act of Military Service",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfMilitaryTrainingAcquisition",
+    "name": "Act of Military Training Acquisition",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfMilitaryTrainingInstruction",
+    "name": "Act of Military Training Instruction",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfMotion",
+    "name": "Act of Motion",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfMurder",
+    "name": "Act of Murder",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfOathTaking",
+    "name": "Act of Oath Taking",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfOfficialDocumentation",
+    "name": "Act of Official Documentation",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfOwnership",
+    "name": "Act of Ownership",
+    "comment": "The relation between the owner and property may be private, collective, or common and the property may be objects, land, real estate, or intellectual property.",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfPersonalCommunication",
+    "name": "Act of Personal Communication",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfPilgrimage",
+    "name": "Act of Pilgrimage",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfPlanning",
+    "name": "Act of Planning",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfPortionOfMaterialConsumption",
+    "name": "Act of Portion of Material Consumption",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfPositionChange",
+    "name": "Act of Position Change",
+    "comment": "An Act of Position Change does not entail a change of location.",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfPossession",
+    "name": "Act of Possession",
+    "comment": "In all cases, to possess something, an agent must have an intention to possess it.",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfPromising",
+    "name": "Act of Promising",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfPropaganda",
+    "name": "Act of Propaganda",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfPublishingMassMediaArticle",
+    "name": "Act of Publishing Mass Media Article",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfPublishingMassMediaDocumentary",
+    "name": "Act of Publishing Mass Media Documentary",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfPublishingMassMediaPressRelease",
+    "name": "Act of Publishing Mass Media Press Release",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfPurchasing",
+    "name": "Act of Purchasing",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfReconnaissance",
+    "name": "Act of Reconnaissance",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfReligiousGroupAffiliation",
+    "name": "Act of Religious Group Affiliation",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfReligiousTrainingAcquisition",
+    "name": "Act of Religious Training Acquisition",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfReligiousTrainingInstruction",
+    "name": "Act of Religious Training Instruction",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfReligiousWorship",
+    "name": "Act of Religious Worship",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfRemuneration",
+    "name": "Act of Remuneration",
+    "comment": "Comment: Remuneration normally consists of salary or hourly wages, but also applies to commission, stock options, fringe benefits, etc.",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfRenting",
+    "name": "Act of Renting",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfRepayment",
+    "name": "Act of Repayment",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfReporting",
+    "name": "Act of Reporting",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfRepresentativeCommunication",
+    "name": "Act of Representative Communication",
+    "comment": "Examples: affirming, alleging, announcing, answering, attributing, claiming, classifying, concurring, confirming, conjecturing, denying, disagreeing, disclosing, disputing, identifying, informing, insisting, predicting, ranking, reporting, stating, stipulating",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfRequesting",
+    "name": "Act of Requesting",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfResiding",
+    "name": "Act of Residing",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfSocialGroupMembership",
+    "name": "Act of Social Group Membership",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfSocialMovement",
+    "name": "Act of Social Movement",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfSojourn",
+    "name": "Act of Sojourn",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfSuicide",
+    "name": "Act of Suicide",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfTerrorism",
+    "name": "Act of Terrorism",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfTerroristTrainingAcquisition",
+    "name": "Act of Terrorist Training Acquisition",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfTerroristTrainingInstruction",
+    "name": "Act of Terrorist Training Instruction",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfTestifying",
+    "name": "Act of Testifying",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfThanking",
+    "name": "Act of Thanking",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfToolUse",
+    "name": "Act of Tool Use",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfTraining",
+    "name": "Act of Training",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfTrainingAcquisition",
+    "name": "Act of Training Acquisition",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfTrainingInstruction",
+    "name": "Act of Training Instruction",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfTravel",
+    "name": "Act of Travel",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfVehicleUse",
+    "name": "Act of Vehicle Use",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfViolence",
+    "name": "Act of Violence",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfVocationalTrainingAcquisition",
+    "name": "Act of Vocational Training Acquisition",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfVocationalTrainingInstruction",
+    "name": "Act of Vocational Training Instruction",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfVolunteering",
+    "name": "Act of Volunteering",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfWalking",
+    "name": "Act of Walking",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfWarning",
+    "name": "Act of Warning",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ActOfWeaponUse",
+    "name": "Act of Weapon Use",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Behavior",
+    "name": "Behavior",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#BiographicalLife",
+    "name": "Biographical Life",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Birth",
+    "name": "Birth",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Cause",
+    "name": "Cause",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Change",
+    "name": "Change",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#CriminalAct",
+    "name": "Criminal Act",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#DamagedStasis",
+    "name": "Damaged Stasis",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Death",
+    "name": "Death",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#DecreaseOfDependentContinuant",
+    "name": "Decrease of Dependent Continuant",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#DecreaseOfDisposition",
+    "name": "Decrease of Disposition",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#DecreaseOfFunction",
+    "name": "Decrease of Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#DecreaseOfGenericallyDependentContinuant",
+    "name": "Decrease of Generically Dependent Continuant",
+    "comment": "Comment: For the most part Generically Dependent Continuants do not inhere in their bearers over some continuous scale. The primary exception is religion and this class allows annotation of those cases where an Agent is described as becoming less religious. Other cases would include the decrease of an organization's bearing of some objective.",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#DecreaseOfQuality",
+    "name": "Decrease of Quality",
+    "comment": "Examples: Weight Loss, Decreasing Temperature, decreasing color intensity, loss of structural integrity",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#DecreaseOfRealizableEntity",
+    "name": "Decrease of Realizable Entity",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#DecreaseOfRole",
+    "name": "Decrease of Role",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#DecreaseOfSpecificallyDependentContinuant",
+    "name": "Decrease of Specifically Dependent Continuant",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Economy",
+    "name": "Economy",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Effect",
+    "name": "Effect",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#EffectOfLocationChange",
+    "name": "Effect of Location Change",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Election",
+    "name": "Election",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#EmailMessaging",
+    "name": "Email Messaging",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#EnhancedStasis",
+    "name": "Enhanced Stasis",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#EssentialServiceProvision",
+    "name": "Essential Service Provision",
+    "comment": "An essential service is defined here as being one of: medical care, food and water, shelter, or sanitation.",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#FacsimileTransmission",
+    "name": "Facsimile Transmission",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#FiatProcessPart",
+    "name": "Fiat Process Part",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#FixedLineNetworkTelephoneCall",
+    "name": "Fixed Line Network Telephone Call",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Funeral",
+    "name": "Funeral",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#GainOfDependentContinuant",
+    "name": "Gain of Dependent Continuant",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#GainOfDisposition",
+    "name": "Gain of Disposition",
+    "comment": "This class should be used to demarcate the start of the temporal interval (through the occurs_on property) that the Entity bears the Disposition.",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#GainOfFunction",
+    "name": "Gain of Function",
+    "comment": "This class should be used to demarcate the start of the temporal interval (through the occurs_on property) that the Entity bears the Function.",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#GainOfGenericallyDependentContinuant",
+    "name": "Gain of Generically Dependent Continuant",
+    "comment": "Examples: A Person forms a Plan, A Person is initiated into a Religion, A photgraphic image is produced.",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#GainOfQuality",
+    "name": "Gain of Quality",
+    "comment": "Examples: A person becoming pregnant.",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#GainOfRealizableEntity",
+    "name": "Gain of Realizable Entity",
+    "comment": "Examples: An informant becomes unreliable (disposition), A person begins to speak French (function), a person becomes a welder (role).",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#GainOfRole",
+    "name": "Gain of Role",
+    "comment": "This class should be used to demarcate the start of the temporal interval (through the occurs_on property) that the Entity bears the Role.",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#GainOfSpecificallyDependentContinuant",
+    "name": "Gain of Specifically Dependent Continuant",
+    "comment": "Examples: A Person becomes pregnant (gain of quality), A person becomes forgetful (gain of disposition), A vehicle becomes amphibious (gain of function), A Person becomes a Database Administrator (gain of role).",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IncreaseOfDependentContinuant",
+    "name": "Increase of Dependent Continuant",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IncreaseOfDisposition",
+    "name": "Increase of Disposition",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IncreaseOfFunction",
+    "name": "Increase of Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IncreaseOfGenericallyDependentContinuant",
+    "name": "Increase of Generically Dependent Continuant",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IncreaseOfQuality",
+    "name": "Increase of Quality",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IncreaseOfRealizableEntity",
+    "name": "Increase of Realizable Entity",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IncreaseOfRole",
+    "name": "Increase of Role",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IncreaseOfSpecificallyDependentContinuant",
+    "name": "Increase of Specifically Dependent Continuant",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#InstantMessaging",
+    "name": "Instant Messaging",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#IntentionalAct",
+    "name": "Intentional Act",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#LegalSystemAct",
+    "name": "Legal System Act",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#LifeEvent",
+    "name": "Life Event",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#LossOfDependentContinuant",
+    "name": "Loss of Dependent Continuant",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#LossOfDisposition",
+    "name": "Loss of Disposition",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#LossOfFunction",
+    "name": "Loss of Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#LossOfGenericallyDependentContinuant",
+    "name": "Loss of Generically Dependent Continuant",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#LossOfQuality",
+    "name": "Loss of Quality",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#LossOfRealizableEntity",
+    "name": "Loss of Realizable Entity",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#LossOfRole",
+    "name": "Loss of Role",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#LossOfSpecificallyDependentContinuant",
+    "name": "Loss of Specifically Dependent Continuant",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Mailing",
+    "name": "Mailing",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Married",
+    "name": "Married",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#NaturalProcess",
+    "name": "Natural Process",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#NominalStasis",
+    "name": "Nominal Stasis",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#PrivateNetworkTelephoneCall",
+    "name": "Private Network Telephone Call",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ProcessAggregate",
+    "name": "Process Aggregate",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ProcessHistory",
+    "name": "Process History",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#ProcessRecurrenceAggregate",
+    "name": "Process Recurrence Aggregate",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#RadioBroadcast",
+    "name": "Radio Broadcast",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#SocialAct",
+    "name": "Social Act",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Stasis",
+    "name": "Stasis",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#StasisOfDisposition",
+    "name": "Stasis of Disposition",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#StasisOfFunction",
+    "name": "Stasis of Function",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#StasisOfGenericallyDependentContinuant",
+    "name": "Stasis of Generically Dependent Continuant",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#StasisOfQuality",
+    "name": "Stasis of Quality",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#StasisOfRealizableEntity",
+    "name": "Stasis of Realizable Entity",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#StasisOfRole",
+    "name": "Stasis of Role",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#StasisOfSpecificallyDependentContinuant",
+    "name": "Stasis of Specifically Dependent Continuant",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Target",
+    "name": "Target",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#TelephoneCall",
+    "name": "Telephone Call",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#TelevisionBroadcast",
+    "name": "Television Broadcast",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#TextMessaging",
+    "name": "Text Messaging",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#UnintentionalAct",
+    "name": "Unintentional Act",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Webcast",
+    "name": "Webcast",
+    "comment": "Essentially, webcasting is \u201cbroadcasting\u201d over the Internet.",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#Wedding",
+    "name": "Wedding",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#WirelessNetworkTelephoneCall",
+    "name": "Wireless Network Telephone Call",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  },
+  {
+    "uri": "http://www.ontologylibrary.mil/CommonCore/Mid/EventOntology#WoundedStasis",
+    "name": "Wounded Stasis",
+    "comment": "",
+    "ontology": "ROMAIN",
+    "type": "Class"
+  }
+]

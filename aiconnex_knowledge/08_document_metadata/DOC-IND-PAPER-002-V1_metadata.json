@@ -1,0 +1,13 @@
+{
+  "document_id": "DOC-IND-PAPER-002-V1",
+  "source_id": "SRC-IND-PAPER-002",
+  "title": "Magnus et al. Unified Maintenance Data and Ontology Architecture",
+  "version": "2024",
+  "document_type": "pdf",
+  "content_hash": "eabef20fbd3c42fce0fbfddfc7202a7739d1b23627f045dcd5c376eb26549bd2",
+  "page_count": 16,
+  "total_sections": 3,
+  "total_words": 4528,
+  "storage_uri": "s3://aiconnex-platform-kb-prod/industrial/Magnus_Unified_Maintenance_Paper.pdf",
+  "created_at": "2026-08-14T08:41:27.484122+00:00"
+}

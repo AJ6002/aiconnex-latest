@@ -1040,35 +1040,47 @@ def get_boilerplate_metadata():
     except Exception as e:
         return {"records": []}
 
+# ── Unified Tenant Workspace Endpoints ─────────────────────────────────────
+try:
+    _backend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "backend"))
+    if _backend_dir not in sys.path:
+        sys.path.insert(0, _backend_dir)
+    from workspace_manager import build_workspace_tree, list_workspace_flat, get_file_preview, resolve_safe_path
+except Exception as _w_err:
+    build_workspace_tree = None
+    list_workspace_flat = None
+    get_file_preview = None
+    resolve_safe_path = None
+
+
+@app.get("/api/v1/workspace/tree")
+@app.get("/api/workspace/tree")
+def get_workspace_tree_api(tenant_id: str = "global", include_sessions: bool = False):
+    if build_workspace_tree:
+        return build_workspace_tree(tenant_id=tenant_id, include_sessions=include_sessions)
+    return {"status": "error", "message": "workspace_manager not loaded"}
+
+
 @app.get("/api/v1/workspace/files")
-def list_workspace_files():
-    services_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    workspace_dir = os.path.join(os.path.dirname(services_dir), "workspace_data")
-    if not os.path.exists(workspace_dir):
-        return {"items": []}
-    
-    items = []
-    for root, dirs, files in os.walk(workspace_dir):
-        for name in files:
-            full_path = os.path.join(root, name)
-            rel_path = os.path.relpath(full_path, workspace_dir)
-            size = os.path.getsize(full_path)
-            items.append({
-                "name": name,
-                "path": rel_path.replace("\\", "/"),
-                "size_bytes": size,
-                "is_dir": False
-            })
-        for name in dirs:
-            full_path = os.path.join(root, name)
-            rel_path = os.path.relpath(full_path, workspace_dir)
-            items.append({
-                "name": name,
-                "path": rel_path.replace("\\", "/"),
-                "size_bytes": 0,
-                "is_dir": True
-            })
-    return {"items": items}
+@app.get("/api/workspace/files")
+def list_workspace_files(tenant_id: str = "global", include_sessions: bool = False):
+    if list_workspace_flat:
+        return {"items": list_workspace_flat(tenant_id=tenant_id, include_sessions=include_sessions)}
+    return {"items": []}
+
+
+@app.get("/api/v1/workspace/file")
+@app.get("/api/workspace/file")
+def get_workspace_file_api(path: str = "", tenant_id: str = "global", download: bool = False):
+    if not resolve_safe_path:
+        raise HTTPException(status_code=500, detail="Workspace service not initialized")
+    safe_path = resolve_safe_path(path, tenant_id=tenant_id)
+    if not safe_path:
+        raise HTTPException(status_code=404, detail="File not found or access denied.")
+    if download:
+        from fastapi.responses import FileResponse
+        return FileResponse(safe_path, filename=os.path.basename(safe_path))
+    return get_file_preview(path, tenant_id=tenant_id, max_rows=100)
 
 MASTER_DATA_FILE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "master_data.json")
 

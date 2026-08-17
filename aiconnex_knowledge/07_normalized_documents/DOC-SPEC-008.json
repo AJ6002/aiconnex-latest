@@ -1,0 +1,648 @@
+{
+  "document_id": "DOC-DOC-SPEC-008-V1",
+  "source_id": "DOC-SPEC-008",
+  "title": "AI-ConneX Data Studio Recipe Orchestrator Detailed Documentation",
+  "studio": "DataStudio",
+  "category": "Architecture",
+  "target_subsystems": [
+    "RecipeOrchestrator",
+    "CatalogBuilder",
+    "PipelineLock"
+  ],
+  "summary": "End-to-end recipe catalog synthesis, immutable pipeline locking, and multi-step data transformation execution standards.",
+  "sha256": "a4f1aafb5392e4492054a490ddd8c1bcfa1a0df6e6a165e183826f3e85430cf9",
+  "file_size_bytes": 51705,
+  "statistics": {
+    "headings_count": 54,
+    "paragraphs_count": 154,
+    "tables_count": 14,
+    "sections_count": 53,
+    "estimated_words": 4063
+  },
+  "sections": [
+    {
+      "section_id": "SEC-DOC-SPEC-008-0001",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "Overview",
+      "section_path": "DOC-SPEC-008 > Overview",
+      "content": "AI-ConneX\n\nData Studio — Recipe Orchestrator\n\nPREPARE → FE → STEM → Metrics → Manifest Binding\n\nStage 4 Technical / R&D Documentation",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0002",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "1. Executive Summary",
+      "section_path": "DOC-SPEC-008 > 1. Executive Summary",
+      "content": "The AI-ConneX Data Studio Recipe Orchestrator is the execution-planning stage that follows DAG discovery. It pulls approved recipes for three principal execution domains: PREPARE (cleaning and dataset preparation), FE (feature engineering), and STEM (split, train and evaluate metrics). It then composes these recipes into an executable, dependency-aware workflow and binds the complete recipe lineage back to the manifest-UID.\n\nThe word 'recipe' is deliberately used as a controlled, parameterized implementation template rather than as arbitrary generated code. A recipe describes what operation is performed, which inputs it consumes, what parameters it requires, what artifact it emits, what validation it performs and how it is linked to the manifest.\n\nThe architecture is designed to prevent the common failure where preprocessing is performed outside the training pipeline and therefore leaks information from validation/test data. scikit-learn's Pipeline documentation explicitly describes chained transformers and estimators and notes that pipeline composition helps avoid leakage by fitting transformations on training data within the pipeline. citeturn0search0turn0search9",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0003",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "2. Position in AI-ConneX",
+      "section_path": "DOC-SPEC-008 > 2. Position in AI-ConneX",
+      "content": "CHATBOT  |  vCOMPILER  |  vDATA PROFILER  |  vDAG ENGINE  |  | Family IDs + DAG IDs + selected DAG  vRECIPE ORCHESTRATOR  |  +--> PREPARE recipes  +--> FE recipes  +--> STEM recipes  +--> Manifest binding  +--> Recipe validation  +--> Dependency graph  +--> Run specification  |  vEXECUTION ENGINE  |  +--> prepared dataset  +--> feature dataset  +--> trained model  +--> metrics  +--> run lineage / artifacts\n\nThis stage should be treated as an execution-plan compiler. It does not independently decide the business objective; that comes from the Chatbot and Manifest. It does not independently invent a model; the selected algorithm/DAG comes from the previous DAG stage.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0004",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "3. What Is a Recipe?",
+      "section_path": "DOC-SPEC-008 > 3. What Is a Recipe?",
+      "content": "A recipe is a versioned, typed, executable template. It is analogous to a function or workflow component with an explicit contract.\n\nRecipe =  recipe_id  recipe_version  stage  inputs  parameters  preconditions  operation  outputs  metrics / validation  resource_requirements  lineage  security_policy",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Stage | Purpose | Typical Operations |\n| --- | --- | --- |\n| PREPARE | Make the dataset safe and structurally usable | type normalization, missing values, duplicates, outliers, categorical handling, timestamp normalization, joins/filters where required |\n| FE | Create model-ready representations | encoding, scaling, aggregation, lag/rolling features, ratios, interactions, dimensionality reduction, feature selection |\n| STEM | Execute model workflow | split, fit, validate, predict, calculate metrics, package model |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0005",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "4. Why the Recipe Orchestrator Is Needed",
+      "section_path": "DOC-SPEC-008 > 4. Why the Recipe Orchestrator Is Needed",
+      "content": "Industrial datasets require different cleaning and preparation policies depending on the Profile and selected DAG.\n\nFeature engineering must be reproducible and must not leak information from held-out data.\n\nTraining and evaluation need a single controlled execution contract.\n\nModel metrics need to remain linked to the exact feature and dataset versions used.\n\nAn industrial user should not have to manually connect preprocessing, features, training and evaluation.\n\nRecipe selection must be deterministic and registry-grounded.\n\nEvery transformation must be auditable from output back to manifest-UID.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0006",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "5. R&D Problem Statement",
+      "section_path": "DOC-SPEC-008 > 5. R&D Problem Statement",
+      "content": "The research problem is to transform a selected DAG and dataset manifest into a safe, parameterized and reproducible execution graph. The system must decide which PREPARE and FE recipes are compatible, bind them to the STEM recipe implied by the selected DAG, and preserve lineage across every artifact.\n\nInput:  manifest-UID  profile  intent  selected Family/DAG  recipe registryOutput:  executable recipe graph  + recipe parameters  + artifact contracts  + lineage  + validation policy  + run manifest",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0007",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "6. R&D Objectives",
+      "section_path": "DOC-SPEC-008 > 6. R&D Objectives",
+      "content": "Build a controlled recipe registry.\n\nMap profile facts to recipe eligibility.\n\nSelect PREPARE recipes without destroying information unnecessarily.\n\nSelect FE recipes compatible with the selected DAG and data type.\n\nConstruct leakage-safe split/train/evaluation execution.\n\nBind every recipe and artifact to the manifest-UID.\n\nProvide deterministic and auditable recipe selection.\n\nPermit parallel execution only where dependency rules allow it.\n\nPrevent arbitrary agent-generated transformations from entering production execution.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0008",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 2,
+      "heading_text": "7.1 Chatbot Input Context",
+      "section_path": "DOC-SPEC-008 > 7.1 Chatbot Input Context",
+      "content": "intent_uid: ACX-INT-00042domain: manufacturingobjective: predict_machine_failuretarget: failure_eventconstraints:  explainability: required  latency: low",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0009",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 2,
+      "heading_text": "7.2 Compiler Input Context",
+      "section_path": "DOC-SPEC-008 > 7.2 Compiler Input Context",
+      "content": "dataset_uid: ACX-IND-00042canonical_artifact: dataset.parquetschema: schema.jsonlineage: lineage.jsoncompilation_report: report_1.json",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0010",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 2,
+      "heading_text": "7.3 Profiler / Manifest",
+      "section_path": "DOC-SPEC-008 > 7.3 Profiler / Manifest",
+      "content": "manifest_uid: ACX-MAN-00042profile_uid: ACX-PROF-...features: [...]target: failure_eventtarget_type: binarytime_index: timestampmissingness: {...}outliers: {...}temporal: {...}semantic: {...}",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0011",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 2,
+      "heading_text": "7.4 DAG Stage",
+      "section_path": "DOC-SPEC-008 > 7.4 DAG Stage",
+      "content": "family_id: F1secondary_family_id: F5dag_id: DAG_XXXdag_version: ...candidate_score: 0.93special_handling: [...]dag_constraints: [...]registry_version: 2026.08",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0012",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "8. How the Orchestrator Uses Chatbot Intent",
+      "section_path": "DOC-SPEC-008 > 8. How the Orchestrator Uses Chatbot Intent",
+      "content": "The Chatbot's intent is not used as a generic prompt to generate code. It becomes a constraint on recipe selection. For example, if the user requests predictive maintenance with low latency and explainability, the orchestrator can prefer compact feature sets, deterministic preprocessing and an evaluation set appropriate to the operational requirement.\n\nCHATBOT:  \"predict machine failure\"MANIFEST:  binary target  sensor streams  timestamp  missing values  categorical machine_idDAG:  classification + time-seriesRECIPE ORCHESTRATOR:  PREPARE -> timestamp validation + missing-value policy  FE      -> lag/rolling features + encoding  STEM    -> temporal split + classifier + classification metrics",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0013",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "9. Recipe Registry",
+      "section_path": "DOC-SPEC-008 > 9. Recipe Registry",
+      "content": "Recipes should be stored separately from algorithm/DAG registry entries. The DAG registry answers 'which computational workflow/model family is appropriate?'. The Recipe Registry answers 'how should the selected workflow's data preparation, feature construction and training/evaluation steps be executed?'.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Registry | Primary Responsibility |\n| --- | --- |\n| Algorithm/DAG Registry | Family IDs, DAG IDs, algorithm variants, special handling |\n| Recipe Registry | PREPARE/FE/STEM implementation templates |\n| Manifest | Specific dataset + intent + profile context |\n| Run Registry | Actual execution instances, status and artifacts |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0014",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "10. Recipe Selection Architecture",
+      "section_path": "DOC-SPEC-008 > 10. Recipe Selection Architecture",
+      "content": "Manifest + DAG Plan       |       vRecipe Eligibility Engine       |       +------------------+       |                  |       v                  vPREPARE registry       FE registry       |                  |       +--------+---------+                |                v        STEM recipe registry                |                v       Recipe dependency graph                |                v       Manifest binding layer                |                v        Validated Run Plan",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0015",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "11. PREPARE Layer",
+      "section_path": "DOC-SPEC-008 > 11. PREPARE Layer",
+      "content": "PREPARE is responsible for transforming compiled data into a clean, consistent, model-consumable dataset while preserving lineage and avoiding irreversible changes unless explicitly permitted.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Recipe Class | Typical Controls |\n| --- | --- |\n| Schema normalization | types, column names, null representation |\n| Missing-value handling | drop/impute/indicator with profile-aware threshold |\n| Duplicate handling | exact and entity/time-key duplicates |\n| Outlier handling | flag/cap/robust transform; never silently delete |\n| Categorical preparation | normalization, rare-category policy |\n| Timestamp preparation | timezone, ordering, invalid timestamp handling |\n| Entity integrity | machine/entity key validation |\n| Data filtering | only when intent/profile/DAG requires it |\n| Join preparation | key uniqueness and cardinality validation |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0016",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "12. FE Layer",
+      "section_path": "DOC-SPEC-008 > 12. FE Layer",
+      "content": "Feature Engineering transforms prepared data into model-specific features. Feature recipes must declare whether they are fit-time, transform-time or deterministic/stateless.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Feature Type | Industrial Example |\n| --- | --- |\n| Lag | temperature_lag_1h |\n| Rolling | vibration_mean_30m |\n| Difference | temperature_delta |\n| Ratio | load_to_rpm_ratio |\n| Aggregation | machine_daily_mean |\n| Encoding | machine_id encoding |\n| Scaling | standardization/robust scaling |\n| Selection | remove high-missingness/redundant features |\n| Interaction | load × temperature |\n| Temporal | hour/day/shift/cycle features |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0017",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "13. Leakage-Safe FE Principle",
+      "section_path": "DOC-SPEC-008 > 13. Leakage-Safe FE Principle",
+      "content": "Any feature transformation that learns statistics from data must be fitted only on the training partition and then applied to validation/test data. Pipeline-based execution is preferred because it encapsulates transformation and estimator steps and can avoid leakage when fit is performed on training data. citeturn0search0turn0search9\n\nCORRECTRAW | vSPLIT |------------------| v                  vTRAIN              TEST | vFIT FE | +--> transform TRAIN | +--> transform TEST using TRAIN-fitted FE | vTRAIN MODEL | vEVALUATE TEST\n\nFor time-series data, the split must additionally respect temporal ordering; a random split may expose future information.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0018",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "14. STEM Layer",
+      "section_path": "DOC-SPEC-008 > 14. STEM Layer",
+      "content": "STEM is the model execution spine: Split → Train → Evaluate Metrics. The selected DAG supplies the model/algorithm identity, while the recipe registry supplies the operational steps.\n\nPREPARE   |   vFE   |   vSPLIT   |   +--> TRAIN   |   +--> VALIDATION   |   vMODEL FIT   |   vPREDICT   |   vMETRICS   |   vMODEL + METRICS + LINEAGE",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0019",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "15. Split Policy",
+      "section_path": "DOC-SPEC-008 > 15. Split Policy",
+      "content": "The split recipe must be selected from Profile temporal/entity characteristics rather than always applying a generic random train_test_split.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Dataset Type | Preferred Split |\n| --- | --- |\n| IID tabular | train/validation/test or CV |\n| Time-series | chronological split / rolling validation |\n| Grouped industrial entities | group-aware split |\n| Highly imbalanced classification | stratified split where valid |\n| Entity leakage risk | group/entity isolation |\n| Streaming data | time-window/backtest strategy |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0020",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "16. Training",
+      "section_path": "DOC-SPEC-008 > 16. Training",
+      "content": "The STEM training node consumes the selected algorithm from the DAG Plan and the feature artifact from FE. It must record implementation version, hyperparameters, random seed, hardware/runtime and input hashes.\n\nTRAIN INPUT  feature_artifact_hash  target_column  algorithm_id  algorithm_version  hyperparameters  random_seed  resource_policyTRAIN OUTPUT  model_artifact  training_log  training_metadata",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0021",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "17. Evaluation Metrics",
+      "section_path": "DOC-SPEC-008 > 17. Evaluation Metrics",
+      "content": "Metrics are selected based on the task and user intent rather than using one universal metric.\n\nMetric thresholds should be expressed in the manifest/run policy when the industrial user has explicit acceptance requirements.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Task | Candidate Metrics |\n| --- | --- |\n| Binary classification | accuracy, precision, recall, F1, ROC-AUC, PR-AUC, confusion matrix |\n| Multi-class classification | macro/micro/weighted F1, accuracy, confusion matrix |\n| Regression | MAE, MSE, RMSE, R², MAPE where valid |\n| Time-series forecasting | MAE, RMSE, MASE, sMAPE where appropriate |\n| Anomaly detection | precision, recall, F1, PR-AUC; event-based metrics where needed |\n| Clustering | silhouette, Davies–Bouldin, Calinski–Harabasz |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0022",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "18. Recipe Linking to Manifest",
+      "section_path": "DOC-SPEC-008 > 18. Recipe Linking to Manifest",
+      "content": "Manifest binding is the central responsibility of this stage. Each recipe execution must carry the manifest UID, profile UID, intent UID, DAG ID and registry versions.\n\n{  \"manifest_uid\": \"ACX-MAN-00042\",  \"dag_id\": \"DAG_XXX\",  \"recipe_plan_uid\": \"ACX-RCP-00042\",  \"recipes\": [    {      \"recipe_id\": \"PREP-MISSING-001\",      \"version\": \"1.2.0\",      \"stage\": \"PREPARE\"    },    {      \"recipe_id\": \"FE-ROLLING-004\",      \"version\": \"2.0.1\",      \"stage\": \"FE\"    },    {      \"recipe_id\": \"STEM-CLASSIFIER-011\",      \"version\": \"1.4.0\",      \"stage\": \"STEM\"    }  ]}",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0023",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "19. Recipe Plan",
+      "section_path": "DOC-SPEC-008 > 19. Recipe Plan",
+      "content": "{  \"recipe_plan_uid\": \"ACX-RCP-00042\",  \"manifest_uid\": \"ACX-MAN-00042\",  \"dag_id\": \"DAG_XXX\",  \"graph\": [    {\"id\":\"prepare\",\"recipe\":\"PREP-...\",\"depends_on\":[]},    {\"id\":\"fe\",\"recipe\":\"FE-...\",\"depends_on\":[\"prepare\"]},    {\"id\":\"split\",\"recipe\":\"STEM-SPLIT-...\",\"depends_on\":[\"fe\"]},    {\"id\":\"train\",\"recipe\":\"STEM-TRAIN-...\",\"depends_on\":[\"split\"]},    {\"id\":\"evaluate\",\"recipe\":\"STEM-EVAL-...\",\"depends_on\":[\"train\",\"split\"]}  ]}",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0024",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "20. Key R&D Failures",
+      "section_path": "DOC-SPEC-008 > 20. Key R&D Failures",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Failure | Why It Happens | AI-ConneX Control |\n| --- | --- | --- |\n| Recipe mismatch | Generic recipe applied to unsuitable data. | Profile-aware eligibility. |\n| Train/test leakage | Preprocessing fitted on all data. | Split-aware recipe graph. |\n| Temporal leakage | Future observations enter training. | Temporal split policy. |\n| Target leakage | Target-derived feature used as predictor. | Lineage + feature audit. |\n| Wrong metric | Accuracy used for imbalanced failure detection. | Intent/task-aware metrics. |\n| Recipe drift | Implementation changes silently. | Recipe version + hash. |\n| Algorithm/recipe incompatibility | Recipe assumes estimator capability that selected DAG lacks. | Capability contract. |\n| Feature explosion | Rolling/interactions create huge feature space. | resource/feature cardinality limits. |\n| Silent data deletion | Cleaning removes industrial events. | threshold + audit + quarantine. |\n| Non-determinism | Random seeds/runtime differ. | seed + environment capture. |\n| Agent-generated code | Unsafe or irreproducible transformations. | registry-only recipes. |\n| Partial execution | One stage succeeds and later stage fails. | artifact checkpoints + resumability. |\n| Metric cherry-picking | Only favorable metrics retained. | predeclared metric policy. |\n| Broken lineage | Artifacts cannot be traced to source manifest. | mandatory lineage envelope. |\n| Resource exhaustion | FE/training exceeds available resources. | resource estimation + quotas. |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0025",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "21. How AI-ConneX Overcomes the Failures",
+      "section_path": "DOC-SPEC-008 > 21. How AI-ConneX Overcomes the Failures",
+      "content": "Recipe Registry: execution uses approved, versioned recipes rather than unconstrained code.\n\nCapability contracts: each recipe declares required input types, task type, estimator capabilities and resource needs.\n\nManifest binding: every artifact carries immutable upstream identifiers.\n\nLeakage guard: learned preprocessing is fitted inside the correct training scope.\n\nTemporal guard: timestamped datasets use chronology-aware split policies.\n\nFeature audit: generated features record source columns and transformations.\n\nMetric policy: evaluation metrics are determined before execution and cannot be silently replaced.\n\nCheckpointing: every recipe emits a validated artifact and metadata.\n\nIdempotency: recipe runs use deterministic run IDs and input hashes.\n\nAgent containment: agents may recommend or parameterize recipes but cannot bypass registry validation.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0026",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "22. Recipe Agent Helper",
+      "section_path": "DOC-SPEC-008 > 22. Recipe Agent Helper",
+      "content": "RECIPE AGENT                      |        +-------------+-------------+        |             |             |        v             v             v     PREPARE         FE           STEM     Registry      Registry      Registry        |             |             |        +-------------+-------------+                      |                      v              Capability Validator                      |                      v               Recipe Composer                      |                      v               DAG/Graph Validator                      |                      v                Run Plan\n\nThe agent is an assistant to the deterministic orchestration layer, not the authority. The final recipe IDs, versions, dependencies and parameters must pass schema and policy validation.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0027",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "23. Recipe Contract",
+      "section_path": "DOC-SPEC-008 > 23. Recipe Contract",
+      "content": "{  \"recipe_id\": \"FE-ROLLING-004\",  \"version\": \"2.0.1\",  \"stage\": \"FE\",  \"inputs\": [\"prepared_dataset\"],  \"requires\": {    \"timestamp\": true,    \"numeric_columns\": true  },  \"parameters\": {    \"windows\": [5, 15, 60]  },  \"outputs\": [\"feature_dataset\"],  \"leakage_policy\": \"fit_on_train_only\",  \"resource_class\": \"medium\"}",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0028",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "24. Recipe Composition Rules",
+      "section_path": "DOC-SPEC-008 > 24. Recipe Composition Rules",
+      "content": "PREPARE must complete before dependent FE operations.\n\nStateless FE operations may execute before/after split only when their semantics guarantee no leakage; default policy is to keep them inside the pipeline.\n\nLearned FE operations must be fit only on training data.\n\nSPLIT must precede model training.\n\nTRAIN must precede predictions and model-dependent metrics.\n\nEVALUATE may consume held-out predictions and labels.\n\nIndependent diagnostic computations may run in parallel after their dependencies are satisfied.\n\nEvery node must declare its artifact schema.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0029",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "25. Tech Stack",
+      "section_path": "DOC-SPEC-008 > 25. Tech Stack",
+      "content": "The exact versions should be frozen in `pyproject.toml`/lockfile after POC compatibility testing. scikit-learn's current pipeline model supports chained transformers and estimators and explicitly documents leakage-avoidance benefits of pipeline composition. citeturn0search5turn0search9",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Layer | Recommended Baseline | Purpose |\n| --- | --- | --- |\n| Runtime | Python 3.12.x | Recipe execution/orchestration |\n| DataFrames | Polars 1.x / pandas 2.x | Tabular transformations |\n| Columnar | Apache Arrow 18.x+ | Interchange |\n| Analytics | Apache DataFusion 46.x+ | Large analytical operations |\n| ML | scikit-learn 1.8.x | Classical ML pipelines |\n| Deep Learning | PyTorch 2.7+/2.8+ as required | Neural models |\n| Orchestration | Prefect 3.x or Apache Airflow 3.x | Execution scheduling |\n| Experiment tracking | MLflow 3.x | Runs, metrics, model artifacts |\n| API | FastAPI 0.1xx+ | Service API |\n| Schema | Pydantic 2.x / JSON Schema | Recipe contracts |\n| Registry | PostgreSQL 16.x+ | Recipe/version catalog |\n| Object storage | S3-compatible storage | Datasets/artifacts |\n| Container | Docker 27.x+ | Reproducibility |\n| Testing | pytest 8.x | Unit/integration tests |\n| Observability | OpenTelemetry | Tracing |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0030",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 2,
+      "heading_text": "26.1 POC",
+      "section_path": "DOC-SPEC-008 > 26.1 POC",
+      "content": "64-bit OS\n\nPython 3.12.x\n\n8 GB RAM minimum; 16 GB recommended\n\n4+ CPU cores\n\n10–50 GB working SSD\n\nDocker recommended",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0031",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 2,
+      "heading_text": "26.2 Production",
+      "section_path": "DOC-SPEC-008 > 26.2 Production",
+      "content": "16–64+ GB RAM depending on workloads\n\nGPU only for GPU recipes\n\nPostgreSQL\n\nObject storage\n\nWorker/scheduler\n\nRBAC/TLS\n\nresource quotas",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0032",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "27. Configuration",
+      "section_path": "DOC-SPEC-008 > 27. Configuration",
+      "content": "# config/recipe_orchestrator.yamlorchestrator:  version: \"1.0\"  recipe_registry_version: \"2026.08\"  deterministic: true  allow_agent_generated_recipes: false  require_manifest_binding: trueprepare:  max_drop_fraction: 0.02  quarantine_on_destructive_action: true  preserve_raw_artifact: truefeature_engineering:  leakage_guard: strict  max_features: 5000  fit_transform_scope: train_onlysplit:  default_train_fraction: 0.70  default_validation_fraction: 0.15  default_test_fraction: 0.15  temporal_if_timestamp: true  group_if_entity_key: trueevaluation:  require_predeclared_metrics: true  save_predictions: truelineage:  require_manifest_uid: true  require_input_hash: true  require_recipe_hash: true",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0033",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "28. CLI Commands",
+      "section_path": "DOC-SPEC-008 > 28. CLI Commands",
+      "content": "# Create environmentpython -m venv .venv.venv\\Scripts\\activate# Installpip install -r requirements.txt# Validate recipe registrypython -m recipe.cli registry validate --version 2026.08# Discover recipespython -m recipe.cli discover \\  --manifest ./manifests/manifest-ACX-MAN-00042.json \\  --dag ./plans/dag_plan.json# Compose recipe planpython -m recipe.cli compose \\  --manifest ./manifests/manifest-ACX-MAN-00042.json \\  --dag ./plans/dag_plan.json# Validate planpython -m recipe.cli validate   --plan ./plans/ACX-RCP-00042.json# Executepython -m recipe.cli run   --plan ./plans/ACX-RCP-00042.json# Generate stage reportpython -m recipe.cli report   --run ACX-RUN-00042# Testspytest -q",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0034",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "29. Directory Architecture",
+      "section_path": "DOC-SPEC-008 > 29. Directory Architecture",
+      "content": "ai-connex-data-studio-recipe/|+-- app/|   +-- main.py|   +-- api/|       +-- recipes.py|       +-- compose.py|       +-- runs.py|       +-- reports.py|+-- recipe/|   +-- registry.py|   +-- selector.py|   +-- capability.py|   +-- composer.py|   +-- binder.py|   +-- lineage.py|   +-- validator.py|   +-- leakage_guard.py|   +-- split_policy.py|   +-- metrics.py|   +-- executor.py|+-- recipes/|   +-- prepare/|   +-- feature_engineering/|   +-- stem/|+-- registry/|   +-- recipes_2026.08.json|   +-- recipe.schema.json|+-- manifests/+-- plans/+-- runs/+-- artifacts/+-- reports/+-- config/|   +-- recipe_orchestrator.yaml|+-- schemas/|   +-- recipe_plan.schema.json|   +-- artifact.schema.json|   +-- report_3.schema.json|+-- tests/|   +-- unit/|   +-- integration/|   +-- leakage/|   +-- fixtures/|+-- requirements.txt+-- pyproject.toml+-- Dockerfile+-- docker-compose.yml",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0035",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "30. APIs",
+      "section_path": "DOC-SPEC-008 > 30. APIs",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Method | Endpoint | Purpose |\n| --- | --- | --- |\n| GET | /v1/recipes | List/filter recipes |\n| GET | /v1/recipes/{recipe_id} | Get recipe contract |\n| POST | /v1/recipes/discover | Find compatible recipes |\n| POST | /v1/recipes/compose | Compose PREPARE+FE+STEM |\n| POST | /v1/recipes/validate | Validate recipe plan |\n| POST | /v1/runs | Create execution run |\n| GET | /v1/runs/{run_id} | Run status |\n| GET | /v1/runs/{run_id}/artifacts | Artifact lineage |\n| GET | /v1/runs/{run_id}/report | Compliance report |\n| GET | /health | Health check |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0036",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "31. Compose API Example",
+      "section_path": "DOC-SPEC-008 > 31. Compose API Example",
+      "content": "POST /v1/recipes/compose{  \"manifest_uid\": \"ACX-MAN-00042\",  \"dag_run_id\": \"ACX-RUN-DAG-00042\",  \"recipe_registry_version\": \"2026.08\"}Response:{  \"recipe_plan_uid\": \"ACX-RCP-00042\",  \"manifest_uid\": \"ACX-MAN-00042\",  \"status\": \"VALIDATED\",  \"stages\": [\"PREPARE\",\"FE\",\"STEM\"],  \"artifact\": \"plans/ACX-RCP-00042.json\"}",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0037",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "32. Compliance Report #3 — Recipe Orchestrator",
+      "section_path": "DOC-SPEC-008 > 32. Compliance Report #3 — Recipe Orchestrator",
+      "content": "For consistency with the existing AI-ConneX documentation convention, this stage generates Report #3. The report should explicitly identify this as the Recipe Orchestration sub-stage under Data Studio and should not be confused with the earlier DAG-discovery report. If the organization later separates these controls, the report can be renamed Report #4 without changing the underlying contract.\n\n{  \"report_id\": \"ACX-REP-3-RCP-00042\",  \"stage\": \"DATA_STUDIO_RECIPE_ORCHESTRATOR\",  \"status\": \"SUCCESS\",  \"inputs\": {    \"manifest_uid\": \"ACX-MAN-00042\",    \"dag_run_id\": \"ACX-RUN-DAG-00042\",    \"intent_uid\": \"ACX-INT-00042\"  },  \"registry\": {    \"recipe_registry_version\": \"2026.08\",    \"recipe_registry_hash\": \"sha256:...\"  },  \"selection\": {    \"prepare\": [\"PREP-...\"],    \"feature_engineering\": [\"FE-...\"],    \"stem\": [\"STEM-SPLIT-...\", \"STEM-TRAIN-...\", \"STEM-EVAL-...\"]  },  \"validation\": {    \"manifest_binding\": \"PASS\",    \"dependency_graph\": \"PASS\",    \"leakage_policy\": \"PASS\",    \"schema\": \"PASS\",    \"resource_policy\": \"PASS\"  },  \"artifacts\": {    \"recipe_plan\": \"plans/ACX-RCP-00042.json\"  }}",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0038",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "33. Report #3 Mandatory Evidence",
+      "section_path": "DOC-SPEC-008 > 33. Report #3 Mandatory Evidence",
+      "content": "Manifest UID and input hashes.\n\nChatbot Intent UID.\n\nProfiler/Profile UID.\n\nSelected DAG ID and registry version.\n\nRecipe registry version/hash.\n\nEvery selected recipe ID/version.\n\nRecipe parameters.\n\nDependency graph.\n\nSplit policy.\n\nLeakage controls.\n\nFeature lineage.\n\nMetrics policy.\n\nResource requirements.\n\nValidation results.\n\nProduced artifact hashes.\n\nExecution status and failure reasons.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0039",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "34. End-to-End Example",
+      "section_path": "DOC-SPEC-008 > 34. End-to-End Example",
+      "content": "USER INTENT  predict machine failure        |        vMANIFEST  binary failure target  timestamp  vibration/temp/rpm        |        vDAG  F1 classification  F5 time-series        |        vRECIPE ORCHESTRATORPREPARE:  validate schema  normalize timestamps  impute missing sensor values  preserve machine/entity IDsFE:  lag features  rolling statistics  machine encodingSTEM:  chronological split  train selected classifier  predict held-out set  evaluate:    precision    recall    F1    PR-AUC        |        vBIND TO MANIFEST        |        +--> recipe_plan.json        +--> prepared artifact        +--> feature artifact        +--> model artifact        +--> metrics.json        +--> report_3.json",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0040",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "35. POC",
+      "section_path": "DOC-SPEC-008 > 35. POC",
+      "content": "The POC should begin with three controlled recipe families and synthetic industrial datasets, then introduce realistic sensor and maintenance data. Each POC case should have an expected recipe graph so that automated regression testing can verify the orchestrator.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| POC Case | Expected Pipeline |\n| --- | --- |\n| Binary machine failure | PREPARE → temporal FE → temporal split → classifier → F1/PR-AUC |\n| Energy consumption regression | PREPARE → lag/rolling FE → time split → regressor → MAE/RMSE |\n| Anomaly detection | PREPARE → sensor normalization → anomaly features → temporal holdout → anomaly metrics |\n| Text maintenance reports | PREPARE → text normalization → TF-IDF/embedding → split → classifier → F1 |\n| Image inspection | PREPARE → image validation → image transform → split → vision model → classification metrics |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0041",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "36. POC Acceptance Criteria",
+      "section_path": "DOC-SPEC-008 > 36. POC Acceptance Criteria",
+      "content": "Every executed recipe is present in the approved registry.\n\nEvery recipe is compatible with its declared input/output contract.\n\nEvery run is linked to exactly one manifest UID.\n\nAll model-fitting transformations are leakage-safe.\n\nTemporal datasets use an approved temporal split.\n\nMetrics are declared before model evaluation.\n\nArtifacts can be traced backward through every recipe to the compiled dataset.\n\nRerunning the same plan with the same data/configuration produces reproducible results within declared numerical tolerance.\n\nFailure at any recipe node produces a structured failure report rather than a partially trusted final model.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0042",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "37. Research Evaluation Metrics",
+      "section_path": "DOC-SPEC-008 > 37. Research Evaluation Metrics",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Metric | Purpose |\n| --- | --- |\n| Recipe selection accuracy | Correct recipe chosen for known benchmark scenarios |\n| Graph validity rate | Valid recipe DAGs / generated plans |\n| Leakage detection rate | Known leakage cases correctly blocked |\n| Artifact lineage completeness | Artifacts with complete provenance / artifacts |\n| Execution success rate | Successful runs / valid plans |\n| Reproducibility rate | Equivalent repeated runs / repeated runs |\n| Metric correctness | Expected metrics correctly calculated |\n| Runtime overhead | Orchestration overhead vs direct execution |\n| Resource prediction error | Predicted vs actual resource use |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0043",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "38. Research Hypotheses",
+      "section_path": "DOC-SPEC-008 > 38. Research Hypotheses",
+      "content": "H1: Profile- and DAG-aware recipe selection reduces invalid preprocessing operations compared with generic pipelines.\n\nH2: Explicit leakage controls reduce target/temporal leakage in industrial ML workflows.\n\nH3: Registry-constrained recipe composition improves reproducibility compared with agent-generated code.\n\nH4: Manifest-linked artifact lineage improves auditability and debugging.\n\nH5: Predeclared task-aware metrics reduce evaluation ambiguity and metric misuse.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0044",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "39. Research-Paper References",
+      "section_path": "DOC-SPEC-008 > 39. Research-Paper References",
+      "content": "Pedregosa et al. (2011), Scikit-learn: Machine Learning in Python, Journal of Machine Learning Research, 12, 2825–2830.\n\nFeurer et al. (2015), Efficient and Robust Automated Machine Learning, NeurIPS.\n\nThornton et al. (2013), Auto-WEKA: Combined Selection and Hyperparameter Optimization of Classification Algorithms, KDD.\n\nVanschoren et al. (2014), OpenML: Networked Science in Machine Learning, SIGKDD Explorations.\n\nRahm & Bernstein (2001), A Survey of Approaches to Automatic Schema Matching, VLDB Journal.\n\nApache Airflow documentation — DAG-based workflow orchestration.\n\nPrefect documentation — workflow orchestration and task execution.\n\nMLflow documentation — experiment tracking, model lifecycle and artifacts.\n\nApache Arrow documentation — columnar data representation.\n\nApache DataFusion documentation — analytical query/execution engine.\n\nGreat Expectations documentation — data quality validation.\n\nThe scikit-learn Pipeline documentation is particularly relevant to the FE/STEM design because it documents sequential transformers followed by an estimator and explains that pipeline composition can prevent leakage from held-out data. citeturn0search0turn0search9",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0045",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "40. Security and Compliance",
+      "section_path": "DOC-SPEC-008 > 40. Security and Compliance",
+      "content": "Recipe registry is read-only during execution.\n\nProduction recipes are signed/versioned artifacts.\n\nAgent tools are allow-listed.\n\nRecipe parameters are schema-validated.\n\nNo arbitrary shell/code execution from user text.\n\nSecrets are injected through a secret manager, never stored in recipe definitions.\n\nArtifacts inherit manifest access controls.\n\nAll execution events are audit logged.\n\nRaw input artifacts remain immutable.\n\nDestructive PREPARE operations produce quarantine artifacts and evidence.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0046",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "41. Observability",
+      "section_path": "DOC-SPEC-008 > 41. Observability",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Signal | Example |\n| --- | --- |\n| Run ID | ACX-RUN-00042 |\n| Recipe ID/version | FE-ROLLING-004@2.0.1 |\n| Manifest UID | ACX-MAN-00042 |\n| Input hash | sha256:... |\n| Output hash | sha256:... |\n| Duration | seconds |\n| Rows in/out | 999842 → 999100 |\n| Features in/out | 24 → 143 |\n| Resource use | CPU/RAM/GPU |\n| Status | SUCCESS/FAILED/QUARANTINED |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0047",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "42. Failure Handling",
+      "section_path": "DOC-SPEC-008 > 42. Failure Handling",
+      "content": "Recipe failure    |    +--> retryable? ---- YES ---> retry with policy    |                         |    |                         v    |                    success -> continue    |    +--> NO -----------------> quarantine                                  |                                  +--> failure report                                  +--> preserve inputs                                  +--> preserve logs                                  +--> no downstream promotion\n\nA failed PREPARE or FE artifact must never silently flow into STEM. Promotion requires the artifact contract and validation status to be PASS.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0048",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "43. Artifact Promotion",
+      "section_path": "DOC-SPEC-008 > 43. Artifact Promotion",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Artifact | Promotion Condition |\n| --- | --- |\n| Prepared dataset | Schema + quality checks pass |\n| Feature dataset | Feature contract + leakage check pass |\n| Training model | Training completed + model contract pass |\n| Metrics | Declared metrics successfully computed |\n| Final run | All required nodes PASS |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0049",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "44. Recommended R&D Roadmap",
+      "section_path": "DOC-SPEC-008 > 44. Recommended R&D Roadmap",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Phase | Deliverable |\n| --- | --- |\n| R0 | Freeze recipe schema and registry governance |\n| R1 | Implement PREPARE recipe engine |\n| R2 | Implement FE capability and leakage guards |\n| R3 | Implement split policies |\n| R4 | Implement STEM training/evaluation adapters |\n| R5 | Implement manifest binding and lineage |\n| R6 | Integrate agent helper |\n| R7 | Build POC benchmark suite |\n| R8 | Run ablation/reproducibility experiments |\n| R9 | Production hardening and paper |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0050",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "45. Final Architecture Principle",
+      "section_path": "DOC-SPEC-008 > 45. Final Architecture Principle",
+      "content": "The Recipe Orchestrator is the bridge between 'which workflow should be used?' and 'how exactly will that workflow be executed on this industrial dataset?'. The DAG stage chooses the computational direction; the Recipe Orchestrator translates that direction into controlled PREPARE, FE and STEM operations; the manifest binds the complete chain into one auditable execution identity.\n\nThe key architectural rule is: **DAGs choose the computational strategy; recipes define the implementation; manifests define the identity and provenance; the execution engine performs only validated recipes.**",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0051",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "Appendix A — Artifact Chain",
+      "section_path": "DOC-SPEC-008 > Appendix A — Artifact Chain",
+      "content": "Chatbot  intent-ACX-INT-00042.jsonCompiler  dataset.parquet  schema.json  lineage.json  report_1.jsonProfiler  profile.json  manifest-ACX-MAN-00042.jsonDAG  dag_plan.json  report_3_dag.jsonRecipe Orchestrator  recipe_plan.json  report_3_recipe.json  prepared_dataset  feature_dataset  model  metrics  lineageExecution  run manifest  logs  final model package",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0052",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "Appendix B — UID Relationship",
+      "section_path": "DOC-SPEC-008 > Appendix B — UID Relationship",
+      "content": "ACX-INT-00042      |      vACX-MAN-00042      |      +--> ACX-PROF-XXXX      |      +--> ACX-RUN-DAG-00042                 |                 v          ACX-RCP-00042                 |                 v          ACX-RUN-00042",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-008-0053",
+      "document_id": "DOC-DOC-SPEC-008-V1",
+      "heading_level": 1,
+      "heading_text": "Appendix C — Important Clarification on Stage Naming",
+      "section_path": "DOC-SPEC-008 > Appendix C — Important Clarification on Stage Naming",
+      "content": "The requested description calls this 'Data Studio's DAG', but architecturally it is better represented as a sub-stage after DAG discovery: **DAG Execution / Recipe Orchestrator**. The previous DAG Engine discovers and selects Family/DAG IDs; this Recipe Orchestrator pulls PREPARE/FE/STEM recipes and materializes the selected DAG into an executable run plan. Keeping those responsibilities separate prevents DAG discovery from becoming coupled to implementation details.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    }
+  ],
+  "extracted_slas": [
+    {
+      "sla_id": "SLA-MEM-DOC-SPEC-008-01",
+      "component_name": "RecipeOrchestrator",
+      "metric_name": "max_memory_mb",
+      "target_value": 16384.0,
+      "unit": "MB",
+      "comparison_op": "<=",
+      "workload_condition": "RAM minimum; 16 GB",
+      "severity_on_breach": "warning",
+      "source_spec_id": "DOC-SPEC-008"
+    }
+  ]
+}

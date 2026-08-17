@@ -1,0 +1,49 @@
+# aiconnex_knowledge/03_deterministic/registries/required_fields.yaml
+# ================================================
+# Required Fields Registry — Pre-Upload v1 Architecture
+#
+# Single source of truth for "which CUC fields must be filled before the
+# system can advise the user to upload a dataset." Mirrors the exact logic
+# previously hardcoded in aiconnex_agent/parser/cuc_completion.py, moved to
+# data so rules can change without touching Python.
+#
+# field: dotted path into ConversationUnderstandingContract (CUC)
+# rule:  how "filled" is evaluated for this field
+#   - not_default: value must not equal `default_value`
+#   - non_empty:   value must be a non-empty string/list
+#   - min_value:   numeric value must be >= `threshold`
+#
+# NOTE: dataset_expectation fields are deliberately NOT listed here.
+# Scout auto-detects file type / schema post-upload — requiring them
+# conversationally would recreate the over-questioning this rebuild removes.
+
+pre_upload:
+  required:
+    - field: goal.primary_intent
+      rule: not_default
+      default_value: general
+      description: >
+        The primary task (e.g. 'predict remaining useful life',
+        'detect anomalies', 'classify failures')
+
+    - field: goal.task_family
+      rule: non_empty
+      description: >
+        The problem type (e.g. 'regression', 'anomaly detection',
+        'classification', 'forecasting')
+
+    - field: goal.confidence
+      rule: min_value
+      threshold: 0.85
+      description: >
+        More detail is needed to reach the required extraction confidence.
+
+  optional:
+    - field: dataset_expectation.expected_dataset_type
+      description: Auto-detected by Scout post-upload; not conversationally required.
+    - field: dataset_expectation.expected_file_types
+      description: Auto-detected by Scout post-upload; not conversationally required.
+    - field: inferred.industry
+      description: Useful context, not a hard gate.
+    - field: constraints.preferred_algorithm
+      description: Nice-to-have, refined later during HITL/recipe selection.

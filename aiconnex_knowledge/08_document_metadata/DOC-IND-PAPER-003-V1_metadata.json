@@ -1,0 +1,13 @@
+{
+  "document_id": "DOC-IND-PAPER-003-V1",
+  "source_id": "SRC-IND-PAPER-003",
+  "title": "Polenghi et al. Knowledge Reuse for Asset Management & PHM",
+  "version": "2023",
+  "document_type": "pdf",
+  "content_hash": "b389b374e1007a8884c7f6253bd7c223ca96f81c2e4ec7811f93dd379eedbb97",
+  "page_count": 39,
+  "total_sections": 18,
+  "total_words": 15813,
+  "storage_uri": "s3://aiconnex-platform-kb-prod/industrial/Polenghi_Knowledge_Reuse_Asset_Management.pdf",
+  "created_at": "2026-08-14T08:41:27.582202+00:00"
+}

@@ -1,0 +1,92 @@
+[
+  {
+    "source": "Plant",
+    "relation": "contains",
+    "target": "Asset"
+  },
+  {
+    "source": "Asset",
+    "relation": "contains",
+    "target": "Equipment"
+  },
+  {
+    "source": "Equipment",
+    "relation": "contains",
+    "target": "Component"
+  },
+  {
+    "source": "Equipment",
+    "relation": "monitored_by",
+    "target": "Sensor"
+  },
+  {
+    "source": "Equipment",
+    "relation": "has_failure_mode",
+    "target": "Failure Mode"
+  },
+  {
+    "source": "Equipment",
+    "relation": "operates_in",
+    "target": "Operating Mode"
+  },
+  {
+    "source": "Component",
+    "relation": "has_failure_mode",
+    "target": "Failure Mode"
+  },
+  {
+    "source": "Sensor",
+    "relation": "measures",
+    "target": "Parameter"
+  },
+  {
+    "source": "Parameter",
+    "relation": "produces",
+    "target": "Measurement"
+  },
+  {
+    "source": "Failure Mode",
+    "relation": "indicated_by",
+    "target": "Measurement"
+  },
+  {
+    "source": "Failure Mode",
+    "relation": "addressed_by",
+    "target": "Maintenance Action"
+  },
+  {
+    "source": "Failure Mode",
+    "relation": "results_in",
+    "target": "Failure"
+  },
+  {
+    "source": "Degradation",
+    "relation": "leads_to",
+    "target": "Failure Mode"
+  },
+  {
+    "source": "Degradation",
+    "relation": "tracked_by",
+    "target": "Health Indicator"
+  },
+  {
+    "source": "Maintenance Event",
+    "relation": "executes",
+    "target": "Maintenance Action"
+  },
+  {
+    "source": "Measurement",
+    "relation": "processed_by",
+    "target": "Method"
+  },
+  {
+    "source": "Method",
+    "relation": "estimates",
+    "target": "Health Indicator"
+  },
+  {
+    "source": "Dataset",
+    "relation": "contains_data_for",
+    "target": "Equipment"
+  }
+]

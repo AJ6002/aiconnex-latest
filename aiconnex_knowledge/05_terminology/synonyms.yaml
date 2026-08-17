@@ -1,0 +1,338 @@
+synonyms_map:
+  supervisory control and data acquisition:
+    canonical_term_id: TERM-SCADA-SCADA
+    canonical_name: Supervisory Control and Data Acquisition
+    match_type: exact
+  scada:
+    canonical_term_id: TERM-SCADA-SCADA
+    canonical_name: Supervisory Control and Data Acquisition
+    match_type: synonym
+  programmable logic controller:
+    canonical_term_id: TERM-SCADA-PLC
+    canonical_name: Programmable Logic Controller
+    match_type: exact
+  plc:
+    canonical_term_id: TERM-SCADA-PLC
+    canonical_name: Programmable Logic Controller
+    match_type: synonym
+  distributed control system:
+    canonical_term_id: TERM-SCADA-DCS
+    canonical_name: Distributed Control System
+    match_type: exact
+  dcs:
+    canonical_term_id: TERM-SCADA-DCS
+    canonical_name: Distributed Control System
+    match_type: synonym
+  human-machine interface:
+    canonical_term_id: TERM-SCADA-HMI
+    canonical_name: Human-Machine Interface
+    match_type: exact
+  hmi:
+    canonical_term_id: TERM-SCADA-HMI
+    canonical_name: Human-Machine Interface
+    match_type: synonym
+  remote terminal unit:
+    canonical_term_id: TERM-SCADA-RTU
+    canonical_name: Remote Terminal Unit
+    match_type: exact
+  rtu:
+    canonical_term_id: TERM-SCADA-RTU
+    canonical_name: Remote Terminal Unit
+    match_type: synonym
+  artificial intelligence:
+    canonical_term_id: TERM-AI/ML-AI
+    canonical_name: Artificial Intelligence
+    match_type: exact
+  ai:
+    canonical_term_id: TERM-AI/ML-AI
+    canonical_name: Artificial Intelligence
+    match_type: synonym
+  machine learning:
+    canonical_term_id: TERM-AI/ML-ML
+    canonical_name: Machine Learning
+    match_type: exact
+  ml:
+    canonical_term_id: TERM-AI/ML-ML
+    canonical_name: Machine Learning
+    match_type: synonym
+  supervised learning:
+    canonical_term_id: TERM-AI/ML-SL
+    canonical_name: Supervised Learning
+    match_type: exact
+  sl:
+    canonical_term_id: TERM-AI/ML-SL
+    canonical_name: Supervised Learning
+    match_type: synonym
+  unsupervised learning:
+    canonical_term_id: TERM-AI/ML-UL
+    canonical_name: Unsupervised Learning
+    match_type: exact
+  ul:
+    canonical_term_id: TERM-AI/ML-UL
+    canonical_name: Unsupervised Learning
+    match_type: synonym
+  prognostics and health management:
+    canonical_term_id: TERM-PHM-PHM
+    canonical_name: Prognostics and Health Management
+    match_type: exact
+  phm:
+    canonical_term_id: TERM-PHM-PHM
+    canonical_name: Prognostics and Health Management
+    match_type: synonym
+  manufacturing operations:
+    canonical_term_id: TERM-Manufacturing-MO
+    canonical_name: Manufacturing Operations
+    match_type: exact
+  mo:
+    canonical_term_id: TERM-Manufacturing-MO
+    canonical_name: Manufacturing Operations
+    match_type: synonym
+  total dissolved solids:
+    canonical_term_id: WQ.TDS
+    canonical_name: Total Dissolved Solids
+    match_type: exact
+  tds:
+    canonical_term_id: WQ.TDS
+    canonical_name: Total Dissolved Solids
+    match_type: synonym
+  total_dissolved_solids:
+    canonical_term_id: WQ.TDS
+    canonical_name: Total Dissolved Solids
+    match_type: synonym
+  tds_mg_l:
+    canonical_term_id: WQ.TDS
+    canonical_name: Total Dissolved Solids
+    match_type: synonym
+  chemical oxygen demand:
+    canonical_term_id: WQ.COD
+    canonical_name: Chemical Oxygen Demand
+    match_type: exact
+  cod:
+    canonical_term_id: WQ.COD
+    canonical_name: Chemical Oxygen Demand
+    match_type: synonym
+  chemical_oxygen_demand:
+    canonical_term_id: WQ.COD
+    canonical_name: Chemical Oxygen Demand
+    match_type: synonym
+  cod_ppm:
+    canonical_term_id: WQ.COD
+    canonical_name: Chemical Oxygen Demand
+    match_type: synonym
+  biochemical oxygen demand:
+    canonical_term_id: WQ.BOD
+    canonical_name: Biochemical Oxygen Demand
+    match_type: exact
+  bod:
+    canonical_term_id: WQ.BOD
+    canonical_name: Biochemical Oxygen Demand
+    match_type: synonym
+  biochemical_oxygen_demand:
+    canonical_term_id: WQ.BOD
+    canonical_name: Biochemical Oxygen Demand
+    match_type: synonym
+  bod5:
+    canonical_term_id: WQ.BOD
+    canonical_name: Biochemical Oxygen Demand
+    match_type: synonym
+  dissolved oxygen:
+    canonical_term_id: WQ.DO
+    canonical_name: Dissolved Oxygen
+    match_type: exact
+  do:
+    canonical_term_id: WQ.DO
+    canonical_name: Dissolved Oxygen
+    match_type: synonym
+  dissolved_oxygen:
+    canonical_term_id: WQ.DO
+    canonical_name: Dissolved Oxygen
+    match_type: synonym
+  do_mg_l:
+    canonical_term_id: WQ.DO
+    canonical_name: Dissolved Oxygen
+    match_type: synonym
+  total suspended solids:
+    canonical_term_id: WQ.TSS
+    canonical_name: Total Suspended Solids
+    match_type: exact
+  tss:
+    canonical_term_id: WQ.TSS
+    canonical_name: Total Suspended Solids
+    match_type: synonym
+  total_suspended_solids:
+    canonical_term_id: WQ.TSS
+    canonical_name: Total Suspended Solids
+    match_type: synonym
+  effluent treatment plant:
+    canonical_term_id: WQ.ETP
+    canonical_name: Effluent Treatment Plant
+    match_type: exact
+  etp:
+    canonical_term_id: WQ.ETP
+    canonical_name: Effluent Treatment Plant
+    match_type: synonym
+  effluent_plant:
+    canonical_term_id: WQ.ETP
+    canonical_name: Effluent Treatment Plant
+    match_type: synonym
+  remaining useful life:
+    canonical_term_id: PHM.RUL
+    canonical_name: Remaining Useful Life
+    match_type: exact
+  rul:
+    canonical_term_id: PHM.RUL
+    canonical_name: Remaining Useful Life
+    match_type: synonym
+  remaining_useful_life:
+    canonical_term_id: PHM.RUL
+    canonical_name: Remaining Useful Life
+    match_type: synonym
+  rul_hours:
+    canonical_term_id: PHM.RUL
+    canonical_name: Remaining Useful Life
+    match_type: synonym
+  rul_cycles:
+    canonical_term_id: PHM.RUL
+    canonical_name: Remaining Useful Life
+    match_type: synonym
+  predictive maintenance:
+    canonical_term_id: PHM.PDM
+    canonical_name: Predictive Maintenance
+    match_type: exact
+  pdm:
+    canonical_term_id: PHM.PDM
+    canonical_name: Predictive Maintenance
+    match_type: synonym
+  predictive_maintenance:
+    canonical_term_id: PHM.PDM
+    canonical_name: Predictive Maintenance
+    match_type: synonym
+  condition_based_maintenance:
+    canonical_term_id: PHM.PDM
+    canonical_name: Predictive Maintenance
+    match_type: synonym
+  cbm:
+    canonical_term_id: PHM.PDM
+    canonical_name: Predictive Maintenance
+    match_type: synonym
+  mean time between failures:
+    canonical_term_id: PHM.MTBF
+    canonical_name: Mean Time Between Failures
+    match_type: exact
+  mtbf:
+    canonical_term_id: PHM.MTBF
+    canonical_name: Mean Time Between Failures
+    match_type: synonym
+  mean_time_between_failures:
+    canonical_term_id: PHM.MTBF
+    canonical_name: Mean Time Between Failures
+    match_type: synonym
+  mean time to repair:
+    canonical_term_id: PHM.MTTR
+    canonical_name: Mean Time To Repair
+    match_type: exact
+  mttr:
+    canonical_term_id: PHM.MTTR
+    canonical_name: Mean Time To Repair
+    match_type: synonym
+  mean_time_to_repair:
+    canonical_term_id: PHM.MTTR
+    canonical_name: Mean Time To Repair
+    match_type: synonym
+  failure mode and effects analysis:
+    canonical_term_id: PHM.FMEA
+    canonical_name: Failure Mode and Effects Analysis
+    match_type: exact
+  fmea:
+    canonical_term_id: PHM.FMEA
+    canonical_name: Failure Mode and Effects Analysis
+    match_type: synonym
+  fmeca:
+    canonical_term_id: PHM.FMEA
+    canonical_name: Failure Mode and Effects Analysis
+    match_type: synonym
+  failure_mode_effects_analysis:
+    canonical_term_id: PHM.FMEA
+    canonical_name: Failure Mode and Effects Analysis
+    match_type: synonym
+  process variable tag:
+    canonical_term_id: SCADA.TAG
+    canonical_name: Process Variable Tag
+    match_type: exact
+  tag:
+    canonical_term_id: SCADA.TAG
+    canonical_name: Process Variable Tag
+    match_type: synonym
+  scada_tag:
+    canonical_term_id: SCADA.TAG
+    canonical_name: Process Variable Tag
+    match_type: synonym
+  process_tag:
+    canonical_term_id: SCADA.TAG
+    canonical_name: Process Variable Tag
+    match_type: synonym
+  process variable:
+    canonical_term_id: SCADA.PV
+    canonical_name: Process Variable
+    match_type: exact
+  pv:
+    canonical_term_id: SCADA.PV
+    canonical_name: Process Variable
+    match_type: synonym
+  process_variable:
+    canonical_term_id: SCADA.PV
+    canonical_name: Process Variable
+    match_type: synonym
+  setpoint:
+    canonical_term_id: SCADA.SP
+    canonical_name: Setpoint
+    match_type: exact
+  sp:
+    canonical_term_id: SCADA.SP
+    canonical_name: Setpoint
+    match_type: synonym
+  target_value:
+    canonical_term_id: SCADA.SP
+    canonical_name: Setpoint
+    match_type: synonym
+  process historian:
+    canonical_term_id: SCADA.HISTORIAN
+    canonical_name: Process Historian
+    match_type: exact
+  historian:
+    canonical_term_id: SCADA.HISTORIAN
+    canonical_name: Process Historian
+    match_type: synonym
+  data_historian:
+    canonical_term_id: SCADA.HISTORIAN
+    canonical_name: Process Historian
+    match_type: synonym
+  process_historian:
+    canonical_term_id: SCADA.HISTORIAN
+    canonical_name: Process Historian
+    match_type: synonym
+related_concepts_map:
+  COD:
+    canonical_term_id: WQ.COD
+    canonical_name: Chemical Oxygen Demand
+    related_concepts:
+    - term_id: WQ.BOD
+      canonical_name: Biochemical Oxygen Demand
+      relationship: same_domain_as
+    - term_id: WQ.TDS
+      canonical_name: Total Dissolved Solids
+      relationship: same_domain_as
+  BOD:
+    canonical_term_id: WQ.BOD
+    canonical_name: Biochemical Oxygen Demand
+    related_concepts:
+    - term_id: WQ.COD
+      canonical_name: Chemical Oxygen Demand
+      relationship: same_domain_as
+  RUL:
+    canonical_term_id: PHM.RUL
+    canonical_name: Remaining Useful Life
+    related_concepts:
+    - term_id: PHM.PDM
+      canonical_name: Predictive Maintenance
+      relationship: used_for

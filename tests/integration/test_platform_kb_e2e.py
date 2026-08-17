@@ -81,7 +81,7 @@ def test_v2_source_register_integrity():
     assert len(lines) >= 14
 
     for rec in records:
-        assert rec.source_id.startswith(("PLAT-", "DATA-", "IND-", "SRC-IND-"))
+        assert rec.source_id.startswith(("PLAT-", "DATA-", "IND-", "SRC-IND-", "DOC-", "STD-", "EQP-", "ML-", "TENANT-"))
         assert rec.title != ""
         assert rec.authority_level in ("A", "B", "C")
 

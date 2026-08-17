@@ -1,0 +1,567 @@
+{
+  "document_id": "DOC-DOC-SPEC-015-V1",
+  "source_id": "DOC-SPEC-015",
+  "title": "AI-ConneX Agentic Studio RAG KG KnowledgeBase Telemetry Models Tools Documentation",
+  "studio": "AgenticStudio",
+  "category": "Architecture",
+  "target_subsystems": [
+    "ContextBuilder",
+    "RetrievalService",
+    "KnowledgeGraphEngine",
+    "TelemetryTracker"
+  ],
+  "summary": "Unified Knowledge Base, RAG retrieval engine, Neo4j graph integration, and real-time telemetry tracing specifications.",
+  "sha256": "969797d345faefac61504e18c3f370f429dce9b8e1da14f75ed85f25cfe4d149",
+  "file_size_bytes": 51807,
+  "statistics": {
+    "headings_count": 43,
+    "paragraphs_count": 127,
+    "tables_count": 17,
+    "sections_count": 44,
+    "estimated_words": 4245
+  },
+  "sections": [
+    {
+      "section_id": "SEC-DOC-SPEC-015-0001",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "Overview",
+      "section_path": "DOC-SPEC-015 > Overview",
+      "content": "AI-ConneX\n\nAGENTIC STUDIO — KNOWLEDGE & EXECUTION FOUNDATION\n\nRAG • Knowledge Graph • Knowledge Base • Telemetry • Models • ToolsR&D • Failure Analysis • Architecture • POC • Compliance Report #5Version 1.0 | 14 August 2026",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0002",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "Document Control",
+      "section_path": "DOC-SPEC-015 > Document Control",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Field | Definition |\n| --- | --- |\n| System | AI-ConneX — Industrial Solutions Platform |\n| Studio | Agentic Studio |\n| Stage | Knowledge, Context and Capability Foundation |\n| Components | RAG, Knowledge Graph, Knowledge Base, Telemetry, Models, Tools |\n| Previous stage | Jane / Chatbot + Agent Builder / Agent SPEC |\n| Execution consumer | Agent Runtime |\n| Primary purpose | Give agents grounded, current, typed and authorized knowledge/capabilities |\n| Report | Compliance / Engineering Report #5 |\n| Status | Reference architecture / implementation baseline |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0003",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "1. Executive Summary",
+      "section_path": "DOC-SPEC-015 > 1. Executive Summary",
+      "content": "This stage is the information-and-capability foundation used by Agentic Studio. It does not simply give an LLM 'more data'. It creates six controlled planes: Knowledge Base for authoritative source material; RAG for semantic retrieval; Knowledge Graph for relationships and topology; Telemetry for time-sensitive operational state; Models for evaluated predictive/analytical capabilities; and Tools for bounded actions.\n\nThe design principle is: knowledge informs, telemetry contextualizes, models estimate, tools act, and the Agent SPEC + Policy decide what the Runtime is allowed to do.\n\nAGENT SPEC                        |                        v                  AGENT RUNTIME                        |        +---------------+----------------+        |       CONTEXT ORCHESTRATOR     |        +---+---------+--------+---------+            |         |        |            RAG       KG    TELEMETRY            |         |        |           KB     topology   live state            |         |        |            +---------+--------+                      |                    MODELS                      |                 typed proposal                      |                    TOOLS                      |                Tool Gateway                      |                INDUSTRIAL SYSTEMS",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0004",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "2. Why Six Components Instead of One Vector Database",
+      "section_path": "DOC-SPEC-015 > 2. Why Six Components Instead of One Vector Database",
+      "content": "A vector index alone cannot reliably represent current asset state, causal/structural relationships, authorization, or executable capabilities. AI-ConneX therefore treats retrieval, graph traversal, telemetry, inference and action as different contracts.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Need | Primary source | Why |\n| --- | --- | --- |\n| Authoritative documents | Knowledge Base | Preserves source/version/authority |\n| Semantic similarity | RAG | Finds relevant passages |\n| Relationships/topology | Knowledge Graph | Answers connected questions |\n| Current machine state | Telemetry | Provides time-sensitive evidence |\n| Prediction/estimation | Models | Computes learned outputs |\n| Side effects | Tools | Executes explicit capabilities |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0005",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "3. R&D Problem Statement",
+      "section_path": "DOC-SPEC-015 > 3. R&D Problem Statement",
+      "content": "Industrial agents need answers that are simultaneously relevant, attributable, structurally correct, current, and actionable. Research therefore focuses on preventing five common substitutions: using similarity for truth, documents for live state, graph edges for causal certainty, model predictions for authorization, and tools as unrestricted functions.\n\nCan retrieval be grounded to authoritative, versioned sources?\n\nCan graph relationships complement semantic retrieval without becoming a hallucination amplifier?\n\nCan live telemetry be freshness-aware and separated from static knowledge?\n\nCan models be consumed through strict input/output contracts?\n\nCan tools be capability-limited and policy-enforced?\n\nCan all evidence and actions be traced to the exact agent execution?",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0006",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "4. Architectural Principles",
+      "section_path": "DOC-SPEC-015 > 4. Architectural Principles",
+      "content": "Authority is explicit: source authority is metadata, not inferred from similarity.\n\nFreshness is explicit: telemetry has timestamps, quality and maximum age.\n\nRelationships are explicit: graph edges carry provenance and confidence.\n\nModels are not authorities: predictions require model/version and context.\n\nTools are not knowledge: a tool is a capability with a schema and side-effect classification.\n\nUntrusted retrieved text cannot change policy, permissions or SPEC.\n\nEvery result carries provenance sufficient for replay and audit.\n\nTenant/site/asset scope is applied before retrieval, graph traversal, inference or tool execution.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0007",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "5. Input From Previous Stage — Jane / Chatbot",
+      "section_path": "DOC-SPEC-015 > 5. Input From Previous Stage — Jane / Chatbot",
+      "content": "Jane is the conversational intent layer. The output becomes a structured intent contract for Agentic Studio. The knowledge foundation does not reinterpret the user's intent freely; it receives the intent UID, desired outcome, constraints and requested autonomy and uses those to select permitted evidence and capabilities.\n\n{  \"intent_uid\": \"INT-...\",  \"goal\": \"Monitor compressor health and alert maintenance\",  \"constraints\": {    \"site_uid\": \"PLANT-01\",    \"asset_family\": \"compressor\",    \"time_window\": \"24h\"  },  \"requested_autonomy\": \"INFORM\",  \"user_principal\": \"operator\"}\n\nAgent Builder then compiles the intent into the signed Agent SPEC. The Runtime supplies that SPEC to this stage as the governing contract.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0008",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "6. Inputs From Agent SPEC",
+      "section_path": "DOC-SPEC-015 > 6. Inputs From Agent SPEC",
+      "content": "The signed SPEC is the contract. This stage cannot silently add a collection, model or tool.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| SPEC field | Used by this stage |\n| --- | --- |\n| knowledge_sources | Permitted KB collections / documents |\n| retrieval_policy | RAG filters, top-k, freshness |\n| graph_scope | Allowed graph types/asset scope |\n| telemetry_contract | Allowed signals, freshness and quality |\n| model_refs | Approved model/version/schema |\n| tool_refs | Allowed capabilities and versions |\n| data_scope | Tenant/site/asset constraints |\n| autonomy | Whether tools may be called and at what level |\n| evidence_policy | Required provenance/citation threshold |\n| budget | Retrieval/model/tool budgets |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0009",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "7. Knowledge Base (KB)",
+      "section_path": "DOC-SPEC-015 > 7. Knowledge Base (KB)",
+      "content": "The Knowledge Base is the authoritative source layer. It stores or references manuals, SOPs, maintenance records, engineering specifications, standards, incident reports, approved procedures and other governed material.\n\nA KB record is not automatically trusted simply because it is indexed. Approval state, scope and provenance are evaluated before retrieval results become usable evidence.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| KB metadata | Purpose |\n| --- | --- |\n| document_uid | Stable identity |\n| version | Exact revision |\n| authority_level | Source trust classification |\n| owner | Responsible organization |\n| effective_from/to | Validity period |\n| asset/site scope | Applicability |\n| classification | Security/access level |\n| checksum | Integrity |\n| source_uri | Original location |\n| approval_state | Draft/approved/retired |\n| language | Retrieval/indexing |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0010",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "8. KB Ingestion Pipeline",
+      "section_path": "DOC-SPEC-015 > 8. KB Ingestion Pipeline",
+      "content": "SOURCE  -> connector  -> malware/file validation  -> parser/OCR  -> metadata extraction  -> classification  -> access-control tagging  -> chunking  -> embedding  -> lexical index  -> vector index  -> provenance registry  -> approval  -> published collection\n\nNever overwrite a published document version; create a new immutable version.\n\nHash source content before processing.\n\nRetain page/section/table identifiers where possible.\n\nMark obsolete documents as retired rather than deleting provenance.\n\nApply tenant and asset scope during ingestion, not only at query time.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0011",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "9. RAG",
+      "section_path": "DOC-SPEC-015 > 9. RAG",
+      "content": "Retrieval-Augmented Generation is the evidence-retrieval mechanism. AI-ConneX uses hybrid retrieval rather than treating embeddings as the sole truth mechanism: lexical retrieval handles exact identifiers; vector retrieval handles semantic similarity; metadata filters enforce scope; reranking improves relevance; provenance determines whether content is eligible as evidence.\n\nQUERY | +--> lexical search +--> vector search +--> metadata/security filter +--> optional KG expansion | +--> merge +--> rerank +--> freshness/authority check +--> evidence pack | vMODEL CONTEXT",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| RAG stage | Control |\n| --- | --- |\n| Query construction | Use intent/SPEC scope, not arbitrary model instructions |\n| Candidate retrieval | Tenant/site/security filters |\n| Hybrid merge | Preserve source IDs |\n| Reranking | No authority escalation |\n| Evidence filter | Authority + validity + freshness |\n| Context packing | Token/size budget |\n| Generation | Model receives evidence with provenance |\n| Post-check | Citations/evidence sufficiency |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0012",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "10. RAG Failure Modes",
+      "section_path": "DOC-SPEC-015 > 10. RAG Failure Modes",
+      "content": "OWASP's 2025 guidance explicitly treats Vector and Embedding Weaknesses as a security risk and separately warns that prompt injection is not eliminated by RAG. citeturn0search5turn0search6",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Failure | Problem | AI-ConneX mitigation |\n| --- | --- | --- |\n| Wrong chunk | Relevant document but wrong section | section-aware chunking + reranking |\n| Stale procedure | Outdated maintenance step | effective dates + retirement state |\n| Vector weakness | Semantically similar but wrong asset | metadata/asset filters |\n| Prompt injection in document | Retrieved text gives malicious instruction | retrieved content is data, never authority |\n| Cross-tenant retrieval | Information disclosure | pre-retrieval ACL filtering |\n| Top-k misses evidence | No supporting passage | hybrid retrieval + query expansion |\n| Context overload | Important evidence diluted | rerank + budgeted evidence pack |\n| Citation fabrication | Model cites nonexistent source | citation IDs generated by retrieval layer |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0013",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "11. Knowledge Graph",
+      "section_path": "DOC-SPEC-015 > 11. Knowledge Graph",
+      "content": "The Knowledge Graph represents entities and relationships: plants, lines, machines, sensors, components, failure modes, maintenance procedures, models, datasets, alarms, work orders and dependencies. It answers structural questions that semantic search handles poorly.\n\nPlant  -> contains -> Line  -> contains -> CompressorCompressor  -> hasSensor -> VibrationSensorCompressor  -> hasComponent -> BearingBearing  -> susceptibleTo -> FailureModeFailureMode  -> mitigatedBy -> ProcedureProcedure  -> documentedBy -> DocumentVersion\n\nGraph relationships should carry provenance and, where appropriate, validity intervals. A graph edge is a represented relationship, not proof of causation.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0014",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "12. Graph Schema",
+      "section_path": "DOC-SPEC-015 > 12. Graph Schema",
+      "content": "Use stable UIDs and avoid natural-language names as primary identifiers.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Entity | Examples |\n| --- | --- |\n| Asset | Plant, Line, Compressor, Pump |\n| Component | Bearing, shaft, valve |\n| Signal | Vibration, temperature, pressure |\n| FailureMode | Bearing wear, imbalance |\n| Procedure | Inspection, lubrication |\n| Document | Manual/SOP/version |\n| Model | Model UID/version |\n| Dataset | Manifest/profile/DAG |\n| Tool | Alert/create-work-order capability |\n| Event | Alarm, maintenance event |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0015",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "13. Graph + RAG Hybrid",
+      "section_path": "DOC-SPEC-015 > 13. Graph + RAG Hybrid",
+      "content": "User/Agent Intent      |      +--> KG: \"What is connected to COMP-02?\"      |       |      |       +--> sensor, component, procedure, model      |      +--> RAG: \"What does the approved procedure say?\"              |              +--> exact document sections                       |                       +--> combined evidence pack\n\nThe graph narrows the search space and supplies structural context; RAG supplies textual evidence. Neither is allowed to silently authorize actions.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0016",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "14. Telemetry Knowledge Layer",
+      "section_path": "DOC-SPEC-015 > 14. Telemetry Knowledge Layer",
+      "content": "Telemetry is fundamentally different from the KB: it describes changing state. AI-ConneX treats telemetry as time-series evidence with timestamp, source, quality, unit, sampling information and freshness.\n\nA stale telemetry value must not be presented as current state. For consequential actions, freshness thresholds belong in the SPEC/policy.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Field | Example |\n| --- | --- |\n| signal_uid | VIB-COMP02-X |\n| asset_uid | COMP-02 |\n| timestamp | 2026-08-14T10:02:00Z |\n| value | 7.3 |\n| unit | mm/s |\n| quality | GOOD |\n| source | PLC/Gateway |\n| sampling | 1 Hz |\n| ingest_timestamp | ... |\n| retention_class | operational |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0017",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "15. Telemetry Pipeline",
+      "section_path": "DOC-SPEC-015 > 15. Telemetry Pipeline",
+      "content": "PLC / SCADA / IoT Gateway        |     protocol adapter        |     message bus        | schema + unit validation        | quality / timestamp check        | time-series store        | feature/window service        | Ground-State / Agent Runtime\n\nFor manufacturing architectures, ISO 23247-2 defines a digital-twin reference architecture and ISO 23247-4 addresses information exchange between entities; these are useful standards anchors for separating observable manufacturing elements, digital-twin services and information exchange. citeturn0search1turn0search0",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0018",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "16. Telemetry Failures",
+      "section_path": "DOC-SPEC-015 > 16. Telemetry Failures",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Failure | Mitigation |\n| --- | --- |\n| Clock drift | NTP/time-quality flag + source timestamp |\n| Duplicate sample | event ID/window deduplication |\n| Out-of-order data | event-time processing |\n| Bad sensor | quality flag + plausibility checks |\n| Unit mismatch | schema/unit normalization |\n| Missing signal | explicit missing state |\n| Stale data | freshness gate |\n| Gateway outage | buffering + outage state |\n| Sensor spoofing | source integrity and anomaly controls |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0019",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "17. Models",
+      "section_path": "DOC-SPEC-015 > 17. Models",
+      "content": "Models are controlled analytical capabilities. They may be predictive, classificatory, forecasting, anomaly-detection, physics-informed or multimodal. Runtime consumption is through a versioned model contract, not an informal prompt.\n\nMODEL CONTRACTmodel_uidmodel_versioninput_schemaoutput_schematraining_data_refevaluation_refsupported_asset_scopeoperating_limitslatency_budgetuncertainty_fieldsexplanation/evidence fieldsdeployment_status\n\nML Studio supplies evaluated models and their lineage. The Knowledge layer stores references and documentation; the Runtime verifies the model contract before inference.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0020",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "18. Model Failure Controls",
+      "section_path": "DOC-SPEC-015 > 18. Model Failure Controls",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Failure | Mitigation |\n| --- | --- |\n| Schema drift | Strict input/output schema |\n| Model drift | monitoring + evaluation schedule |\n| Out-of-distribution input | domain checks + abstention |\n| Low confidence | threshold + escalate |\n| Wrong asset family | scope validation |\n| Version mismatch | immutable model ref |\n| Latency spike | timeout + fallback |\n| Prediction hallucination | models are invoked, not generated as text |\n| Unexplained prediction | evidence/feature provenance where available |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0021",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "19. Tools",
+      "section_path": "DOC-SPEC-015 > 19. Tools",
+      "content": "Tools are executable capabilities, not general-purpose access. Each tool has a typed schema, scope, side-effect classification, identity mapping, timeout, rate limit and idempotency policy.\n\n{  \"tool_uid\": \"create_work_order\",  \"version\": \"2.0\",  \"side_effect\": \"WRITE\",  \"capability\": \"MAINTENANCE\",  \"input_schema\": \"WORKORDER-V3\",  \"allowed_asset_scope\": \"site:PLANT-01\",  \"requires_approval\": true,  \"idempotency\": \"required\",  \"timeout_seconds\": 20}\n\nOWASP identifies excessive agency as a consequence of excessive functionality, permissions or autonomy. AI-ConneX addresses this by keeping tools explicitly registered and passing calls through policy and the Runtime/Tool Gateway. citeturn0search2turn0search8",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0022",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "20. Tool Failure Controls",
+      "section_path": "DOC-SPEC-015 > 20. Tool Failure Controls",
+      "content": "Allow-list tools per Agent SPEC.\n\nValidate every input against schema.\n\nBind credentials at gateway, never from model output.\n\nApply tenant/site/asset authorization.\n\nRequire idempotency for write operations.\n\nUse bounded timeout/retry.\n\nReconcile unknown side-effect status.\n\nRequire approval for configured consequence classes.\n\nCapture request/result metadata in audit.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0023",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "21. Unified Evidence Pack",
+      "section_path": "DOC-SPEC-015 > 21. Unified Evidence Pack",
+      "content": "The six components converge into an Evidence + Capability Context. This is what the Agent Runtime consumes before asking a model to propose a decision.\n\n{  \"intent\": {...},  \"asset_context\": {...},  \"telemetry\": [...],  \"graph_facts\": [...],  \"documents\": [...],  \"model_refs\": [...],  \"available_tools\": [...],  \"policy\": {...},  \"provenance\": [...]}\n\nThe Evidence Pack is bounded: it should contain only what the SPEC permits and what the current execution needs.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0024",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "22. End-to-End Flow",
+      "section_path": "DOC-SPEC-015 > 22. End-to-End Flow",
+      "content": "JANE | | intent vAGENT BUILDER | | signed Agent SPEC vAGENT RUNTIME | +--> KB --> RAG --------+ |                       | +--> KG ----------------+--> Evidence Pack --> MODEL |                       |                       | +--> TELEMETRY ---------+                       v |                                           typed proposal +--> MODEL REGISTRY ----------------------------|                                                 v                                            POLICY CHECK                                                 |                                                 v                                           TOOL GATEWAY                                                 |                                                 v                                        INDUSTRIAL SYSTEM                                                 |                                      +----------+---------+                                      |                    |                                   TELEMETRY            AUDIT                                      |                    |                                      +--> next cycle <----+",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0025",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "23. Tech Stack — Recommended Baseline",
+      "section_path": "DOC-SPEC-015 > 23. Tech Stack — Recommended Baseline",
+      "content": "These are implementation baselines, not mandatory vendor choices. Exact patch releases must be pinned in lockfiles and validated in a compatibility matrix.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Layer | Recommended baseline |\n| --- | --- |\n| Language | Python 3.12.x |\n| API | FastAPI 0.1xx / OpenAPI 3.1 |\n| Schemas | Pydantic 2.x + JSON Schema 2020-12 |\n| Vector store | pgvector, Milvus or equivalent |\n| Lexical search | OpenSearch/Elasticsearch or PostgreSQL FTS |\n| Reranking | Cross-encoder or managed reranker |\n| Graph | Neo4j 5.x or JanusGraph-compatible stack |\n| Knowledge base | S3-compatible object store + PostgreSQL metadata |\n| Time series | TimescaleDB/PostgreSQL or InfluxDB |\n| Messaging | Kafka 3.x / NATS |\n| Model serving | ML Studio service / vLLM / managed endpoint |\n| Policy | OPA/Rego |\n| Secrets | Vault/KMS/cloud secret manager |\n| Observability | OpenTelemetry |\n| Deployment | Docker + Kubernetes |\n| Testing | pytest + contract/replay/chaos tests |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0026",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "24. Requirements",
+      "section_path": "DOC-SPEC-015 > 24. Requirements",
+      "content": "Document/source connectors and approval workflow.\n\nObject storage and metadata database.\n\nVector + lexical retrieval infrastructure.\n\nGraph database and ontology registry.\n\nTime-series store and telemetry gateway.\n\nModel registry/inference gateway.\n\nTool registry and Tool Gateway.\n\nIdentity provider and authorization service.\n\nPolicy engine.\n\nAgent SPEC Registry.\n\nAudit and observability platform.\n\nNetwork segmentation appropriate to OT/IT architecture.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0027",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "25. Configuration",
+      "section_path": "DOC-SPEC-015 > 25. Configuration",
+      "content": "knowledge:  default_top_k: 20  rerank_top_k: 8  max_context_tokens: 12000  require_provenance: true  allow_unapproved_documents: falsegraph:  max_hops: 3  require_edge_provenance: true  cross_tenant_traversal: falsetelemetry:  max_age_seconds: 30  require_quality_good: true  allow_out_of_order_seconds: 5models:  require_version_pin: true  require_scope_match: true  allow_abstention: truetools:  default_policy: deny  require_schema_validation: true  require_idempotency_for_writes: true  default_timeout_seconds: 30security:  tenant_isolation: true  secrets_from_prompt: false",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0028",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "26. Directory Architecture",
+      "section_path": "DOC-SPEC-015 > 26. Directory Architecture",
+      "content": "agentic_studio/├── knowledge_foundation/│   ├── knowledge_base/│   │   ├── connectors/│   │   ├── parsers/│   │   ├── chunking/│   │   ├── metadata/│   │   └── publishing/│   ├── rag/│   │   ├── retrieval/│   │   ├── reranking/│   │   ├── evidence/│   │   └── security/│   ├── knowledge_graph/│   │   ├── ontology/│   │   ├── entities/│   │   ├── relationships/│   │   └── provenance/│   ├── telemetry/│   │   ├── adapters/│   │   ├── normalization/│   │   ├── quality/│   │   └── windows/│   ├── models/│   │   ├── registry/│   │   ├── contracts/│   │   ├── inference/│   │   └── evaluation/│   ├── tools/│   │   ├── registry/│   │   ├── contracts/│   │   ├── gateway/│   │   └── policies/│   ├── api/│   └── tests/├── agent_runtime/├── agent_spec/└── deployment/",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0029",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "27. APIs",
+      "section_path": "DOC-SPEC-015 > 27. APIs",
+      "content": "In production, these endpoints should be internal service APIs behind identity, authorization and network policy; public exposure is not assumed.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| API | Purpose |\n| --- | --- |\n| POST /v1/kb/documents | Register document/version |\n| POST /v1/kb/publish | Publish approved version |\n| POST /v1/rag/search | Retrieve evidence |\n| POST /v1/graph/query | Run authorized graph query |\n| GET /v1/assets/{uid} | Resolve asset context |\n| GET /v1/telemetry/{signal}/latest | Current signal |\n| POST /v1/telemetry/query | Time-window query |\n| POST /v1/models/{uid}/infer | Contracted inference |\n| GET /v1/tools | List permitted tools |\n| POST /v1/tools/{uid}/validate | Validate tool call |\n| POST /v1/tools/{uid}/execute | Gateway execution |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0030",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "28. Example RAG API",
+      "section_path": "DOC-SPEC-015 > 28. Example RAG API",
+      "content": "POST /v1/rag/search{  \"query\": \"approved bearing inspection procedure\",  \"tenant_uid\": \"TENANT-01\",  \"site_uid\": \"PLANT-01\",  \"asset_uid\": \"COMP-02\",  \"filters\": {    \"approval_state\": \"APPROVED\",    \"effective_now\": true  },  \"top_k\": 8}",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0031",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "29. Example Graph Query Contract",
+      "section_path": "DOC-SPEC-015 > 29. Example Graph Query Contract",
+      "content": "POST /v1/graph/query{  \"scope\": {    \"tenant_uid\": \"TENANT-01\",    \"site_uid\": \"PLANT-01\"  },  \"start_entity\": \"COMP-02\",  \"relationship_types\": [    \"hasSensor\",    \"hasComponent\",    \"susceptibleTo\"  ],  \"max_hops\": 3}\n\nDo not expose unrestricted Cypher/Gremlin-like queries to an LLM. Prefer parameterized, allow-listed graph operations.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0032",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "30. Commands",
+      "section_path": "DOC-SPEC-015 > 30. Commands",
+      "content": "# installpython -m venv .venvsource .venv/bin/activatepip install -r requirements.txt# run APIsuvicorn knowledge_foundation.api:app --host 0.0.0.0 --port 8095# ingest a controlled sourcepython -m knowledge_foundation.knowledge_base.ingest \\  --source ./docs/manual.pdf --collection compressor-manuals# indexpython -m knowledge_foundation.rag.index --collection compressor-manuals# validate graphpython -m knowledge_foundation.knowledge_graph.validate --ontology ontology.yaml# replay telemetrypython -m knowledge_foundation.telemetry.replay --file samples/comp02.jsonl# model contract testpython -m knowledge_foundation.models.contract_test \\  --model MODEL-COMP-HEALTH:v2.1.0# tool contract testpython -m knowledge_foundation.tools.contract_test \\  --tool create_maintenance_alert:v1.3# testspytest -q# composedocker compose -f deployment/docker-compose.yml up --build# kuberneteskubectl apply -f deployment/kubernetes/",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0033",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "31. Security Architecture",
+      "section_path": "DOC-SPEC-015 > 31. Security Architecture",
+      "content": "UNTRUSTED SOURCES documents / telemetry / user input / tool results                    |                    v          VALIDATE + CLASSIFY                    |                    v      +-------------+-------------+      |             |             |     RAG           KG        TELEMETRY      |             |             |      +-------------+-------------+                    |              Evidence Pack                    |                   MODEL                    |             typed proposal                    |             SPEC + POLICY                    |              TOOL GATEWAY                    |             controlled action\n\nOWASP's 2025 list highlights prompt injection, sensitive information disclosure, supply-chain issues, data/model poisoning, improper output handling, excessive agency, vector/embedding weaknesses and unbounded consumption. The architecture maps these risks to source validation, access control, provenance, output schemas, capability limits, retrieval controls and budgets. citeturn0search3turn0search5",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0034",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "32. Key R&D Failures and System Responses",
+      "section_path": "DOC-SPEC-015 > 32. Key R&D Failures and System Responses",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Observed/anticipated failure | System response |\n| --- | --- |\n| RAG returns plausible but wrong document | Authority + metadata + hybrid retrieval + reranking |\n| Graph gives false causal interpretation | Edge provenance + relationship semantics |\n| Telemetry is stale | Freshness gate + quality state |\n| Model is used outside evaluated scope | Model scope contract |\n| Tool is too powerful | Capability allow-list + gateway |\n| Document contains malicious instruction | Data/authority separation |\n| Tenant leakage through vector search | Pre-filter ACLs and tenant partitions |\n| Tenant leakage through graph | Scope-bound traversal |\n| Telemetry leak | Asset/site authorization |\n| Embedding poisoning | Source approval, hashes, re-index governance |\n| Tool output injects instructions | Tool result treated as untrusted data |\n| Evidence too large | Budgeted context + reranking |\n| No evidence | Agent abstains/escalates |\n| Model confidence high but wrong | Calibration/OOD monitoring + evidence policy |\n| Schema drift | Contract/version verification |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0035",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "33. Compliance Report #5",
+      "section_path": "DOC-SPEC-015 > 33. Compliance Report #5",
+      "content": "This is an engineering readiness/compliance mapping, not legal certification.\n\nNIST's Generative AI Profile is a companion to the AI RMF and is intended to improve trustworthiness considerations throughout AI design, development, use and evaluation. AI-ConneX applies that lifecycle mindset to evidence, models and capabilities. citeturn0search12",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Control | Implementation evidence |\n| --- | --- |\n| Governance | KB ownership, SPEC references, model/tool registry |\n| Provenance | Document hashes, versions, graph edge provenance, telemetry source IDs |\n| Access control | Tenant/site/asset filtering at each plane |\n| Data integrity | Checksums, immutable versions, schema validation |\n| Freshness | Telemetry timestamps and max-age policy |\n| Model governance | Model UID/version/evaluation/scope |\n| Tool governance | Capability registry, side-effect class, approval |\n| Security | Policy engine, gateway, secrets isolation |\n| Traceability | Evidence Pack + Runtime execution trace |\n| Human oversight | Approval policy for consequential actions |\n| Monitoring | OpenTelemetry traces, metrics and logs |\n| Incident response | Replayable execution and evidence lineage |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0036",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "34. POC — Compressor Maintenance Knowledge Agent",
+      "section_path": "DOC-SPEC-015 > 34. POC — Compressor Maintenance Knowledge Agent",
+      "content": "Objective: answer and act on a compressor-maintenance request using all six planes while proving that the Runtime cannot exceed the Agent SPEC.\n\nLoad approved compressor manual v7 and maintenance SOP v4 into the KB.\n\nBuild graph entities for Plant-01, COMP-02, bearing, vibration sensor and approved procedures.\n\nStream vibration/temperature telemetry for COMP-02.\n\nRegister ML Studio's evaluated compressor-health model v2.1.0.\n\nRegister create_maintenance_alert v1.3 as an INFORM capability.\n\nCreate an Agent SPEC limiting evidence to Plant-01 and the compressor family.\n\nAsk Jane: 'Watch COMP-02 and alert maintenance if bearing degradation is likely.'\n\nRuntime resolves graph context and current telemetry.\n\nRAG retrieves the approved bearing procedure.\n\nModel produces a typed health estimate.\n\nRuntime combines prediction + telemetry + graph + procedure evidence.\n\nTool Gateway creates an alert.\n\nReplay the same event and verify no duplicate alert.\n\nInsert a malicious instruction into a retrieved document and verify it cannot change tool permissions.\n\nMake telemetry stale and verify the Runtime refuses the consequential action.\n\nAttempt an unregistered work-order write tool and verify denial.\n\nInspect provenance and audit trace.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0037",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "35. POC Acceptance Criteria",
+      "section_path": "DOC-SPEC-015 > 35. POC Acceptance Criteria",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Test | Expected result |\n| --- | --- |\n| Source version | Exact document version recorded |\n| RAG evidence | Relevant passages + source IDs |\n| Graph scope | Only authorized plant/asset entities |\n| Telemetry freshness | Stale state blocks configured action |\n| Model scope | Correct model version and asset family |\n| Tool scope | Only SPEC-listed tool |\n| Prompt injection | Retrieved instruction cannot alter authority |\n| Duplicate event | Single alert due to idempotency |\n| Audit | Evidence and action trace linked to execution |\n| Cross-tenant | Request denied |\n| Model failure | Declared fallback or escalation |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0038",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "36. Research References and Why They Matter",
+      "section_path": "DOC-SPEC-015 > 36. Research References and Why They Matter",
+      "content": "ISO 23247-1:2021 defines general principles for a manufacturing digital-twin framework; ISO 23247-2:2021 provides its reference architecture; ISO 23247-4:2021 specifies technical requirements for information exchange. These support AI-ConneX's separation of assets, services, observable manufacturing elements and information exchange. citeturn0search11turn0search1turn0search0\n\nISO 23247-5:2026 addresses the digital thread for manufacturing digital twins across lifecycle activities. This is especially relevant to AI-ConneX because Manifest/DAG/Family/model/tool provenance can become part of an industrial digital thread. citeturn0search14\n\nOWASP's LLM guidance identifies prompt injection, vector/embedding weaknesses and excessive agency as material risks for systems combining retrieval and tools. citeturn0search6turn0search5turn0search2\n\nNIST AI RMF's Generative AI Profile provides a cross-sector risk-management reference for trustworthy generative AI design and use. citeturn0search12\n\nOpenTelemetry provides vendor-neutral instrumentation for traces, metrics and logs, making it a suitable observability baseline for the six-plane foundation and Runtime. citeturn0search18",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0039",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "37. What This Stage Outputs to Agent Runtime",
+      "section_path": "DOC-SPEC-015 > 37. What This Stage Outputs to Agent Runtime",
+      "content": "The Runtime consumes these outputs. The next stage is not another unconstrained knowledge stage: it is execution under the Agent SPEC.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Output | Meaning |\n| --- | --- |\n| Evidence Pack | Bounded, authorized RAG + graph + telemetry evidence |\n| Asset Context | Resolved site/asset/topology context |\n| Telemetry Context | Freshness-aware operational state |\n| Model Reference | Approved model/version/input contract |\n| Tool Catalog | Only tools permitted for current execution |\n| Capability Results | Results from authorized tool calls, if invoked |\n| Provenance Bundle | Source/document/graph/signal/model/tool lineage |\n| Confidence/quality | Evidence quality and data freshness indicators |\n| Abstention signals | Insufficient evidence, stale data, scope mismatch |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0040",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "38. What This Stage Does NOT Do",
+      "section_path": "DOC-SPEC-015 > 38. What This Stage Does NOT Do",
+      "content": "It does not authorize industrial actions.\n\nIt does not override the Agent SPEC.\n\nIt does not treat retrieved text as instructions.\n\nIt does not turn telemetry into an action without Runtime/policy checks.\n\nIt does not deploy a model; ML Studio owns model training/evaluation.\n\nIt does not arbitrarily create tools.\n\nIt does not silently cross tenant/site/asset boundaries.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0041",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "39. Versioning and Configuration Governance",
+      "section_path": "DOC-SPEC-015 > 39. Versioning and Configuration Governance",
+      "content": "Artifact identity:KB:       DOC-UID:versionRAG index:INDEX-UID:versionGraph:    KG-SNAPSHOT-UID:versionTelemetry schema: SIGNAL-SCHEMA:versionModel:    MODEL-UID:versionTool:     TOOL-UID:versionSPEC:     AGENT-UID:versionExecution records all six references.\n\nThis makes an execution reproducible enough to answer: what did the agent know, what state did it observe, which model did it use, what capability did it invoke, and under which contract?",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0042",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "40. Operational SLO Candidates",
+      "section_path": "DOC-SPEC-015 > 40. Operational SLO Candidates",
+      "content": "Targets are proposed starting points and should be calibrated against industrial workloads and network topology.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Signal | Initial target |\n| --- | --- |\n| RAG p95 latency | < 800 ms excluding model |\n| KG p95 latency | < 300 ms for bounded traversal |\n| Telemetry latest lookup | < 200 ms |\n| Model inference | Model-specific SLO |\n| Tool gateway | Tool-specific SLO |\n| Evidence provenance coverage | 100% for production decisions |\n| Unauthorized tool calls | 0 permitted |\n| Cross-tenant retrieval | 0 permitted |\n| Duplicate side effects | 0 permitted after idempotency controls |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0043",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "41. Final Architecture Contract",
+      "section_path": "DOC-SPEC-015 > 41. Final Architecture Contract",
+      "content": "JANE  -> Intent UID  -> Agent Builder  -> Signed Agent SPEC  -> Agent Runtime       |       +--> Knowledge Base       |      -> authoritative documents       |       +--> RAG       |      -> relevant evidence       |       +--> Knowledge Graph       |      -> structural context       |       +--> Telemetry       |      -> current state       |       +--> Models       |      -> evaluated estimates       |       +--> Tools              -> bounded capabilities                    |                    v               Policy / Approval                    |                    v               Tool Gateway                    |                    v             Industrial Systems                    |             Audit + Visualizer",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-015-0044",
+      "document_id": "DOC-DOC-SPEC-015-V1",
+      "heading_level": 1,
+      "heading_text": "42. Final Design Principle",
+      "section_path": "DOC-SPEC-015 > 42. Final Design Principle",
+      "content": "AI-ConneX should never ask a single component to be simultaneously a database, historian, ontology, predictor and actuator. The six-plane design makes each source good at its own job and forces the Agent Runtime to reconcile them under one explicit contract.\n\nThe resulting chain is: Jane expresses intent → Agent Builder formalizes it → Agent SPEC constrains it → Knowledge Foundation grounds it → Agent Runtime reasons and coordinates → Policy authorizes → Tools act → Telemetry observes the result → Audit closes the loop.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    }
+  ],
+  "extracted_slas": [
+    {
+      "sla_id": "SLA-LAT-DOC-SPEC-015-01",
+      "component_name": "ContextBuilder",
+      "metric_name": "p95_latency_ms",
+      "target_value": 800.0,
+      "unit": "ms",
+      "comparison_op": "<=",
+      "workload_condition": "latency | < 800 ms",
+      "severity_on_breach": "critical",
+      "source_spec_id": "DOC-SPEC-015"
+    },
+    {
+      "sla_id": "SLA-LAT-DOC-SPEC-015-02",
+      "component_name": "ContextBuilder",
+      "metric_name": "p95_latency_ms",
+      "target_value": 300.0,
+      "unit": "ms",
+      "comparison_op": "<=",
+      "workload_condition": "latency | < 300 ms",
+      "severity_on_breach": "critical",
+      "source_spec_id": "DOC-SPEC-015"
+    }
+  ]
+}

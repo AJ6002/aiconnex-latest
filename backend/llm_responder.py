@@ -33,17 +33,25 @@ def _get_api_key() -> str:
     )
 
 
+from local_gguf_runner import generate_local_gguf_response
+
 def generate_llm_response(
     user_message: str,
     intent: str,
     context_data: Optional[Dict[str, Any]] = None,
     system_role: str = "assistant"
 ) -> str:
-    """Generate a dynamic, natural language chatbot response using OpenRouter Qwen LLM."""
+    """Generate a dynamic, natural language chatbot response using Local Offline GGUF LLMs or OpenRouter."""
+    use_offline = os.environ.get("USE_OFFLINE_LLM", "true").lower() in ("true", "1", "yes")
     api_key = _get_api_key()
-    if not api_key:
-        logger.warning("[LLMResponder] No API key found, falling back to heuristic templates.")
-        return _heuristic_fallback(intent, context_data)
+
+    if use_offline or not api_key:
+        logger.info("[LLMResponder] Operating in Local Offline GGUF Mode.")
+        return generate_local_gguf_response(
+            user_prompt=user_message,
+            context={"intent": intent, "context_data": context_data},
+            model_key="qwen3-4b-q4"
+        )
 
     base_url = os.environ.get("OPENROUTER_BASE_URL", "https://openrouter.ai/api/v1")
     model = os.environ.get("OPENROUTER_MODEL") or os.environ.get("LLM_MODEL") or "qwen/qwen-2.5-coder-32b-instruct"

@@ -1,0 +1,11 @@
+{
+  "upper_ontology": "BFO 2020",
+  "domain_ontologies": [
+    "IOF",
+    "ROMAIN",
+    "CEON"
+  ],
+  "total_classes": 875,
+  "total_properties": 144,
+  "total_edges": 1042
+}

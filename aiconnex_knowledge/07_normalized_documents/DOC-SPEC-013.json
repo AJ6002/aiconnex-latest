@@ -1,0 +1,637 @@
+{
+  "document_id": "DOC-DOC-SPEC-013-V1",
+  "source_id": "DOC-SPEC-013",
+  "title": "AI-ConneX Agentic Studio Agent Runtime Detailed Documentation",
+  "studio": "AgenticStudio",
+  "category": "Performance",
+  "target_subsystems": [
+    "AgentRuntime",
+    "LLMTracer",
+    "StepBudgetManager"
+  ],
+  "summary": "Execution runtime SLAs: max step limits, token consumption budgets, circuit breaker thresholds, and latency bounds per agent node.",
+  "sha256": "fc19c68421ac26fdf0bed9fbc4744c0f3443d8e27c624cbfddf0f3fc514c2ed9",
+  "file_size_bytes": 52488,
+  "statistics": {
+    "headings_count": 51,
+    "paragraphs_count": 179,
+    "tables_count": 14,
+    "sections_count": 52,
+    "estimated_words": 4332
+  },
+  "sections": [
+    {
+      "section_id": "SEC-DOC-SPEC-013-0001",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "Overview",
+      "section_path": "DOC-SPEC-013 > Overview",
+      "content": "AI-ConneX\n\nAGENTIC STUDIO — AGENT RUNTIME\n\nIndustrial Agent Execution PlaneR&D • Architecture • Failure Analysis • Implementation • POC • ComplianceReport #5 | Version 1.0 | 14 August 2026",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0002",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "Document Control",
+      "section_path": "DOC-SPEC-013 > Document Control",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Field | Value |\n| --- | --- |\n| System | AI-ConneX |\n| Studio | Agentic Studio |\n| Component | Agent Runtime / Execution Plane |\n| Previous stage | Agent SPEC (Blueprint), produced by Agent Builder |\n| Upstream conversation | Jane / Chatbot intent |\n| Downstream | Industrial systems, alerts, approvals, Visualizer and audit/operations |\n| Report | Compliance / Engineering Report #5 |\n| Status | Reference architecture / implementation baseline |\n| Certification | Engineering readiness assessment; not legal or standards certification |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0003",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "1. Executive Definition",
+      "section_path": "DOC-SPEC-013 > 1. Executive Definition",
+      "content": "The Agent Runtime is the controlled execution plane of AI-ConneX. It takes an approved, immutable Agent SPEC and turns it into observable runtime behavior: ingesting permitted observations, maintaining bounded state, invoking approved models and knowledge, planning within the SPEC, requesting approvals, calling only authorized tools, handling failures, escalating and recording an auditable execution trace.\n\nThe Runtime is deliberately NOT the Agent Builder and NOT the LLM. Builder creates the contract; the Runtime enforces it. The model may propose a next step, but the Runtime and Policy Engine decide whether that step is structurally permitted.\n\nJANE  |  vAGENT BUILDER  |  vSIGNED AGENT SPEC  |  v+---------------------------+|       AGENT RUNTIME       ||                           || Trigger -> Observe ->     || Context -> Reason ->      || Validate -> Act -> Audit  |+-------------+-------------+              |       POLICY / APPROVAL              |        TOOL GATEWAY              |      INDUSTRIAL SYSTEMS              |          VISUALIZER",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0004",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "2. Why Runtime Is a Separate Stage",
+      "section_path": "DOC-SPEC-013 > 2. Why Runtime Is a Separate Stage",
+      "content": "An LLM cannot safely be treated as an authorization layer.\n\nIndustrial actions need deterministic enforcement.\n\nRuntime state, retries, timeouts and concurrency need infrastructure controls.\n\nTools require credentials, network isolation and parameter validation.\n\nHuman approvals must pause and resume execution reliably.\n\nEvery consequential operation needs provenance and auditability.\n\nRuntime must survive model/tool failures without inventing behavior.\n\nThis separation is directly aligned with the security concern of excessive agency: OWASP describes excessive functionality, permissions and autonomy as root causes and recommends constraining agent capabilities rather than relying on model behavior alone. citeturn0search1turn0search16",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0005",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "3. R&D Problem Statement",
+      "section_path": "DOC-SPEC-013 > 3. R&D Problem Statement",
+      "content": "Research question: how can AI-ConneX execute an industrial agent continuously and reliably while keeping autonomy bounded by an explicit Agent SPEC, current industrial context, policy, model contracts and human approvals?",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| R&D risk | Runtime design response |\n| --- | --- |\n| Model output is probabilistic | Typed plan/action validation before side effects. |\n| Context changes | Ground-State freshness checks. |\n| Tools fail | Bounded retry, circuit breaker and escalation. |\n| Agent loops | Iteration, time, tool-call and cost budgets. |\n| Duplicate alerts/actions | Idempotency keys and deduplication. |\n| Unauthorized action | Policy Engine + Tool Gateway deny-by-default. |\n| Human unavailable | Approval timeout with safe stop/escalation. |\n| Telemetry missing | Explicit uncertainty/stale-data state. |\n| Runtime crashes | Durable workflow state and replay. |\n| Version drift | Pin and verify SPEC/model/tool versions. |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0006",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "4. Runtime's Position in AI-ConneX",
+      "section_path": "DOC-SPEC-013 > 4. Runtime's Position in AI-ConneX",
+      "content": "CHATBOT / JANE  intent_uid      |      vAGENT BUILDER  candidate -> validation -> signing      |      vAGENT SPEC  immutable contract      |      vAGENT RUNTIME  |   |   |   |   |  |   |   |   |   +-- Audit  |   |   |   +------ Approval  |   |   +---------- Tool Gateway  |   +-------------- Models / Knowledge  +------------------ Telemetry / Ground-State      |      vINDUSTRIAL SYSTEMS      |      vVISUALIZER / OPERATIONS",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0007",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "5. What Runtime Receives from the Previous Stages",
+      "section_path": "DOC-SPEC-013 > 5. What Runtime Receives from the Previous Stages",
+      "content": "The Runtime should normally consume the signed Agent SPEC as its deployment contract. Upstream artifacts remain authoritative at their own layers and are referenced by immutable IDs rather than copied wholesale.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Source | Runtime input |\n| --- | --- |\n| Jane / Chatbot | Intent UID, user constraints, desired outcome, autonomy request |\n| Agent Builder | Signed Agent SPEC |\n| Data Studio | Manifest UID, Profile UID, DAG/Family IDs, feature/recipe references |\n| ML Studio | Model UID/version, input/output schema, evaluation metadata, limitations |\n| Visualizer / Ground-State | Asset topology, state, telemetry context and freshness |\n| Tool Registry | Typed tool contracts and capability metadata |\n| Knowledge Registry | Approved knowledge collection references |\n| Policy Engine | Current authorization and safety policy |\n| Identity | Tenant/user/service identity and roles |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0008",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "6. Runtime Input Contract",
+      "section_path": "DOC-SPEC-013 > 6. Runtime Input Contract",
+      "content": "{  \"spec_ref\": \"AGT-COMP-001:v1.0.0\",  \"spec_hash\": \"sha256:...\",  \"ground_state_ref\": \"GS-PLANT01:v18\",  \"model_refs\": [\"MODEL-COMP-HEALTH:v2.1.0\"],  \"manifest_uid\": \"MANIFEST-...\",  \"identity\": {    \"tenant_uid\": \"TENANT-01\",    \"principal\": \"operator/service\"  },  \"trigger\": {    \"type\": \"telemetry_event\",    \"event_uid\": \"EVT-...\"  }}",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0009",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "7. Core Runtime Loop",
+      "section_path": "DOC-SPEC-013 > 7. Core Runtime Loop",
+      "content": "EVENT / SCHEDULE      |      v1. AUTHENTICATE      |2. LOAD SPEC      |3. VERIFY SIGNATURE + HASH      |4. CHECK POLICY + SCOPE      |5. RESOLVE GROUND-STATE      |6. CHECK FRESHNESS      |7. BUILD CONTEXT      |8. INVOKE MODEL / RULES      |9. VALIDATE PROPOSED PLAN      |10. POLICY DECISION      |11. APPROVAL IF REQUIRED      |12. TOOL EXECUTION      |13. VERIFY RESULT      |14. UPDATE STATE      |15. AUDIT + TELEMETRY      |16. COMPLETE / RETRY / ESCALATE",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0010",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "8. Runtime Components",
+      "section_path": "DOC-SPEC-013 > 8. Runtime Components",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Component | Responsibility |\n| --- | --- |\n| Ingress / Trigger Manager | Receives telemetry, events, schedules and user requests. |\n| Identity & Session | Authenticates and establishes tenant/principal context. |\n| SPEC Loader | Loads approved SPEC version. |\n| Integrity Verifier | Checks hash/signature and artifact references. |\n| Context Resolver | Resolves Ground-State, manifest, models and knowledge. |\n| State Store | Maintains durable bounded execution state. |\n| Planner / Reasoner Adapter | Invokes LLM/rules within the SPEC. |\n| Action Validator | Checks model output against schemas and allowed actions. |\n| Policy Engine | Authorizes action and data access. |\n| Approval Manager | Obtains human authorization where required. |\n| Tool Gateway | Executes typed, allow-listed capabilities. |\n| Recovery Manager | Retries, backoff, circuit breakers and escalation. |\n| Audit Manager | Immutable execution trail. |\n| Observability | Metrics, logs and distributed traces. |\n| Runtime Registry | Tracks execution and deployed versions. |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0011",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "9. Runtime State Machine",
+      "section_path": "DOC-SPEC-013 > 9. Runtime State Machine",
+      "content": "CREATED  |VALIDATING  |READY  |RUNNING  |  | +--> WAITING_APPROVAL --> APPROVED --+  |                 |                    |  |                 +--> REJECTED -------+  |                                      |  +--> WAITING_DATA ---------------------+  |  +--> RETRYING  |  +--> ESCALATED  |  +--> FAILED  |  +--> COMPLETED  |  +--> TERMINATED\n\nOnly explicit state transitions are permitted. A state transition should carry an execution ID, SPEC version, reason and timestamp.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0012",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "10. Model Invocation Boundary",
+      "section_path": "DOC-SPEC-013 > 10. Model Invocation Boundary",
+      "content": "The LLM/model is a reasoning component, not the runtime authority. Its output must be converted into a typed internal representation before any tool call.\n\nMODEL OUTPUT    |    vJSON / typed action plan    |    +--> schema validation    +--> scope validation    +--> policy validation    +--> parameter validation    +--> safety constraints    +--> approval check    |    vTOOL GATEWAY",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0013",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "11. Tool Gateway",
+      "section_path": "DOC-SPEC-013 > 11. Tool Gateway",
+      "content": "All side-effecting operations should pass through a Tool Gateway. Credentials should remain outside prompts and outside the Agent SPEC wherever possible; the gateway maps a permitted capability to an appropriate service identity.\n\nAgent Runtime     |     | typed ToolCall     vTool Gateway     |     +--> authenticate     +--> authorize     +--> validate schema     +--> validate asset scope     +--> idempotency     +--> rate limit     +--> execute     +--> capture result     |     vIndustrial API / Service",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0014",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "12. Tool Contract",
+      "section_path": "DOC-SPEC-013 > 12. Tool Contract",
+      "content": "{  \"tool_uid\": \"create_maintenance_alert\",  \"version\": \"1.3\",  \"capability\": \"inform\",  \"input_schema\": \"ALERT-V4\",  \"output_schema\": \"ALERT-RESULT-V2\",  \"side_effect\": true,  \"idempotency\": \"required\",  \"timeout_seconds\": 20,  \"allowed_autonomy\": [\"INFORM\",\"RECOMMEND\"]}",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0015",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "13. Ground-State and Industrial Context",
+      "section_path": "DOC-SPEC-013 > 13. Ground-State and Industrial Context",
+      "content": "The Runtime needs an authoritative industrial context because an agent cannot safely reason about an asset from names alone. ISO 23247-2:2021 provides a manufacturing digital-twin reference architecture with domain/entity and functional views; AI-ConneX uses a similar separation by resolving agent execution against a versioned Ground-State. citeturn0search0\n\nISO 23247-4:2021 addresses information exchange between entities in the manufacturing digital-twin architecture, which supports the architectural decision to treat Runtime integrations as explicit information-exchange contracts. citeturn0search5\n\nGround-State check:asset exists?asset belongs to tenant/site?telemetry fresh?topology version compatible?operating mode compatible?required sensor available?maintenance lock active?policy current?",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0016",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "14. Data Studio → Runtime",
+      "section_path": "DOC-SPEC-013 > 14. Data Studio → Runtime",
+      "content": "The Runtime does not redo compilation. It consumes the lineage references produced earlier and uses them to understand which dataset, profile, DAG and family the agent is operating against.\n\nruntime_context.data:  manifest_uid: MANIFEST-001  profile_uid: PROFILE-001  dag_ids: [DAG-01]  family_ids: [FAM-01]  feature_contract: FE-07  preparation_version: PREP-12\n\nThis makes the agent's observation and model inputs traceable back to Data Studio.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0017",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "15. ML Studio → Runtime",
+      "section_path": "DOC-SPEC-013 > 15. ML Studio → Runtime",
+      "content": "runtime_context.model:  model_uid: MODEL-COMP-HEALTH  version: 2.1.0  input_schema: SCHEMA-17  output_schema: SCHEMA-19  deployment: production  limitations:    - asset_family: compressor-A\n\nThe Runtime verifies that the actual input schema and asset context match the model contract before inference.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0018",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "16. Knowledge/RAG Runtime",
+      "section_path": "DOC-SPEC-013 > 16. Knowledge/RAG Runtime",
+      "content": "Retrieve only from collections referenced by the SPEC.\n\nApply tenant/site/asset access controls before retrieval.\n\nTreat retrieved content as evidence, not authority.\n\nAttach document/version IDs to the execution trace.\n\nDo not allow retrieved instructions to modify permissions.\n\nRequire freshness policy for safety-critical procedures.\n\nOWASP's 2025 guidance identifies prompt injection and vector/embedding weaknesses as significant risks; therefore RAG must remain subordinate to the SPEC and policy rather than becoming an implicit command channel. citeturn0search14",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0019",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "17. Approval Runtime",
+      "section_path": "DOC-SPEC-013 > 17. Approval Runtime",
+      "content": "ACTION PROPOSED      |      vCONSEQUENCE CLASS      | +----+---------+-----------+ |              |           |LOW           MEDIUM       HIGH |              |           |AUTO          APPROVAL    EXPLICITINFORM        REQUEST     APPROVAL |              |           | +--------------+-----------+                |             EXECUTE\n\nApprovals must be durable: if the Runtime restarts while waiting, it should resume from the approval state rather than executing again.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0020",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "18. Autonomy Enforcement",
+      "section_path": "DOC-SPEC-013 > 18. Autonomy Enforcement",
+      "content": "The Runtime must reject an action that exceeds the SPEC's declared autonomy even if the model proposes it.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Autonomy | Runtime behavior |\n| --- | --- |\n| OBSERVE | Read and summarize only. |\n| INFORM | Create approved notifications/alerts. |\n| RECOMMEND | Produce recommendation; no side effect unless separately authorized. |\n| REQUEST_APPROVAL | Prepare action and pause. |\n| EXECUTE | Execute only the explicitly permitted action and conditions. |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0021",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "19. Key Failure Analysis",
+      "section_path": "DOC-SPEC-013 > 19. Key Failure Analysis",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Failure | Impact | Runtime mitigation |\n| --- | --- | --- |\n| Invalid SPEC | Unsafe/undefined behavior | Reject before execution |\n| Signature failure | Tampered behavior | Fail closed |\n| Stale Ground-State | Wrong asset decision | Pause/escalate |\n| Model unavailable | No prediction | Declared fallback or escalate |\n| Model timeout | Latency/queue buildup | Bounded timeout + circuit breaker |\n| Tool timeout | Partial operation | Idempotent retry + reconciliation |\n| Duplicate event | Alert/action storm | Deduplication + idempotency |\n| LLM loop | Cost/latency explosion | Max iterations/time/tool budget |\n| Prompt injection | Policy bypass | Authority separation + validation |\n| Excessive agency | Unauthorized side effects | Deny-by-default gateway |\n| Conflicting telemetry | Bad decision | Conflict state + uncertainty |\n| Approval unavailable | Unsafe continuation | Pause; never auto-approve |\n| Cross-tenant request | Data leakage | Tenant-bound authorization |\n| Runtime crash | Lost execution state | Durable workflow state |\n| Network partition | Unknown side-effect status | Reconciliation/idempotency |\n| Tool contract drift | Wrong parameters | Versioned schemas |\n| Alert fatigue | Operator ignores alarms | Deduplication, severity and cooldown |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0022",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "20. Failure Recovery Principles",
+      "section_path": "DOC-SPEC-013 > 20. Failure Recovery Principles",
+      "content": "Fail closed for safety-critical and consequential actions.\n\nFail gracefully for informational functions.\n\nNever assume a side effect failed merely because the response was lost; reconcile when possible.\n\nNever retry a non-idempotent action without an idempotency/reconciliation strategy.\n\nUse exponential backoff with bounded maximum attempts.\n\nEscalate when uncertainty crosses the SPEC threshold.\n\nRecord the reason for every retry, denial, escalation and termination.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0023",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "21. Runtime Security Architecture",
+      "section_path": "DOC-SPEC-013 > 21. Runtime Security Architecture",
+      "content": "IDENTITY                       |                       v                 POLICY ENGINE                       |                       vAGENT SPEC --> RUNTIME --> ACTION VALIDATOR                  |              |                  |              v                  |         TOOL GATEWAY                  |              |                  v              v             AUDIT / TRACE --> INDUSTRIAL APILLM ----> proposes ----> NEVER directly authorizes\n\nOWASP's current agentic security guidance emphasizes that agent systems can plan, act and coordinate across workflows and therefore need controls beyond ordinary chatbot security. citeturn0search16turn0search17",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0024",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "22. Observability",
+      "section_path": "DOC-SPEC-013 > 22. Observability",
+      "content": "OpenTelemetry provides vendor-neutral instrumentation and collection for traces, metrics and logs, making it an appropriate baseline for the Runtime's execution telemetry. citeturn0search8turn0search18\n\ntrace attributes:agent_uidagent_versionexecution_idtenant_uidsite_uidasset_uidspec_hashmodel_uidmodel_versiontool_uidtool_versionpolicy_versionground_state_versionmanifest_uid",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Signal | Important Runtime data |\n| --- | --- |\n| Trace | execution_id, spec_version, model calls, tool calls, approvals |\n| Metrics | latency, success rate, retries, denials, token/cost budget, tool errors |\n| Logs | state transitions, policy decisions, errors |\n| Audit | who/what/when/why, action authorization, result |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0025",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "23. Runtime Metrics",
+      "section_path": "DOC-SPEC-013 > 23. Runtime Metrics",
+      "content": "agent_execution_total\n\nagent_execution_success_total\n\nagent_execution_failure_total\n\nagent_execution_latency_seconds\n\nagent_policy_denial_total\n\nagent_approval_wait_seconds\n\nagent_tool_call_total\n\nagent_tool_failure_total\n\nagent_retry_total\n\nagent_loop_termination_total\n\nagent_stale_context_total\n\nagent_escalation_total\n\nagent_duplicate_event_total\n\nmodel_inference_latency_seconds\n\nmodel_contract_mismatch_total",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0026",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "24. Tech Stack",
+      "section_path": "DOC-SPEC-013 > 24. Tech Stack",
+      "content": "These are proposed implementation baselines, not claims about the only suitable versions. Production versions should be pinned in a lockfile and tested as a release matrix.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Layer | Recommended baseline |\n| --- | --- |\n| Runtime | Python 3.12.x |\n| API | FastAPI 0.1xx baseline; pin exact tested release in lockfile |\n| Schema | Pydantic 2.x + JSON Schema 2020-12 |\n| Workflow/state | Temporal 1.x or equivalent durable workflow engine |\n| Database | PostgreSQL 16.x |\n| Cache/coordination | Redis 7.x where required |\n| Messaging | Kafka 3.x / NATS / equivalent event bus |\n| Policy | OPA/Rego |\n| Secrets | Vault/KMS/cloud secret manager |\n| Containers | Docker + Kubernetes |\n| Observability | OpenTelemetry |\n| Identity | OIDC/OAuth2; RBAC/ABAC |\n| Testing | pytest + contract + scenario/replay tests |\n| Artifacts | OCI registry / S3-compatible object store |\n| CI/CD | Git + signed artifacts + SBOM |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0027",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "25. Requirements",
+      "section_path": "DOC-SPEC-013 > 25. Requirements",
+      "content": "Approved Agent SPEC Registry.\n\nPolicy Engine.\n\nTool Registry and Tool Gateway.\n\nGround-State/Digital Twin service.\n\nModel serving endpoint or ML Studio inference service.\n\nKnowledge retrieval service.\n\nDurable execution/state store.\n\nEvent bus or trigger source.\n\nIdentity provider.\n\nSecrets/KMS.\n\nImmutable audit storage.\n\nObservability collector and backend.\n\nApproval service/UI.\n\nNetwork segmentation and egress controls.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0028",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "26. Configuration",
+      "section_path": "DOC-SPEC-013 > 26. Configuration",
+      "content": "runtime:  environment: production  require_signed_spec: true  default_policy: deny  strict_asset_resolution: true  require_ground_state: true  telemetry_max_age_seconds: 30  max_iterations: 20  max_tool_calls: 25  execution_timeout_seconds: 900  tool_timeout_seconds: 30retries:  max_attempts: 3  backoff: exponential  max_backoff_seconds: 60security:  tenant_isolation: true  allow_shell_tools: false  outbound_allowlist: true  secrets_from_prompt: falseaudit:  immutable: true  retain_days: 2555approval:  high_consequence_required: true  timeout_minutes: 30",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0029",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "27. Environment Variables",
+      "section_path": "DOC-SPEC-013 > 27. Environment Variables",
+      "content": "AGENT_RUNTIME_ENV=productionAGENT_SPEC_REGISTRY_URL=https://spec-registry.internalPOLICY_ENGINE_URL=https://policy.internalGROUND_STATE_URL=https://ground-state.internalTOOL_GATEWAY_URL=https://tools.internalMODEL_GATEWAY_URL=https://models.internalOTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317DATABASE_URL=secret://runtime/postgresKMS_KEY_REF=secret://runtime/spec-signing-key\n\nSecrets should be injected through a secret manager rather than committed to source control or embedded in SPEC files.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0030",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "28. Directory Architecture",
+      "section_path": "DOC-SPEC-013 > 28. Directory Architecture",
+      "content": "agentic_studio/├── agent_runtime/│   ├── api/│   ├── engine/│   │   ├── loop/│   │   ├── state/│   │   ├── context/│   │   ├── planning/│   │   └── execution/│   ├── spec/│   ├── policy/│   ├── approvals/│   ├── tools/│   ├── models/│   ├── knowledge/│   ├── grounding/│   ├── recovery/│   ├── audit/│   ├── observability/│   ├── security/│   ├── config/│   └── tests/├── agent_spec/├── agent_builder/├── tool_gateway/├── ground_state/├── deployment/│   ├── docker/│   ├── kubernetes/│   └── helm/└── docs/",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0031",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "29. API Surface",
+      "section_path": "DOC-SPEC-013 > 29. API Surface",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Method | Endpoint | Purpose |\n| --- | --- | --- |\n| GET | /health | Liveness |\n| GET | /ready | Dependency readiness |\n| POST | /v1/executions | Start an execution |\n| GET | /v1/executions/{id} | Execution status |\n| POST | /v1/executions/{id}/cancel | Terminate |\n| POST | /v1/executions/{id}/approve | Submit approval |\n| GET | /v1/executions/{id}/trace | Execution trace |\n| GET | /v1/executions/{id}/audit | Audit events |\n| POST | /v1/events | Ingest authorized event |\n| GET | /v1/agents/{uid}/status | Runtime agent status |\n| POST | /v1/agents/{uid}/pause | Pause agent |\n| POST | /v1/agents/{uid}/resume | Resume agent |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0032",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "30. Start Execution Example",
+      "section_path": "DOC-SPEC-013 > 30. Start Execution Example",
+      "content": "POST /v1/executions{  \"agent_uid\": \"AGT-COMP-001\",  \"agent_version\": \"1.0.0\",  \"trigger\": {    \"type\": \"telemetry_event\",    \"event_uid\": \"EVT-92881\"  },  \"context\": {    \"site_uid\": \"PLANT-01\",    \"asset_uid\": \"COMP-02\"  }}Response:{  \"execution_id\": \"EXE-20260814-0001\",  \"status\": \"RUNNING\",  \"spec_hash\": \"sha256:...\"}",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0033",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "31. CLI Commands",
+      "section_path": "DOC-SPEC-013 > 31. CLI Commands",
+      "content": "python -m agent_runtime.api --host 0.0.0.0 --port 8092python -m agent_runtime.spec verify   --agent AGT-COMP-001 --version 1.0.0python -m agent_runtime.execution start   --agent AGT-COMP-001   --version 1.0.0   --event EVT-92881python -m agent_runtime.execution status EXE-20260814-0001python -m agent_runtime.execution cancel EXE-20260814-0001python -m agent_runtime.replay   --execution EXE-20260814-0001pytest -q agent_runtime/testsdocker compose -f deployment/docker-compose.yml up --buildkubectl apply -f deployment/kubernetes/",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0034",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "32. Runtime Deployment Topology",
+      "section_path": "DOC-SPEC-013 > 32. Runtime Deployment Topology",
+      "content": "INTERNET / USER                       |                 API GATEWAY                       |                 IDENTITY / WAF                       |             +---------v----------+             |   AGENT RUNTIME    |             |  multiple replicas |             +---+-------+--------+                 |       |          workflow DB   OTEL                 |       |          +------+--+    +-------> Observability          |         |       Policy     Tool Gateway          |         |          |      Industrial APIs          |     Ground-State / Model / Knowledge\n\nFor OT/industrial environments, network segmentation should separate enterprise IT, AI services and control networks. The Runtime should not obtain unrestricted network reachability to PLCs or safety systems.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0035",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "33. Industrial Control Boundary",
+      "section_path": "DOC-SPEC-013 > 33. Industrial Control Boundary",
+      "content": "AI-ConneX should treat direct machine-control operations as a distinct risk tier. A monitoring or recommendation agent can operate with read/inform/recommend permissions without receiving write access to control systems. If future versions support control actions, those actions should be mediated by dedicated safety-approved interfaces, explicit approvals and independent interlocks.\n\nThe Runtime must never equate an ML prediction with a safety authorization.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0036",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "34. Proof of Concept — Compressor Health Agent",
+      "section_path": "DOC-SPEC-013 > 34. Proof of Concept — Compressor Health Agent",
+      "content": "Create Plant-01 Ground-State with three compressors and telemetry.\n\nRegister Agent SPEC AGT-COMP-001:v1.0.0.\n\nVerify signature and referenced model/tool versions.\n\nGenerate normal telemetry events.\n\nTrigger an abnormal vibration event.\n\nResolve asset COMP-02 and retrieve current telemetry.\n\nInvoke the evaluated compressor-health model.\n\nValidate prediction against the model output schema.\n\nGenerate a maintenance recommendation.\n\nInvoke create_maintenance_alert through Tool Gateway.\n\nReplay the same event to verify idempotency/cooldown.\n\nInject stale telemetry and verify execution pauses/escalates.\n\nSimulate model outage and verify declared fallback.\n\nSimulate tool outage and verify bounded retry.\n\nAttempt PLC-write action and verify policy denial.\n\nRestart Runtime while waiting for approval and verify durable resume.\n\nInspect trace and audit records.\n\nModify SPEC and verify signature rejection.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0037",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "35. POC Acceptance Criteria",
+      "section_path": "DOC-SPEC-013 > 35. POC Acceptance Criteria",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Test | Pass criterion |\n| --- | --- |\n| SPEC integrity | Tampered SPEC rejected. |\n| Asset resolution | No unknown asset accepted. |\n| Model contract | Input/output mismatch rejected. |\n| Tool authorization | Unlisted/forbidden tool rejected. |\n| Prompt injection | Injected instructions cannot change permissions. |\n| Duplicate events | No duplicate side effect. |\n| Stale telemetry | Consequential action blocked/escalated. |\n| Approval | No execution without required approval. |\n| Loop protection | Execution terminates at configured limit. |\n| Restart | State resumes without duplicate side effect. |\n| Audit | Every consequential action traceable to execution/SPEC. |\n| Isolation | Cross-tenant access denied. |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0038",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "36. R&D Test Matrix",
+      "section_path": "DOC-SPEC-013 > 36. R&D Test Matrix",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Test class | Examples |\n| --- | --- |\n| Unit | State transitions, policy adapter, idempotency |\n| Contract | Tool/model/ground-state schemas |\n| Integration | Runtime ↔ policy ↔ tool gateway |\n| Replay | Historical telemetry/event sequences |\n| Adversarial | Prompt injection, malicious tool output |\n| Chaos | Network partition, service restart, timeouts |\n| Load | Concurrent events and execution budgets |\n| Security | Tenant isolation, privilege escalation |\n| Safety | Forbidden action attempts |\n| Drift | Model/tool/SPEC version mismatch |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0039",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "37. Prompt Injection Defense at Runtime",
+      "section_path": "DOC-SPEC-013 > 37. Prompt Injection Defense at Runtime",
+      "content": "Never concatenate retrieved instructions into an authorization context.\n\nKeep system/SPEC/policy authority separate from untrusted content.\n\nTreat model output as untrusted until validated.\n\nValidate all tool arguments against typed schemas.\n\nApply policy after model planning and before side effects.\n\nLimit tool capabilities to the SPEC.\n\nLog injection detections and denied actions.\n\nUse red-team regression scenarios.\n\nOWASP's 2025 Top 10 explicitly identifies prompt injection and explains that RAG/fine-tuning do not fully eliminate the risk. citeturn0search14turn0search49",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0040",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "38. Excessive Agency Defense",
+      "section_path": "DOC-SPEC-013 > 38. Excessive Agency Defense",
+      "content": "OWASP's 2025 guidance identifies excessive agency as a risk caused by excessive functionality, permissions or autonomy. AI-ConneX counters all three at the Runtime boundary: only required tools are bound, permissions are explicit, and autonomy is encoded in the SPEC and enforced before side effects. citeturn0search1\n\nNOT:LLM -> arbitrary APIYES:LLM -> typed proposal    -> SPEC check    -> policy check    -> approval check    -> Tool Gateway    -> side effect",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0041",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "39. Unbounded Consumption Defense",
+      "section_path": "DOC-SPEC-013 > 39. Unbounded Consumption Defense",
+      "content": "Maximum iterations.\n\nMaximum tool calls.\n\nExecution deadline.\n\nModel token/cost budget.\n\nPer-agent rate limits.\n\nPer-tenant quotas.\n\nCircuit breakers.\n\nEvent deduplication.\n\nConcurrency limits.\n\nOWASP's current list includes unbounded consumption among the major GenAI risks, reinforcing the need for runtime budgets rather than assuming model calls will naturally terminate. citeturn0search14",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0042",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "40. Compliance Report #5",
+      "section_path": "DOC-SPEC-013 > 40. Compliance Report #5",
+      "content": "This is an engineering compliance/readiness report, not a legal certification.\n\nNIST AI RMF is intended to help organizations manage AI risks throughout design, development, deployment and use; AI-ConneX maps that lifecycle orientation into concrete Runtime controls. NIST also released a 2026 concept note for a Critical Infrastructure Profile, making this especially relevant to industrial deployment planning. citeturn0search7turn0search10",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Control area | Runtime implementation | Evidence |\n| --- | --- | --- |\n| Govern | SPEC lifecycle, owner, version, approval | Registry + audit |\n| Map | Asset/model/tool context and risk classification | Ground-State + SPEC |\n| Measure | Execution metrics, scenario tests | OTel + test reports |\n| Manage | Policy, approvals, escalation, recovery | Runtime policy records |\n| Security | Identity, deny-by-default, tool gateway | Policy + gateway logs |\n| Integrity | Signed SPEC verification | Hash/signature logs |\n| Traceability | Execution → SPEC → data/model/tool lineage | Execution trace |\n| Human oversight | Approval manager | Approval events |\n| Resilience | Durable state + retry/circuit breakers | Recovery logs |\n| Privacy | Tenant/data scope | Authorization decisions |\n| Change management | Pinned versions | Deployment manifest |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0043",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "41. Manufacturing / Digital-Twin Alignment",
+      "section_path": "DOC-SPEC-013 > 41. Manufacturing / Digital-Twin Alignment",
+      "content": "ISO 23247-1:2021 establishes general principles and requirements for a manufacturing digital-twin framework, while ISO 23247-2:2021 specifies a reference architecture. ISO 23247-4:2021 addresses information exchange. The 2026 ISO 23247-5 and 23247-6 editions add digital-thread and digital-twin-composition concepts. These provide useful standards context for AI-ConneX's Ground-State, lineage and multi-system Runtime architecture. citeturn0search2turn0search0turn0search5turn0search6turn0search12",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0044",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "42. Version Baseline",
+      "section_path": "DOC-SPEC-013 > 42. Version Baseline",
+      "content": "Exact patch versions must be locked in requirements/lock files and released through a tested compatibility matrix. The document intentionally avoids claiming a particular patch release is universally correct.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Technology | Baseline |\n| --- | --- |\n| Python | 3.12.x |\n| FastAPI | 0.1xx; pin exact tested release |\n| Pydantic | 2.x |\n| PostgreSQL | 16.x |\n| Redis | 7.x |\n| OpenTelemetry | current tested SDK/Collector release |\n| Docker | current enterprise-supported release |\n| Kubernetes | current enterprise-supported release |\n| OPA | current tested release |\n| JSON Schema | 2020-12 |\n| OpenAPI | 3.1 |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0045",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "43. Production Readiness Gates",
+      "section_path": "DOC-SPEC-013 > 43. Production Readiness Gates",
+      "content": "SPEC schema frozen and versioned.\n\nSignature verification operational.\n\nPolicy engine integrated.\n\nTool Gateway integrated.\n\nGround-State freshness enforced.\n\nModel contract validation enforced.\n\nDurable state tested under restart.\n\nApproval workflow tested.\n\nAdversarial security suite passed.\n\nPOC failure suite passed.\n\nObservability dashboards operational.\n\nImmutable audit storage configured.\n\nDisaster recovery tested.\n\nRunbooks approved by operations/security.\n\nOnly then enable production agent.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0046",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "44. What Runtime Outputs",
+      "section_path": "DOC-SPEC-013 > 44. What Runtime Outputs",
+      "content": "The Runtime's output is therefore not simply a text answer. It is an industrial execution record: outcome + evidence + authorization + side effects + provenance.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Output | Consumer / purpose |\n| --- | --- |\n| Execution status | Visualizer / operations |\n| Agent decision/recommendation | Industrialist / workflow |\n| Alert/event | Maintenance / operations systems |\n| Approved tool result | Next agent step or user |\n| Approval request | Human supervisor |\n| Escalation | Operations team |\n| Execution trace | Visualizer/audit |\n| Audit record | Governance/security |\n| Runtime metrics | Observability |\n| Failure record | R&D/operations |\n| Outcome + provenance | Agent lifecycle / analytics |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0047",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "45. Runtime → Visualizer",
+      "section_path": "DOC-SPEC-013 > 45. Runtime → Visualizer",
+      "content": "Execution   |   +-- current state   +-- agent status   +-- observations   +-- recommendation   +-- action status   +-- approval state   +-- alerts   +-- model evidence   +-- provenance   |   vAgentic Studio Visualizer\n\nThe Visualizer should show what the Runtime is doing without becoming an authorization mechanism. Visualizer controls may request pause/approval, but the Runtime remains the enforcement point.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0048",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "46. Agent Runtime and Industrialist Experience",
+      "section_path": "DOC-SPEC-013 > 46. Agent Runtime and Industrialist Experience",
+      "content": "Industrialists do not need to understand prompts or agent loops.\n\nThey see the asset, condition, evidence, recommendation, action and reason.\n\nThey can approve, reject, pause or escalate according to the SPEC.\n\nOperations teams can inspect why an action was denied.\n\nIT teams can inspect identity and audit trails.\n\nData teams can trace results back to Manifest/DAG/Family lineage.\n\nML teams can trace decisions to exact evaluated model versions.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0049",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "47. Key Design Rules",
+      "section_path": "DOC-SPEC-013 > 47. Key Design Rules",
+      "content": "RULE 1: No signed SPEC -> no execution.RULE 2: No permission -> no tool call.RULE 3: No asset resolution -> no consequential action.RULE 4: No fresh required context -> stop/escalate.RULE 5: No required approval -> no execution.RULE 6: No valid tool contract -> no call.RULE 7: No bounded retry -> no repeated side effect.RULE 8: No audit -> no production release.RULE 9: Model output is a proposal, not authority.RULE 10: Runtime never silently expands scope.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0050",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "48. Research and Reference Links",
+      "section_path": "DOC-SPEC-013 > 48. Research and Reference Links",
+      "content": "NIST AI RMF 1.0 — official publication. urlNIST AI RMF 1.0turn0search7\n\nNIST AI Risk Management Framework program, including the 2026 Critical Infrastructure Profile concept note. urlNIST AI Risk Management Frameworkturn0search10\n\nISO 23247-1:2021 — manufacturing digital-twin overview and principles. urlISO 23247-1:2021turn0search2\n\nISO 23247-2:2021 — manufacturing digital-twin reference architecture. urlISO 23247-2:2021turn0search0\n\nISO 23247-4:2021 — manufacturing digital-twin information exchange. urlISO 23247-4:2021turn0search5\n\nISO 23247-5:2026 — digital thread for digital twin. urlISO 23247-5:2026turn0search6\n\nISO 23247-6:2026 — digital twin composition. urlISO 23247-6:2026turn0search12\n\nOWASP Top 10 for Agentic Applications 2026. urlOWASP Top 10 for Agentic Applications 2026turn0search16\n\nOWASP 2025 LLM risk guidance — prompt injection and excessive agency. urlOWASP GenAI Security Projectturn0search14turn0search1\n\nOpenTelemetry documentation. urlOpenTelemetry Documentationturn0search8",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0051",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "49. Final Architecture",
+      "section_path": "DOC-SPEC-013 > 49. Final Architecture",
+      "content": "USER | vJANE / CHATBOT |  intent vAGENT BUILDER |  compiles vAGENT SPEC |  signed contract vAGENT RUNTIME | +--> Ground-State +--> Data Studio lineage +--> ML Studio model +--> Knowledge +--> Policy +--> Approval | vMODEL proposes | vVALIDATOR | vPOLICY | vTOOL GATEWAY | vINDUSTRIAL ACTION / ALERT | +--> AUDIT +--> OBSERVABILITY +--> VISUALIZER\n\nThe architectural boundary is deliberate: the Runtime is where the AI-ConneX agent becomes operational, but it never becomes unconstrained. The Agent SPEC defines the contract; policy and gateway enforce authority; the Runtime supplies durable execution, recovery and observability.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-013-0052",
+      "document_id": "DOC-DOC-SPEC-013-V1",
+      "heading_level": 1,
+      "heading_text": "50. Conclusion",
+      "section_path": "DOC-SPEC-013 > 50. Conclusion",
+      "content": "Agent Runtime is the execution heart of Agentic Studio. It converts the Agent SPEC from a static blueprint into a controlled, observable and recoverable industrial process. Its most important property is not autonomy; it is bounded autonomy.\n\nFor AI-ConneX, the complete chain is: Jane captures intent → Agent Builder compiles intent and industrial context → Agent SPEC defines the contract → Agent Runtime executes that contract → Policy/Approval controls authority → Tool Gateway controls side effects → Visualizer exposes the state → Audit preserves accountability.\n\nThat separation makes the architecture suitable for industrial environments where data quality, operational continuity, human accountability, security and traceability matter as much as model intelligence.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    }
+  ],
+  "extracted_slas": [
+    {
+      "sla_id": "SLA-DEFAULT-DOC-SPEC-013-01",
+      "component_name": "AgentRuntime",
+      "metric_name": "p95_latency_ms",
+      "target_value": 500.0,
+      "unit": "ms",
+      "comparison_op": "<=",
+      "workload_condition": "Standard interactive execution regime",
+      "severity_on_breach": "critical",
+      "source_spec_id": "DOC-SPEC-013"
+    }
+  ]
+}

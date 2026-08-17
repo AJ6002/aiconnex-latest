@@ -1,0 +1,399 @@
+{
+  "title": "Industrial KB Source Knowledge Mechanism Mapping",
+  "total_mapped_sources": 23,
+  "summary": {
+    "deterministic_sources": 2,
+    "structured_primary": 9,
+    "structured_supporting": 14,
+    "knowledge_graph_primary": 9,
+    "knowledge_graph_supporting": 14,
+    "document_rag_primary": 18,
+    "document_rag_supporting": 5
+  },
+  "mappings": [
+    {
+      "source_id": "SRC-IND-ONT-001",
+      "title": "Basic Formal Ontology 2020 (BFO 2020 - ISO/IEC 21838-2)",
+      "authority_level": "A",
+      "knowledge_domain": "industrial",
+      "ingestion_strategy": {
+        "deterministic": false,
+        "structured": "Primary",
+        "knowledge_graph": "Primary",
+        "document_rag": "Supporting"
+      },
+      "target_stores": [
+        "Neo4j Graph (BFO Upper Taxonomy)",
+        "PostgreSQL Relational Catalog",
+        "Qdrant Vector Index (Supporting)"
+      ],
+      "ingestion_role": "Upper ontology foundation for all industrial processes, spatial/temporal entities, and occurrents."
+    },
+    {
+      "source_id": "SRC-IND-ONT-002",
+      "title": "Basic Formal Ontology Legacy Repository (BFO Master)",
+      "authority_level": "B",
+      "knowledge_domain": "industrial",
+      "ingestion_strategy": {
+        "deterministic": false,
+        "structured": "Supporting",
+        "knowledge_graph": "Supporting",
+        "document_rag": "Supporting"
+      },
+      "target_stores": [
+        "Neo4j Graph (BFO Legacy Classes)",
+        "Qdrant Vector Index (Supporting)"
+      ],
+      "ingestion_role": "Historical class hierarchy references and relation definitions."
+    },
+    {
+      "source_id": "SRC-IND-ONT-003",
+      "title": "Circular Economy Ontology Catalogue (CEON)",
+      "authority_level": "A",
+      "knowledge_domain": "industrial",
+      "ingestion_strategy": {
+        "deterministic": false,
+        "structured": "Primary",
+        "knowledge_graph": "Primary",
+        "document_rag": "Supporting"
+      },
+      "target_stores": [
+        "Neo4j Graph (Circular Economy & Material Flows)",
+        "Qdrant Vector Index (Supporting)"
+      ],
+      "ingestion_role": "Circular economy, material composition, degradation, and asset lifecycle state ontology."
+    },
+    {
+      "source_id": "SRC-IND-ONT-004",
+      "title": "Industrial Ontology Foundry (IOF) Core & Maintenance Ontologies",
+      "authority_level": "A",
+      "knowledge_domain": "industrial",
+      "ingestion_strategy": {
+        "deterministic": false,
+        "structured": "Primary",
+        "knowledge_graph": "Primary",
+        "document_rag": "Supporting"
+      },
+      "target_stores": [
+        "Neo4j Graph (Industrial Manufacturing Core & Maintenance)",
+        "Qdrant Vector Index (Supporting)"
+      ],
+      "ingestion_role": "Core manufacturing process, equipment, component, and maintenance activity ontology."
+    },
+    {
+      "source_id": "SRC-IND-ONT-005",
+      "title": "ROMAIN Industrial Maintenance Ontology",
+      "authority_level": "A",
+      "knowledge_domain": "industrial",
+      "ingestion_strategy": {
+        "deterministic": false,
+        "structured": "Primary",
+        "knowledge_graph": "Primary",
+        "document_rag": "Supporting"
+      },
+      "target_stores": [
+        "Neo4j Graph (ROMAIN Maintenance Concepts)",
+        "Qdrant Vector Index (Supporting)"
+      ],
+      "ingestion_role": "Industrial maintenance activity taxonomy, failure modes, and repair action relations."
+    },
+    {
+      "source_id": "SRC-IND-STD-001",
+      "title": "IEC 60812:2018 Failure Modes and Effects Analysis (FMEA and FMECA)",
+      "authority_level": "A",
+      "knowledge_domain": "industrial",
+      "ingestion_strategy": {
+        "deterministic": true,
+        "structured": "Primary",
+        "knowledge_graph": "Primary",
+        "document_rag": "Primary"
+      },
+      "target_stores": [
+        "PostgreSQL Deterministic Rules",
+        "Neo4j Graph (FMEA Failure-Effect Edges)",
+        "Qdrant Vector Index"
+      ],
+      "ingestion_role": "Standardized FMEA/FMECA procedure, failure mode effect relations, and criticality formulas."
+    },
+    {
+      "source_id": "SRC-IND-STD-002",
+      "title": "ISO 13379-1 Condition Monitoring and Diagnostics of Machines \u2014 General Guidelines",
+      "authority_level": "A",
+      "knowledge_domain": "industrial",
+      "ingestion_strategy": {
+        "deterministic": false,
+        "structured": "Primary",
+        "knowledge_graph": "Primary",
+        "document_rag": "Primary"
+      },
+      "target_stores": [
+        "Neo4j Graph (Diagnostic Feature Relations)",
+        "Qdrant Vector Index"
+      ],
+      "ingestion_role": "Machine condition monitoring, diagnostic descriptors, and symptom-to-fault mapping."
+    },
+    {
+      "source_id": "SRC-IND-STD-003",
+      "title": "ISO 13381-1 Condition Monitoring and Diagnostics of Machines \u2014 Prognostics Part 1",
+      "authority_level": "A",
+      "knowledge_domain": "industrial",
+      "ingestion_strategy": {
+        "deterministic": false,
+        "structured": "Primary",
+        "knowledge_graph": "Primary",
+        "document_rag": "Primary"
+      },
+      "target_stores": [
+        "Neo4j Graph (Prognostic Model & Degradation Chains)",
+        "Qdrant Vector Index"
+      ],
+      "ingestion_role": "Remaining Useful Life (RUL) estimation principles, degradation trends, and confidence bounds."
+    },
+    {
+      "source_id": "SRC-IND-STD-004",
+      "title": "ISO 14224:2016 Collection & Exchange of Reliability Data for Equipment",
+      "authority_level": "A",
+      "knowledge_domain": "industrial",
+      "ingestion_strategy": {
+        "deterministic": true,
+        "structured": "Primary",
+        "knowledge_graph": "Primary",
+        "document_rag": "Primary"
+      },
+      "target_stores": [
+        "PostgreSQL Deterministic Taxonomy",
+        "Neo4j Graph (Equipment Hierarchy)",
+        "Qdrant Vector Index"
+      ],
+      "ingestion_role": "Canonical equipment taxonomy (Plant->Unit->Equipment->Sub-system->Component) & standardized failure codes."
+    },
+    {
+      "source_id": "SRC-IND-STD-005",
+      "title": "ISO 55000:2024 Asset Management \u2014 Overview, Principles and Terminology",
+      "authority_level": "A",
+      "knowledge_domain": "industrial",
+      "ingestion_strategy": {
+        "deterministic": false,
+        "structured": "Supporting",
+        "knowledge_graph": "Supporting",
+        "document_rag": "Primary"
+      },
+      "target_stores": [
+        "Neo4j Graph (Asset Management Policy Nodes)",
+        "Qdrant Vector Index"
+      ],
+      "ingestion_role": "Asset management terminology, lifecycle cost principles, and governance concepts."
+    },
+    {
+      "source_id": "SRC-IND-NIST-001",
+      "title": "NISTIR 8012 Standards for PHM in Manufacturing Applications",
+      "authority_level": "A",
+      "knowledge_domain": "industrial",
+      "ingestion_strategy": {
+        "deterministic": false,
+        "structured": "Supporting",
+        "knowledge_graph": "Supporting",
+        "document_rag": "Primary"
+      },
+      "target_stores": [
+        "Qdrant Vector Index",
+        "Neo4j Graph (Standards Interoperability Edges)"
+      ],
+      "ingestion_role": "Manufacturing PHM standards synthesis, data exchange protocols, and architecture guidelines."
+    },
+    {
+      "source_id": "SRC-IND-NIST-002",
+      "title": "NIST AMS 100-2 Measurement Science Roadmap for PHM in Manufacturing",
+      "authority_level": "A",
+      "knowledge_domain": "industrial",
+      "ingestion_strategy": {
+        "deterministic": false,
+        "structured": "Supporting",
+        "knowledge_graph": "Supporting",
+        "document_rag": "Primary"
+      },
+      "target_stores": [
+        "Qdrant Vector Index"
+      ],
+      "ingestion_role": "Measurement science roadmap, sensor placement strategies, and PHM capability levels."
+    },
+    {
+      "source_id": "SRC-IND-NIST-003",
+      "title": "NIST PHM Capabilities Review for Smart Manufacturing Systems",
+      "authority_level": "A",
+      "knowledge_domain": "industrial",
+      "ingestion_strategy": {
+        "deterministic": false,
+        "structured": "Supporting",
+        "knowledge_graph": "Supporting",
+        "document_rag": "Primary"
+      },
+      "target_stores": [
+        "Qdrant Vector Index"
+      ],
+      "ingestion_role": "Smart manufacturing PHM capabilities, verification metrics, and deployment patterns."
+    },
+    {
+      "source_id": "SRC-IND-NIST-004",
+      "title": "NIST Standards and Techniques for PHM in Advanced Manufacturing",
+      "authority_level": "A",
+      "knowledge_domain": "industrial",
+      "ingestion_strategy": {
+        "deterministic": false,
+        "structured": "Supporting",
+        "knowledge_graph": "Supporting",
+        "document_rag": "Primary"
+      },
+      "target_stores": [
+        "Qdrant Vector Index"
+      ],
+      "ingestion_role": "Manufacturing degradation tracking techniques, feature extraction algorithms, and case studies."
+    },
+    {
+      "source_id": "SRC-IND-NASA-001",
+      "title": "NASA Technical Report 19740020847 Prognostics & System Reliability",
+      "authority_level": "B",
+      "knowledge_domain": "industrial",
+      "ingestion_strategy": {
+        "deterministic": false,
+        "structured": "Supporting",
+        "knowledge_graph": "Supporting",
+        "document_rag": "Primary"
+      },
+      "target_stores": [
+        "Qdrant Vector Index"
+      ],
+      "ingestion_role": "Foundational NASA aerospace prognostics algorithms, reliability statistics, and failure theory."
+    },
+    {
+      "source_id": "SRC-IND-NASA-002",
+      "title": "NASA Technical Report 19970009840 Vibration Analysis and Machine Diagnostics",
+      "authority_level": "B",
+      "knowledge_domain": "industrial",
+      "ingestion_strategy": {
+        "deterministic": false,
+        "structured": "Supporting",
+        "knowledge_graph": "Supporting",
+        "document_rag": "Primary"
+      },
+      "target_stores": [
+        "Qdrant Vector Index"
+      ],
+      "ingestion_role": "Vibration signal diagnostics, bearing/gear failure frequency formulas, and spectral signatures."
+    },
+    {
+      "source_id": "SRC-IND-NASA-003",
+      "title": "NASA Technical Report 20100024368 C-MAPSS Turbofan Degradation Simulation",
+      "authority_level": "B",
+      "knowledge_domain": "industrial",
+      "ingestion_strategy": {
+        "deterministic": false,
+        "structured": "Primary",
+        "knowledge_graph": "Primary",
+        "document_rag": "Primary"
+      },
+      "target_stores": [
+        "PostgreSQL Contract Store (C-MAPSS Dataset Spec)",
+        "Neo4j Graph (Turbofan Component Graph)",
+        "Qdrant Vector Index"
+      ],
+      "ingestion_role": "C-MAPSS turbofan engine degradation dataset specification, operating condition regimes, and sensor descriptions."
+    },
+    {
+      "source_id": "SRC-IND-NASA-004",
+      "title": "Survey of Foundation Models for PHM & Industrial Diagnostics (2024)",
+      "authority_level": "B",
+      "knowledge_domain": "industrial",
+      "ingestion_strategy": {
+        "deterministic": false,
+        "structured": "Supporting",
+        "knowledge_graph": "Supporting",
+        "document_rag": "Primary"
+      },
+      "target_stores": [
+        "Qdrant Vector Index"
+      ],
+      "ingestion_role": "Modern deep learning & foundation model architectures for industrial time-series & diagnostics."
+    },
+    {
+      "source_id": "SRC-IND-PAPER-001",
+      "title": "IOF Maintenance Working Group Modular Maintenance Ontology Paper",
+      "authority_level": "B",
+      "knowledge_domain": "industrial",
+      "ingestion_strategy": {
+        "deterministic": false,
+        "structured": "Supporting",
+        "knowledge_graph": "Supporting",
+        "document_rag": "Primary"
+      },
+      "target_stores": [
+        "Qdrant Vector Index"
+      ],
+      "ingestion_role": "Modular maintenance ontology architecture design, BFO alignment rules, and usage examples."
+    },
+    {
+      "source_id": "SRC-IND-PAPER-002",
+      "title": "Magnus et al. Unified Maintenance Data and Ontology Architecture",
+      "authority_level": "B",
+      "knowledge_domain": "industrial",
+      "ingestion_strategy": {
+        "deterministic": false,
+        "structured": "Supporting",
+        "knowledge_graph": "Supporting",
+        "document_rag": "Primary"
+      },
+      "target_stores": [
+        "Qdrant Vector Index"
+      ],
+      "ingestion_role": "Unified maintenance data models, industrial IoT schema integration, and ontology interoperability."
+    },
+    {
+      "source_id": "SRC-IND-PAPER-003",
+      "title": "Polenghi et al. Knowledge Reuse for Asset Management & PHM",
+      "authority_level": "B",
+      "knowledge_domain": "industrial",
+      "ingestion_strategy": {
+        "deterministic": false,
+        "structured": "Supporting",
+        "knowledge_graph": "Supporting",
+        "document_rag": "Primary"
+      },
+      "target_stores": [
+        "Qdrant Vector Index"
+      ],
+      "ingestion_role": "Knowledge reuse methodologies, asset management decision support, and PHM integration."
+    },
+    {
+      "source_id": "SRC-IND-PAPER-004",
+      "title": "Semantic Interoperability in Industrial Maintenance-Related Systems",
+      "authority_level": "B",
+      "knowledge_domain": "industrial",
+      "ingestion_strategy": {
+        "deterministic": false,
+        "structured": "Supporting",
+        "knowledge_graph": "Supporting",
+        "document_rag": "Primary"
+      },
+      "target_stores": [
+        "Qdrant Vector Index"
+      ],
+      "ingestion_role": "Semantic interoperability frameworks, industrial standards mapping, and middleware patterns."
+    },
+    {
+      "source_id": "SRC-IND-PAPER-005",
+      "title": "Woods et al. (2023) An Ontology for Maintenance Activities & Data Quality",
+      "authority_level": "B",
+      "knowledge_domain": "industrial",
+      "ingestion_strategy": {
+        "deterministic": false,
+        "structured": "Supporting",
+        "knowledge_graph": "Supporting",
+        "document_rag": "Primary"
+      },
+      "target_stores": [
+        "Qdrant Vector Index"
+      ],
+      "ingestion_role": "Maintenance activity breakdown, data quality assessment metrics, and work order ontology."
+    }
+  ]
+}

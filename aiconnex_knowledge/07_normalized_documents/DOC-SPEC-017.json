@@ -1,0 +1,512 @@
+{
+  "document_id": "DOC-DOC-SPEC-017-V1",
+  "source_id": "DOC-SPEC-017",
+  "title": "AI-ConneX InHouse Metaphorical Agents Catalogue and Architecture",
+  "studio": "AgenticStudio",
+  "category": "Architecture",
+  "target_subsystems": [
+    "PreUploadAgent",
+    "ScoutAgent",
+    "WorkflowPlanner",
+    "JudgeAgent",
+    "SelectorAgent",
+    "ScorerAgent"
+  ],
+  "summary": "Catalog of specialized in-house industrial agents: roles, trigger conditions, input/output contracts, and validation rules.",
+  "sha256": "0d9146c24fa1f96b969cc45350613082898a4c80978592a83dfea07affa52a98",
+  "file_size_bytes": 54620,
+  "statistics": {
+    "headings_count": 47,
+    "paragraphs_count": 98,
+    "tables_count": 16,
+    "sections_count": 40,
+    "estimated_words": 5290
+  },
+  "sections": [
+    {
+      "section_id": "SEC-DOC-SPEC-017-0001",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "Overview",
+      "section_path": "DOC-SPEC-017 > Overview",
+      "content": "AI-ConneX\n\nIN-HOUSE AGENT METAPHOR SYSTEM\n\nMetaphorical Agent Catalogue • Metaphor Selector • Validation • Runtime ContractData Studio • ML Studio • Agentic Studio • Cross-Studio ProcessesR&D → Failure Analysis → Architecture → POC → Compliance Report #5Version 1.0 | 14 August 2026",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0002",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "1. Executive Summary",
+      "section_path": "DOC-SPEC-017 > 1. Executive Summary",
+      "content": "AI-ConneX uses many internal agents. Naming every internal agent only by an engineering function can make the architecture difficult for industrial users to understand. The proposed Metaphorical Agent layer gives each agent a controlled, domain-appropriate metaphor: a familiar role or object that explains its responsibility without pretending that the software is human.\n\nThe metaphor is a user-interface and communication device, not an implementation dependency. Internal IDs remain stable technical identifiers; the metaphor is a presentation label stored in a governed registry. This distinction is essential for industrial safety, auditability and localization.\n\nResearch supports the idea that metaphors can improve comprehension of unfamiliar interfaces, but also shows that metaphor choice changes perceptions of AI competence, warmth and willingness to collaborate. Therefore AI-ConneX must select metaphors systematically, validate them with target users, and explicitly disclose the underlying technical capability and limitations. citeturn0search2turn0search1\n\nFor manufacturing specifically, research on industrial icons and visual analytics indicates that semantic alignment between a visual representation and its underlying industrial entity can improve search efficiency and cognitive performance. citeturn0search12turn0search7",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0003",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "2. What a Metaphorical Agent Is",
+      "section_path": "DOC-SPEC-017 > 2. What a Metaphorical Agent Is",
+      "content": "Example: the technical agent `dataset_join_validator` may be presented as the **Bridge Inspector** because it checks whether two data structures can be safely connected. The agent does not literally inspect a physical bridge and must not claim physical authority.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Term | Definition |\n| --- | --- |\n| Technical Agent | Executable software component with a defined input, output, policy and tool scope. |\n| Metaphorical Agent | The user-facing conceptual role assigned to a technical agent to make its responsibility understandable. |\n| Metaphor | A familiar source concept used to explain a less familiar technical responsibility. |\n| Metaphor Label | Short name displayed in Jane, logs, stage explanations or visualizations. |\n| Metaphor Contract | Governed mapping: technical agent → metaphor → scope → allowed claims → UI language. |\n| Metaphor Selector | Internal service that chooses a validated metaphor based on agent role, studio, process and user context. |\n| Metaphor Validator | Tests semantic fit, ambiguity, anthropomorphism, safety and comprehension. |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0004",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "3. Design Principles",
+      "section_path": "DOC-SPEC-017 > 3. Design Principles",
+      "content": "Metaphors must explain, never conceal.\n\nOne technical responsibility should have one primary metaphor per user context.\n\nMetaphors must be familiar to the target industrial audience.\n\nPrefer industrial/process/object metaphors over exaggerated human personas.\n\nDo not imply human consciousness, emotions, legal authority or independent accountability.\n\nDo not imply physical safety certification unless the agent actually performs a certified function.\n\nMetaphor labels are versioned and governed like product terminology.\n\nEvery metaphor has a plain-language explanation available on hover/click.\n\nMetaphors must be consistent across Studios.\n\nSafety-critical actions use explicit technical action labels in addition to metaphors.\n\nMetaphor changes must not change agent behavior.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0005",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "4.1 Conceptual Metaphor Research",
+      "section_path": "DOC-SPEC-017 > 4.1 Conceptual Metaphor Research",
+      "content": "Interface-metaphor research describes metaphor as presenting a new idea in terms of a familiar one and proposes systematic steps for selecting, implementing and evaluating interface metaphors. It also warns that recognition of the metaphor and its relationship to actual functionality are critical. citeturn0search2\n\nResearch on conceptual metaphors in human-AI collaboration found that metaphor framing can influence perceived warmth, competence, usability and willingness to cooperate even when the underlying agent behavior is unchanged. This is a direct reason AI-ConneX needs governance rather than ad-hoc naming. citeturn0search1turn0search4\n\nResearch on visual metaphors found that schema congruency and contextual detail can improve comprehension of complex data interfaces. citeturn0search5\n\nRecent work on industrial icons reports that metaphorical object representations can affect cognitive performance, while studies of industrial process icons emphasize semantic-entity relevance and search efficiency. citeturn0search7turn0search12",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0006",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "4.2 Manufacturing Visualization Basis",
+      "section_path": "DOC-SPEC-017 > 4.2 Manufacturing Visualization Basis",
+      "content": "NIST describes visual analytics as analytical reasoning facilitated by interactive visual interfaces and identifies benefits for manufacturing including operational decision-making, communication across engineering teams, knowledge transfer and support for less experienced users. citeturn0search6\n\nNIST's machine-maintenance research demonstrates coordinated visual analytics for heterogeneous maintenance data and emphasizes human-in-the-loop interpretation. citeturn0search3\n\nThese findings support AI-ConneX using metaphors as a thin comprehension layer over evidence-rich visualizations, rather than using metaphors as substitutes for evidence.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0007",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "5. Metaphor Taxonomy for AI-ConneX",
+      "section_path": "DOC-SPEC-017 > 5. Metaphor Taxonomy for AI-ConneX",
+      "content": "The preferred vocabulary is deliberately industrial and functional. Human-role metaphors should not imply that the agent has human judgment or accountability.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Family | When to use | Examples |\n| --- | --- | --- |\n| Industrial role | Agent performs a recognizable expert-like function | Inspector, Planner, Coordinator |\n| Industrial object | Agent handles/organizes something | Sorter, Bridge, Ledger |\n| Process role | Agent performs a transformation | Converter, Cleaner, Splitter |\n| Control-system role | Agent checks/guards state | Gatekeeper, Sentinel |\n| Navigation role | Agent helps users find a route | Navigator, Guide |\n| Measurement role | Agent observes/quantifies | Meter, Probe, Gauge |\n| Quality role | Agent validates quality | Inspector, Auditor |\n| Knowledge role | Agent retrieves/links knowledge | Librarian, Cartographer |\n| Orchestration role | Agent coordinates steps | Conductor, Dispatcher |\n| Decision-support role | Agent compares/evaluates | Judge, Scorer |\n| Monitoring role | Agent watches ongoing state | Watchkeeper, Sentinel |\n| Visualization role | Agent turns data into understandable views | Lens, Mapper |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0008",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "6. Master Catalogue — Data Studio",
+      "section_path": "DOC-SPEC-017 > 6. Master Catalogue — Data Studio",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Technical agent | Primary process | Recommended metaphor | Why it fits | Key user phrase |\n| --- | --- | --- | --- | --- |\n| Intent Parser | Interpret user request | Interpreter | Translates natural language into explicit intent | 'I translated your request into a plan.' |\n| Dataset Intake Agent | Receive dataset | Receiving Clerk | Records incoming materials/data | 'I recorded what arrived.' |\n| Archive Agent | ZIP/unzip/archive handling | Unpacker | Opens packaged data without changing meaning | 'I unpacked the archive.' |\n| Format Detector | Identify file formats | Label Reader | Identifies what each input is | 'I identified the input types.' |\n| Compiler Agent | Unify dataset formats | Universal Adapter | Converts heterogeneous inputs into a common contract | 'I adapted the formats to one common structure.' |\n| Schema Mapper | Map fields/types | Blueprint Mapper | Maps old fields to unified fields | 'I mapped the fields.' |\n| Join Planner | Determine joins | Bridge Planner | Plans connections between datasets | 'I planned how these datasets connect.' |\n| Join Validator | Validate join keys | Bridge Inspector | Checks whether the planned connection is valid | 'I checked the connection.' |\n| Append/Merge Planner | Append/merge records | Assembler | Combines compatible pieces | 'I assembled the compatible records.' |\n| Data Profiler | Profile dataset | Surveyor | Measures the terrain/shape of data | 'I surveyed the dataset.' |\n| Quality Agent | Assess quality | Quality Inspector | Finds defects and quality issues | 'I inspected data quality.' |\n| Anomaly Agent | Find unusual values | Anomaly Scout | Looks for unusual patterns | 'I found unusual observations.' |\n| Family Assigner | Assign Family IDs | Grouping Clerk | Organizes related signals | 'I grouped related signals.' |\n| DAG Assigner | Build relationships | Route Mapper | Maps dependencies and routes | 'I mapped the data flow.' |\n| Recipe Retriever | Find existing recipe | Recipe Librarian | Retrieves validated transformations | 'I found a suitable recipe.' |\n| Recipe Planner | Construct execution recipe | Process Planner | Sequences transformations | 'I planned the preparation process.' |\n| Prepare Agent | Clean/prepare data | Workshop Cleaner | Prepares material for the next operation | 'I prepared the dataset.' |\n| Feature Engineer | Create features | Signal Smith | Turns raw signals into useful derived signals | 'I forged usable signals from the raw data.' |\n| Feature Validator | Check feature quality | Gauge Inspector | Checks derived-signal behavior | 'I checked the engineered signals.' |\n| Route Agent | Choose Data vs ML route | Pathfinder | Selects the next appropriate path | 'I found the next route.' |\n| Data Service Agent | Serve prepared data | Data Counter | Makes organized data available for use | 'The prepared data is ready to use.' |\n| Math/Physics Agent | Derived analytical layer | Instrument Maker | Adds validated mathematical/physics views | 'I added analytical measurements.' |\n| Lineage Agent | Trace artifacts | Trace Keeper | Maintains provenance | 'I kept the trail from source to result.' |\n| Telemetry Agent | Stage status | Watchkeeper | Reports execution state | 'I am watching the stage status.' |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0009",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "7. Master Catalogue — ML Studio",
+      "section_path": "DOC-SPEC-017 > 7. Master Catalogue — ML Studio",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Technical agent | Primary process | Recommended metaphor | Why it fits |\n| --- | --- | --- | --- |\n| ML Intent Agent | Interpret model goal | Model Planner | Clarifies what is being built |\n| Clean Validator | Check readiness | Gate Inspector | Checks whether prerequisites are met |\n| DAG Loader | Load suggested DAG/families | Route Mapper | Carries forward structural relationships |\n| Split Agent | Create train/validation/test split | Divider | Separates experimental roles |\n| Recipe Agent | STEM recipe | Experiment Planner | Defines experiment procedure |\n| Model Trainer | Train candidates | Model Workshop | Runs candidate model builds |\n| Hyperparameter Agent | Tune candidates | Tuner | Adjusts configurable model settings |\n| Evaluator | Calculate metrics | Test Bench | Measures model behavior |\n| Metrics Comparator | Compare metrics | Scoreboard | Places candidates side by side |\n| Judge Agent | Select model with reasons | Referee | Makes a governed comparative recommendation |\n| Scorer Agent | Final scoring | Rater | Produces a standardized score |\n| Math Plot Agent | Statistical graphs | Analyst Lens | Makes model mathematics visible |\n| Physics Agent | Physical plausibility | Physics Inspector | Checks domain constraints where configured |\n| Explainability Agent | Attribution/explanation | Evidence Lens | Shows evidence supporting behavior |\n| Model Registry Agent | Version model artifacts | Model Ledger | Records model identity/version |\n| Deployment Agent | Deploy model | Launch Controller | Coordinates release |\n| Drift Agent | Monitor production data/model | Drift Watcher | Detects changing behavior |\n| Model Lineage Agent | Trace data→model | Model Historian | Maintains provenance |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0010",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "8. Master Catalogue — Agentic Studio",
+      "section_path": "DOC-SPEC-017 > 8. Master Catalogue — Agentic Studio",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Technical agent | Primary process | Recommended metaphor | Why it fits |\n| --- | --- | --- | --- |\n| Agent Intent Agent | Interpret automation goal | Mission Planner | Turns intent into an explicit mission |\n| Agent SPEC Builder | Build blueprint | Blueprint Architect | Defines scope/capabilities/constraints |\n| Capability Agent | Define tools | Toolbox Curator | Determines available capabilities |\n| Policy Agent | Apply constraints | Gatekeeper | Controls what may be done |\n| Knowledge Ingestion Agent | Load knowledge | Archivist | Organizes approved knowledge |\n| RAG Retriever | Retrieve relevant knowledge | Librarian | Finds relevant authorized sources |\n| RAG Reranker | Rank evidence | Indexer | Orders evidence by relevance |\n| Knowledge Graph Builder | Build relationships | Cartographer | Maps entities and relationships |\n| Graph Query Agent | Traverse context | Navigator | Finds paths through the graph |\n| Knowledge Validator | Validate sources | Archivist Inspector | Checks knowledge quality |\n| Telemetry Connector | Connect live data | Sensor Bridge | Connects external signals to the platform |\n| Telemetry Normalizer | Normalize signals | Signal Translator | Makes incoming signals consistent |\n| Context Builder | Combine state | Situation Board | Builds the current operational context |\n| Agent Runtime | Execute agent loop | Control Room | Coordinates live execution |\n| Planner Agent | Plan actions | Dispatcher | Sequences authorized work |\n| Tool Selector | Choose tool | Tool Clerk | Selects an allowed capability |\n| Tool Executor | Execute tool call | Operator | Performs the authorized software action |\n| Approval Agent | Request human approval | Approval Gate | Stops action until approval when required |\n| Action Verifier | Check action outcome | Confirmation Inspector | Verifies actual result |\n| Alert Agent | Create alarms | Alarm Watcher | Raises configured alerts |\n| Main Agent | Coordinate agent system | Conductor | Coordinates specialized agents |\n| Agent Toolkit | Expose industrial functions | Control Panel | Presents/manage authorized capabilities |\n| Visualizer Agent | Join industrial visual context | Lens | Makes system state visible |\n| Evidence Agent | Assemble evidence | Case Builder | Builds an auditable evidence package |\n| Audit Agent | Record actions | Log Keeper | Maintains audit trail |\n| Outcome Agent | Measure result | Outcome Meter | Measures what happened after action |\n| Agent Health Agent | Runtime health | Watchtower | Monitors agent service health |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0011",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "9. Cross-Studio Process Metaphors",
+      "section_path": "DOC-SPEC-017 > 9. Cross-Studio Process Metaphors",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| AI-ConneX process | Metaphor | Explanation |\n| --- | --- | --- |\n| Chatbot/Jane conversation | Control Desk | Human starts by stating the mission |\n| Intent → Plan | Work Order | A request becomes an explicit job |\n| Compiler | Universal Adapter | Different formats become compatible |\n| Profiler | Surveyor | The system measures the dataset landscape |\n| DAG | Route Map | Dependencies become visible |\n| Recipe | Work Instruction | Steps become executable |\n| Prepare | Workshop | Material is made usable |\n| Feature Engineering | Signal Forge | Raw signals become useful derived signals |\n| Split/Train/Evaluate | Test Bench | Candidates are experimentally tested |\n| Judge/Scorer | Review Board | Evidence is compared before selection |\n| Manifest | Passport | Identity and metadata travel with the artifact |\n| Telemetry | Heartbeat | Execution state is continuously reported |\n| RAG | Reference Desk | Relevant approved knowledge is retrieved |\n| Knowledge Graph | Map | Relationships become navigable |\n| Agent SPEC | Blueprint | Agent design becomes explicit |\n| Runtime | Control Room | Execution is coordinated |\n| Toolkit | Control Panel | Authorized functions are exposed |\n| Visualizer | Lens | Complex state becomes understandable |\n| Audit | Logbook | Actions become traceable |\n| Deployment | Release Gate | A validated artifact enters service |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0012",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "10. The Metaphor Selector",
+      "section_path": "DOC-SPEC-017 > 10. The Metaphor Selector",
+      "content": "AI-ConneX should not ask an LLM to invent a metaphor at runtime and immediately display it. Instead, a governed Metaphor Registry stores approved metaphors. A selector ranks approved candidates and a validator rejects poor matches.\n\nAgent Role   ↓Studio + Process Context   ↓Metaphor Registry   ↓Candidate Ranking   ↓Semantic / Safety Validation   ↓User-context suitability   ↓Approved Metaphor   ↓Jane + UI + Documentation",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0013",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "10.1 Ranking Dimensions",
+      "section_path": "DOC-SPEC-017 > 10.1 Ranking Dimensions",
+      "content": "Weights are starting points for the POC and must be calibrated through user studies.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Dimension | Weight example | Question |\n| --- | --- | --- |\n| Semantic fit | 30% | Does the metaphor describe the actual function? |\n| Industrial familiarity | 20% | Would the target operator understand it? |\n| Non-anthropomorphism | 15% | Does it avoid implying human cognition? |\n| Safety clarity | 15% | Could it create a dangerous misunderstanding? |\n| Consistency | 10% | Does it fit existing AI-ConneX vocabulary? |\n| Localization | 5% | Does it translate without losing meaning? |\n| Brevity | 5% | Can it be understood quickly? |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0014",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "11.2 Metaphor Registry Schema",
+      "section_path": "DOC-SPEC-017 > 11.2 Metaphor Registry Schema",
+      "content": "{  \"metaphor_id\": \"META-DS-COMPILER-001\",  \"technical_agent\": \"compiler_agent\",  \"studio\": \"DATA\",  \"role\": \"format_unification\",  \"label\": \"Universal Adapter\",  \"plain_explanation\": \"Converts heterogeneous input into the unified data contract.\",  \"allowed_claims\": [    \"format normalization\",    \"schema conversion\"  ],  \"forbidden_claims\": [    \"understands the physical process\",    \"certifies data correctness\"  ],  \"risk_level\": \"low\",  \"locale\": \"en-IN\",  \"version\": \"1.0.0\",  \"status\": \"approved\"}",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0015",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "12. Metaphor Failure Modes",
+      "section_path": "DOC-SPEC-017 > 12. Metaphor Failure Modes",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Failure | Example | Risk | Mitigation |\n| --- | --- | --- | --- |\n| Over-humanization | 'Expert Engineer' implies human expertise | Users over-trust agent | Prefer Inspector/Lens/Planner |\n| Over-competence | 'Master' suggests near-perfect ability | Unsafe reliance | Use bounded functional role |\n| Wrong domain | 'Doctor' for data quality | Confusing analogy | Use industrial quality metaphor |\n| Mixed metaphor | Bridge + factory + courtroom language in one flow | Cognitive load | One metaphor family per stage |\n| Literal confusion | 'Gatekeeper' interpreted as access security when it is only validation | Wrong expectation | Show plain-language definition |\n| Safety implication | 'Safety Inspector' without certified safety role | Potential hazard | Reserve safety terms for actual validated safety functions |\n| Anthropomorphic accountability | 'The agent decided' | Responsibility confusion | Say 'the system recommended' |\n| Cultural mismatch | Metaphor unfamiliar in target plant | Low comprehension | Local user validation |\n| Translation drift | Metaphor loses meaning in another language | Misunderstanding | Locale-specific registry |\n| Metaphor fatigue | Every microservice gets a colorful name | Noise | Expose only meaningful user-facing agents |\n| Branding over clarity | Cute names replace function | Reduced transparency | Always display technical function on demand |\n| Runtime hallucination | LLM invents metaphor | Inconsistent UI | Registry-only selection |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0016",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "13. Key R&D Failures Found",
+      "section_path": "DOC-SPEC-017 > 13. Key R&D Failures Found",
+      "content": "Initial assumption: every internal agent needs a memorable metaphor. Finding: too many metaphors increase cognitive load.\n\nInitial assumption: human job titles are easiest. Finding: they can imply authority, competence and accountability that the software does not possess.\n\nInitial assumption: one metaphor works for every audience. Finding: operator, engineer and executive mental models differ.\n\nInitial assumption: metaphor can be generated freely by an LLM. Finding: terminology drift and unsafe claims can occur.\n\nInitial assumption: metaphors can replace technical explanations. Finding: industrial users still need evidence and exact status.\n\nInitial assumption: visual metaphors are universally understood. Finding: cultural and domain context changes comprehension.\n\nInitial assumption: metaphor is cosmetic. Finding: research shows metaphor changes perceptions of AI competence and cooperation.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0017",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "14. How AI-ConneX Overcomes These Failures",
+      "section_path": "DOC-SPEC-017 > 14. How AI-ConneX Overcomes These Failures",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Problem | AI-ConneX control |\n| --- | --- |\n| Too many metaphors | Only user-relevant agents receive metaphors in default UI. |\n| Anthropomorphism | Industrial object/process vocabulary is preferred. |\n| Overtrust | Metaphor always paired with capability and limitation text. |\n| Inconsistent names | Central registry + version control. |\n| LLM hallucinated labels | LLM may recommend; registry decides. |\n| Cross-Studio inconsistency | Shared metaphor ontology. |\n| Safety confusion | Restricted vocabulary for safety-critical terms. |\n| Localization | Locale-aware metaphor registry. |\n| Changing behavior | Metaphor is presentation metadata, not executable logic. |\n| Audit needs | Metaphor ID/version is recorded with UI/event snapshots. |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0018",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "15. Metaphor Ontology",
+      "section_path": "DOC-SPEC-017 > 15. Metaphor Ontology",
+      "content": "Metaphor├── source_domain│   ├── industrial_role│   ├── industrial_object│   ├── process│   ├── control│   ├── navigation│   ├── measurement│   └── knowledge├── target_function├── studio├── user_audience├── safety_class├── allowed_claims├── forbidden_claims└── localization",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0019",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "16. Input from Previous Stage — Jane / Chatbot",
+      "section_path": "DOC-SPEC-017 > 16. Input from Previous Stage — Jane / Chatbot",
+      "content": "Jane is the human-facing predecessor to the internal agent layer. Jane's output should be normalized into an Intent Envelope. Internal agents consume the envelope rather than parsing raw conversation independently.\n\n{  \"intent_uid\": \"INT-...\",  \"tenant_uid\": \"TEN-...\",  \"user_uid\": \"USR-...\",  \"studio\": \"DATA|ML|AGENTIC\",  \"goal\": \"...\",  \"constraints\": [\"...\"],  \"data_refs\": [\"...\"],  \"desired_outputs\": [\"...\"],  \"risk_class\": \"normal|high|critical\",  \"user_role\": \"...\",  \"conversation_summary\": \"...\",  \"language\": \"en-IN\"}\n\nThe Metaphor layer uses the intent envelope only to choose the appropriate vocabulary/context. It must not change the user's technical intent.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0020",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "17. Outputs to the Next Stage",
+      "section_path": "DOC-SPEC-017 > 17. Outputs to the Next Stage",
+      "content": "MetaphorContext is presentation metadata. It should never be treated as authorization or execution state.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Agent layer output | Consumer | Purpose |\n| --- | --- | --- |\n| AgentExecutionPlan | Runtime/orchestrator | What agents need to run |\n| AgentTaskEnvelope | Individual agent | Scoped task |\n| EvidenceEnvelope | Jane/UI | What supports the result |\n| TelemetryEvents | Stage tabs/observability | Execution state |\n| MetaphorContext | Jane/UI | How to explain the active agent |\n| ArtifactRefs | Next pipeline stage | Produced files/models/manifests |\n| PolicyDecision | Runtime | Allowed/blocked action |\n| AuditEvent | Audit store | Traceability |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0021",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "18. Agent Envelope",
+      "section_path": "DOC-SPEC-017 > 18. Agent Envelope",
+      "content": "{  \"execution_uid\": \"EXEC-...\",  \"agent_id\": \"data.profiler\",  \"metaphor_id\": \"META-DS-PROFILER-001\",  \"tenant_uid\": \"TEN-...\",  \"input_refs\": [\"MANIFEST-...\"],  \"task\": \"...\",  \"policy_ref\": \"POL-...\",  \"tools\": [],  \"expected_outputs\": [\"profile.json\", \"quality.json\"],  \"telemetry_topic\": \"ai_connex.stage.profiler\"}",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0022",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "19. Tech Stack",
+      "section_path": "DOC-SPEC-017 > 19. Tech Stack",
+      "content": "Exact versions should be pinned in the organization's platform BOM; the versions above are reference baselines, not claims about the current production environment.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Layer | Recommended technology | Purpose |\n| --- | --- | --- |\n| Agent runtime | Python 3.12 + FastAPI | Agent services/API |\n| Orchestration | Temporal 1.x or equivalent durable workflow engine | Reliable long-running workflows |\n| LLM gateway | Provider-neutral gateway | Model abstraction and policy |\n| Schema validation | Pydantic 2.x / JSON Schema | Contracts |\n| Registry | PostgreSQL 16+ | Agent/metaphor/config metadata |\n| Vector search | pgvector or dedicated vector DB | RAG retrieval |\n| Graph | Neo4j 5.x or equivalent | Knowledge graph |\n| Telemetry | OpenTelemetry | Traces/metrics/log correlation |\n| Messaging | Kafka 3.x or NATS | Events/telemetry |\n| Cache | Redis 7.x | Short-lived state/caching |\n| Frontend | React + TypeScript | Metaphor presentation |\n| Graph visualization | Cytoscape.js / React Flow | DAG/agent graphs |\n| Containerization | Docker/OCI | Packaging |\n| Deployment | Kubernetes 1.3x+ | Industrial/private-cloud deployment |\n| Policy | OPA/Rego or equivalent | Authorization/guardrails |\n| Secrets | Vault/KMS-equivalent | Credential management |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0023",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "20. Requirements",
+      "section_path": "DOC-SPEC-017 > 20. Requirements",
+      "content": "Tenant-aware identity and authorization.\n\nVersioned agent registry.\n\nVersioned metaphor registry.\n\nStable agent IDs independent of display names.\n\nEvent/telemetry bus.\n\nEvidence and lineage storage.\n\nLocalization support if multiple plant languages are required.\n\nRole-based visibility for technical details.\n\nAudit trail for metaphor and capability changes.\n\nHuman review process for high-risk metaphor labels.\n\nOffline/private deployment capability for industrial environments.\n\nAutomated tests for metaphor mapping and UI claims.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0024",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "21. Configuration",
+      "section_path": "DOC-SPEC-017 > 21. Configuration",
+      "content": "METAPHOR_REGISTRY_URL=https://metaphor-registry.internalMETAPHOR_DEFAULT_LOCALE=en-INMETAPHOR_MODE=registry_onlyMETAPHOR_LLM_SUGGESTION=trueMETAPHOR_REQUIRE_APPROVAL=trueMETAPHOR_MAX_VISIBLE_AGENTS=8METAPHOR_SAFETY_MODE=strictMETAPHOR_FALLBACK_MODE=technical_labelOTEL_SERVICE_NAME=ai-connex-metaphor-serviceOTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317\n\nFor regulated or high-risk deployments, `METAPHOR_MODE=registry_only` and `METAPHOR_SAFETY_MODE=strict` should be mandatory.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0025",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "22. Directory Architecture",
+      "section_path": "DOC-SPEC-017 > 22. Directory Architecture",
+      "content": "agentic-studio/├── agents/│   ├── data/│   ├── ml/│   └── agentic/├── metaphor/│   ├── registry/│   │   ├── metaphors.yaml│   │   ├── ontology.yaml│   │   └── locales/│   ├── selector/│   ├── validator/│   ├── evaluator/│   └── api/├── contracts/│   ├── intent/│   ├── agent/│   ├── evidence/│   └── telemetry/├── policies/│   ├── metaphor/│   └── agent/├── tests/│   ├── semantic/│   ├── safety/│   ├── localization/│   └── regression/├── infra/│   ├── docker/│   ├── helm/│   └── k8s/└── docs/    ├── metaphor-catalogue/    └── ADRs/",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0026",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "23. APIs",
+      "section_path": "DOC-SPEC-017 > 23. APIs",
+      "content": "The APIs are internal reference contracts. Production endpoints should use the organization's gateway, authentication, tenant scoping, rate limits and API versioning.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Method | Endpoint | Purpose |\n| --- | --- | --- |\n| GET | /v1/metaphors/{agent_id} | Get approved metaphor |\n| POST | /v1/metaphors/resolve | Resolve context to metaphor |\n| POST | /v1/metaphors/validate | Validate candidate |\n| GET | /v1/metaphors/catalogue | List permitted catalogue |\n| GET | /v1/agents/{agent_id}/explanation | Technical + metaphor explanation |\n| GET | /v1/executions/{execution_uid}/metaphor | Historical metaphor used |\n| POST | /v1/metaphors/{id}/approve | Approve governance workflow |\n| POST | /v1/metaphors/{id}/deprecate | Deprecate mapping |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0027",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "24. Example Commands",
+      "section_path": "DOC-SPEC-017 > 24. Example Commands",
+      "content": "# Create environmentpython -m venv .venvsource .venv/bin/activatepip install -r requirements.txt# Validate metaphor registrypython -m metaphor.validator validate ./metaphor/registry# Run semantic/safety testspytest tests/semantic tests/safety -q# Run serviceuvicorn metaphor.api.main:app --host 0.0.0.0 --port 8080# Dockerdocker build -t ai-connex/metaphor-service:1.0.0 .docker run --env-file .env -p 8080:8080 ai-connex/metaphor-service:1.0.0# Kuberneteshelm upgrade --install metaphor ./infra/helm/metaphor   --namespace ai-connex --create-namespace",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0028",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "25. API Resolution Example",
+      "section_path": "DOC-SPEC-017 > 25. API Resolution Example",
+      "content": "POST /v1/metaphors/resolve{  \"agent_id\": \"data.profiler\",  \"studio\": \"DATA\",  \"process\": \"profile\",  \"user_role\": \"plant_engineer\",  \"locale\": \"en-IN\"}Response:{  \"metaphor_id\": \"META-DS-PROFILER-001\",  \"label\": \"Surveyor\",  \"technical_label\": \"Data Profiler\",  \"explanation\": \"Measures the shape and quality of the dataset.\",  \"status\": \"approved\",  \"version\": \"1.0.0\"}",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0029",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "26. Jane Integration",
+      "section_path": "DOC-SPEC-017 > 26. Jane Integration",
+      "content": "Jane should introduce a metaphor only when it helps comprehension. The recommended response pattern is: metaphor first, technical identity second, evidence third.\n\n\"Think of the Profiler as a Surveyor.It measures the shape and quality of your dataset.Technical stage: Data Profiler.Current status: Ready.Evidence: 84 columns profiled; 3 quality warnings.\"\n\nThis prevents the metaphor from becoming a substitute for technical truth.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0030",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "27. Metaphors for the Full AI-ConneX Journey",
+      "section_path": "DOC-SPEC-017 > 27. Metaphors for the Full AI-ConneX Journey",
+      "content": "The metaphor chain deliberately moves from familiar industrial workflow concepts toward increasingly complex AI concepts. This gives the industrial user a coherent mental model rather than a collection of unrelated agent names.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Stage | Metaphorical journey |\n| --- | --- |\n| Jane | Control Desk |\n| Compiler | Universal Adapter |\n| Profiler | Surveyor |\n| DAG | Route Map |\n| Recipe Orchestrator | Process Planner |\n| Prepare | Workshop |\n| Feature Engineer | Signal Forge |\n| STEM | Test Bench |\n| Judge/Scorer | Review Board |\n| Manifest | Passport |\n| Agent SPEC | Blueprint |\n| RAG | Reference Desk |\n| Knowledge Graph | Map |\n| Runtime | Control Room |\n| Toolkit | Control Panel |\n| Visualizer | Lens |\n| Telemetry | Heartbeat |\n| Audit | Logbook |\n| Outcome | Scoreboard |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0031",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "28. Metaphor Evaluation POC",
+      "section_path": "DOC-SPEC-017 > 28. Metaphor Evaluation POC",
+      "content": "POC objective: determine whether metaphor labels improve task comprehension without increasing unsafe overtrust.\n\nRecruit representative plant engineers, maintenance personnel, plant managers and data/ML specialists.\n\nGive participants the same AI-ConneX workflow with and without metaphors.\n\nMeasure time to identify what each agent does.\n\nMeasure error rate when predicting what an agent can and cannot do.\n\nMeasure ability to locate evidence and stage status.\n\nMeasure perceived competence and trust.\n\nTest high-risk labels such as Gatekeeper, Inspector, Operator and Sentinel.\n\nTest localized versions if required.\n\nCollect confusion points and revise registry.\n\nFreeze only metaphors that pass comprehension and safety thresholds.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0032",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "29. POC Acceptance Criteria",
+      "section_path": "DOC-SPEC-017 > 29. POC Acceptance Criteria",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Measure | Suggested acceptance |\n| --- | --- |\n| Agent-role identification | ≥90% correct |\n| Capability-boundary identification | ≥90% correct |\n| Metaphor-to-function association | ≥85% correct |\n| Time-to-understand | ≥20% improvement vs technical-only baseline |\n| Critical misunderstanding | 0 in safety scenarios |\n| Unauthorized capability inference | ≤5% |\n| Cross-Studio naming consistency | ≥95% |\n| Metaphor registry traceability | 100% |\n| Localization review | 100% approved terms |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0033",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "30. Compliance Report #5 — Metaphorical Agent Layer",
+      "section_path": "DOC-SPEC-017 > 30. Compliance Report #5 — Metaphorical Agent Layer",
+      "content": "This is a design-stage compliance report, not a certification. Final compliance status requires implementation evidence, testing, risk assessment and applicable regulatory review.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Control area | Control | Evidence | Status |\n| --- | --- | --- | --- |\n| Identity | Technical agent IDs remain immutable | Agent registry | Planned |\n| Presentation integrity | Metaphor cannot modify behavior | Registry separation + tests | Planned |\n| Authorization | Metaphor is never an authorization signal | Policy tests | Planned |\n| Auditability | Metaphor ID/version recorded | Audit event | Planned |\n| Safety | Restricted metaphor vocabulary | Safety validator | Planned |\n| Human factors | User comprehension testing | POC study | Planned |\n| Localization | Locale-specific validation | Translation review | Planned |\n| Change control | Metaphor approvals/versioning | Registry workflow | Planned |\n| Tenant isolation | Tenant context on registry queries | Gateway/RLS tests | Planned |\n| Observability | Metaphor resolution traced | OpenTelemetry | Planned |\n| Data protection | No sensitive data required for metaphor resolution | Schema review | Planned |\n| AI governance | LLM suggestion cannot bypass registry | Policy + test | Planned |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0034",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "31. Governance Workflow",
+      "section_path": "DOC-SPEC-017 > 31. Governance Workflow",
+      "content": "PROPOSE  ↓SEMANTIC REVIEW  ↓INDUSTRIAL USER REVIEW  ↓SAFETY REVIEW  ↓LOCALIZATION REVIEW  ↓APPROVE  ↓VERSION  ↓DEPLOY  ↓MONITOR  ↓DEPRECATE / REVISE",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0035",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "32. Security and Safety Considerations",
+      "section_path": "DOC-SPEC-017 > 32. Security and Safety Considerations",
+      "content": "Do not allow a metaphor to grant or imply permissions.\n\nDo not expose hidden tenant information through metaphor selection.\n\nDo not include sensitive plant names, asset IDs or secrets in metaphor metadata.\n\nKeep LLM-generated candidate suggestions separate from approved production vocabulary.\n\nRecord who approved a metaphor and when.\n\nUse technical labels in machine-to-machine APIs.\n\nRequire explicit confirmation for action-producing agents.\n\nTreat 'Operator', 'Controller', 'Safety Inspector' and similar terms as controlled vocabulary.\n\nKeep a fallback technical label if metaphor service is unavailable.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0036",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "33. Observability",
+      "section_path": "DOC-SPEC-017 > 33. Observability",
+      "content": "trace:  execution_uid  agent_id  metaphor_id  metaphor_version  tenant_uid  user_role  locale  resolution_reason  validation_statusmetrics:  metaphor_resolution_total  metaphor_fallback_total  metaphor_validation_failures  metaphor_confusion_reports  metaphor_deprecation_total\n\nTelemetry should let AI-ConneX determine whether a metaphor was used, which version was used and whether the user experienced a fallback. It should not collect unnecessary personal data.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0037",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "4. Wu et al., 'Study on semantic-entity relevance of industrial icons and generation of metaphor design' (Journal of the Society for Information Display, 2022). Studies metaphorical industrial icons in a battery production-line context and reports improved search efficiency for semantically appropriate designs. citeturn0search12",
+      "section_path": "DOC-SPEC-017 > 4. Wu et al., 'Study on semantic-entity relevance of industrial icons and generation of metaphor design' (Journal of the Society for Information Display, 2022). Studies metaphorical industrial icons in a battery production-line context and reports improved search efficiency for semantically appropriate designs. citeturn0search12",
+      "content": "5. 'Metaphorical types of industrial icons: Impact on cognitive performance and the neural pattern in processing' (International Journal of Industrial Ergonomics, 2025). Investigates metaphorical industrial icons and cognitive processing. citeturn0search7",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0038",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "35. Final Recommended AI-ConneX Metaphor Set",
+      "section_path": "DOC-SPEC-017 > 35. Final Recommended AI-ConneX Metaphor Set",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Studio | Core metaphor family | Primary metaphors |\n| --- | --- | --- |\n| Data Studio | Industrial process | Universal Adapter, Surveyor, Quality Inspector, Route Map, Process Planner, Workshop, Signal Forge, Trace Keeper |\n| ML Studio | Engineering/test | Gate Inspector, Divider, Test Bench, Analyst Lens, Physics Inspector, Review Board, Model Ledger, Drift Watcher |\n| Agentic Studio | Control/knowledge | Blueprint Architect, Archivist, Librarian, Cartographer, Sensor Bridge, Control Room, Toolbox Curator, Gatekeeper, Evidence Lens, Lens, Log Keeper |\n| Cross-Studio | Industrial workflow | Control Desk, Work Order, Passport, Heartbeat, Logbook, Outcome Meter |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0039",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "36. Final Architecture Decision",
+      "section_path": "DOC-SPEC-017 > 36. Final Architecture Decision",
+      "content": "AI-ConneX should implement a **Metaphorical Agent Registry and Selector as a governed presentation service**, not as a free-form LLM naming feature. The technical agent remains the source of truth. The metaphor is a controlled mental-model aid.\n\nThe ideal user experience is:\n\nJane:\"Your Surveyor has finished profiling the data.\"Technical:Data Profiler — READYEvidence:84 columns • 1.2M rows • 93% quality score • 3 warningsNext:DAG / Family assignment is now available.\n\nThis pattern gives industrialists the familiarity of a real-world workflow while preserving the precision, evidence and accountability required by an industrial AI platform.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-017-0040",
+      "document_id": "DOC-DOC-SPEC-017-V1",
+      "heading_level": 1,
+      "heading_text": "37. Conclusion",
+      "section_path": "DOC-SPEC-017 > 37. Conclusion",
+      "content": "The Metaphorical Agent layer can become an important part of AI-ConneX's human-centered architecture, provided it remains subordinate to technical truth. The strongest design is not to turn software into fictional employees. It is to give complex technical functions familiar industrial mental models: Adapter, Surveyor, Inspector, Route Map, Workshop, Test Bench, Blueprint, Control Room, Lens and Logbook.\n\nThis approach is particularly suitable for AI-ConneX because the platform already uses progressive visualization and Jane as the conversational interface. Metaphors become the connective vocabulary between Jane, stage tabs, visual evidence and internal agents—making a sophisticated multi-agent industrial system easier to learn, navigate and audit.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    }
+  ],
+  "extracted_slas": [
+    {
+      "sla_id": "SLA-DEFAULT-DOC-SPEC-017-01",
+      "component_name": "PreUploadAgent",
+      "metric_name": "p95_latency_ms",
+      "target_value": 500.0,
+      "unit": "ms",
+      "comparison_op": "<=",
+      "workload_condition": "Standard interactive execution regime",
+      "severity_on_breach": "critical",
+      "source_spec_id": "DOC-SPEC-017"
+    }
+  ]
+}

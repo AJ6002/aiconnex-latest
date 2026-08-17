@@ -1,0 +1,24 @@
+[
+  {
+    "section_id": "SEC-0001",
+    "document_id": "DOC-EQP-007",
+    "heading_level": 2,
+    "heading_text": "Overview",
+    "section_path": "OPC UA for Asset Administration Shell (AAS) Specification > Overview",
+    "content": "Standardized digital representation of physical assets across Industry 4.0 applications.",
+    "content_type": "prose",
+    "code_blocks": [],
+    "tables": []
+  },
+  {
+    "section_id": "SEC-0002",
+    "document_id": "DOC-EQP-007",
+    "heading_level": 2,
+    "heading_text": "AAS Submodels",
+    "section_path": "OPC UA for Asset Administration Shell (AAS) Specification > AAS Submodels",
+    "content": "- **Identification**: Asset ID, GTIN, Serial Number.\n- **TechnicalData**: Design specifications, operating envelope, pressure/temperature limits.\n- **OperationalData**: Real-time sensor telemetry and process variables.\n- **MaintenanceHistory**: Log of inspections, overhauls, and replacement activities.\n- **Documentation**: Manuals, P&ID diagrams, ISO certification compliance.",
+    "content_type": "prose",
+    "code_blocks": [],
+    "tables": []
+  }
+]

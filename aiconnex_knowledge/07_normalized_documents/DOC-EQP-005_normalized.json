@@ -1,0 +1,68 @@
+[
+  {
+    "section_id": "SEC-0001",
+    "document_id": "DOC-EQP-005",
+    "heading_level": 2,
+    "heading_text": "Page 1",
+    "section_path": "Page 1",
+    "content": "\u00a9 ISO 2019\nPetroleum, petrochemical and natural \ngas industries\u00a0\u2014 Shell-and-tube heat \nexchangers\nIndustries du p\u00e9trole, de la p\u00e9trochimie et du gaz naturel\u00a0\u2014 \n\u00c9changeurs de chaleur \u00e0 faisceaux\nINTERNATIONAL \nSTANDARD\nISO\n16812\nThird edition\n2019-02\nReference number\nISO 16812:2019(E)\niTeh Standards\n(https://standards.iteh.ai)\nDocument Preview\nISO 16812:2019\nhttps://standards.iteh.ai/catalog/standards/iso/465573c8-8e6e-4e70-b2df-37209fc4aece/iso-16812-2019",
+    "content_type": "prose",
+    "code_blocks": [],
+    "tables": []
+  },
+  {
+    "section_id": "SEC-0002",
+    "document_id": "DOC-EQP-005",
+    "heading_level": 2,
+    "heading_text": "Page 2",
+    "section_path": "Page 2",
+    "content": "\ufeff\nISO 16812:2019(E)\n\ufeff\nii\b\n\u00a9 ISO 2019 \u2013 All rights reserved\nCOPYRIGHT PROTECTED DOCUMENT\n\u00a9  ISO 2019\nAll rights reserved. Unless otherwise specified, or required in the context of its implementation, no part of this publication may \nbe reproduced or utilized otherwise in any form or by any means, electronic or mechanical, including photocopying, or posting \non the internet or an intranet, without prior written permission. Permission can be requested from either ISO at the address \nbelow or ISO\u2019s member body in the country of the requester.\nISO copyright office\nCP 401 \u2022 Ch. de Blandonnet 8\nCH-1214 Vernier, Geneva\nPhone: +41 22 749 01 11\nFax: +41 22 749 09 47\nEmail: copyright@iso.org\nWebsite: www.iso.org\nPublished in Switzerland\niTeh Standards\n(https://standards.iteh.ai)\nDocument Preview\nISO 16812:2019\nhttps://standards.iteh.ai/catalog/standards/iso/465573c8-8e6e-4e70-b2df-37209fc4aece/iso-16812-2019",
+    "content_type": "prose",
+    "code_blocks": [],
+    "tables": []
+  },
+  {
+    "section_id": "SEC-0003",
+    "document_id": "DOC-EQP-005",
+    "heading_level": 2,
+    "heading_text": "Page 3",
+    "section_path": "Page 3",
+    "content": "\ufeff\nISO 16812:2019(E)\n\ufeff\nForeword.........................................................................................................................................................................................................................................iv\nIntroduction................................................................................................................................................................................................................................vi\n1\t\nScope..................................................................................................................................................................................................................................1\n2\t\nNormative references.......................................................................................................................................................................................1\n3 \nTerms and definitions......................................................................................................................................................................................1\n4\t\nSupplements to API Std 660, 9th edition (2015).................................................................................................................2\n4.1\t\nGeneral requirements........................................................................................................................................................................ 2\n4.2\t\nService designation.............................................................................................................................................................................. 2\n4.3\t\nRequirements for carbon steel in sour or wet hydrogen sulfide service..............................................2\n4.4\t\nWeld procedure qualification..................................................................................................................................................... 2\n4.5\t\nSour or wet hydrogen sulfide service.................................................................................................................................. 2\n4.5.1\t\nSubclause\u00a0A.2.2.1.............................................................................................................................................................. 2\n4.5.2\t\nSubclauses\u00a0A.2.2.2 and A.2.2.3.............................................................................................................................. 2\n4.6\t\nTube failure in high-pressure units....................................................................................................................................... 2\nBibliography.................................................................................................................................................................................................................................3\n\u00a9 ISO 2019 \u2013 All rights reserved\b\niii\nContents\b\nPage\niTeh Standards\n(https://standards.iteh.ai)\nDocument Preview\nISO 16812:2019\nhttps://standards.iteh.ai/catalog/standards/iso/465573c8-8e6e-4e70-b2df-37209fc4aece/iso-16812-2019",
+    "content_type": "prose",
+    "code_blocks": [],
+    "tables": []
+  },
+  {
+    "section_id": "SEC-0004",
+    "document_id": "DOC-EQP-005",
+    "heading_level": 2,
+    "heading_text": "Page 4",
+    "section_path": "Page 4",
+    "content": "\ufeff\nISO 16812:2019(E)\nForeword\nISO (the International Organization for Standardization) is a worldwide federation of national standards \nbodies (ISO member bodies). The work of preparing International Standards is normally carried out \nthrough ISO technical committees. Each member body interested in a subject for which a technical \ncommittee has been established has the right to be represented on that committee. International \norganizations, governmental and non-governmental, in liaison with ISO, also take part in the work. \nISO collaborates closely with the International Electrotechnical Commission (IEC) on all matters of \nelectrotechnical standardization.\nThe procedures used to develop this document and those intended for its further maintenance are \ndescribed in the ISO/IEC Directives, Part\u00a01. In particular, the different approval criteria needed for the \ndifferent types of ISO documents should be noted. This document was drafted in accordance with the \neditorial rules of the ISO/IEC Directives, Part\u00a02 (see www\u200b.iso\u200b.org/directives).\nAttention is drawn to the possibility that some of the elements of this document may be the subject of \npatent rights. ISO shall not be held responsible for identifying any or all such patent rights. Details of \nany patent rights identified during the development of the document will be in the Introduction and/or \non the ISO list of patent declarations received (see www\u200b.iso\u200b.org/patents).\nAny trade name used in this document is information given for the convenience of users and does not \nconstitute an endorsement. \nFor an explanation of the voluntary nature of standards, the meaning of ISO specific terms and \nexpressions related to conformity assessment, as well as information about ISO's adherence to the \nWorld Trade Organization (WTO) principles in the Technical Barriers to Trade (TBT), see www\u200b.iso\u200b\n.org/iso/foreword\u200b.html.\nThis document was prepared by Technical Committee ISO/TC\u00a0 67, Materials, equipment and offshore \nstructures for petroleum, petrochemical and natural gas industries, Subcommittee SC\u00a0 6, Processing \nequipment and systems.\nThis third edition cancels and replaces the second edition (ISO\u00a016812:2007), which has been technically \nrevised. \nThis document supplements API Std 660, 9th edition (2015).\nThe technical requirements of this document and API Std 660 used to be identical. In the meantime API \nStd 660 has been technically revised as API Std 660, 9th edition (2015). The purpose of this document \nis to bring it up to date, by referencing the current edition of API Std 660 and adding supplementary \ncontent.\nThe main changes compared to the previous edition are as follows: \n\u2014\t Improved guidance on cyclic service and sour service;\n\u2014\t The minimum bend for \u2018U\u2019 tubes when using stainless steel, duplex, etc., increased;\n\u2014\t Minimum requirements added when using inlet impingement rods;\n\u2014\t Limitations on the use of threaded connections extended to wet hydrogen sulfide services;\n\u2014\t Nozzle reinforcement pads not to be used \u201cin cyclic service, hydrogen service with operating \ntemperatures above 230\u00a0\u00b0C (450\u00a0\u00b0F), or other services with operating temperatures above 400\u00a0\u00b0C \n(750\u00a0\u00b0F)\u201d;\n\u2014\t A new optional section added for girth flange joint design for hydrogen, cyclic services, high \ntemperature or pressure, etc. This is additional to other requirements related to improved girth \nflange design;\n\u2014\t Gasket requirements enhanced;\n\ufeff\niv\b\n\u00a9 ISO 2019 \u2013 All rights reserved\niTeh Standards\n(https://standards.iteh.ai)\nDocument Preview\nISO 16812:2019\nhttps://standards.iteh.ai/catalog/standards/iso/465573c8-8e6e-4e70-b2df-37209fc4aece/iso-16812-2019",
+    "content_type": "prose",
+    "code_blocks": [],
+    "tables": []
+  },
+  {
+    "section_id": "SEC-0005",
+    "document_id": "DOC-EQP-005",
+    "heading_level": 2,
+    "heading_text": "Page 5",
+    "section_path": "Page 5",
+    "content": "\ufeff\nISO 16812:2019(E)\n\u2014\t New materials section added for requirements for carbon steel in sour or wet hydrogen sulfide \nservice;\n\u2014\t Heat treatment requirements expanded;\n\u2014\t Extensive increase in section on quality assurance;\n\u2014\t Recommended practice clauses expanded.\nAny feedback or questions on this document should be directed to the user\u2019s national standards body. A \ncomplete listing of these bodies can be found at www\u200b.iso\u200b.org/members\u200b.html.\n\ufeff\n\u00a9 ISO 2019 \u2013 All rights reserved\b\nv\niTeh Standards\n(https://standards.iteh.ai)\nDocument Preview\nISO 16812:2019\nhttps://standards.iteh.ai/catalog/standards/iso/465573c8-8e6e-4e70-b2df-37209fc4aece/iso-16812-2019",
+    "content_type": "prose",
+    "code_blocks": [],
+    "tables": []
+  },
+  {
+    "section_id": "SEC-0006",
+    "document_id": "DOC-EQP-005",
+    "heading_level": 2,
+    "heading_text": "Page 6",
+    "section_path": "Page 6",
+    "content": "\ufeff\nISO 16812:2019(E)\nIntroduction\nUsers of this document are informed that further or differing requirements can be needed for individual \napplications. This document is not intended to inhibit a vendor from offering, or the purchaser from \naccepting, alternative equipment or engineering solutions for the individual application. This can be \nparticularly applicable where there is innovative or developing technology. Where an alternative is \noffered, the vendor needs to identify any variations from this document and provide details.\n\ufeff\nvi\b\n\u00a9 ISO 2019 \u2013 All rights reserved\niTeh Standards\n(https://standards.iteh.ai)\nDocument Preview\nISO 16812:2019\nhttps://standards.iteh.ai/catalog/standards/iso/465573c8-8e6e-4e70-b2df-37209fc4aece/iso-16812-2019",
+    "content_type": "prose",
+    "code_blocks": [],
+    "tables": []
+  }
+]

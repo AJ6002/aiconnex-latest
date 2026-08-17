@@ -1,0 +1,13 @@
+{
+  "document_id": "DOC-IND-NASA-004-V1",
+  "source_id": "SRC-IND-NASA-004",
+  "title": "Survey of Foundation Models for PHM & Industrial Diagnostics (2024)",
+  "version": "2024",
+  "document_type": "pdf",
+  "content_hash": "d8f81ce543d58d081776e305c8a608c95819e6d17b80819ff34af425cb11cf04",
+  "page_count": 11,
+  "total_sections": 3,
+  "total_words": 5308,
+  "storage_uri": "s3://aiconnex-platform-kb-prod/industrial/PHM_Foundation_Models_Survey_2024.pdf",
+  "created_at": "2026-08-14T08:41:27.346258+00:00"
+}

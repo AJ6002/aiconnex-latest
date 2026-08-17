@@ -1,0 +1,1240 @@
+specs:
+- spec_id: DOC-SPEC-001
+  title: AI-ConneX Data Studio Compiler
+  studio: DataStudio
+  category: Architecture
+  target_subsystems:
+  - DataStudioCompiler
+  - JoinEngine
+  - TypeInferenceEngine
+  - DatasetUnification
+  summary: Core compilation pipeline architecture for industrial multi-table data
+    ingestion, schema unification, and deterministic join graphs.
+  governing_slas:
+  - sla_id: SLA-DEFAULT-DOC-SPEC-001-01
+    component_name: DataStudioCompiler
+    metric_name: p95_latency_ms
+    target_value: 500.0
+    unit: ms
+    comparison_op: <=
+    workload_condition: Standard interactive execution regime
+    severity_on_breach: critical
+    source_spec_id: DOC-SPEC-001
+  state_transitions:
+  - transition_id: TRANS-DOC-SPEC-001-01
+    feature_or_agent: DataStudioCompiler
+    from_state: IDLE
+    to_state: INITIALIZING
+    trigger_event: START_PIPELINE
+    guard_condition: manifest_is_valid
+    is_terminal: false
+    source_spec_id: DOC-SPEC-001
+  - transition_id: TRANS-DOC-SPEC-001-02
+    feature_or_agent: DataStudioCompiler
+    from_state: RUNNING
+    to_state: COMPLETED
+    trigger_event: EXECUTION_SUCCESS
+    guard_condition: sla_is_satisfied
+    is_terminal: true
+    source_spec_id: DOC-SPEC-001
+  error_contracts:
+  - error_code: ERR-DOC-SPEC-001-400
+    description: Validation failure against specification contract
+    action: HALT_AND_RAISE
+  - error_code: ERR-DOC-SPEC-001-504
+    description: Execution SLA timeout exceeded
+    action: TRIGGER_CIRCUIT_BREAKER
+  acceptance_criteria:
+  - Must satisfy p95 latency threshold defined in DOC-SPEC-001
+  - Must pass deterministic state machine transitions without deadlocks
+  - 'Must adhere to target subsystem contract: DataStudioCompiler, JoinEngine, TypeInferenceEngine,
+    DatasetUnification'
+  cross_references:
+  - DOC-SPEC-002
+  - DOC-SPEC-003
+  - DOC-SPEC-004
+  source_document_path: aiconnex_knowledge/06_raw_documents/documentation/AI-ConneX
+    Data Studio Compiler.docx
+  authority: A
+  status: Approved
+- spec_id: DOC-SPEC-002
+  title: AI-ConneX Data Studio Compiler POC and Research Documentation
+  studio: DataStudio
+  category: Performance
+  target_subsystems:
+  - DataStudioCompiler
+  - CompilerResearch
+  - PolarsEngine
+  summary: Empirical benchmark evaluation, memory quotas, and vector-accelerated compilation
+    performance criteria.
+  governing_slas:
+  - sla_id: SLA-MEM-DOC-SPEC-002-01
+    component_name: DataStudioCompiler
+    metric_name: max_memory_mb
+    target_value: 16384.0
+    unit: MB
+    comparison_op: <=
+    workload_condition: RAM for POC; 16 GB
+    severity_on_breach: warning
+    source_spec_id: DOC-SPEC-002
+  state_transitions:
+  - transition_id: TRANS-DOC-SPEC-002-01
+    feature_or_agent: DataStudioCompiler
+    from_state: IDLE
+    to_state: INITIALIZING
+    trigger_event: START_PIPELINE
+    guard_condition: manifest_is_valid
+    is_terminal: false
+    source_spec_id: DOC-SPEC-002
+  - transition_id: TRANS-DOC-SPEC-002-02
+    feature_or_agent: DataStudioCompiler
+    from_state: RUNNING
+    to_state: COMPLETED
+    trigger_event: EXECUTION_SUCCESS
+    guard_condition: sla_is_satisfied
+    is_terminal: true
+    source_spec_id: DOC-SPEC-002
+  error_contracts:
+  - error_code: ERR-DOC-SPEC-002-400
+    description: Validation failure against specification contract
+    action: HALT_AND_RAISE
+  - error_code: ERR-DOC-SPEC-002-504
+    description: Execution SLA timeout exceeded
+    action: TRIGGER_CIRCUIT_BREAKER
+  acceptance_criteria:
+  - Must satisfy p95 latency threshold defined in DOC-SPEC-002
+  - Must pass deterministic state machine transitions without deadlocks
+  - 'Must adhere to target subsystem contract: DataStudioCompiler, CompilerResearch,
+    PolarsEngine'
+  cross_references:
+  - DOC-SPEC-001
+  - DOC-SPEC-003
+  - DOC-SPEC-004
+  source_document_path: aiconnex_knowledge/06_raw_documents/documentation/AI-ConneX_Data_Studio_Compiler_POC_and_Research_Documentation.docx
+  authority: A
+  status: Approved
+- spec_id: DOC-SPEC-003
+  title: AI-ConneX Data Studio Data Profiler Detailed Documentation
+  studio: DataStudio
+  category: Performance
+  target_subsystems:
+  - DataProfiler
+  - ScoutAgent
+  - QualityAnalyzer
+  summary: Statistical profiling SLAs, column distribution metrics, null ratio thresholds,
+    and dataset exploration performance contracts.
+  governing_slas:
+  - sla_id: SLA-MEM-DOC-SPEC-003-01
+    component_name: DataProfiler
+    metric_name: max_memory_mb
+    target_value: 16384.0
+    unit: MB
+    comparison_op: <=
+    workload_condition: RAM minimum; 16 GB
+    severity_on_breach: warning
+    source_spec_id: DOC-SPEC-003
+  state_transitions:
+  - transition_id: TRANS-DOC-SPEC-003-01
+    feature_or_agent: DataProfiler
+    from_state: IDLE
+    to_state: INITIALIZING
+    trigger_event: START_PIPELINE
+    guard_condition: manifest_is_valid
+    is_terminal: false
+    source_spec_id: DOC-SPEC-003
+  - transition_id: TRANS-DOC-SPEC-003-02
+    feature_or_agent: DataProfiler
+    from_state: RUNNING
+    to_state: COMPLETED
+    trigger_event: EXECUTION_SUCCESS
+    guard_condition: sla_is_satisfied
+    is_terminal: true
+    source_spec_id: DOC-SPEC-003
+  error_contracts:
+  - error_code: ERR-DOC-SPEC-003-400
+    description: Validation failure against specification contract
+    action: HALT_AND_RAISE
+  - error_code: ERR-DOC-SPEC-003-504
+    description: Execution SLA timeout exceeded
+    action: TRIGGER_CIRCUIT_BREAKER
+  acceptance_criteria:
+  - Must satisfy p95 latency threshold defined in DOC-SPEC-003
+  - Must pass deterministic state machine transitions without deadlocks
+  - 'Must adhere to target subsystem contract: DataProfiler, ScoutAgent, QualityAnalyzer'
+  cross_references:
+  - DOC-SPEC-001
+  - DOC-SPEC-002
+  - DOC-SPEC-004
+  source_document_path: aiconnex_knowledge/06_raw_documents/documentation/AI-ConneX_Data_Studio_Data_Profiler_Detailed_Documentation.docx
+  authority: A
+  status: Approved
+- spec_id: DOC-SPEC-004
+  title: AI-ConneX Data Studio DAG Detailed Documentation
+  studio: DataStudio
+  category: StateTransition
+  target_subsystems:
+  - DAGResolver
+  - WorkflowPlanner
+  - NodeGraph
+  summary: Multi-DAG execution graph specifications, node state transitions, cyclic
+    dependency guards, and parallel branch execution rules.
+  governing_slas:
+  - sla_id: SLA-MEM-DOC-SPEC-004-01
+    component_name: DAGResolver
+    metric_name: max_memory_mb
+    target_value: 16384.0
+    unit: MB
+    comparison_op: <=
+    workload_condition: RAM minimum; 16 GB
+    severity_on_breach: warning
+    source_spec_id: DOC-SPEC-004
+  state_transitions:
+  - transition_id: TRANS-DOC-SPEC-004-01
+    feature_or_agent: DAGResolver
+    from_state: IDLE
+    to_state: INITIALIZING
+    trigger_event: START_PIPELINE
+    guard_condition: manifest_is_valid
+    is_terminal: false
+    source_spec_id: DOC-SPEC-004
+  - transition_id: TRANS-DOC-SPEC-004-02
+    feature_or_agent: DAGResolver
+    from_state: RUNNING
+    to_state: COMPLETED
+    trigger_event: EXECUTION_SUCCESS
+    guard_condition: sla_is_satisfied
+    is_terminal: true
+    source_spec_id: DOC-SPEC-004
+  error_contracts:
+  - error_code: ERR-DOC-SPEC-004-400
+    description: Validation failure against specification contract
+    action: HALT_AND_RAISE
+  - error_code: ERR-DOC-SPEC-004-504
+    description: Execution SLA timeout exceeded
+    action: TRIGGER_CIRCUIT_BREAKER
+  acceptance_criteria:
+  - Must satisfy p95 latency threshold defined in DOC-SPEC-004
+  - Must pass deterministic state machine transitions without deadlocks
+  - 'Must adhere to target subsystem contract: DAGResolver, WorkflowPlanner, NodeGraph'
+  cross_references:
+  - DOC-SPEC-001
+  - DOC-SPEC-002
+  - DOC-SPEC-003
+  source_document_path: aiconnex_knowledge/06_raw_documents/documentation/AI-ConneX_Data_Studio_DAG_Detailed_Documentation.docx
+  authority: A
+  status: Approved
+- spec_id: DOC-SPEC-005
+  title: AI-ConneX Data Studio PREPARE Node Detailed Documentation
+  studio: DataStudio
+  category: DataContract
+  target_subsystems:
+  - PrepareNode
+  - DataCleaner
+  - ImputationEngine
+  summary: Data cleaning, missing value imputation contracts, outlier filtering bounds,
+    and data type coercion specifications.
+  governing_slas:
+  - sla_id: SLA-MEM-DOC-SPEC-005-01
+    component_name: PrepareNode
+    metric_name: max_memory_mb
+    target_value: 16384.0
+    unit: MB
+    comparison_op: <=
+    workload_condition: RAM | 16 GB
+    severity_on_breach: warning
+    source_spec_id: DOC-SPEC-005
+  state_transitions:
+  - transition_id: TRANS-DOC-SPEC-005-01
+    feature_or_agent: PrepareNode
+    from_state: IDLE
+    to_state: INITIALIZING
+    trigger_event: START_PIPELINE
+    guard_condition: manifest_is_valid
+    is_terminal: false
+    source_spec_id: DOC-SPEC-005
+  - transition_id: TRANS-DOC-SPEC-005-02
+    feature_or_agent: PrepareNode
+    from_state: RUNNING
+    to_state: COMPLETED
+    trigger_event: EXECUTION_SUCCESS
+    guard_condition: sla_is_satisfied
+    is_terminal: true
+    source_spec_id: DOC-SPEC-005
+  error_contracts:
+  - error_code: ERR-DOC-SPEC-005-400
+    description: Validation failure against specification contract
+    action: HALT_AND_RAISE
+  - error_code: ERR-DOC-SPEC-005-504
+    description: Execution SLA timeout exceeded
+    action: TRIGGER_CIRCUIT_BREAKER
+  acceptance_criteria:
+  - Must satisfy p95 latency threshold defined in DOC-SPEC-005
+  - Must pass deterministic state machine transitions without deadlocks
+  - 'Must adhere to target subsystem contract: PrepareNode, DataCleaner, ImputationEngine'
+  cross_references:
+  - DOC-SPEC-001
+  - DOC-SPEC-002
+  - DOC-SPEC-003
+  source_document_path: aiconnex_knowledge/06_raw_documents/documentation/AI-ConneX_Data_Studio_PREPARE_Node_Detailed_Documentation.docx
+  authority: A
+  status: Approved
+- spec_id: DOC-SPEC-006
+  title: AI-ConneX Data Studio FEATURE ENGINEER Node Detailed Documentation
+  studio: DataStudio
+  category: Performance
+  target_subsystems:
+  - FeatureEngineerNode
+  - FFTExtractor
+  - LagFeatureGenerator
+  summary: Industrial feature generation algorithms, rolling window SLAs, FFT frequency
+    domain extraction, and sensor lag matrix specifications.
+  governing_slas:
+  - sla_id: SLA-MEM-DOC-SPEC-006-01
+    component_name: FeatureEngineerNode
+    metric_name: max_memory_mb
+    target_value: 16384.0
+    unit: MB
+    comparison_op: <=
+    workload_condition: RAM | 16 GB
+    severity_on_breach: warning
+    source_spec_id: DOC-SPEC-006
+  state_transitions:
+  - transition_id: TRANS-DOC-SPEC-006-01
+    feature_or_agent: FeatureEngineerNode
+    from_state: IDLE
+    to_state: INITIALIZING
+    trigger_event: START_PIPELINE
+    guard_condition: manifest_is_valid
+    is_terminal: false
+    source_spec_id: DOC-SPEC-006
+  - transition_id: TRANS-DOC-SPEC-006-02
+    feature_or_agent: FeatureEngineerNode
+    from_state: RUNNING
+    to_state: COMPLETED
+    trigger_event: EXECUTION_SUCCESS
+    guard_condition: sla_is_satisfied
+    is_terminal: true
+    source_spec_id: DOC-SPEC-006
+  error_contracts:
+  - error_code: ERR-DOC-SPEC-006-400
+    description: Validation failure against specification contract
+    action: HALT_AND_RAISE
+  - error_code: ERR-DOC-SPEC-006-504
+    description: Execution SLA timeout exceeded
+    action: TRIGGER_CIRCUIT_BREAKER
+  acceptance_criteria:
+  - Must satisfy p95 latency threshold defined in DOC-SPEC-006
+  - Must pass deterministic state machine transitions without deadlocks
+  - 'Must adhere to target subsystem contract: FeatureEngineerNode, FFTExtractor,
+    LagFeatureGenerator'
+  cross_references:
+  - DOC-SPEC-001
+  - DOC-SPEC-002
+  - DOC-SPEC-003
+  source_document_path: aiconnex_knowledge/06_raw_documents/documentation/AI-ConneX_Data_Studio_FEATURE_ENGINEER_Node_Detailed_Documentation.docx
+  authority: A
+  status: Approved
+- spec_id: DOC-SPEC-007
+  title: AI-ConneX Data Studio IF ELSE CONDITIONING Documentation
+  studio: DataStudio
+  category: StateTransition
+  target_subsystems:
+  - ConditionalRouter
+  - RuleEngine
+  - BranchEvaluator
+  summary: Dynamic conditional branching specifications, boolean guard predicates,
+    and fallback routing contracts for industrial workflows.
+  governing_slas:
+  - sla_id: SLA-MEM-DOC-SPEC-007-01
+    component_name: ConditionalRouter
+    metric_name: max_memory_mb
+    target_value: 16384.0
+    unit: MB
+    comparison_op: <=
+    workload_condition: RAM | 16 GB
+    severity_on_breach: warning
+    source_spec_id: DOC-SPEC-007
+  state_transitions:
+  - transition_id: TRANS-DOC-SPEC-007-01
+    feature_or_agent: ConditionalRouter
+    from_state: IDLE
+    to_state: INITIALIZING
+    trigger_event: START_PIPELINE
+    guard_condition: manifest_is_valid
+    is_terminal: false
+    source_spec_id: DOC-SPEC-007
+  - transition_id: TRANS-DOC-SPEC-007-02
+    feature_or_agent: ConditionalRouter
+    from_state: RUNNING
+    to_state: COMPLETED
+    trigger_event: EXECUTION_SUCCESS
+    guard_condition: sla_is_satisfied
+    is_terminal: true
+    source_spec_id: DOC-SPEC-007
+  error_contracts:
+  - error_code: ERR-DOC-SPEC-007-400
+    description: Validation failure against specification contract
+    action: HALT_AND_RAISE
+  - error_code: ERR-DOC-SPEC-007-504
+    description: Execution SLA timeout exceeded
+    action: TRIGGER_CIRCUIT_BREAKER
+  acceptance_criteria:
+  - Must satisfy p95 latency threshold defined in DOC-SPEC-007
+  - Must pass deterministic state machine transitions without deadlocks
+  - 'Must adhere to target subsystem contract: ConditionalRouter, RuleEngine, BranchEvaluator'
+  cross_references:
+  - DOC-SPEC-001
+  - DOC-SPEC-002
+  - DOC-SPEC-003
+  source_document_path: aiconnex_knowledge/06_raw_documents/documentation/AI-ConneX_Data_Studio_IF_ELSE_CONDITIONING_Documentation.docx
+  authority: A
+  status: Approved
+- spec_id: DOC-SPEC-008
+  title: AI-ConneX Data Studio Recipe Orchestrator Detailed Documentation
+  studio: DataStudio
+  category: Architecture
+  target_subsystems:
+  - RecipeOrchestrator
+  - CatalogBuilder
+  - PipelineLock
+  summary: End-to-end recipe catalog synthesis, immutable pipeline locking, and multi-step
+    data transformation execution standards.
+  governing_slas:
+  - sla_id: SLA-MEM-DOC-SPEC-008-01
+    component_name: RecipeOrchestrator
+    metric_name: max_memory_mb
+    target_value: 16384.0
+    unit: MB
+    comparison_op: <=
+    workload_condition: RAM minimum; 16 GB
+    severity_on_breach: warning
+    source_spec_id: DOC-SPEC-008
+  state_transitions:
+  - transition_id: TRANS-DOC-SPEC-008-01
+    feature_or_agent: RecipeOrchestrator
+    from_state: IDLE
+    to_state: INITIALIZING
+    trigger_event: START_PIPELINE
+    guard_condition: manifest_is_valid
+    is_terminal: false
+    source_spec_id: DOC-SPEC-008
+  - transition_id: TRANS-DOC-SPEC-008-02
+    feature_or_agent: RecipeOrchestrator
+    from_state: RUNNING
+    to_state: COMPLETED
+    trigger_event: EXECUTION_SUCCESS
+    guard_condition: sla_is_satisfied
+    is_terminal: true
+    source_spec_id: DOC-SPEC-008
+  error_contracts:
+  - error_code: ERR-DOC-SPEC-008-400
+    description: Validation failure against specification contract
+    action: HALT_AND_RAISE
+  - error_code: ERR-DOC-SPEC-008-504
+    description: Execution SLA timeout exceeded
+    action: TRIGGER_CIRCUIT_BREAKER
+  acceptance_criteria:
+  - Must satisfy p95 latency threshold defined in DOC-SPEC-008
+  - Must pass deterministic state machine transitions without deadlocks
+  - 'Must adhere to target subsystem contract: RecipeOrchestrator, CatalogBuilder,
+    PipelineLock'
+  cross_references:
+  - DOC-SPEC-001
+  - DOC-SPEC-002
+  - DOC-SPEC-003
+  source_document_path: aiconnex_knowledge/06_raw_documents/documentation/AI-ConneX_Data_Studio_Recipe_Orchestrator_Detailed_Documentation.docx
+  authority: A
+  status: Approved
+- spec_id: DOC-SPEC-009
+  title: AI-ConneX Data Studio BRAIN Whole Architecture Documentation
+  studio: DataStudio
+  category: Architecture
+  target_subsystems:
+  - DataStudioBrain
+  - ContextEngine
+  - PlatformNode
+  summary: Comprehensive architectural blueprint for the Data Studio Brain orchestration
+    kernel, memory subsystem, and event bus.
+  governing_slas:
+  - sla_id: SLA-DEFAULT-DOC-SPEC-009-01
+    component_name: DataStudioBrain
+    metric_name: p95_latency_ms
+    target_value: 500.0
+    unit: ms
+    comparison_op: <=
+    workload_condition: Standard interactive execution regime
+    severity_on_breach: critical
+    source_spec_id: DOC-SPEC-009
+  state_transitions:
+  - transition_id: TRANS-DOC-SPEC-009-01
+    feature_or_agent: DataStudioBrain
+    from_state: IDLE
+    to_state: INITIALIZING
+    trigger_event: START_PIPELINE
+    guard_condition: manifest_is_valid
+    is_terminal: false
+    source_spec_id: DOC-SPEC-009
+  - transition_id: TRANS-DOC-SPEC-009-02
+    feature_or_agent: DataStudioBrain
+    from_state: RUNNING
+    to_state: COMPLETED
+    trigger_event: EXECUTION_SUCCESS
+    guard_condition: sla_is_satisfied
+    is_terminal: true
+    source_spec_id: DOC-SPEC-009
+  error_contracts:
+  - error_code: ERR-DOC-SPEC-009-400
+    description: Validation failure against specification contract
+    action: HALT_AND_RAISE
+  - error_code: ERR-DOC-SPEC-009-504
+    description: Execution SLA timeout exceeded
+    action: TRIGGER_CIRCUIT_BREAKER
+  acceptance_criteria:
+  - Must satisfy p95 latency threshold defined in DOC-SPEC-009
+  - Must pass deterministic state machine transitions without deadlocks
+  - 'Must adhere to target subsystem contract: DataStudioBrain, ContextEngine, PlatformNode'
+  cross_references:
+  - DOC-SPEC-001
+  - DOC-SPEC-002
+  - DOC-SPEC-003
+  source_document_path: aiconnex_knowledge/06_raw_documents/documentation/AI-ConneX_Data_Studio_BRAIN_Whole_Architecture_Documentation.docx
+  authority: A
+  status: Approved
+- spec_id: DOC-SPEC-010
+  title: AI-ConneX ML Studio STEM One Loop IF ELSE Documentation
+  studio: MLStudio
+  category: Performance
+  target_subsystems:
+  - MLStudioSTEM
+  - OneLoopOptimizer
+  - AlgorithmSelector
+  summary: STEM closed-loop algorithm selection, model convergence criteria, automated
+    hyperparameter bounds, and fallback triggers.
+  governing_slas:
+  - sla_id: SLA-DEFAULT-DOC-SPEC-010-01
+    component_name: MLStudioSTEM
+    metric_name: p95_latency_ms
+    target_value: 500.0
+    unit: ms
+    comparison_op: <=
+    workload_condition: Standard interactive execution regime
+    severity_on_breach: critical
+    source_spec_id: DOC-SPEC-010
+  state_transitions:
+  - transition_id: TRANS-DOC-SPEC-010-01
+    feature_or_agent: MLStudioSTEM
+    from_state: IDLE
+    to_state: INITIALIZING
+    trigger_event: START_PIPELINE
+    guard_condition: manifest_is_valid
+    is_terminal: false
+    source_spec_id: DOC-SPEC-010
+  - transition_id: TRANS-DOC-SPEC-010-02
+    feature_or_agent: MLStudioSTEM
+    from_state: RUNNING
+    to_state: COMPLETED
+    trigger_event: EXECUTION_SUCCESS
+    guard_condition: sla_is_satisfied
+    is_terminal: true
+    source_spec_id: DOC-SPEC-010
+  error_contracts:
+  - error_code: ERR-DOC-SPEC-010-400
+    description: Validation failure against specification contract
+    action: HALT_AND_RAISE
+  - error_code: ERR-DOC-SPEC-010-504
+    description: Execution SLA timeout exceeded
+    action: TRIGGER_CIRCUIT_BREAKER
+  acceptance_criteria:
+  - Must satisfy p95 latency threshold defined in DOC-SPEC-010
+  - Must pass deterministic state machine transitions without deadlocks
+  - 'Must adhere to target subsystem contract: MLStudioSTEM, OneLoopOptimizer, AlgorithmSelector'
+  cross_references: []
+  source_document_path: aiconnex_knowledge/06_raw_documents/documentation/AI-ConneX_ML_Studio_STEM_One_Loop_IF_ELSE_Documentation.docx
+  authority: A
+  status: Approved
+- spec_id: DOC-SPEC-011
+  title: AI-ConneX Agentic Studio Agent SPEC Blueprint Documentation
+  studio: AgenticStudio
+  category: DataContract
+  target_subsystems:
+  - AgentSpecEngine
+  - PromptManager
+  - ContractManager
+  summary: 'Formal schema blueprint for industrial agents: system prompt templates,
+    tool binding contracts, and state schema invariants.'
+  governing_slas:
+  - sla_id: SLA-DEFAULT-DOC-SPEC-011-01
+    component_name: AgentSpecEngine
+    metric_name: p95_latency_ms
+    target_value: 500.0
+    unit: ms
+    comparison_op: <=
+    workload_condition: Standard interactive execution regime
+    severity_on_breach: critical
+    source_spec_id: DOC-SPEC-011
+  state_transitions:
+  - transition_id: TRANS-DOC-SPEC-011-01
+    feature_or_agent: AgentSpecEngine
+    from_state: IDLE
+    to_state: INITIALIZING
+    trigger_event: START_PIPELINE
+    guard_condition: manifest_is_valid
+    is_terminal: false
+    source_spec_id: DOC-SPEC-011
+  - transition_id: TRANS-DOC-SPEC-011-02
+    feature_or_agent: AgentSpecEngine
+    from_state: RUNNING
+    to_state: COMPLETED
+    trigger_event: EXECUTION_SUCCESS
+    guard_condition: sla_is_satisfied
+    is_terminal: true
+    source_spec_id: DOC-SPEC-011
+  error_contracts:
+  - error_code: ERR-DOC-SPEC-011-400
+    description: Validation failure against specification contract
+    action: HALT_AND_RAISE
+  - error_code: ERR-DOC-SPEC-011-504
+    description: Execution SLA timeout exceeded
+    action: TRIGGER_CIRCUIT_BREAKER
+  acceptance_criteria:
+  - Must satisfy p95 latency threshold defined in DOC-SPEC-011
+  - Must pass deterministic state machine transitions without deadlocks
+  - 'Must adhere to target subsystem contract: AgentSpecEngine, PromptManager, ContractManager'
+  cross_references:
+  - DOC-SPEC-012
+  - DOC-SPEC-013
+  - DOC-SPEC-014
+  source_document_path: aiconnex_knowledge/06_raw_documents/documentation/AI-ConneX_Agentic_Studio_Agent_SPEC_Blueprint_Documentation.docx
+  authority: A
+  status: Approved
+- spec_id: DOC-SPEC-012
+  title: AI-ConneX Agentic Studio Agent Builder Detailed Documentation
+  studio: AgenticStudio
+  category: Architecture
+  target_subsystems:
+  - AgentBuilder
+  - NodeGenerator
+  - PersonaConfigurator
+  summary: Interactive visual agent creation framework, tool permissions, persona
+    tuning, and LangGraph code generator specifications.
+  governing_slas:
+  - sla_id: SLA-DEFAULT-DOC-SPEC-012-01
+    component_name: AgentBuilder
+    metric_name: p95_latency_ms
+    target_value: 500.0
+    unit: ms
+    comparison_op: <=
+    workload_condition: Standard interactive execution regime
+    severity_on_breach: critical
+    source_spec_id: DOC-SPEC-012
+  state_transitions:
+  - transition_id: TRANS-DOC-SPEC-012-01
+    feature_or_agent: AgentBuilder
+    from_state: IDLE
+    to_state: INITIALIZING
+    trigger_event: START_PIPELINE
+    guard_condition: manifest_is_valid
+    is_terminal: false
+    source_spec_id: DOC-SPEC-012
+  - transition_id: TRANS-DOC-SPEC-012-02
+    feature_or_agent: AgentBuilder
+    from_state: RUNNING
+    to_state: COMPLETED
+    trigger_event: EXECUTION_SUCCESS
+    guard_condition: sla_is_satisfied
+    is_terminal: true
+    source_spec_id: DOC-SPEC-012
+  error_contracts:
+  - error_code: ERR-DOC-SPEC-012-400
+    description: Validation failure against specification contract
+    action: HALT_AND_RAISE
+  - error_code: ERR-DOC-SPEC-012-504
+    description: Execution SLA timeout exceeded
+    action: TRIGGER_CIRCUIT_BREAKER
+  acceptance_criteria:
+  - Must satisfy p95 latency threshold defined in DOC-SPEC-012
+  - Must pass deterministic state machine transitions without deadlocks
+  - 'Must adhere to target subsystem contract: AgentBuilder, NodeGenerator, PersonaConfigurator'
+  cross_references:
+  - DOC-SPEC-011
+  - DOC-SPEC-013
+  - DOC-SPEC-014
+  source_document_path: aiconnex_knowledge/06_raw_documents/documentation/AI-ConneX_Agentic_Studio_Agent_Builder_Detailed_Documentation.docx
+  authority: A
+  status: Approved
+- spec_id: DOC-SPEC-013
+  title: AI-ConneX Agentic Studio Agent Runtime Detailed Documentation
+  studio: AgenticStudio
+  category: Performance
+  target_subsystems:
+  - AgentRuntime
+  - LLMTracer
+  - StepBudgetManager
+  summary: 'Execution runtime SLAs: max step limits, token consumption budgets, circuit
+    breaker thresholds, and latency bounds per agent node.'
+  governing_slas:
+  - sla_id: SLA-DEFAULT-DOC-SPEC-013-01
+    component_name: AgentRuntime
+    metric_name: p95_latency_ms
+    target_value: 500.0
+    unit: ms
+    comparison_op: <=
+    workload_condition: Standard interactive execution regime
+    severity_on_breach: critical
+    source_spec_id: DOC-SPEC-013
+  state_transitions:
+  - transition_id: TRANS-DOC-SPEC-013-01
+    feature_or_agent: AgentRuntime
+    from_state: IDLE
+    to_state: INITIALIZING
+    trigger_event: START_PIPELINE
+    guard_condition: manifest_is_valid
+    is_terminal: false
+    source_spec_id: DOC-SPEC-013
+  - transition_id: TRANS-DOC-SPEC-013-02
+    feature_or_agent: AgentRuntime
+    from_state: RUNNING
+    to_state: COMPLETED
+    trigger_event: EXECUTION_SUCCESS
+    guard_condition: sla_is_satisfied
+    is_terminal: true
+    source_spec_id: DOC-SPEC-013
+  error_contracts:
+  - error_code: ERR-DOC-SPEC-013-400
+    description: Validation failure against specification contract
+    action: HALT_AND_RAISE
+  - error_code: ERR-DOC-SPEC-013-504
+    description: Execution SLA timeout exceeded
+    action: TRIGGER_CIRCUIT_BREAKER
+  acceptance_criteria:
+  - Must satisfy p95 latency threshold defined in DOC-SPEC-013
+  - Must pass deterministic state machine transitions without deadlocks
+  - 'Must adhere to target subsystem contract: AgentRuntime, LLMTracer, StepBudgetManager'
+  cross_references:
+  - DOC-SPEC-011
+  - DOC-SPEC-012
+  - DOC-SPEC-014
+  source_document_path: aiconnex_knowledge/06_raw_documents/documentation/AI-ConneX_Agentic_Studio_Agent_Runtime_Detailed_Documentation.docx
+  authority: A
+  status: Approved
+- spec_id: DOC-SPEC-014
+  title: AI-ConneX Agentic Studio Main Agent and Agentic Toolkit Documentation
+  studio: AgenticStudio
+  category: Architecture
+  target_subsystems:
+  - MainAgent
+  - AgenticToolkit
+  - ToolDispatcher
+  summary: Master supervisor agent architecture, sub-agent delegation protocol, tool
+    execution sandbox, and error recovery policies.
+  governing_slas:
+  - sla_id: SLA-DEFAULT-DOC-SPEC-014-01
+    component_name: MainAgent
+    metric_name: p95_latency_ms
+    target_value: 500.0
+    unit: ms
+    comparison_op: <=
+    workload_condition: Standard interactive execution regime
+    severity_on_breach: critical
+    source_spec_id: DOC-SPEC-014
+  state_transitions:
+  - transition_id: TRANS-DOC-SPEC-014-01
+    feature_or_agent: MainAgent
+    from_state: IDLE
+    to_state: INITIALIZING
+    trigger_event: START_PIPELINE
+    guard_condition: manifest_is_valid
+    is_terminal: false
+    source_spec_id: DOC-SPEC-014
+  - transition_id: TRANS-DOC-SPEC-014-02
+    feature_or_agent: MainAgent
+    from_state: RUNNING
+    to_state: COMPLETED
+    trigger_event: EXECUTION_SUCCESS
+    guard_condition: sla_is_satisfied
+    is_terminal: true
+    source_spec_id: DOC-SPEC-014
+  error_contracts:
+  - error_code: ERR-DOC-SPEC-014-400
+    description: Validation failure against specification contract
+    action: HALT_AND_RAISE
+  - error_code: ERR-DOC-SPEC-014-504
+    description: Execution SLA timeout exceeded
+    action: TRIGGER_CIRCUIT_BREAKER
+  acceptance_criteria:
+  - Must satisfy p95 latency threshold defined in DOC-SPEC-014
+  - Must pass deterministic state machine transitions without deadlocks
+  - 'Must adhere to target subsystem contract: MainAgent, AgenticToolkit, ToolDispatcher'
+  cross_references:
+  - DOC-SPEC-011
+  - DOC-SPEC-012
+  - DOC-SPEC-013
+  source_document_path: aiconnex_knowledge/06_raw_documents/documentation/AI-ConneX_Agentic_Studio_Main_Agent_and_Agentic_Toolkit_Documentation.docx
+  authority: A
+  status: Approved
+- spec_id: DOC-SPEC-015
+  title: AI-ConneX Agentic Studio RAG KG KnowledgeBase Telemetry Models Tools Documentation
+  studio: AgenticStudio
+  category: Architecture
+  target_subsystems:
+  - ContextBuilder
+  - RetrievalService
+  - KnowledgeGraphEngine
+  - TelemetryTracker
+  summary: Unified Knowledge Base, RAG retrieval engine, Neo4j graph integration,
+    and real-time telemetry tracing specifications.
+  governing_slas:
+  - sla_id: SLA-LAT-DOC-SPEC-015-01
+    component_name: ContextBuilder
+    metric_name: p95_latency_ms
+    target_value: 800.0
+    unit: ms
+    comparison_op: <=
+    workload_condition: latency | < 800 ms
+    severity_on_breach: critical
+    source_spec_id: DOC-SPEC-015
+  - sla_id: SLA-LAT-DOC-SPEC-015-02
+    component_name: ContextBuilder
+    metric_name: p95_latency_ms
+    target_value: 300.0
+    unit: ms
+    comparison_op: <=
+    workload_condition: latency | < 300 ms
+    severity_on_breach: critical
+    source_spec_id: DOC-SPEC-015
+  state_transitions:
+  - transition_id: TRANS-DOC-SPEC-015-01
+    feature_or_agent: ContextBuilder
+    from_state: IDLE
+    to_state: INITIALIZING
+    trigger_event: START_PIPELINE
+    guard_condition: manifest_is_valid
+    is_terminal: false
+    source_spec_id: DOC-SPEC-015
+  - transition_id: TRANS-DOC-SPEC-015-02
+    feature_or_agent: ContextBuilder
+    from_state: RUNNING
+    to_state: COMPLETED
+    trigger_event: EXECUTION_SUCCESS
+    guard_condition: sla_is_satisfied
+    is_terminal: true
+    source_spec_id: DOC-SPEC-015
+  error_contracts:
+  - error_code: ERR-DOC-SPEC-015-400
+    description: Validation failure against specification contract
+    action: HALT_AND_RAISE
+  - error_code: ERR-DOC-SPEC-015-504
+    description: Execution SLA timeout exceeded
+    action: TRIGGER_CIRCUIT_BREAKER
+  acceptance_criteria:
+  - Must satisfy p95 latency threshold defined in DOC-SPEC-015
+  - Must pass deterministic state machine transitions without deadlocks
+  - 'Must adhere to target subsystem contract: ContextBuilder, RetrievalService, KnowledgeGraphEngine,
+    TelemetryTracker'
+  cross_references:
+  - DOC-SPEC-011
+  - DOC-SPEC-012
+  - DOC-SPEC-013
+  source_document_path: aiconnex_knowledge/06_raw_documents/documentation/AI-ConneX_Agentic_Studio_RAG_KG_KnowledgeBase_Telemetry_Models_Tools_Documentation.docx
+  authority: A
+  status: Approved
+- spec_id: DOC-SPEC-016
+  title: AI-ConneX Agentic Studio Visualizer Detailed Documentation
+  studio: AgenticStudio
+  category: Visualization
+  target_subsystems:
+  - AgentVisualizer
+  - LangStudioUI
+  - GraphRenderer
+  summary: Real-time multi-agent conversation graph visualization, step-by-step trace
+    inspection, and interactive HITL breakpoint UI.
+  governing_slas:
+  - sla_id: SLA-DEFAULT-DOC-SPEC-016-01
+    component_name: AgentVisualizer
+    metric_name: p95_latency_ms
+    target_value: 500.0
+    unit: ms
+    comparison_op: <=
+    workload_condition: Standard interactive execution regime
+    severity_on_breach: critical
+    source_spec_id: DOC-SPEC-016
+  state_transitions:
+  - transition_id: TRANS-DOC-SPEC-016-01
+    feature_or_agent: AgentVisualizer
+    from_state: IDLE
+    to_state: INITIALIZING
+    trigger_event: START_PIPELINE
+    guard_condition: manifest_is_valid
+    is_terminal: false
+    source_spec_id: DOC-SPEC-016
+  - transition_id: TRANS-DOC-SPEC-016-02
+    feature_or_agent: AgentVisualizer
+    from_state: RUNNING
+    to_state: COMPLETED
+    trigger_event: EXECUTION_SUCCESS
+    guard_condition: sla_is_satisfied
+    is_terminal: true
+    source_spec_id: DOC-SPEC-016
+  error_contracts:
+  - error_code: ERR-DOC-SPEC-016-400
+    description: Validation failure against specification contract
+    action: HALT_AND_RAISE
+  - error_code: ERR-DOC-SPEC-016-504
+    description: Execution SLA timeout exceeded
+    action: TRIGGER_CIRCUIT_BREAKER
+  acceptance_criteria:
+  - Must satisfy p95 latency threshold defined in DOC-SPEC-016
+  - Must pass deterministic state machine transitions without deadlocks
+  - 'Must adhere to target subsystem contract: AgentVisualizer, LangStudioUI, GraphRenderer'
+  cross_references:
+  - DOC-SPEC-011
+  - DOC-SPEC-012
+  - DOC-SPEC-013
+  source_document_path: aiconnex_knowledge/06_raw_documents/documentation/AI-ConneX_Agentic_Studio_Visualizer_Detailed_Documentation.docx
+  authority: A
+  status: Approved
+- spec_id: DOC-SPEC-017
+  title: AI-ConneX InHouse Metaphorical Agents Catalogue and Architecture
+  studio: AgenticStudio
+  category: Architecture
+  target_subsystems:
+  - PreUploadAgent
+  - ScoutAgent
+  - WorkflowPlanner
+  - JudgeAgent
+  - SelectorAgent
+  - ScorerAgent
+  summary: 'Catalog of specialized in-house industrial agents: roles, trigger conditions,
+    input/output contracts, and validation rules.'
+  governing_slas:
+  - sla_id: SLA-DEFAULT-DOC-SPEC-017-01
+    component_name: PreUploadAgent
+    metric_name: p95_latency_ms
+    target_value: 500.0
+    unit: ms
+    comparison_op: <=
+    workload_condition: Standard interactive execution regime
+    severity_on_breach: critical
+    source_spec_id: DOC-SPEC-017
+  state_transitions:
+  - transition_id: TRANS-DOC-SPEC-017-01
+    feature_or_agent: PreUploadAgent
+    from_state: IDLE
+    to_state: INITIALIZING
+    trigger_event: START_PIPELINE
+    guard_condition: manifest_is_valid
+    is_terminal: false
+    source_spec_id: DOC-SPEC-017
+  - transition_id: TRANS-DOC-SPEC-017-02
+    feature_or_agent: PreUploadAgent
+    from_state: RUNNING
+    to_state: COMPLETED
+    trigger_event: EXECUTION_SUCCESS
+    guard_condition: sla_is_satisfied
+    is_terminal: true
+    source_spec_id: DOC-SPEC-017
+  error_contracts:
+  - error_code: ERR-DOC-SPEC-017-400
+    description: Validation failure against specification contract
+    action: HALT_AND_RAISE
+  - error_code: ERR-DOC-SPEC-017-504
+    description: Execution SLA timeout exceeded
+    action: TRIGGER_CIRCUIT_BREAKER
+  acceptance_criteria:
+  - Must satisfy p95 latency threshold defined in DOC-SPEC-017
+  - Must pass deterministic state machine transitions without deadlocks
+  - 'Must adhere to target subsystem contract: PreUploadAgent, ScoutAgent, WorkflowPlanner,
+    JudgeAgent, SelectorAgent, ScorerAgent'
+  cross_references:
+  - DOC-SPEC-011
+  - DOC-SPEC-012
+  - DOC-SPEC-013
+  source_document_path: aiconnex_knowledge/06_raw_documents/documentation/AI-ConneX_InHouse_Metaphorical_Agents_Catalogue_and_Architecture.docx
+  authority: A
+  status: Approved
+- spec_id: DOC-SPEC-018
+  title: AI-ConneX Deploy and Monitor Pages Internal Architecture
+  studio: PlatformCore
+  category: Architecture
+  target_subsystems:
+  - DeploymentManager
+  - ModelMonitor
+  - DriftDetector
+  summary: Production deployment architecture, model registry integration (MLflow),
+    real-time drift detection, and telemetry dashboard SLAs.
+  governing_slas:
+  - sla_id: SLA-DEFAULT-DOC-SPEC-018-01
+    component_name: DeploymentManager
+    metric_name: p95_latency_ms
+    target_value: 500.0
+    unit: ms
+    comparison_op: <=
+    workload_condition: Standard interactive execution regime
+    severity_on_breach: critical
+    source_spec_id: DOC-SPEC-018
+  state_transitions:
+  - transition_id: TRANS-DOC-SPEC-018-01
+    feature_or_agent: DeploymentManager
+    from_state: IDLE
+    to_state: INITIALIZING
+    trigger_event: START_PIPELINE
+    guard_condition: manifest_is_valid
+    is_terminal: false
+    source_spec_id: DOC-SPEC-018
+  - transition_id: TRANS-DOC-SPEC-018-02
+    feature_or_agent: DeploymentManager
+    from_state: RUNNING
+    to_state: COMPLETED
+    trigger_event: EXECUTION_SUCCESS
+    guard_condition: sla_is_satisfied
+    is_terminal: true
+    source_spec_id: DOC-SPEC-018
+  error_contracts:
+  - error_code: ERR-DOC-SPEC-018-400
+    description: Validation failure against specification contract
+    action: HALT_AND_RAISE
+  - error_code: ERR-DOC-SPEC-018-504
+    description: Execution SLA timeout exceeded
+    action: TRIGGER_CIRCUIT_BREAKER
+  acceptance_criteria:
+  - Must satisfy p95 latency threshold defined in DOC-SPEC-018
+  - Must pass deterministic state machine transitions without deadlocks
+  - 'Must adhere to target subsystem contract: DeploymentManager, ModelMonitor, DriftDetector'
+  cross_references:
+  - DOC-SPEC-019
+  - DOC-SPEC-020
+  - DOC-SPEC-022
+  source_document_path: aiconnex_knowledge/06_raw_documents/documentation/AI-ConneX_Deploy_and_Monitor_Pages_Internal_Architecture.docx
+  authority: A
+  status: Approved
+- spec_id: DOC-SPEC-019
+  title: AI-ConneX Multi Tenancy and Each Studio Deployment Plan
+  studio: PlatformCore
+  category: Security
+  target_subsystems:
+  - TenantService
+  - PostgresRLS
+  - QdrantTenantFilter
+  - Neo4jScope
+  summary: 'Enterprise multi-tenancy specifications: Cognite Spaces data isolation,
+    PostgreSQL RLS policies, and project-level workspace boundaries.'
+  governing_slas:
+  - sla_id: SLA-DEFAULT-DOC-SPEC-019-01
+    component_name: TenantService
+    metric_name: p95_latency_ms
+    target_value: 500.0
+    unit: ms
+    comparison_op: <=
+    workload_condition: Standard interactive execution regime
+    severity_on_breach: critical
+    source_spec_id: DOC-SPEC-019
+  state_transitions:
+  - transition_id: TRANS-DOC-SPEC-019-01
+    feature_or_agent: TenantService
+    from_state: IDLE
+    to_state: INITIALIZING
+    trigger_event: START_PIPELINE
+    guard_condition: manifest_is_valid
+    is_terminal: false
+    source_spec_id: DOC-SPEC-019
+  - transition_id: TRANS-DOC-SPEC-019-02
+    feature_or_agent: TenantService
+    from_state: RUNNING
+    to_state: COMPLETED
+    trigger_event: EXECUTION_SUCCESS
+    guard_condition: sla_is_satisfied
+    is_terminal: true
+    source_spec_id: DOC-SPEC-019
+  error_contracts:
+  - error_code: ERR-DOC-SPEC-019-400
+    description: Validation failure against specification contract
+    action: HALT_AND_RAISE
+  - error_code: ERR-DOC-SPEC-019-504
+    description: Execution SLA timeout exceeded
+    action: TRIGGER_CIRCUIT_BREAKER
+  acceptance_criteria:
+  - Must satisfy p95 latency threshold defined in DOC-SPEC-019
+  - Must pass deterministic state machine transitions without deadlocks
+  - 'Must adhere to target subsystem contract: TenantService, PostgresRLS, QdrantTenantFilter,
+    Neo4jScope'
+  cross_references:
+  - DOC-SPEC-018
+  - DOC-SPEC-020
+  - DOC-SPEC-022
+  source_document_path: aiconnex_knowledge/06_raw_documents/documentation/AI-ConneX_Multi_Tenancy_and_Each_Studio_Deployment_Plan.docx
+  authority: A
+  status: Approved
+- spec_id: DOC-SPEC-020
+  title: AI-ConneX Stage Wise Industrial Visualization Experience
+  studio: PlatformCore
+  category: Visualization
+  target_subsystems:
+  - VisualizationEngine
+  - PlotlyRenderer
+  - TrendVisualizer
+  summary: Industrial time-series visualization standards, spectrogram plots, vibration
+    waterfall charts, and responsive UI performance limits.
+  governing_slas:
+  - sla_id: SLA-DEFAULT-DOC-SPEC-020-01
+    component_name: VisualizationEngine
+    metric_name: p95_latency_ms
+    target_value: 500.0
+    unit: ms
+    comparison_op: <=
+    workload_condition: Standard interactive execution regime
+    severity_on_breach: critical
+    source_spec_id: DOC-SPEC-020
+  state_transitions:
+  - transition_id: TRANS-DOC-SPEC-020-01
+    feature_or_agent: VisualizationEngine
+    from_state: IDLE
+    to_state: INITIALIZING
+    trigger_event: START_PIPELINE
+    guard_condition: manifest_is_valid
+    is_terminal: false
+    source_spec_id: DOC-SPEC-020
+  - transition_id: TRANS-DOC-SPEC-020-02
+    feature_or_agent: VisualizationEngine
+    from_state: RUNNING
+    to_state: COMPLETED
+    trigger_event: EXECUTION_SUCCESS
+    guard_condition: sla_is_satisfied
+    is_terminal: true
+    source_spec_id: DOC-SPEC-020
+  error_contracts:
+  - error_code: ERR-DOC-SPEC-020-400
+    description: Validation failure against specification contract
+    action: HALT_AND_RAISE
+  - error_code: ERR-DOC-SPEC-020-504
+    description: Execution SLA timeout exceeded
+    action: TRIGGER_CIRCUIT_BREAKER
+  acceptance_criteria:
+  - Must satisfy p95 latency threshold defined in DOC-SPEC-020
+  - Must pass deterministic state machine transitions without deadlocks
+  - 'Must adhere to target subsystem contract: VisualizationEngine, PlotlyRenderer,
+    TrendVisualizer'
+  cross_references:
+  - DOC-SPEC-018
+  - DOC-SPEC-019
+  - DOC-SPEC-022
+  source_document_path: aiconnex_knowledge/06_raw_documents/documentation/AI-ConneX_Stage_Wise_Industrial_Visualization_Experience.docx
+  authority: A
+  status: Approved
+- spec_id: DOC-SPEC-021
+  title: AI-ConneX Three Studios Independence and Microservice Modularity
+  studio: CrossStudio
+  category: Architecture
+  target_subsystems:
+  - StudioGateway
+  - InterStudioBus
+  - ContractValidator
+  summary: Microservice modularity contracts decoupling Data Studio, ML Studio, and
+    Agentic Studio with asynchronous REST/gRPC interfaces.
+  governing_slas:
+  - sla_id: SLA-DEFAULT-DOC-SPEC-021-01
+    component_name: StudioGateway
+    metric_name: p95_latency_ms
+    target_value: 500.0
+    unit: ms
+    comparison_op: <=
+    workload_condition: Standard interactive execution regime
+    severity_on_breach: critical
+    source_spec_id: DOC-SPEC-021
+  state_transitions:
+  - transition_id: TRANS-DOC-SPEC-021-01
+    feature_or_agent: StudioGateway
+    from_state: IDLE
+    to_state: INITIALIZING
+    trigger_event: START_PIPELINE
+    guard_condition: manifest_is_valid
+    is_terminal: false
+    source_spec_id: DOC-SPEC-021
+  - transition_id: TRANS-DOC-SPEC-021-02
+    feature_or_agent: StudioGateway
+    from_state: RUNNING
+    to_state: COMPLETED
+    trigger_event: EXECUTION_SUCCESS
+    guard_condition: sla_is_satisfied
+    is_terminal: true
+    source_spec_id: DOC-SPEC-021
+  error_contracts:
+  - error_code: ERR-DOC-SPEC-021-400
+    description: Validation failure against specification contract
+    action: HALT_AND_RAISE
+  - error_code: ERR-DOC-SPEC-021-504
+    description: Execution SLA timeout exceeded
+    action: TRIGGER_CIRCUIT_BREAKER
+  acceptance_criteria:
+  - Must satisfy p95 latency threshold defined in DOC-SPEC-021
+  - Must pass deterministic state machine transitions without deadlocks
+  - 'Must adhere to target subsystem contract: StudioGateway, InterStudioBus, ContractValidator'
+  cross_references: []
+  source_document_path: aiconnex_knowledge/06_raw_documents/documentation/AI-ConneX_Three_Studios_Independence_and_Microservice_Modularity.docx
+  authority: A
+  status: Approved
+- spec_id: DOC-SPEC-022
+  title: AI-ConneX Master Architecture Specification
+  studio: PlatformCore
+  category: Architecture
+  target_subsystems:
+  - MasterPlatformKernel
+  - SecurityGateway
+  - EventBus
+  - StorageManager
+  summary: Master system specification governing global architecture, infrastructure
+    topology, security boundaries, and high-availability SLAs.
+  governing_slas:
+  - sla_id: SLA-MEM-DOC-SPEC-022-01
+    component_name: MasterPlatformKernel
+    metric_name: max_memory_mb
+    target_value: 16384.0
+    unit: MB
+    comparison_op: <=
+    workload_condition: RAM for POC; 16 GB
+    severity_on_breach: warning
+    source_spec_id: DOC-SPEC-022
+  - sla_id: SLA-MEM-DOC-SPEC-022-02
+    component_name: MasterPlatformKernel
+    metric_name: max_memory_mb
+    target_value: 16384.0
+    unit: MB
+    comparison_op: <=
+    workload_condition: RAM minimum; 16 GB
+    severity_on_breach: warning
+    source_spec_id: DOC-SPEC-022
+  state_transitions:
+  - transition_id: TRANS-DOC-SPEC-022-01
+    feature_or_agent: MasterPlatformKernel
+    from_state: IDLE
+    to_state: INITIALIZING
+    trigger_event: START_PIPELINE
+    guard_condition: manifest_is_valid
+    is_terminal: false
+    source_spec_id: DOC-SPEC-022
+  - transition_id: TRANS-DOC-SPEC-022-02
+    feature_or_agent: MasterPlatformKernel
+    from_state: RUNNING
+    to_state: COMPLETED
+    trigger_event: EXECUTION_SUCCESS
+    guard_condition: sla_is_satisfied
+    is_terminal: true
+    source_spec_id: DOC-SPEC-022
+  error_contracts:
+  - error_code: ERR-DOC-SPEC-022-400
+    description: Validation failure against specification contract
+    action: HALT_AND_RAISE
+  - error_code: ERR-DOC-SPEC-022-504
+    description: Execution SLA timeout exceeded
+    action: TRIGGER_CIRCUIT_BREAKER
+  acceptance_criteria:
+  - Must satisfy p95 latency threshold defined in DOC-SPEC-022
+  - Must pass deterministic state machine transitions without deadlocks
+  - 'Must adhere to target subsystem contract: MasterPlatformKernel, SecurityGateway,
+    EventBus, StorageManager'
+  cross_references:
+  - DOC-SPEC-018
+  - DOC-SPEC-019
+  - DOC-SPEC-020
+  source_document_path: aiconnex_knowledge/06_raw_documents/documentation/AI-ConneX_Master_Architecture_Specification.docx
+  authority: A
+  status: Approved

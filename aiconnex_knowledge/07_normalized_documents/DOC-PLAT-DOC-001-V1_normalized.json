@@ -1,0 +1,260 @@
+{
+  "document_id": "DOC-PLAT-DOC-001-V1",
+  "section_count": 22,
+  "sections": [
+    {
+      "section_id": "SEC-0001",
+      "document_id": "DOC-PLAT-DOC-001-V1",
+      "heading_level": 1,
+      "heading_text": "AIConnex Autonomous Agentic MLOps Platform \u2014 Final Master Architecture",
+      "section_path": "AIConnex Autonomous Agentic MLOps Platform \u2014 Final Master Architecture",
+      "content": "---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0002",
+      "document_id": "DOC-PLAT-DOC-001-V1",
+      "heading_level": 2,
+      "heading_text": "1. Executive Overview & Design Principles",
+      "section_path": "AIConnex Autonomous Agentic MLOps Platform \u2014 Final Master Architecture > 1. Executive Overview & Design Principles",
+      "content": "**AIConnex** is an end-to-end, domain-agnostic autonomous Machine Learning operating system and multi-table dataset compiler engineered specifically for industrial telemetry, predictive maintenance (PdM), prognostics and health management (PHM), digital twins, and SCADA automation.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0003",
+      "document_id": "DOC-PLAT-DOC-001-V1",
+      "heading_level": 3,
+      "heading_text": "Core Architectural Principles:",
+      "section_path": "AIConnex Autonomous Agentic MLOps Platform \u2014 Final Master Architecture > 1. Executive Overview & Design Principles > Core Architectural Principles:",
+      "content": "1. **Zero-Regression Guarantee**: The agentic supervisor and multi-candidate ensemble layer wrap *around* the core 9-node microservices and 1,993 DAG recipe catalog\u2014preserving 100% of existing single-DAG microservice endpoints and CLI runners.\n2. **Supervisor-Agent Mesh over Blackboard Memory**: A Master Supervisor Agent (driven by **LangGraph**) coordinates specialist agents (**Scout**, **Memory**, **Platform**, **Scorer**, **Judge**, **Selector**) over a shared Knowledge Blackboard (**Memory Agent** backed by `events.jsonl` and `mem0` / Qdrant vector store).\n3. **H2O-Aligned Multi-Candidate Competition & Stacked Ensembling**: Replaces single-model guessing with multi-recipe competition. Resolves 3\u20135 complementary DAG IDs, trains them in parallel, and fits a **Ridge/GLM Stacked Ensemble Meta-Learner** that cancels out individual model errors.\n4. **Dual-Evaluation Triad**: Combines hard mathematical metrics (**Scorer Agent**) with LLM-based qualitative risk reasoning (**Judge Agent**), evaluated by a **Selector Agent** against user intent.\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0004",
+      "document_id": "DOC-PLAT-DOC-001-V1",
+      "heading_level": 2,
+      "heading_text": "2. Complete End-to-End Master System Architecture",
+      "section_path": "AIConnex Autonomous Agentic MLOps Platform \u2014 Final Master Architecture > 2. Complete End-to-End Master System Architecture",
+      "content": "``` mermaid\ngraph TD\n    User[User Prompt / Raw Dataset Archive] --> MasterAgent[1. Master LangGraph Supervisor Agent<br/>aiconnex_agent/graph.py]\n    \n    subgraph FrontDesk [\"Front-Desk & Intent Parsing\"]\n        MasterAgent --> ConvParser[2. Conversation Parser<br/>aiconnex_agent/parser/]\n        ConvParser --> ConfidenceCheck{Confidence >= 0.85?}\n        ConfidenceCheck -- No --> ClarificationNode[HITL Clarification Node<br/>Real LLM Question Generation]\n        ClarificationNode --> ConvParser\n        ConfidenceCheck -- Yes --> CUCContract[CUC Contract Generated]\n    end\n\n    subgraph Planning [\"Planning & Intelligence Retrieval\"]\n        CUCContract --> PlanningEngine[3. Planning Engine<br/>aiconnex_agent/planning/]\n        PlanningEngine <--> ScoutAgent[4a. Scout Agent<br/>Exploration & Compiler Patches]\n        PlanningEngine <--> MemoryAgent[4b. Memory Agent<br/>mem0 Vector Store & EventStore]\n    end\n\n    subgraph MultiRecipe [\"Multi-Candidate Recipe Resolution\"]\n        PlanningEngine --> MultiResolver[5. Multi-DAG Candidate Resolver<br/>Node 2 & Node 3 Integration]\n        MultiResolver --> RecipeCatalog[(6,760 Master Recipe JSONs<br/>aic/3_recipe_orchestrator/recipe/)]\n        MultiResolver --> CandidateSet[Emits candidate_recipes[]]\n    end\n\n    subgraph ExecutionHarness [\"Platform Agent: Parallel S.T.E.-M. Harness\"]\n        CandidateSet --> Worker1[Worker 1: DAG_414 LightGBM]\n        CandidateSet --> Worker2[Worker 2: DAG_241 RandomForest]\n        CandidateSet --> Worker3[Worker 3: DAG_906 XGBoost+Lags]\n        \n        Worker1 --> OOFCollector[OOF CV Predictions Collector]\n        Worker2 --> OOFCollector\n        Worker3 --> OOFCollector\n        \n        OOFCollector --> MetaLearner[Node 7: Stacked Ensemble Meta-Learner<br/>Ridge / GLM Ensembler]\n    end\n\n    subgraph Evaluation [\"Evaluation Triad & Selection\"]\n        MetaLearner --> ScorerAgent[Scorer Agent<br/>R\u00b2, RMSE, MAE, MAPE, Latency, Size]\n        MetaLearner --> JudgeAgent[Judge Agent<br/>LLM Qualitative Risk & Rubrics]\n        \n        ScorerAgent --> SelectorAgent[Selector Agent<br/>Multi-Criteria Decision Analysis]\n        JudgeAgent --> SelectorAgent\n        \n        SelectorAgent --> Winner[Winner Selected: Stacked Ensemble / Model ID]\n    end\n\n    subgraph Operations [\"Deployment, MLflow & Drift Monitoring\"]\n        Winner --> DeployModule[REST Serving Endpoint :8001]\n        Winner --> MLflowLogger[MLflow Tracking & Artifact Registry]\n        Winner --> MemoryWriter[Memory Builder & EventStore Writer]\n        DeployModule --> DriftMonitor[Scout Production Drift Monitor]\n    end\n```\n\n---",
+      "content_type": "mixed",
+      "code_blocks": [
+        {
+          "language": "mermaid",
+          "code": "graph TD\n    User[User Prompt / Raw Dataset Archive] --> MasterAgent[1. Master LangGraph Supervisor Agent<br/>aiconnex_agent/graph.py]\n    \n    subgraph FrontDesk [\"Front-Desk & Intent Parsing\"]\n        MasterAgent --> ConvParser[2. Conversation Parser<br/>aiconnex_agent/parser/]\n        ConvParser --> ConfidenceCheck{Confidence >= 0.85?}\n        ConfidenceCheck -- No --> ClarificationNode[HITL Clarification Node<br/>Real LLM Question Generation]\n        ClarificationNode --> ConvParser\n        ConfidenceCheck -- Yes --> CUCContract[CUC Contract Generated]\n    end\n\n    subgraph Planning [\"Planning & Intelligence Retrieval\"]\n        CUCContract --> PlanningEngine[3. Planning Engine<br/>aiconnex_agent/planning/]\n        PlanningEngine <--> ScoutAgent[4a. Scout Agent<br/>Exploration & Compiler Patches]\n        PlanningEngine <--> MemoryAgent[4b. Memory Agent<br/>mem0 Vector Store & EventStore]\n    end\n\n    subgraph MultiRecipe [\"Multi-Candidate Recipe Resolution\"]\n        PlanningEngine --> MultiResolver[5. Multi-DAG Candidate Resolver<br/>Node 2 & Node 3 Integration]\n        MultiResolver --> RecipeCatalog[(6,760 Master Recipe JSONs<br/>aic/3_recipe_orchestrator/recipe/)]\n        MultiResolver --> CandidateSet[Emits candidate_recipes[]]\n    end\n\n    subgraph ExecutionHarness [\"Platform Agent: Parallel S.T.E.-M. Harness\"]\n        CandidateSet --> Worker1[Worker 1: DAG_414 LightGBM]\n        CandidateSet --> Worker2[Worker 2: DAG_241 RandomForest]\n        CandidateSet --> Worker3[Worker 3: DAG_906 XGBoost+Lags]\n        \n        Worker1 --> OOFCollector[OOF CV Predictions Collector]\n        Worker2 --> OOFCollector\n        Worker3 --> OOFCollector\n        \n        OOFCollector --> MetaLearner[Node 7: Stacked Ensemble Meta-Learner<br/>Ridge / GLM Ensembler]\n    end\n\n    subgraph Evaluation [\"Evaluation Triad & Selection\"]\n        MetaLearner --> ScorerAgent[Scorer Agent<br/>R\u00b2, RMSE, MAE, MAPE, Latency, Size]\n        MetaLearner --> JudgeAgent[Judge Agent<br/>LLM Qualitative Risk & Rubrics]\n        \n        ScorerAgent --> SelectorAgent[Selector Agent<br/>Multi-Criteria Decision Analysis]\n        JudgeAgent --> SelectorAgent\n        \n        SelectorAgent --> Winner[Winner Selected: Stacked Ensemble / Model ID]\n    end\n\n    subgraph Operations [\"Deployment, MLflow & Drift Monitoring\"]\n        Winner --> DeployModule[REST Serving Endpoint :8001]\n        Winner --> MLflowLogger[MLflow Tracking & Artifact Registry]\n        Winner --> MemoryWriter[Memory Builder & EventStore Writer]\n        DeployModule --> DriftMonitor[Scout Production Drift Monitor]\n    end"
+        }
+      ],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0005",
+      "document_id": "DOC-PLAT-DOC-001-V1",
+      "heading_level": 3,
+      "heading_text": "Layer 0: Universal Relational Dataset Compiler (`aiconnex_zip_compiler`)",
+      "section_path": "AIConnex Autonomous Agentic MLOps Platform \u2014 Final Master Architecture > 3. Layer-by-Layer Technical Specifications > Layer 0: Universal Relational Dataset Compiler (`aiconnex_zip_compiler`)",
+      "content": "- **5-Stage Plugin Execution Engine (`aiconnex_zip_compiler/plugins/`)**:\n  1. **Discovery Stage (`discovery.py`)**: Recursively navigates raw ZIP/CSV/MAT/HDF5 archives, detects text encodings (`utf-8`, `latin-1`), and discovers multi-table folder structures.\n  2. **Parser Stage (`parser.py`)**: Extracts raw table streams, parses format headers, standardizes column names into `snake_case`, and detects temporal axes.\n  3. **Assembler Stage (`assembler.py`)**: Performs side-by-side index-matching joins across parallel sensor channels (`collector_current`, `collector_voltage`, `package_temp`) while guarding against Cartesian row count explosions ($<5\\%$ delta safety threshold).\n  4. **Harvester Stage (`harvester.py`)**: Collects group-level metadata, detects operating regimes, and verifies schema consistency across multi-device fleets.\n  5. **Normalizer Stage (`normalizer.py`)**: Concatenates aligned fleet groups into `all_groups_combined.csv` and outputs `unified_manifest.json` for downstream MLOps profiling.\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0006",
+      "document_id": "DOC-PLAT-DOC-001-V1",
+      "heading_level": 3,
+      "heading_text": "Layer 1: Core 9-Node MLOps Microservices Cascade (`aic/`)",
+      "section_path": "AIConnex Autonomous Agentic MLOps Platform \u2014 Final Master Architecture > 3. Layer-by-Layer Technical Specifications > Layer 1: Core 9-Node MLOps Microservices Cascade (`aic/`)",
+      "content": "- **Node 1 (`1_dataset_profiler`)**: FastApi profiler & format detector. Computes column distributions and generates `meta1.json`.\n- **Node 2 (`2_dag`)**: Matches dataset profile against `dag_conditions_mapping.json` (1,993 DAG specifications across 10 ML domains).\n- **Node 3 (`3_recipe_orchestrator`)**: Recipe engine accessing 6,760 pre-compiled stage recipe JSON files (`preparing`, `feature_engineering`, `splitting`, `training`).\n- **Node 4 (`4_prepare`)**: Data cleaning, null imputation, scaling (`StandardScaler`, `RobustScaler`).\n- **Node 5 (`5_feature_engineering`)**: Industrial rolling lag matrices ($t-1, t-5, t-10$), moving averages, rolling std, and spectral features.\n- **Node 6 (`6_split`)**: Enforces zero-leakage group-chronological splitting (70/15/15 cut).\n- **Node 7 (`7_train`)**: Multi-model production HPO trainer supporting 13 model families (LightGBM, XGBoost, Random Forest, SVR, SVC, IsolationForest, GLM, etc.).\n- **Node 8 (`8_evaluate`)**: Industrial Validation Gates:\n  - `VG_1`: Sanity gate (numerical stability, non-trivial $R^2$).\n  - `VG_2`: Robustness gate (+20% noise injection & false-alarm-rate test).\n- **Node 9 (`9_deploy_monitor`)**: Model serving REST endpoint (`:8001`) with Population Stability Index (PSI) feature drift monitoring.\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0007",
+      "document_id": "DOC-PLAT-DOC-001-V1",
+      "heading_level": 3,
+      "heading_text": "Layer 2: Master Supervisor & State Machine (`aiconnex_agent/graph.py`)",
+      "section_path": "AIConnex Autonomous Agentic MLOps Platform \u2014 Final Master Architecture > 3. Layer-by-Layer Technical Specifications > Layer 2: Master Supervisor & State Machine (`aiconnex_agent/graph.py`)",
+      "content": "- **LangGraph `StateGraph`**: Coordinates execution across nodes via a strongly-typed `MasterAgentState`.\n- **Checkpointer (`MemorySaver`)**: Persists state turn-by-turn enabling Human-in-the-Loop (HITL) interrupts.\n- **Rich Terminal UI (`agentic_terminla_UI/tui_app.py`)**: Multi-pane live terminal dashboard streaming real-time graph execution telemetry.\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0008",
+      "document_id": "DOC-PLAT-DOC-001-V1",
+      "heading_level": 3,
+      "heading_text": "Layer 3: Specialized Agent Mesh",
+      "section_path": "AIConnex Autonomous Agentic MLOps Platform \u2014 Final Master Architecture > 3. Layer-by-Layer Technical Specifications > Layer 3: Specialized Agent Mesh",
+      "content": "- **Conversation Parser (`aiconnex_agent/parser/`)**: 6 modular sub-modules (`PromptBuilder`, `ContextManager`, `SemanticExtractor`, `StructuredOutputValidator`, `ConfidenceScorer`, `ClarificationGenerator`) producing `ConversationUnderstandingContract` (CUC).\n- **Planning Engine (`aiconnex_agent/planning/`)**: `IntentPlanMapper` mapping intent to execution steps and multi-candidate recipes.\n- **Scout Agent (`aiconnex_agent/scout/`)**: Integrates with `UnifiedCompiler`, executes Strategy Peeks, monitors model zoo, and detects production drift.\n- **Memory Agent (`aiconnex_agent/memory/`)**:\n  - `EventStore`: Append-only immutable event log (`workspace_data/events.jsonl`).\n  - `MemoryPolicyEngine`: Data retention & privacy rules.\n  - `MemoryBuilder`: Re-projects events into audit memory products.\n  - `mem0` Vector Memory: Embedded Qdrant database (`./.mem0_qdrant/`) for semantic recall of past experiments & user preferences.\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0009",
+      "document_id": "DOC-PLAT-DOC-001-V1",
+      "heading_level": 3,
+      "heading_text": "Layer 4: Platform Agent & H2O-Aligned Ensemble Engine (`aiconnex_agent/platform/`)",
+      "section_path": "AIConnex Autonomous Agentic MLOps Platform \u2014 Final Master Architecture > 3. Layer-by-Layer Technical Specifications > Layer 4: Platform Agent & H2O-Aligned Ensemble Engine (`aiconnex_agent/platform/`)",
+      "content": "- **Multi-DAG Candidate Resolver**: Resolves candidate set of 3\u20135 complementary DAG IDs for the dataset profile.\n- **Parallel Training Harness**: Spawns parallel worker threads via `ThreadPoolExecutor` running Nodes 4\u20137 for all candidate recipes simultaneously.\n- **Stacked Ensemble Meta-Learner (`aiconnex_ml/shared/ensemble.py`)**: Fits a non-negative Ridge Meta-Learner on out-of-fold cross-validation predictions:\n  $$\\hat{y} = \\sum_{k=1}^{K} w_k \\cdot \\text{Model}_k \\quad \\text{s.t. } w_k \\ge 0$$\n- **Evaluation Triad**:\n  - **Scorer Agent**: Deterministic metrics ($R^2$, RMSE, MAE, MAPE, latency, size).\n  - **Judge Agent**: LLM-based qualitative evaluation (out-of-bounds risks, physical realism).\n  - **Selector Agent**: Multi-Criteria Decision Analysis (MCDA) combining Scorer + Judge + CUC Intent + Memory preferences to pick the Winner.\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0010",
+      "document_id": "DOC-PLAT-DOC-001-V1",
+      "heading_level": 3,
+      "heading_text": "Layer 5: MLflow Tracking & Production Monitoring",
+      "section_path": "AIConnex Autonomous Agentic MLOps Platform \u2014 Final Master Architecture > 3. Layer-by-Layer Technical Specifications > Layer 5: MLflow Tracking & Production Monitoring",
+      "content": "- **MLflow Tracking (`aiconnex_agent/platform/mlflow_logger.py`)**: Logs parameters, metrics, leaderboard table, and model binaries (`.pkl`).\n- **REST Serving (`:8001`)**: Deploys the winning model or Stacked Ensemble.\n- **Drift Monitoring**: Scout Agent monitors incoming inference payloads for PSI drift and triggers retraining.\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0011",
+      "document_id": "DOC-PLAT-DOC-001-V1",
+      "heading_level": 2,
+      "heading_text": "4. Pydantic State & Contract Schemas",
+      "section_path": "AIConnex Autonomous Agentic MLOps Platform \u2014 Final Master Architecture > 4. Pydantic State & Contract Schemas",
+      "content": "``` python\nfrom typing import List, Dict, Any, Optional\nfrom pydantic import BaseModel, Field\n\nclass CandidateRecipe(BaseModel):\n    recipe_id: str\n    dag_id: str\n    algo_family: str\n    hyperparameters: Dict[str, Any]\n    feature_config: Dict[str, Any]\n\nclass ScorerReport(BaseModel):\n    recipe_id: str\n    r2_score: float\n    rmse: float\n    mae: float\n    mape: float\n    latency_ms: float\n    model_size_mb: float\n\nclass JudgeReport(BaseModel):\n    recipe_id: str\n    qualitative_score: float\n    rubric_ratings: Dict[str, float]\n    reasoning: str\n    risk_assessment: str\n\nclass LeaderboardEntry(BaseModel):\n    rank: int\n    model_id: str\n    dag_id: str\n    algo_name: str\n    composite_score: float\n    r2_score: float\n    rmse: float\n    mae: float\n    is_winner: bool\n\nclass SelectionResult(BaseModel):\n    winner_model_id: str\n    winner_dag_id: str\n    is_ensemble: bool\n    selection_rationale: str\n    leaderboard: List[LeaderboardEntry]\n```\n\n---",
+      "content_type": "mixed",
+      "code_blocks": [
+        {
+          "language": "python",
+          "code": "from typing import List, Dict, Any, Optional\nfrom pydantic import BaseModel, Field\n\nclass CandidateRecipe(BaseModel):\n    recipe_id: str\n    dag_id: str\n    algo_family: str\n    hyperparameters: Dict[str, Any]\n    feature_config: Dict[str, Any]\n\nclass ScorerReport(BaseModel):\n    recipe_id: str\n    r2_score: float\n    rmse: float\n    mae: float\n    mape: float\n    latency_ms: float\n    model_size_mb: float\n\nclass JudgeReport(BaseModel):\n    recipe_id: str\n    qualitative_score: float\n    rubric_ratings: Dict[str, float]\n    reasoning: str\n    risk_assessment: str\n\nclass LeaderboardEntry(BaseModel):\n    rank: int\n    model_id: str\n    dag_id: str\n    algo_name: str\n    composite_score: float\n    r2_score: float\n    rmse: float\n    mae: float\n    is_winner: bool\n\nclass SelectionResult(BaseModel):\n    winner_model_id: str\n    winner_dag_id: str\n    is_ensemble: bool\n    selection_rationale: str\n    leaderboard: List[LeaderboardEntry]"
+        }
+      ],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0012",
+      "document_id": "DOC-PLAT-DOC-001-V1",
+      "heading_level": 2,
+      "heading_text": "5. Zero-Regression Guarantee Summary",
+      "section_path": "AIConnex Autonomous Agentic MLOps Platform \u2014 Final Master Architecture > 5. Zero-Regression Guarantee Summary",
+      "content": "| Component | Status | Guarantee |\n| :--- | :---: | :--- |\n| **9-Node Microservices (`aic/`)** | Intact | Existing REST endpoints (`:8000`..`:8008`) and `start_all.py` remain 100% operational. |\n| **1,993 DAG Catalog & 6,760 Recipes** | Intact | Read in read-only mode by Node 3 for multi-recipe resolution. |\n| **Single-DAG CLI Runner (`run_pipeline.py`)** | Intact | Command-line execution continues working without modification. |\n| **Phases 1\u20135b Agent Modules** | Integrated | LangGraph graph, Conv Parser, Rich TUI, Scout, and Memory Agent are preserved and extended. |\n\n---",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Component | Status | Guarantee |\n| :--- | :---: | :--- |\n| **9-Node Microservices (`aic/`)** | Intact | Existing REST endpoints (`:8000`..`:8008`) and `start_all.py` remain 100% operational. |\n| **1,993 DAG Catalog & 6,760 Recipes** | Intact | Read in read-only mode by Node 3 for multi-recipe resolution. |\n| **Single-DAG CLI Runner (`run_pipeline.py`)** | Intact | Command-line execution continues working without modification. |\n| **Phases 1\u20135b Agent Modules** | Integrated | LangGraph graph, Conv Parser, Rich TUI, Scout, and Memory Agent are preserved and extended. |"
+      ]
+    },
+    {
+      "section_id": "SEC-0013",
+      "document_id": "DOC-PLAT-DOC-001-V1",
+      "heading_level": 2,
+      "heading_text": "6. Phase 5c Critical Design Decisions & Operational Guardrails",
+      "section_path": "AIConnex Autonomous Agentic MLOps Platform \u2014 Final Master Architecture > 6. Phase 5c Critical Design Decisions & Operational Guardrails",
+      "content": "To prevent silent failures, resource contention, and ad-hoc architecture drift during Phase 5c implementation, the following 9 operational guardrails are locked into the system design:",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0014",
+      "document_id": "DOC-PLAT-DOC-001-V1",
+      "heading_level": 3,
+      "heading_text": "1. Unified Session Identity Model (`workflow_id`)",
+      "section_path": "AIConnex Autonomous Agentic MLOps Platform \u2014 Final Master Architecture > 6. Phase 5c Critical Design Decisions & Operational Guardrails > 1. Unified Session Identity Model (`workflow_id`)",
+      "content": "- Every candidate recipe execution, OOF prediction matrix, scorer metric, judge report, and leaderboard entry MUST trace back to `state.session_id` (`wf_<hex>`).\n- The `workflow_id` is passed as a single immutable key across all worker threads and Memory Agent event store appends to preserve 100% audit correlation.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0015",
+      "document_id": "DOC-PLAT-DOC-001-V1",
+      "heading_level": 3,
+      "heading_text": "2. Candidate-Level Partial Failure Semantics",
+      "section_path": "AIConnex Autonomous Agentic MLOps Platform \u2014 Final Master Architecture > 6. Phase 5c Critical Design Decisions & Operational Guardrails > 2. Candidate-Level Partial Failure Semantics",
+      "content": "- Individual worker failures (e.g. XGBoost OOM, recipe shape mismatch) do NOT crash the parent ensemble pipeline or trigger silent fallthroughs.\n- Failed workers emit a `CandidateFailedEvent`, get excluded from the candidate pool, and the Stacked Ensemble Meta-Learner proceeds using the remaining successful candidates ($K \\ge 2$).",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0016",
+      "document_id": "DOC-PLAT-DOC-001-V1",
+      "heading_level": 3,
+      "heading_text": "3. Concurrency Ceiling & CPU-Bound Process Management",
+      "section_path": "AIConnex Autonomous Agentic MLOps Platform \u2014 Final Master Architecture > 6. Phase 5c Critical Design Decisions & Operational Guardrails > 3. Concurrency Ceiling & CPU-Bound Process Management",
+      "content": "- Parallel worker execution uses `ProcessPoolExecutor` (or bounded `ThreadPoolExecutor` capped at **`max_workers = min(3, os.cpu_count())`**) to prevent CPU thrashing and RAM exhaustion during heavy multi-model training.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0017",
+      "document_id": "DOC-PLAT-DOC-001-V1",
+      "heading_level": 3,
+      "heading_text": "4. Standardized Judge LLM Call Pattern",
+      "section_path": "AIConnex Autonomous Agentic MLOps Platform \u2014 Final Master Architecture > 6. Phase 5c Critical Design Decisions & Operational Guardrails > 4. Standardized Judge LLM Call Pattern",
+      "content": "- The Judge Agent follows the standard AIConnex LLM pattern: primary LLM call via `get_llm()`, strict Pydantic response validation, and a deterministic fallback (`\"qualitative_unavailable\"`) on network/API failure.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0018",
+      "document_id": "DOC-PLAT-DOC-001-V1",
+      "heading_level": 3,
+      "heading_text": "5. Independent Evaluator Fail-Soft Logic",
+      "section_path": "AIConnex Autonomous Agentic MLOps Platform \u2014 Final Master Architecture > 6. Phase 5c Critical Design Decisions & Operational Guardrails > 5. Independent Evaluator Fail-Soft Logic",
+      "content": "- The Selector Agent functions independently of the Judge Agent. If LLM qualitative evaluation fails or is disabled, Selector selects the winning model using Scorer Agent hard mathematical metrics ($R^2$, RMSE, MAE, MAPE) alone.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0019",
+      "document_id": "DOC-PLAT-DOC-001-V1",
+      "heading_level": 3,
+      "heading_text": "6. Single-Owner Drift Monitoring Boundary",
+      "section_path": "AIConnex Autonomous Agentic MLOps Platform \u2014 Final Master Architecture > 6. Phase 5c Critical Design Decisions & Operational Guardrails > 6. Single-Owner Drift Monitoring Boundary",
+      "content": "- Node 9 (`9_deploy_monitor`) strictly owns production Population Stability Index (PSI) and feature drift detection on live REST payloads (`:8001`). Scout Agent acts as a downstream consumer of Node 9 drift alerts.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0020",
+      "document_id": "DOC-PLAT-DOC-001-V1",
+      "heading_level": 3,
+      "heading_text": "7. Local-First MLflow Tracking URI (`./mlruns`)",
+      "section_path": "AIConnex Autonomous Agentic MLOps Platform \u2014 Final Master Architecture > 6. Phase 5c Critical Design Decisions & Operational Guardrails > 7. Local-First MLflow Tracking URI (`./mlruns`)",
+      "content": "- MLflow experiment tracking uses local file store persistence at `./mlruns` (zero external server dependencies), matching the offline local-first design of mem0/Qdrant (`./.mem0_qdrant`).",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0021",
+      "document_id": "DOC-PLAT-DOC-001-V1",
+      "heading_level": 3,
+      "heading_text": "8. Empirical DAG & Recipe Inventory Verification",
+      "section_path": "AIConnex Autonomous Agentic MLOps Platform \u2014 Final Master Architecture > 6. Phase 5c Critical Design Decisions & Operational Guardrails > 8. Empirical DAG & Recipe Inventory Verification",
+      "content": "- All multi-candidate routing logic dynamically inspects actual on-disk counts in `dag_conditions_mapping.json` (1,993 DAG specifications) and `aic/3_recipe_orchestrator/recipe/` (6,760 pre-compiled stage JSON recipes) at runtime.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0022",
+      "document_id": "DOC-PLAT-DOC-001-V1",
+      "heading_level": 3,
+      "heading_text": "9. Empirical Test-Driven Zero-Regression Verification",
+      "section_path": "AIConnex Autonomous Agentic MLOps Platform \u2014 Final Master Architecture > 6. Phase 5c Critical Design Decisions & Operational Guardrails > 9. Empirical Test-Driven Zero-Regression Verification",
+      "content": "- Zero-regression is verified empirically by running full microservice regression test suites (`pytest tests/`) pre-implementation and post-implementation, confirming zero test failures.\n\n---\n\n*Document Version: v3.1 (Master Final Architecture - Guardrails Locked)*  \n*Authoritative Status: APPROVED & LOCKED FOR PHASE 5C EXECUTION*",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    }
+  ]
+}

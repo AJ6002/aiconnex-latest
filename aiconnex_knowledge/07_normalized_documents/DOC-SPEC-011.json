@@ -1,0 +1,580 @@
+{
+  "document_id": "DOC-DOC-SPEC-011-V1",
+  "source_id": "DOC-SPEC-011",
+  "title": "AI-ConneX Agentic Studio Agent SPEC Blueprint Documentation",
+  "studio": "AgenticStudio",
+  "category": "DataContract",
+  "target_subsystems": [
+    "AgentSpecEngine",
+    "PromptManager",
+    "ContractManager"
+  ],
+  "summary": "Formal schema blueprint for industrial agents: system prompt templates, tool binding contracts, and state schema invariants.",
+  "sha256": "a766b82aeb819744b9d814001b3bb52c141c1cc49b9958008c0f79ae5bc14d7e",
+  "file_size_bytes": 51531,
+  "statistics": {
+    "headings_count": 48,
+    "paragraphs_count": 149,
+    "tables_count": 13,
+    "sections_count": 47,
+    "estimated_words": 3927
+  },
+  "sections": [
+    {
+      "section_id": "SEC-DOC-SPEC-011-0001",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "Overview",
+      "section_path": "DOC-SPEC-011 > Overview",
+      "content": "AI-ConneX\n\nAGENTIC STUDIO — AGENT SPEC (BLUEPRINT)\n\nCanonical Industrial Agent Contract & Deployment ArtifactR&D • Architecture • Failure Analysis • Implementation • POC • ComplianceReport #5 | Version 1.0 | 14 August 2026",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0002",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "Document Control",
+      "section_path": "DOC-SPEC-011 > Document Control",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Field | Value |\n| --- | --- |\n| System | AI-ConneX |\n| Studio | Agentic Studio |\n| Component | Agent SPEC / Blueprint |\n| Stage | Output of Agent Builder; input to Agent Runtime |\n| Report | Compliance / Engineering Report #5 |\n| Primary purpose | Define exactly what an industrial agent may observe, reason over, retrieve, recommend, request approval for, and execute. |\n| Certification status | Engineering readiness assessment only; not a legal or standards certification. |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0003",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "1. Executive Definition",
+      "section_path": "DOC-SPEC-011 > 1. Executive Definition",
+      "content": "The Agent SPEC is the canonical, machine-readable and human-reviewable contract produced after Agent Builder has interpreted industrial intent, resolved the Ground-State, bound approved models/knowledge/tools, applied policies and passed validation. It is the boundary between 'what the agent is supposed to be' and 'what the runtime is permitted to execute'.\n\nThe SPEC is intentionally stronger than a prompt. A prompt expresses instructions; the SPEC expresses identity, scope, inputs, outputs, state, triggers, tools, permissions, autonomy, approval rules, safety constraints, failure handling, observability, tests, provenance and versioning.\n\nJANE INTENT     |GROUND-STATE     |DATA STUDIO + ML STUDIO ARTIFACTS     |TOOL / KNOWLEDGE REGISTRIES     |POLICY     |AGENT BUILDER     |VALIDATED AGENT SPEC     |AGENT RUNTIME     |TOOL GATEWAY     |INDUSTRIAL SYSTEMS",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0004",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "2. Why a Separate Agent SPEC Is Necessary",
+      "section_path": "DOC-SPEC-011 > 2. Why a Separate Agent SPEC Is Necessary",
+      "content": "An LLM response is not a reliable authorization mechanism.\n\nIndustrial actions require explicit scope and accountability.\n\nAgents need deterministic interfaces to telemetry, models, knowledge and tools.\n\nPermissions must be independently enforceable from model reasoning.\n\nAn agent must be reproducible across deployments and versions.\n\nSafety and security reviewers need a finite artifact to inspect.\n\nRuntime should not infer missing permissions from natural language.\n\nIncident investigation requires knowing exactly which specification was active.\n\nThis design directly addresses OWASP concerns including prompt injection, insecure output handling, insecure plugin/tool design and excessive agency. OWASP explicitly identifies excessive agency as a risk when LLM systems receive unchecked ability to act. citeturn0search2",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0005",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "3. R&D Problem Statement",
+      "section_path": "DOC-SPEC-011 > 3. R&D Problem Statement",
+      "content": "Research question: how can AI-ConneX transform an industrial user's natural-language intent into a stable agent contract that is expressive enough for autonomous operation but constrained enough to remain auditable, testable and governable?",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Hypothesis | Engineering response |\n| --- | --- |\n| Natural language is ambiguous | Compile into a typed schema. |\n| Context can become stale | Reference versioned Ground-State snapshots and freshness policy. |\n| Models can be unsuitable | Bind versioned Model Manifests and validate contracts. |\n| Tools can be dangerous | Use typed, allow-listed capabilities plus policy gates. |\n| Agents can loop or over-act | Encode limits, action classes and termination rules. |\n| Agent behavior can drift | Immutable SPEC versions + hashes + provenance. |\n| Industrial users are not AI engineers | Use templates and Jane-generated intent. |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0006",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "4. Position in AI-ConneX",
+      "section_path": "DOC-SPEC-011 > 4. Position in AI-ConneX",
+      "content": "+------------------+                 | JANE / CHATBOT    |                 +---------+--------+                           |                    Intent Manifest                           |                           v+-------------+     +------+-------+     +-------------+| DATA STUDIO |---->| AGENT BUILDER|<----|  ML STUDIO  |+-------------+     +------+-------+     +-------------+       |                    | Manifest/Profile       Candidate Plan DAG/Family IDs             |       |                    v       |              VALIDATION + POLICY       |                    |       +--------------------+                            |                            v                     AGENT SPEC                            |                            v                     AGENT RUNTIME                            |                            v                     TOOL GATEWAY                            |                            v                   INDUSTRIAL SYSTEMS",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0007",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "5. Previous Stage: Chatbot / Jane → SPEC",
+      "section_path": "DOC-SPEC-011 > 5. Previous Stage: Chatbot / Jane → SPEC",
+      "content": "Jane is not the SPEC. Jane is the conversational planning layer that collects user intent and constraints. Agent Builder converts that intent into the formal contract.\n\nJane output:{  \"intent_uid\": \"INT-...\",  \"goal\": \"monitor compressor health\",  \"site\": \"PLANT-01\",  \"assets\": [\"COMPRESSOR-*\"],  \"signals\": [\"vibration\",\"temperature\",\"pressure\"],  \"outcome\": \"maintenance_alert\",  \"autonomy\": \"recommend\",  \"constraints\": [\"no PLC writes\"]}Builder output:AGENT SPEC  -> resolved assets  -> exact observations  -> exact model/knowledge/tool references  -> permissions  -> policies  -> tests  -> failure behavior  -> provenance  -> immutable version",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0008",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "6. SPEC Lifecycle",
+      "section_path": "DOC-SPEC-011 > 6. SPEC Lifecycle",
+      "content": "DRAFT  |NORMALIZE  |RESOLVE  |VALIDATE  |SIMULATE  |POLICY REVIEW  |HUMAN APPROVAL  |COMPILE  |SIGN / HASH  |REGISTER  |DEPLOY  |RUNTIME  |MONITOR  |REVIEW / VERSION / RETIRE",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0009",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "7. Core SPEC Sections",
+      "section_path": "DOC-SPEC-011 > 7. Core SPEC Sections",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Section | Purpose |\n| --- | --- |\n| Identity | Stable identity, owner, tenant, version. |\n| Purpose | What outcome the agent exists to achieve. |\n| Scope | Sites, lines, assets, users and data boundaries. |\n| Ground-State | Authoritative industrial context reference. |\n| Observations | Signals/events the agent can consume. |\n| State | Working memory/state rules and retention. |\n| Triggers | Conditions that activate execution. |\n| Models | Approved ML artifacts and contracts. |\n| Knowledge | Approved retrieval sources and scope. |\n| Tools | Typed capabilities available to runtime. |\n| Actions | Allowed action classes. |\n| Policy | Authorization and safety rules. |\n| Approvals | Human approval requirements. |\n| Escalation | Who/what receives unresolved events. |\n| Failure Policy | Retry, fallback, stop and escalate behavior. |\n| Limits | Timeout, rate, loop and token/resource limits. |\n| Evaluation | Pre-deployment and continuous tests. |\n| Observability | Logs, metrics, traces and audit. |\n| Provenance | Source artifact lineage. |\n| Integrity | Version, hash and signature. |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0010",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "8. Canonical Agent SPEC Schema",
+      "section_path": "DOC-SPEC-011 > 8. Canonical Agent SPEC Schema",
+      "content": "AgentSpec├── spec_version├── agent_uid├── agent_version├── status├── owner├── tenant├── purpose├── intended_use├── prohibited_use├── scope│   ├── site_uids│   ├── line_uids│   ├── asset_uids│   └── data_domains├── ground_state_ref├── inputs├── state├── triggers├── reasoning├── model_refs├── knowledge_refs├── tool_refs├── actions├── autonomy├── approvals├── policies├── safety_constraints├── failure_policy├── escalation├── limits├── evaluation_suite├── observability├── provenance├── created_by├── approved_by├── compiled_at├── content_hash└── signature",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0011",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "9. Reference Agent SPEC",
+      "section_path": "DOC-SPEC-011 > 9. Reference Agent SPEC",
+      "content": "{  \"spec_version\": \"1.0\",  \"agent_uid\": \"AGT-COMP-001\",  \"agent_version\": \"1.0.0\",  \"status\": \"approved\",  \"purpose\": \"Monitor compressor health and alert maintenance\",  \"intended_use\": [    \"detect abnormal compressor health\",    \"explain evidence\",    \"create maintenance alerts\"  ],  \"prohibited_use\": [    \"PLC writes\",    \"setpoint changes\",    \"machine shutdown\"  ],  \"scope\": {    \"site_uids\": [\"PLANT-01\"],    \"asset_uids\": [\"COMP-01\",\"COMP-02\",\"COMP-03\"]  },  \"ground_state_ref\": \"GS-PLANT01:v18\",  \"inputs\": {    \"telemetry\": [      \"vibration_rms\",      \"temperature\",      \"pressure\"    ]  },  \"model_refs\": [    {\"model_uid\":\"COMP-HEALTH\",\"version\":\"2.1.0\"}  ],  \"knowledge_refs\": [    {\"collection\":\"compressor_sop\",\"version\":\"4.2\"}  ],  \"tool_refs\": [    {      \"tool_uid\":\"create_maintenance_alert\",      \"version\":\"1.3\",      \"approval\":\"none\"    }  ],  \"autonomy\": \"recommend\",  \"actions\": [    {      \"name\":\"create_maintenance_alert\",      \"class\":\"inform\",      \"allowed\":true    }  ],  \"limits\": {    \"max_iterations\":10,    \"tool_timeout_seconds\":20,    \"alert_cooldown_seconds\":900  },  \"safety_constraints\": {    \"control_write\": false  },  \"failure_policy\": {    \"stale_telemetry\":\"escalate\",    \"model_unavailable\":\"fallback_rule_then_escalate\",    \"tool_unavailable\":\"retry_then_escalate\"  },  \"audit\": true}",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0012",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "10. Action and Autonomy Model",
+      "section_path": "DOC-SPEC-011 > 10. Action and Autonomy Model",
+      "content": "Default policy should be least privilege. A SPEC should explicitly state both what is allowed and what is prohibited. The absence of a tool or action permission must mean 'not permitted', not 'ask the model'.\n\nThis is especially important because OWASP identifies excessive agency as a major risk for LLM applications. citeturn0search2",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Level | Meaning | Typical industrial use |\n| --- | --- | --- |\n| OBSERVE | Read only | Health dashboards |\n| INFORM | Notify user/system | Alerts |\n| RECOMMEND | Suggest action | Maintenance recommendation |\n| REQUEST_APPROVAL | Prepare consequential action | Supervisor decision |\n| EXECUTE | Perform approved action | Restricted workflow |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0013",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "11. Ground-State Contract",
+      "section_path": "DOC-SPEC-011 > 11. Ground-State Contract",
+      "content": "The Ground-State reference anchors the SPEC to the actual industrial environment. ISO 23247-2:2021 defines a manufacturing digital-twin reference architecture including domain/entity and functional views, providing useful architectural precedent for this separation of industrial context from agent logic. citeturn0search1\n\nground_state_ref:  uid: GS-PLANT01  version: 18  snapshot_time: 2026-08-14T10:30:00Z  freshness_policy:    telemetry_max_age_seconds: 30  topology_hash: sha256:...  asset_resolution: strict\n\nIf an asset cannot be resolved, the SPEC compiler should fail closed rather than create a plausible but nonexistent identifier.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0014",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "12. Data Studio Contract",
+      "section_path": "DOC-SPEC-011 > 12. Data Studio Contract",
+      "content": "Manifest UID identifies data lineage.\n\nProfile UID/metadata describes statistical and semantic characteristics.\n\nDAG IDs identify processing relationships.\n\nFamily IDs identify related dataset partitions/flows.\n\nRecipe references describe preparation/feature engineering assumptions.\n\nSPEC stores references rather than copying large datasets.\n\ndata_refs:  manifest_uid: MANIFEST-...  profile_uid: PROFILE-...  dag_ids: [DAG-01,DAG-02]  family_ids: [FAM-01]  feature_contract: FE-CONTRACT-7",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0015",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "13. ML Studio Contract",
+      "section_path": "DOC-SPEC-011 > 13. ML Studio Contract",
+      "content": "model_refs:  - model_uid: MODEL-COMP-HEALTH    version: 2.1.0    input_schema: SCHEMA-17    output_schema: SCHEMA-19    metrics:      precision: 0.93      recall: 0.88    limitations:      - validated_for_asset_family: compressor-A      - not_validated_for: compressor-C\n\nThe SPEC must not treat a model name alone as evidence of suitability. It should reference the evaluated model version, its input/output contract and known limitations.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0016",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "14. Knowledge Contract",
+      "section_path": "DOC-SPEC-011 > 14. Knowledge Contract",
+      "content": "Knowledge sources are explicitly allow-listed.\n\nEach collection has a version/snapshot.\n\nRetrieval scope is limited by site/asset/domain.\n\nRetrieved text is evidence, not authorization.\n\nInstructions embedded in documents cannot override SPEC policy.\n\nSensitive documents are filtered by identity and purpose.\n\nThis separation helps mitigate prompt injection and indirect instruction attacks described by OWASP. citeturn0search2",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0017",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "15. Tool Contract",
+      "section_path": "DOC-SPEC-011 > 15. Tool Contract",
+      "content": "tool:  uid: create_maintenance_alert  version: 1.3  input_schema: ALERT-V4  output_schema: ALERT-RESULT-V2  capability: notify  side_effect: external_notification  allowed_autonomy: inform  idempotency_required: true  timeout_seconds: 20\n\nThe SPEC references a capability contract, while credentials remain outside the SPEC and behind the Tool Gateway.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0018",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "16. Policy Contract",
+      "section_path": "DOC-SPEC-011 > 16. Policy Contract",
+      "content": "policy:  default: deny  tenant_isolation: true  site_scope: strict  control_write: denied  alert_create: allowed  data_export: approval_required  knowledge_access: scope_bound  human_override: enabled  audit_required: true\n\nPolicy must be enforced outside the LLM. The SPEC records policy bindings; the runtime policy gateway makes the authoritative decision.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0019",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "17. Failure Policy",
+      "section_path": "DOC-SPEC-011 > 17. Failure Policy",
+      "content": "Fail-closed behavior is preferred for consequential actions; graceful degradation is appropriate for non-consequential information functions.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Failure | SPEC response |\n| --- | --- |\n| Unknown asset | Stop compilation / deployment |\n| Stale telemetry | Mark uncertain; block consequential action |\n| Missing model | Fallback only if explicitly declared; otherwise escalate |\n| Tool timeout | Retry within bounded policy; then escalate |\n| Policy denial | Stop action; audit |\n| Approval timeout | Do not execute; escalate |\n| Repeated trigger | Deduplicate/cooldown |\n| Loop detected | Terminate and escalate |\n| Conflicting sources | Enter conflict state |\n| Knowledge unavailable | Use declared fallback or state uncertainty |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0020",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "18. R&D Failure Modes",
+      "section_path": "DOC-SPEC-011 > 18. R&D Failure Modes",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Key failure | Why it happens | SPEC-level solution |\n| --- | --- | --- |\n| Prompt becomes permission | Natural language interpreted as authority | Explicit action/permission fields |\n| Agent scope creep | Scope expands at runtime | Immutable asset/site scope |\n| Hallucinated equipment | LLM invents identifiers | Strict Ground-State resolution |\n| Model drift | Model changes behind stable name | Immutable model version |\n| Tool drift | API changes silently | Tool version + schema |\n| Knowledge drift | SOP changes | Collection version |\n| Prompt injection | Retrieved text gives malicious instruction | Evidence/authority separation |\n| Excessive agency | Agent executes too much | Action classes + deny-by-default |\n| Infinite loops | Agent keeps retrying | Max iterations/time budget |\n| Alert storm | Many identical events | Idempotency + cooldown |\n| Hidden side effects | Tool does more than described | Capability contract + tests |\n| Untraceable decisions | No provenance | Artifact references + audit |\n| Spec tampering | Artifact modified | Hash/signature |\n| Cross-tenant leakage | Scope not enforced | Tenant binding + policy |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0021",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "19. SPEC Integrity",
+      "section_path": "DOC-SPEC-011 > 19. SPEC Integrity",
+      "content": "CANONICAL JSON     |NORMALIZE     |SHA-256 HASH     |DIGITAL SIGNATURE     |REGISTRY     |RUNTIME VERIFIES     |EXECUTE ONLY IF:  signature valid  version approved  policy current  Ground-State reference valid\n\nA runtime should reject a SPEC whose signature, version, policy binding or required artifact references no longer validate.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0022",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "20. SPEC Versioning",
+      "section_path": "DOC-SPEC-011 > 20. SPEC Versioning",
+      "content": "Use semantic versioning as an engineering convention, but require risk-based approval for any behaviorally consequential change.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Change | Version impact |\n| --- | --- |\n| Textual documentation only | No runtime version change |\n| Prompt/LLM behavior constraint | Minor or major depending on behavior |\n| Tool permission change | Major |\n| Asset scope change | Major |\n| Model version change | Minor/major according to risk policy |\n| Policy change | New deployment revision |\n| Failure policy change | Minor/major depending on consequence |\n| Schema-breaking change | Major |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0023",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "22. SPEC → Agent Runtime",
+      "section_path": "DOC-SPEC-011 > 22. SPEC → Agent Runtime",
+      "content": "The SPEC is the runtime's primary configuration and authority contract. Runtime must not improvise capabilities that are absent from the SPEC.\n\nAGENT SPEC   |   +--> OBSERVATION GRAPH   +--> TRIGGER GRAPH   +--> MODEL ADAPTER   +--> KNOWLEDGE RETRIEVER   +--> TOOL GATEWAY   +--> POLICY ENGINE   +--> APPROVAL SERVICE   +--> ESCALATION   +--> AUDIT   |   vLIVE AGENT",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0024",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "23. Tech Stack",
+      "section_path": "DOC-SPEC-011 > 23. Tech Stack",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Layer | Recommended baseline |\n| --- | --- |\n| SPEC schema | JSON Schema 2020-12 + Pydantic 2.x |\n| API | Python 3.12.x + FastAPI |\n| Registry DB | PostgreSQL 16.x |\n| Graph validation | NetworkX 3.x or equivalent |\n| Policy | OPA/Rego or equivalent policy engine |\n| Object store | S3-compatible |\n| Secrets | Vault/KMS or cloud secret manager |\n| Workflow | Temporal or equivalent |\n| Observability | OpenTelemetry |\n| Identity | OIDC/OAuth2 + RBAC/ABAC |\n| Packaging | Docker |\n| Tests | pytest + JSON Schema + scenario replay |\n| CI/CD | Git + signed artifacts + SBOM |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0025",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "24. Requirements",
+      "section_path": "DOC-SPEC-011 > 24. Requirements",
+      "content": "Canonical Agent Spec schema and versioning policy.\n\nAgent Builder compiler.\n\nGround-State service.\n\nData Studio Manifest/Profile/DAG references.\n\nML Studio Model Manifest references.\n\nKnowledge Registry.\n\nTool Registry.\n\nPolicy Engine.\n\nApproval service.\n\nSPEC Registry.\n\nAudit and provenance store.\n\nScenario simulation environment.\n\nIdentity and secrets infrastructure.\n\nRuntime capable of enforcing the SPEC.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0026",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "25. Configuration",
+      "section_path": "DOC-SPEC-011 > 25. Configuration",
+      "content": "spec:  schema_version: \"1.0\"  require_signature: true  default_policy: deny  require_ground_state: true  strict_asset_resolution: true  require_model_version: true  require_tool_version: true  require_provenance: trueruntime_limits:  max_iterations: 20  max_execution_minutes: 15  max_tool_calls: 25  default_timeout_seconds: 30approval:  control_action: required  data_export: required  external_notification: policy_definedaudit:  enabled: true  immutable: true",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0027",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "26. Directory Architecture",
+      "section_path": "DOC-SPEC-011 > 26. Directory Architecture",
+      "content": "agentic_studio/├── agent_spec/│   ├── schema/│   │   ├── agent-spec.schema.json│   │   └── versions/│   ├── compiler/│   ├── validator/│   ├── canonicalizer/│   ├── signer/│   ├── registry/│   ├── migration/│   ├── policy/│   ├── provenance/│   ├── simulation/│   ├── fixtures/│   ├── examples/│   └── tests/├── agent_builder/├── agent_runtime/├── tool_gateway/├── knowledge/├── visualizer/└── deployment/",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0028",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "27. API Surface",
+      "section_path": "DOC-SPEC-011 > 27. API Surface",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Endpoint | Purpose |\n| --- | --- |\n| POST /v1/specs | Register candidate SPEC |\n| GET /v1/specs/{agent_uid} | Retrieve current SPEC |\n| GET /v1/specs/{agent_uid}/versions | List immutable versions |\n| POST /v1/specs/{agent_uid}/validate | Validate |\n| POST /v1/specs/{agent_uid}/simulate | Scenario testing |\n| POST /v1/specs/{agent_uid}/compile | Canonicalize/hash/sign |\n| POST /v1/specs/{agent_uid}/approve | Approve release |\n| POST /v1/specs/{agent_uid}/retire | Retire version |\n| GET /v1/specs/{agent_uid}/provenance | Lineage |\n| GET /v1/schemas/agent-spec | Schema |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0029",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "28. Example API",
+      "section_path": "DOC-SPEC-011 > 28. Example API",
+      "content": "POST /v1/specs/AGT-COMP-001/compile{  \"candidate_ref\": \"BUILD-2026-0018\",  \"requested_version\": \"1.0.0\",  \"approval_context\": \"maintenance-monitoring\"}Response:{  \"agent_uid\": \"AGT-COMP-001\",  \"agent_version\": \"1.0.0\",  \"content_hash\": \"sha256:...\",  \"signature\": \"...\",  \"status\": \"pending_approval\"}",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0030",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "29. Commands",
+      "section_path": "DOC-SPEC-011 > 29. Commands",
+      "content": "python -m venv .venvsource .venv/bin/activatepip install -r requirements.txtuvicorn agent_spec.api:app --host 0.0.0.0 --port 8091python -m agent_spec.validator validate examples/compressor.jsonpython -m agent_spec.simulation run examples/scenarios/python -m agent_spec.compiler compile   examples/compressor.json   --output dist/agent-spec.jsonpython -m agent_spec.signer sign dist/agent-spec.jsonpytest -qdocker compose -f deployment/docker-compose.yml up --buildcurl http://localhost:8091/health",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0031",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "30. Validation Pipeline",
+      "section_path": "DOC-SPEC-011 > 30. Validation Pipeline",
+      "content": "SPEC | +--> JSON Schema +--> Referential integrity +--> Asset resolution +--> Model compatibility +--> Tool schema compatibility +--> Policy compatibility +--> Knowledge scope +--> Action safety +--> Loop/timeout limits +--> Provenance completeness +--> Security tests +--> Scenario tests | PASS --> HASH/SIGN FAIL --> REPAIR / REJECT",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0032",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "31. Proof of Concept — Compressor Maintenance Agent",
+      "section_path": "DOC-SPEC-011 > 31. Proof of Concept — Compressor Maintenance Agent",
+      "content": "Create a synthetic Plant Ground-State with compressors, sensors and maintenance ownership.\n\nCreate a Jane intent for health monitoring and maintenance alerts.\n\nBuild the candidate Agent SPEC.\n\nResolve every compressor and sensor to Ground-State identifiers.\n\nBind a versioned ML Studio health model.\n\nBind the approved compressor SOP collection.\n\nBind a notification/maintenance-alert tool.\n\nExplicitly deny PLC writes and setpoint changes.\n\nRun schema and policy validation.\n\nReplay normal telemetry.\n\nReplay a high-risk vibration event.\n\nVerify recommendation/alert behavior.\n\nReplay the same event repeatedly and verify cooldown/idempotency.\n\nMake telemetry stale and verify the SPEC blocks consequential action.\n\nMake the model unavailable and verify declared fallback/escalation.\n\nAttempt an unauthorized tool call and verify denial.\n\nHash/sign the SPEC.\n\nDeploy the signed SPEC to a mock runtime.\n\nVerify runtime refuses a modified SPEC.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0033",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "32. POC Acceptance Criteria",
+      "section_path": "DOC-SPEC-011 > 32. POC Acceptance Criteria",
+      "content": "100% asset references resolve.\n\n0 unregistered tools.\n\n0 unauthorized action permissions.\n\n100% required schema checks pass.\n\nAll failure scenarios produce the declared behavior.\n\nStale data cannot silently produce a consequential action.\n\nUnauthorized tool execution is rejected.\n\nSPEC hash/signature verifies before runtime.\n\nModified SPEC is rejected.\n\nEvery deployment maps to exactly one immutable SPEC version.\n\nAll build, approval and runtime events are auditable.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0034",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "33. Compliance Report #5",
+      "section_path": "DOC-SPEC-011 > 33. Compliance Report #5",
+      "content": "This report is an engineering compliance/readiness assessment. It does not represent certification to ISO, NIST, IEC, regulatory or contractual requirements.\n\nNIST AI RMF organizes risk management into Govern, Map, Measure and Manage and emphasizes continuous risk management throughout the AI lifecycle. The SPEC operationalizes these ideas as a concrete lifecycle artifact rather than treating governance as a separate document. citeturn0search10turn0search0",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Area | SPEC control | Evidence |\n| --- | --- | --- |\n| Governance | Owner, lifecycle, version, approval | SPEC metadata + registry |\n| Risk management | Intended/prohibited use + failure policy | SPEC + risk review |\n| Security | Deny-by-default + policy binding | Policy record |\n| Grounding | Ground-State reference + strict resolution | GS reference |\n| AI transparency | Model/knowledge references | Provenance |\n| Human oversight | Approval graph | Approval record |\n| Integrity | Hash + signature | Signed artifact |\n| Testing | Validation + simulation suite | Test report |\n| Auditability | Immutable event records | Audit store |\n| Least privilege | Explicit tool/action permissions | Tool refs |\n| Change management | Immutable versions | SPEC registry |\n| Privacy | Tenant/data scope | Access policy |\n| Operational resilience | Timeout/retry/fallback/escalation | Failure policy |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0035",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "34. Security Mapping",
+      "section_path": "DOC-SPEC-011 > 34. Security Mapping",
+      "content": "OWASP's current GenAI security project explicitly covers LLM and agentic AI systems and identifies risks such as prompt injection, insecure output handling, supply-chain vulnerabilities and excessive agency. citeturn0search2turn0search8",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Risk | SPEC mitigation |\n| --- | --- |\n| Prompt injection | Retrieved content has no authority over SPEC policy. |\n| Insecure output handling | Typed schemas and validation. |\n| Supply-chain risk | Versioned/signed models, tools and SPECs. |\n| Sensitive disclosure | Explicit knowledge/data scopes. |\n| Insecure tool design | Typed Tool Registry + gateway. |\n| Excessive agency | Action classes + deny-by-default. |\n| Overreliance | Evaluation suite + uncertainty/fallback. |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0036",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "35. Research & Standards Basis",
+      "section_path": "DOC-SPEC-011 > 35. Research & Standards Basis",
+      "content": "NIST AI RMF 1.0 provides a voluntary, risk-based framework for organizations designing, developing, deploying or using AI systems, with the goal of managing AI risks and supporting trustworthy AI. NIST also notes that the framework is being revised and that a Critical Infrastructure profile concept note was released in April 2026. citeturn0search4turn0search0\n\nISO 23247-2:2021 defines a manufacturing digital-twin reference architecture with domain/entity and functional views. AI-ConneX uses the same architectural principle of separating industrial entities/context from functions, with the Ground-State serving as the authoritative context reference for the Agent SPEC. citeturn0search1\n\nOWASP's GenAI Security Project provides a practical security basis for the SPEC's separation of authority from model output, especially around prompt injection, insecure output handling, plugin/tool design and excessive agency. citeturn0search2turn0search3",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0037",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "36. Research-Paper References",
+      "section_path": "DOC-SPEC-011 > 36. Research-Paper References",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Reference | Relevance |\n| --- | --- |\n| Tabassi, E. (2023), NIST AI RMF 1.0 | Risk governance, measurement and lifecycle. |\n| ISO 23247-2:2021 | Manufacturing digital-twin reference architecture. |\n| OWASP Top 10 for LLM Applications / GenAI Security Project | LLM/agent security risks and mitigations. |\n| NIST AI RMF Generative AI Profile, NIST AI 600-1 | GenAI-specific risk considerations. |\n| Current research on Digital Twin + Agentic AI | Supports combining industrial context with agentic decision support while retaining human oversight. |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0038",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "37. Runtime Contract",
+      "section_path": "DOC-SPEC-011 > 37. Runtime Contract",
+      "content": "Runtime MUST:1. Load only an approved SPEC.2. Verify signature/hash.3. Verify SPEC version.4. Resolve current policy.5. Verify Ground-State freshness.6. Enforce tool allow-list.7. Validate tool parameters.8. Enforce autonomy/action class.9. Request human approval where required.10. Enforce time/loop/rate limits.11. Audit every consequential operation.12. Stop if a mandatory precondition fails.\n\nRuntime MUST NOT:\n\nInvent permissions.\n\nExpand asset scope.\n\nExecute an unregistered tool.\n\nTreat retrieved knowledge as authorization.\n\nSilently replace a model version.\n\nBypass approval.\n\nIgnore stale Ground-State conditions.\n\nContinue after a fail-closed safety condition.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0039",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "38. Human-in-the-Loop Design",
+      "section_path": "DOC-SPEC-011 > 38. Human-in-the-Loop Design",
+      "content": "AGENT |RECOMMENDATION |CONSEQUENCE CLASSIFIER | +-- LOW --> AUTOMATED INFORM | +-- MEDIUM --> SUPERVISOR REVIEW | +-- HIGH --> EXPLICIT APPROVAL | +-- FORBIDDEN --> DENY\n\nThe SPEC makes the boundary explicit so the operator can understand whether the agent is informing, recommending, requesting authorization or executing.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0040",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "39. Industrialist Value",
+      "section_path": "DOC-SPEC-011 > 39. Industrialist Value",
+      "content": "The industrialist sees a clear contract instead of a hidden prompt.\n\nCommon agents can be deployed from templates.\n\nOperational teams can review what the agent is allowed to do.\n\nSafety teams can inspect action restrictions.\n\nIT/security teams can inspect tools, identities and policies.\n\nData teams retain lineage through Data Studio references.\n\nML teams retain model ownership through ML Studio references.\n\nOperations teams can see live execution against the same SPEC.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0041",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "40. What SPEC Outputs to the Next Stage",
+      "section_path": "DOC-SPEC-011 > 40. What SPEC Outputs to the Next Stage",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Output | Consumed by Runtime |\n| --- | --- |\n| Agent UID/version | Identity and deployment selection |\n| Observation graph | Telemetry/event subscriptions |\n| Trigger graph | Execution scheduling |\n| Model refs | Model adapter |\n| Knowledge refs | Scoped retrieval |\n| Tool refs | Tool Gateway |\n| Action classes | Autonomy enforcement |\n| Policies | Authorization decisions |\n| Approval graph | Human approval service |\n| Failure policy | Recovery behavior |\n| Escalation | Operations routing |\n| Limits | Runtime guardrails |\n| Evaluation suite | Monitoring/continuous validation |\n| Provenance | Audit and traceability |\n| Hash/signature | Integrity verification |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0042",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "41. Commands for CI/CD Governance",
+      "section_path": "DOC-SPEC-011 > 41. Commands for CI/CD Governance",
+      "content": "# schema validationpython -m agent_spec.validator validate schema/agent-spec.schema.json# validate examplepython -m agent_spec.validator validate examples/compressor.json# security checkspython -m agent_spec.security scan examples/compressor.json# scenario suitepython -m agent_spec.simulation run tests/scenarios/# compile signed artifactpython -m agent_spec.compiler compile examples/compressor.json   --output dist/agent-spec.jsonpython -m agent_spec.signer sign dist/agent-spec.json   --key-ref kms://agent-spec-signing# generate SBOMsyft dir:. -o cyclonedx-json > dist/sbom.json# verify artifactpython -m agent_spec.signer verify dist/agent-spec.json",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0043",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "42. Recommended Production Controls",
+      "section_path": "DOC-SPEC-011 > 42. Recommended Production Controls",
+      "content": "Separate Builder and Runtime identities.\n\nSeparate development, staging and production SPEC registries.\n\nRequire two-person approval for high-consequence agents.\n\nUse signed artifacts.\n\nStore audit logs immutably.\n\nMaintain SBOMs for the SPEC service and runtime.\n\nPin dependencies.\n\nRun red-team tests for prompt injection and tool misuse.\n\nContinuously test Ground-State freshness.\n\nMonitor tool error rates and agent loop behavior.\n\nReview SPECs after major model, tool or policy changes.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0044",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "43. Key Architectural Principle",
+      "section_path": "DOC-SPEC-011 > 43. Key Architectural Principle",
+      "content": "PROMPT = SUGGESTIONSPEC   = CONTRACTPOLICY = AUTHORITYRUNTIME = ENFORCEMENTTOOL GATEWAY = CONTROLLED SIDE EFFECTAUDIT = ACCOUNTABILITY\n\nThis separation is the central engineering decision. The Agent SPEC makes AI-ConneX's agent layer auditable and industrially governable without requiring the LLM itself to be trusted as the final authority.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0045",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "44. Final End-to-End Picture",
+      "section_path": "DOC-SPEC-011 > 44. Final End-to-End Picture",
+      "content": "USER | vJANE |  natural language intent vAGENT BUILDER |  compile vAGENT SPEC |  validate + sign vAPPROVAL / POLICY | vAGENT RUNTIME | | \\__ MODEL | \\__ KNOWLEDGE | \\__ TELEMETRY | vTOOL GATEWAY | vINDUSTRIAL SYSTEM | vVISUALIZER | vINDUSTRIALISTData Studio -----------------> manifest/profile/DAG/feature refsML Studio -------------------> evaluated model refsVisualizer ------------------> Ground-State ref",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0046",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "45. References and Official Resources",
+      "section_path": "DOC-SPEC-011 > 45. References and Official Resources",
+      "content": "NIST AI Risk Management Framework — official NIST resource. citeturn0search0turn0search4\n\nISO 23247-2:2021 — official ISO reference architecture page. citeturn0search1\n\nOWASP Top 10 for Large Language Model Applications / GenAI Security Project. citeturn0search2turn0search3\n\nNIST AI RMF Core — Govern, Map, Measure and Manage. citeturn0search10",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-011-0047",
+      "document_id": "DOC-DOC-SPEC-011-V1",
+      "heading_level": 1,
+      "heading_text": "46. Conclusion",
+      "section_path": "DOC-SPEC-011 > 46. Conclusion",
+      "content": "Within AI-ConneX, the Agent SPEC should be treated as the constitutional document of an industrial agent. It freezes the intended purpose, context, capabilities, permissions, constraints, tests and provenance into a versioned artifact. This gives the Agent Runtime a precise contract and gives industrialists, operations, engineering, security and governance teams a common object to review.\n\nThe architecture therefore becomes: Jane defines intent → Agent Builder compiles it → Agent SPEC establishes the contract → Policy and approval establish authority → Runtime enforces the contract → Tool Gateway controls side effects → Visualizer exposes the operational result. Data Studio and ML Studio remain authoritative sources for data lineage and evaluated models respectively.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    }
+  ],
+  "extracted_slas": [
+    {
+      "sla_id": "SLA-DEFAULT-DOC-SPEC-011-01",
+      "component_name": "AgentSpecEngine",
+      "metric_name": "p95_latency_ms",
+      "target_value": 500.0,
+      "unit": "ms",
+      "comparison_op": "<=",
+      "workload_condition": "Standard interactive execution regime",
+      "severity_on_breach": "critical",
+      "source_spec_id": "DOC-SPEC-011"
+    }
+  ]
+}

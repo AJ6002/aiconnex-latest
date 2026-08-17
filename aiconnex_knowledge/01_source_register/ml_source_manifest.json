@@ -1,0 +1,77 @@
+{
+  "manifest_type": "ML_Methodology_Raw_Manifest",
+  "version": "1.0",
+  "total_sources": 10,
+  "sources": [
+    {
+      "source_id": "PLAT-DOC-ML-001",
+      "filename": "CRISP-DM.pdf",
+      "size_bytes": 530747,
+      "sha256_hash": "ec42b96b24b270560b48524a43e6b2f9c01a144bdabc6d1fb8d532943886f7d6",
+      "registered_at": "2026-08-14T12:01:13.485110+00:00"
+    },
+    {
+      "source_id": "PLAT-DOC-ML-002",
+      "filename": "Vogl2016 (review of diag-prog and best practices for manufacturing).pdf.pdf",
+      "size_bytes": 934404,
+      "sha256_hash": "f1fb977eedc70320a554869bd8bed35b56cc7cd9498403543973fe6944f1db2e",
+      "registered_at": "2026-08-14T12:01:13.503860+00:00"
+    },
+    {
+      "source_id": "PLAT-DOC-ML-003",
+      "filename": "2003.05155v2.pdf",
+      "size_bytes": 983991,
+      "sha256_hash": "4563fd74c0fffb51a0cb0191bf9503fbc45729af908fe506979acaa6fc609d0b",
+      "registered_at": "2026-08-14T12:01:13.527162+00:00"
+    },
+    {
+      "source_id": "PLAT-DOC-ML-004",
+      "filename": "1708.04649v1.pdf",
+      "size_bytes": 1268321,
+      "sha256_hash": "28368f5a9d9ac3be2553f9c05874c79da26daba966cfe7e0ee3b59a1abf03365",
+      "registered_at": "2026-08-14T12:01:13.545407+00:00"
+    },
+    {
+      "source_id": "PLAT-DOC-ML-005",
+      "filename": "TKDE_Data_Science_Trajectories_PF.pdf",
+      "size_bytes": 1151019,
+      "sha256_hash": "ac2a902daa0fe5d24a8428a91de86885507cf3f2f5086a033a06f3b3b4f08e23",
+      "registered_at": "2026-08-14T12:01:13.563382+00:00"
+    },
+    {
+      "source_id": "PLAT-DOC-ML-006",
+      "filename": "Wang3062024JOBARI12619.pdf",
+      "size_bytes": 1361391,
+      "sha256_hash": "725092e0974a288381e986c5bd74b591656212b3d831c684569f6faff0aeac8d",
+      "registered_at": "2026-08-14T12:01:13.603623+00:00"
+    },
+    {
+      "source_id": "PLAT-DOC-ML-007",
+      "filename": "ilide.info-mc4301-ml-unit-2-model-evaluation-and-feature-engineering-pr_9c18eb7d1471cb9f7ac0fed4b6f50be0.pdf",
+      "size_bytes": 1368517,
+      "sha256_hash": "804a1c3c09c06229dc5e21dbbf43f619c9f893a7c20d12f3b2b3c5a883176272",
+      "registered_at": "2026-08-14T12:01:13.631722+00:00"
+    },
+    {
+      "source_id": "PLAT-DOC-ML-008",
+      "filename": "rsta.2020.0209.pdf",
+      "size_bytes": 594672,
+      "sha256_hash": "a20cca926260d5318ceac43e20c99bb27c72ab204b73651ba413fb9d375c8755",
+      "registered_at": "2026-08-14T12:01:13.663200+00:00"
+    },
+    {
+      "source_id": "PLAT-DOC-ML-009",
+      "filename": "survey.pdf",
+      "size_bytes": 566313,
+      "sha256_hash": "1e685f2598f6294f78c99be6f2d64348abdbcaf2775a4b419b94a2376d7f1925",
+      "registered_at": "2026-08-14T12:01:13.700389+00:00"
+    },
+    {
+      "source_id": "PLAT-DOC-ML-010",
+      "filename": "L-0013405598-pdf.pdf",
+      "size_bytes": 1141598,
+      "sha256_hash": "0feca9e7b27ab9efba117c983b590ff4409b3271f60718d77b9affd0b4320b7e",
+      "registered_at": "2026-08-14T12:01:13.731791+00:00"
+    }
+  ]
+}

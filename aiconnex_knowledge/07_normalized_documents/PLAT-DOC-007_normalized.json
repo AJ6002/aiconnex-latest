@@ -1,0 +1,22 @@
+{
+  "document_id": "PLAT-DOC-007",
+  "section_count": 1,
+  "sections": [
+    {
+      "section_id": "SEC-0001",
+      "document_id": "PLAT-DOC-007",
+      "heading_level": 2,
+      "heading_text": "AIConnex Technical Reference Document",
+      "section_path": "Slide 10: Multi-Tenant Customer Journey Sequence Diagram > AIConnex Technical Reference Document",
+      "content": "``` mermaid\nsequenceDiagram\n    autonumber\n    actor User as \ud83d\udc64 Plant Operator / User\n    participant UI as \ud83c\udfe2 Tenant Workspace UI\n    participant Agent as \ud83e\udde0 AIConnex Agent & Scout\n    participant Storage as \ud83d\uddc4\ufe0f Tenant Storage & Compiler\n    participant Engine as \u2699\ufe0f Tenant AutoML Engine\n    participant API as \ud83d\ude80 Enterprise REST Endpoint\n\n    User->>UI: 1. State Goal (\"Predict compressor failure risk\")\n    UI->>Agent: Parse goal & ask clarifying domain questions\n    Agent-->>User: Request confirmation of plant safety limits\n    User->>UI: 2. Upload raw sensor files (ZIP/CSV)\n    UI->>Storage: Store in tenant-isolated encrypted bucket\n    Storage->>Agent: 3. Profile schema & run data checks\n    Agent-->>UI: Display automated findings & data checks\n    User->>UI: 4. Approve workflow & plant guardrails\n    UI->>Engine: 5. Trigger multi-model training in isolated compute\n    Engine->>UI: 6. Display model leaderboard & evaluation scores\n    User->>UI: Select winning model\n    UI->>API: 7. Deploy model & generate live REST endpoint\n    API-->>User: Active API URL & real-time drift monitoring\n```",
+      "content_type": "mixed",
+      "code_blocks": [
+        {
+          "language": "mermaid",
+          "code": "sequenceDiagram\n    autonumber\n    actor User as \ud83d\udc64 Plant Operator / User\n    participant UI as \ud83c\udfe2 Tenant Workspace UI\n    participant Agent as \ud83e\udde0 AIConnex Agent & Scout\n    participant Storage as \ud83d\uddc4\ufe0f Tenant Storage & Compiler\n    participant Engine as \u2699\ufe0f Tenant AutoML Engine\n    participant API as \ud83d\ude80 Enterprise REST Endpoint\n\n    User->>UI: 1. State Goal (\"Predict compressor failure risk\")\n    UI->>Agent: Parse goal & ask clarifying domain questions\n    Agent-->>User: Request confirmation of plant safety limits\n    User->>UI: 2. Upload raw sensor files (ZIP/CSV)\n    UI->>Storage: Store in tenant-isolated encrypted bucket\n    Storage->>Agent: 3. Profile schema & run data checks\n    Agent-->>UI: Display automated findings & data checks\n    User->>UI: 4. Approve workflow & plant guardrails\n    UI->>Engine: 5. Trigger multi-model training in isolated compute\n    Engine->>UI: 6. Display model leaderboard & evaluation scores\n    User->>UI: Select winning model\n    UI->>API: 7. Deploy model & generate live REST endpoint\n    API-->>User: Active API URL & real-time drift monitoring"
+        }
+      ],
+      "tables": []
+    }
+  ]
+}

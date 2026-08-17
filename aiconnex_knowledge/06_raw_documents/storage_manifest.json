@@ -1,0 +1,139 @@
+{
+  "bucket_name": "aiconnex-platform-kb-prod",
+  "total_documents": 13,
+  "total_bytes": 158034,
+  "last_synced_at": "2026-08-14T03:05:48.024166+00:00",
+  "documents": [
+    {
+      "object_name": "platform/architecture/aiconnex_final_master_architecture.md",
+      "storage_uri": "s3://aiconnex-platform-kb-prod/platform/architecture/aiconnex_final_master_architecture.md",
+      "size_bytes": 14083,
+      "content_hash": "7f4712b1725a11cf295d58917bee9d48eeea6a9f333c1ac4e6f7548c35a9925a",
+      "uploaded_at": "2026-08-14T03:05:47.782958+00:00",
+      "source_id": "PLAT-DOC-001",
+      "title": "AIConnex Master Final Architecture",
+      "knowledge_domain": "platform"
+    },
+    {
+      "object_name": "platform/architecture/aiconnex_system_architecture_master_guide.md",
+      "storage_uri": "s3://aiconnex-platform-kb-prod/platform/architecture/aiconnex_system_architecture_master_guide.md",
+      "size_bytes": 9594,
+      "content_hash": "ed86a6f5196c986cdfcd9670396bd327f95262852855a6e05715ead3d648a7bc",
+      "uploaded_at": "2026-08-14T03:05:47.805408+00:00",
+      "source_id": "PLAT-DOC-002",
+      "title": "AIConnex System Architecture Master Guide",
+      "knowledge_domain": "platform"
+    },
+    {
+      "object_name": "platform/architecture/aiconnex_complete_flow.md",
+      "storage_uri": "s3://aiconnex-platform-kb-prod/platform/architecture/aiconnex_complete_flow.md",
+      "size_bytes": 23888,
+      "content_hash": "3ecc5f5ca99dd4168732acaf431d6d02758770dc329170aa0772985fb46fc0c5",
+      "uploaded_at": "2026-08-14T03:05:47.824661+00:00",
+      "source_id": "PLAT-DOC-003",
+      "title": "AIConnex Complete Execution Flow",
+      "knowledge_domain": "platform"
+    },
+    {
+      "object_name": "platform/architecture/2026-08-04-chatbot-migration-and-cleanup.md",
+      "storage_uri": "s3://aiconnex-platform-kb-prod/platform/architecture/2026-08-04-chatbot-migration-and-cleanup.md",
+      "size_bytes": 5293,
+      "content_hash": "a60a85c405887e2c0754a2300f9bedf8b6f5476ec24432aaf1cb3669864ec404",
+      "uploaded_at": "2026-08-14T03:05:47.849059+00:00",
+      "source_id": "PLAT-DOC-004",
+      "title": "Chatbot Unified Migration and Cleanup Plan",
+      "knowledge_domain": "platform"
+    },
+    {
+      "object_name": "platform/ml_platform/Core_ML_DAG_Pipeline_Diagram.md",
+      "storage_uri": "s3://aiconnex-platform-kb-prod/platform/ml_platform/Core_ML_DAG_Pipeline_Diagram.md",
+      "size_bytes": 3894,
+      "content_hash": "73ebb6b533287c84faf745c8d584ce1e7debb6a62eb1a9efc8e4e75429a5c246",
+      "uploaded_at": "2026-08-14T03:05:47.869451+00:00",
+      "source_id": "PLAT-DOC-005",
+      "title": "Core ML 9-Node DAG Pipeline Architecture",
+      "knowledge_domain": "platform"
+    },
+    {
+      "object_name": "platform/contracts/htds_effluent_preference_and_branching_spec.md",
+      "storage_uri": "s3://aiconnex-platform-kb-prod/platform/contracts/htds_effluent_preference_and_branching_spec.md",
+      "size_bytes": 17641,
+      "content_hash": "2e2f0fcd5da7cfff74e06b05e9e80dd7419ce230f53e6c402880b28db35c01f0",
+      "uploaded_at": "2026-08-14T03:05:47.891876+00:00",
+      "source_id": "DATA-DOC-001",
+      "title": "HTDS Effluent Branching & Preference Spec",
+      "knowledge_domain": "dataset"
+    },
+    {
+      "object_name": "platform/contracts/nasa_cmapss_preference_and_branching_spec.md",
+      "storage_uri": "s3://aiconnex-platform-kb-prod/platform/contracts/nasa_cmapss_preference_and_branching_spec.md",
+      "size_bytes": 19826,
+      "content_hash": "a9972df587852298740a9293a4b39bbfc41cf1d2c2d7cb8903cb8d714b6a21ad",
+      "uploaded_at": "2026-08-14T03:05:47.910664+00:00",
+      "source_id": "DATA-DOC-002",
+      "title": "NASA C-MAPSS Branching & Preference Spec",
+      "knowledge_domain": "dataset"
+    },
+    {
+      "object_name": "platform/compiler/multi_table_zip_dataset_audit.md",
+      "storage_uri": "s3://aiconnex-platform-kb-prod/platform/compiler/multi_table_zip_dataset_audit.md",
+      "size_bytes": 5346,
+      "content_hash": "3dc498548e76de94a6b221359983b2278373b04ae8637ba2c5b29e6cb7be4dae",
+      "uploaded_at": "2026-08-14T03:05:47.919794+00:00",
+      "source_id": "PLAT-DOC-008",
+      "title": "Multi-Table ZIP Dataset Compiler Audit",
+      "knowledge_domain": "platform"
+    },
+    {
+      "object_name": "platform/architecture/AIConnex_Master_Technical_Architecture_Diagram.md",
+      "storage_uri": "s3://aiconnex-platform-kb-prod/platform/architecture/AIConnex_Master_Technical_Architecture_Diagram.md",
+      "size_bytes": 1914,
+      "content_hash": "eaf6363e0debfa17c6f3d4a4233f1436ce521464e0a245460bc86213ff2d86e8",
+      "uploaded_at": "2026-08-14T03:05:47.940591+00:00",
+      "source_id": "PLAT-DOC-006",
+      "title": "AIConnex Master Technical Architecture Diagram",
+      "knowledge_domain": "platform"
+    },
+    {
+      "object_name": "platform/workflows/Customer_Journey_Sequence_Diagram.md",
+      "storage_uri": "s3://aiconnex-platform-kb-prod/platform/workflows/Customer_Journey_Sequence_Diagram.md",
+      "size_bytes": 1223,
+      "content_hash": "c33dc5e83cfd73d9a663545af66ec481fbd3c9d4343738a5b4405c58a0fa4385",
+      "uploaded_at": "2026-08-14T03:05:47.960904+00:00",
+      "source_id": "PLAT-DOC-007",
+      "title": "Multi-Tenant Customer Journey Sequence Diagram",
+      "knowledge_domain": "platform"
+    },
+    {
+      "object_name": "platform/architecture/AIConnex_Executive_Pitch_Deck.md",
+      "storage_uri": "s3://aiconnex-platform-kb-prod/platform/architecture/AIConnex_Executive_Pitch_Deck.md",
+      "size_bytes": 21000,
+      "content_hash": "29322cf9be8b3e89949b070b92897cd216f68ffcba77d28f405c33eeb3e54252",
+      "uploaded_at": "2026-08-14T03:05:47.982458+00:00",
+      "source_id": "PLAT-DOC-009",
+      "title": "AIConnex Executive Pitch Deck & Business Storyboard",
+      "knowledge_domain": "platform"
+    },
+    {
+      "object_name": "platform/architecture/Slide4_Timeline_Diagram_Guide.md",
+      "storage_uri": "s3://aiconnex-platform-kb-prod/platform/architecture/Slide4_Timeline_Diagram_Guide.md",
+      "size_bytes": 2230,
+      "content_hash": "cc11f06cef2cafdf8a172034c71cd88f4357bddfe91567b369b4039458884c50",
+      "uploaded_at": "2026-08-14T03:05:48.002716+00:00",
+      "source_id": "PLAT-DOC-010",
+      "title": "Timeline & Market Gap Diagram Guide",
+      "knowledge_domain": "platform"
+    },
+    {
+      "object_name": "platform/architecture/deep_system_audit.md",
+      "storage_uri": "s3://aiconnex-platform-kb-prod/platform/architecture/deep_system_audit.md",
+      "size_bytes": 32102,
+      "content_hash": "865cf1dfa37013c71cd66383ab77622a73bd8a64519524da0b3ed475bf6ae014",
+      "uploaded_at": "2026-08-14T03:05:48.023631+00:00",
+      "source_id": "PLAT-DOC-011",
+      "title": "AIConnex System Deep Architecture Audit",
+      "knowledge_domain": "platform"
+    }
+  ],
+  "status": "Active"
+}

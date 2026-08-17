@@ -245,14 +245,22 @@ class RetrievalService:
         if not items:
             facts = self.load_deterministic_registries()
             ontology = facts.get("ontology", {})
-            edges = ontology.get("edges", [])
+            edges = ontology.get("edges", []) if isinstance(ontology, dict) else []
             q_lower = request.query.lower()
             yaml_matches = [
                 e for e in edges
-                if e["source"].lower() in q_lower or e["target"].lower() in q_lower or e["relationship"].lower() in q_lower
+                if isinstance(e, dict) and (
+                    e.get("source", "").lower() in q_lower
+                    or e.get("target", "").lower() in q_lower
+                    or e.get("relationship", "").lower() in q_lower
+                )
             ]
-            for idx, edge in enumerate(yaml_matches or edges[:5]):
-                edge_text = f"Ontology Relationship: {edge['source']} --[{edge['relationship']}]--> {edge['target']}"
+            selected_edges = yaml_matches if yaml_matches else edges[:5]
+            for idx, edge in enumerate(selected_edges):
+                s_n = edge.get("source", "Entity")
+                r_n = edge.get("relationship", "relates_to")
+                t_n = edge.get("target", "Entity")
+                edge_text = f"Ontology Relationship: {s_n} --[{r_n}]--> {t_n}"
                 item = EvidenceItem(
                     document_id="ONTOLOGY-GRAPH-001",
                     source_id="ONTOLOGY-GRAPH-001",
@@ -264,6 +272,7 @@ class RetrievalService:
                     authority="A",
                 )
                 items.append(item)
+                matched_edges.append({"source": s_n, "relationship": r_n, "target": t_n})
 
         return EvidencePack(
             query=request.query,

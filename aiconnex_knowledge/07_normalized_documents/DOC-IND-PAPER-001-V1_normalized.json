@@ -1,0 +1,1001 @@
+[
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "Title & Abstract",
+    "heading": "Title & Abstract",
+    "text": "Standards for Prognostics and Health Management (PHM)\nTechniques within Manufacturing Operations\nGregory W. Vogl1, Brian A. Weiss1, and M. Alkan Donmez1\n1National Institute of Standards and Technology, Gaithersburg, Maryland, 20899, USA\ngregory.vogl@nist.gov\nbrian.weiss@nist.gov\nalkan.donmez@nist.gov",
+    "page_number": 1,
+    "source_location": "p. 1, \u00a7Title & Abstract",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ABSTRACT",
+    "heading": "ABSTRACT",
+    "text": "Prognostics and health management (PHM) technologies\nreduce time and costs for maintenance of products or\nprocesses through efficient and cost-effective diagnostic and\nprognostic activities. These activities aim to provide\nactionable information to enable intelligent decision-making\nfor\nimproved\nperformance,\nsafety,\nreliability,\nand\nmaintainability. Thoughtful PHM techniques can have a\ndramatic impact on manufacturing operations, and standards\nfor PHM system development, data collection and analysis\ntechniques, data management, system training, and software\ninteroperability need to exist for manufacturing. The\nconducted a survey of PHM-related standards applicable to\nmanufacturing systems to determine the needs addressed by\nsuch standards, the extent of these standards, and any\ncommonalities as well as potential gaps among the\ndocuments.\nStandards\nfrom\nvarious\nnational\nand\ninternational organizations are summarized, including those\nfrom the International Electrotechnical Commission, the\nInternational Organization for Standardization, and SAE\nInternational. Finally, areas for future PHM-related\nstandards development are identified.",
+    "page_number": 1,
+    "source_location": "p. 1, \u00a7ABSTRACT",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "1. PHM ENABLES SMART MANUFACTURING",
+    "heading": "1. PHM ENABLES SMART MANUFACTURING",
+    "text": "Prognostics and health management (PHM) systems and\ntechnologies enable maintenance action on products and\nprocesses based on need, determined by the current system\ncondition via diagnostic analyses and/or the expected future\ncondition through prognostic methods. PHM techniques are\nin contrast to the use of schedules (i.e., preventative\nmaintenance) where maintenance is conducted on specific\ntime intervals (United States Army, 2013). PHM aims to\nreduce burdensome maintenance tasks while increasing the\navailability, safety, and cost effectiveness for the products\nand processes to which it is applied. In this sense, PHM\nenables smart manufacturing by optimizing maintenance\noperations via data collection, diagnostics, and prognostics\nas well as usage monitoring.\n1.1. National Strategic Needs in Manufacturing\nThe United States is beginning to gain ground in\nreestablishing\nits\nmanufacturing\ndominance\nthrough\nresearch and development in a wide-range of advanced\ntechnologies.\nAdditive\nmanufacturing,\nrobotics,\ndata\nanalytics, cloud computing, and intelligent maintenance are\njust a few evolutionary technologies that are actively being\nrefined. These technologies can have a tremendous impact\non U.S. manufacturing that would \u201cincrease productivity,\nefficiency\nand\ninnovation,\nspeed-to-market,\nand\nflexibility\u201d (Ludwig & Spiegel, 2014).\nis focused on advancing, documenting, and standardizing\nindustry practices in many of these new technologies.\nStandards have a well-documented history of impact within\nthe national and global manufacturing community (Ludwig\nwith industry to develop standards and guidelines to\npromote\nbest\npractices\nand\nfurther\nmanufacturing\ncompetitiveness (Bostelman, Teizer, Ray, Agronin &\nAlbanese, 2014, Hunten, Barnard Feeney & Srinivasan,\n2013, Lee, Song & Gu, 2012, Marvel & Bostelman, 2013).\nOne of EL\u2019s manufacturing projects is Prognostics and\nHealth Management for Smart Manufacturing Systems\n(PHM4SMS), which was initiated in 2013 (National\nInstitute of Standards and Technology, 2014). The goal of\nthis five-year effort is to develop and document methods,\nprotocols, best practices, and tools to enable robust, real-\ntime\ndiagnostics\nand\nprognostics\nin\nmanufacturing\nenvironments. These outputs will provide manufacturers\nGregory W. Vogl et al. This is an open-access article distributed under\nthe terms of the Creative Commons Attribution 3.0 United States\nLicense, which permits unrestricted use, distribution, and reproduction\nin any medium, provided the original author and source are credited.",
+    "page_number": 1,
+    "source_location": "p. 1, \u00a71. PHM ENABLES SMART MANUFACTURING",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ANNUAL CONFERENCE OF THE PROGNOSTICS AND HEALTH MANAGEMENT SOCIETY 2014",
+    "heading": "ANNUAL CONFERENCE OF THE PROGNOSTICS AND HEALTH MANAGEMENT SOCIETY 2014",
+    "text": "with uniform guidelines to identify the complex system,\nsub-system, and component interactions within smart\nmanufacturing so they can understand the specific\ninfluences of each on process performance metrics and data\nintegrity. Increased operational efficiency will be achieved\nthrough this greater understanding of the system, its\nconstituent elements, and the multitude of relationships\npresent.\n1.2. PHM Needs and Challenges\nFigure 1 shows a flowchart of the general process of PHM\nsystem development with certain standards listed for\nreference purposes. PHM system development begins with\ncost\nand\ndependability\nanalyses\nto\ndetermine\nthe\ncomponents to monitor. The data management system is\nthen initialized for collection, processing, visualization, and\narchiving of the maintenance data. Once the measurement\ntechniques are established, the diagnostic and prognostic\napproaches are developed and tested to ensure that the\ndesired goals are achieved. Finally, personnel are trained\nduring the iterative process of system validation and\nverification before final system deployment.\nFigure 1. General PHM system development process and\nassociated standards.\nSeveral needs and challenges exist for PHM system\ndevelopment. PHM is dependent on maintenance-related\ndata collection and processing for components or\nsubsystems, so standards about data acquisition and\nprocessing are needed to influence the requirements for\nPHM systems development (United States Army, 2013).\nStandards for PHM are needed for harmonized terminology,\nconsistency of the PHM methods and tools, and\ncompatibility and interoperability of PHM technology.\nStandards also help provide guidance in the practical use\nand development of PHM techniques (Mathew, 2012). The\ncreation of PHM systems is still difficult due to the inter-\nrelated tasks of design engineering, systems engineering,\nlogistics, and user training (United States Army, 2013).\nPHM systems need to be developed, verified, and validated\nbefore implementation to enable improved decision-making\nfor performance, safety, reliability, and maintainability of\nproducts and processes. However, standards appear to be\nlacking for PHM system development, data collection and\nanalysis techniques, data management, system training, and\nintends to help to serve a role in the development of such\nstandards. The first step is to identify the existing pertinent\nstandards, and this paper summarizes the results of such a\nreview (Vogl, Weiss & Donmez, 2014).",
+    "page_number": 2,
+    "source_location": "p. 2, \u00a7ANNUAL CONFERENCE OF THE PROGNOSTICS AND",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "2. PUBLISHED STANDARDS",
+    "heading": "2. PUBLISHED STANDARDS",
+    "text": "Multiple organizations publish standards related to PHM for\nmanufacturing products or processes. Table 1 lists the\norganizations that have published standards, while Table 2\n(see Section 3) and Table 3 (see Appendix) categorize the\ndeveloping or existing standards, respectively, related to\nPHM for manufacturing. All tables are organized according\nto topics based on the PHM process steps seen in Figure 1:\n\u2018Overview\u2019,\n\u2018Dependability\nanalysis\u2019,\n\u2018Measurement\ntechniques\u2019,\n\u2018Diagnostics\nand\nPrognostics\u2019,\n\u2018Data\nmanagement\u2019, \u2018Training\u2019, and \u2018Applications\u2019. If a standard\nhas an \u2018X\u2019 mark in a corresponding general topic column\nwithin a table, then that standard is largely applicable within\nthat category. Some of the standards outline broad\napproaches for PHM (marked in the \u2018Overview\u2019 category)\nor are specific in guidance for PHM within a given\napplication (marked in the \u2018Applications\u2019 category). Other\nstandards focus on dependability analysis, measurement\ntechniques, diagnostics and/or prognostics, PHM data\nmanagement, or training related to maintenance of systems.\nThe lists of standards are not exhaustive, yet are\ncomprehensive enough for those in the manufacturing\nfields.\nAs seen in Table 1, the standards were typically developed\nby a technical committee (TC) or subcommittee (SC) of\nvarious national and international organizations: the Air\nTransport\nAssociation",
+    "page_number": 2,
+    "source_location": "p. 2, \u00a72. PUBLISHED STANDARDS",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "(ATA),",
+    "heading": "(ATA),",
+    "text": "the\nInternational\nElectrotechnical Commission (IEC), the Institute of\nElectrical\nand\nElectronics\nEngineers",
+    "page_number": 2,
+    "source_location": "p. 2, \u00a7(ATA),",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "(IEEE),",
+    "heading": "(IEEE),",
+    "text": "the\nPHM System Design Begins",
+    "page_number": 2,
+    "source_location": "p. 2, \u00a7(IEEE),",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ISO 17359, MSG-3, ADS-79D-HDBK",
+    "heading": "ISO 17359, MSG-3, ADS-79D-HDBK",
+    "text": "Cost Benefit Analysis, Dependability Analysis\nCost Benefit Analysis: IEC 60300-3-3, SAE ARP6275\nDependability: IEC 60300-3-1, IEC 61703, SAE ARP4761\nBottom-Up Methods: SAE ARP5580, SAE J1739, IEC 60812\nTop-Down Methods: IEC 61025, IEC 61165, ISO/IEC 15909\nData Requirements and Management",
+    "page_number": 2,
+    "source_location": "p. 2, \u00a7ISO 17359, MSG-3, ADS-79D-HDBK",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ISO 13374-1, ISO 13374-2, ISO 18435-1, ISO 18435-2",
+    "heading": "ISO 13374-1, ISO 13374-2, ISO 18435-1, ISO 18435-2",
+    "text": "Measurement Techniques",
+    "page_number": 2,
+    "source_location": "p. 2, \u00a7ISO 13374-1, ISO 13374-2, ISO 18435-1, I",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ISO 17359, ISO 13379-1",
+    "heading": "ISO 17359, ISO 13379-1",
+    "text": "Diagnostics and Prognostics\nDiagnostics: ISO 13379-1\nPrognostics: ISO 13381-1\nPHM Testing and Training\nTraining: ISO 18436 (parts 1 to 8)\nPHM System Deployment",
+    "page_number": 2,
+    "source_location": "p. 2, \u00a7ISO 17359, ISO 13379-1",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ANNUAL CONFERENCE OF THE PROGNOSTICS AND HEALTH MANAGEMENT SOCIETY 2014",
+    "heading": "ANNUAL CONFERENCE OF THE PROGNOSTICS AND HEALTH MANAGEMENT SOCIETY 2014",
+    "text": "International Organization for Standardization (ISO), the\nMachinery Information Management Open Standards\nAlliance (MIMOSA), SAE International, and the United\nStates Army (US Army).\nTable 1.  PHM-related standards organizations.\nOrganization\nCommittee/\nSubcommittee\nOverview\nCost and Dependability analyses\nMeasurement techniques\nDiagnostics and Prognostics\nData management\nTraining\nApplications\nATA\nMSG\nX\nX\nIEC\nX X\nIEEE\nRS\nX\nISO",
+    "page_number": 3,
+    "source_location": "p. 3, \u00a7ANNUAL CONFERENCE OF THE PROGNOSTICS AND",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "TC 108/SC 2",
+    "heading": "TC 108/SC 2",
+    "text": "X\nISO",
+    "page_number": 3,
+    "source_location": "p. 3, \u00a7TC 108/SC 2",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "TC 108/SC 5",
+    "heading": "TC 108/SC 5",
+    "text": "X",
+    "page_number": 3,
+    "source_location": "p. 3, \u00a7TC 108/SC 5",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "X X X X",
+    "heading": "X X X X",
+    "text": "ISO",
+    "page_number": 3,
+    "source_location": "p. 3, \u00a7X X X X",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "TC 184/SC 4",
+    "heading": "TC 184/SC 4",
+    "text": "X\nISO",
+    "page_number": 3,
+    "source_location": "p. 3, \u00a7TC 184/SC 4",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "TC 184/SC 5",
+    "heading": "TC 184/SC 5",
+    "text": "X X",
+    "page_number": 3,
+    "source_location": "p. 3, \u00a7TC 184/SC 5",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "JTC 1/SC 7",
+    "heading": "JTC 1/SC 7",
+    "text": "X",
+    "page_number": 3,
+    "source_location": "p. 3, \u00a7JTC 1/SC 7",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "MIMOSA",
+    "heading": "MIMOSA",
+    "text": "\u2014\u2014\nX\nSAE International AQPIC\nX\nSAE International E-32\nX\nX\nX\nSAE International G-11r\nX X\nSAE International HM-1",
+    "page_number": 3,
+    "source_location": "p. 3, \u00a7MIMOSA",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "X X X X",
+    "heading": "X X X X",
+    "text": "X\nUS Army\nAviation Engineering\nX\nX X\nX\nThe following sections summarize the published standards\nin categories that are broad in scope: Overview,\nDependability\nAnalysis,\nMeasurement\nTechniques,\nDiagnostics and Prognostics, and Data Management.\nCost-, Training-, and Application-focused standards are not\nsummarized.\n2.1. Overview\nStandards with general guidance about the creation of PHM\nsystems are indicated under the \u2018Overview\u2019 category within\nTable 3. Such standards are a natural starting point during\nthe creation of PHM systems, because these documents\noutline the factors influencing condition monitoring and\nprovide guidance for the monitoring of components and/or\nsub-systems.\n2.1.1. Manufacturing Industry\nAs the parent document of a group of standards that cover\ncondition\nmonitoring\nand\ndiagnostics,\nISO 17359 (International Organization for Standardization,\n2011) was developed by ISO/TC 108/SC 5 (\u201cCondition\nmonitoring and diagnostics of machines\u201d) to provide the\ngeneral procedures for setting up a condition monitoring\nprogram for all machines, e.g., the generic approaches to\nsetting alarm criteria and carrying out diagnosis and\nprognosis. ISO 17359 outlines the condition monitoring\nprocedure for a general manufacturing process, factors\ninfluencing condition monitoring, a list of issues affecting\nequipment criticality (e.g., cost of machine down-time,\nreplacement cost), and a table of condition monitoring\nparameters (such as temperature, pressure, and vibration) for\nvarious machine types. ISO 17359 also presents multiple\nexamples of tables showing the correlation of possible faults\n(e.g., air inlet blockage, seal leakage, and unbalance) with\nsymptoms\nor\nparameter\nchanges.\nFurthermore,\nISO 17359 shows an example of a typical form for\nrecording monitoring information.\n2.1.2. Aircraft Industry\nAnother standard that provides guidance for PHM systems\ndevelopment\nis",
+    "page_number": 3,
+    "source_location": "p. 3, \u00a7X X X X",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "MSG-3,",
+    "heading": "MSG-3,",
+    "text": "a\ndocument\ntitled\n\u201cOperator/Manufacturer\nScheduled\nMaintenance\nDevelopment.\u201d The Maintenance Steering Group (MSG) of\nthe Air Transport Association (ATA) developed MSG-3,\nwhich is used for developing maintenance plans for aircraft,\nengines, and systems (Air Transport Association of\nAmerica, 2013) before the aircraft enters service. MSG-3 is\na top-down approach to determine the consequences (safety,\noperational, and economic) of failure, starting at the system\nlevel and working down to the component level (Adams,\n2009). Failure effects are divided into five categories, and if\nthe consequences of failure cannot be mitigated, then\nredesign becomes necessary. For example, the MSG-3\nprocess led to mandatory design changes for the Boeing\n787-8\u2019s in-flight control and lightning protection systems.\nFurthermore, the MSG-3 methodology helps improve safety\nwhile\nreducing\nmaintenance-related\ncosts\nup\nto\n30 percent (Adams, 2009).\n2.1.3. Military\nSimilar in scope to the standards just described, an\nAeronautical Design Standard (ADS) Handbook (HDBK),\nADS-79D-HDBK, was developed by the U.S. Army to\ndescribe the Army\u2019s condition-based maintenance (CBM)\nsystem for military aircraft systems (United States Army,\n2013). CBM is the preferred maintenance approach for\nArmy aircraft systems, yet ADS-79D-HDBK is broad\nenough for application in other industries to be included in\nthe \u2018Overview\u2019 category of Table 3. The document provides\nguidance and standards for use by all Department of\nDefense (DoD) agencies in the development of CBM data\nacquisition,\nsignal\nprocessing\nsoftware,\nand\ndata\nmanagement. Furthermore, ADS-79D-HDBK is in the spirit\nof the reliability centered maintenance (RCM) methods\npreviously used by the DoD to avoid the consequences of\nmaterial failure. Failure mode, effects, and criticality\nanalysis (FMECA) identifies where CBM should be\nutilized, but RCM is used to determine the most appropriate\nfailure management strategy. Additionally, ADS-79D-",
+    "page_number": 3,
+    "source_location": "p. 3, \u00a7MSG-3,",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ANNUAL CONFERENCE OF THE PROGNOSTICS AND HEALTH MANAGEMENT SOCIETY 2014",
+    "heading": "ANNUAL CONFERENCE OF THE PROGNOSTICS AND HEALTH MANAGEMENT SOCIETY 2014",
+    "text": "HDBK is supported by the Machinery Information\nManagement Open Standards Alliance (MIMOSA), a\nUnited States association of industry and Government, and\nfollows the information flow structure detailed in the",
+    "page_number": 4,
+    "source_location": "p. 4, \u00a7ANNUAL CONFERENCE OF THE PROGNOSTICS AND",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ISO 13374",
+    "heading": "ISO 13374",
+    "text": "series\n(International\nOrganization\nfor\nStandardization, 2003, United States Army, 2013).",
+    "page_number": 4,
+    "source_location": "p. 4, \u00a7ISO 13374",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ADS-79D-HDBK",
+    "heading": "ADS-79D-HDBK",
+    "text": "defines\nCBM-related\nterms\n(\u2018airworthiness\u2019, \u2018critical safety item\u2019, \u2018exceedance\u2019, etc.)\nand assists in the development of CBM systems for both\nlegacy and new aircraft. Also, the standard describes the\nelements of a CBM system architecture with technical\nconsiderations for Army aviation in thirteen separate\nappendices (e.g., fatigue life management, flight test\nvalidation, vibration based diagnostics, and data integrity).\nThese appendices help developers identify components to\nmaintain, plan for data acquisition, perform fault testing,\ndesign the software and hardware elements, and validate\nCBM algorithms.\n2.2. Dependability Analysis\nOne aspect of the generation of PHM systems outlined in\nFigure 1 is the determination of what components or\nsubsystems should be redesigned, changed, or monitored\ndue to their fault and/or failure potential. Typically, a\ndependability analysis involves the identification of the\nreliability, availability, and maintainability of the entire\nsystem, its subsystems, and its components (International\nElectrotechnical Commission, 2003).\nNumerous methods exist to identify the failure modes of the\nsystem. Bottom-up (elements) methods are used to identify\nthe failure modes at the component level, which are then\nused to determine the corresponding effect on higher-level\nsystem performance. On the other hand, top-down\n(functional) methods are used to identify undesirable system\noperations by starting from the highest level of interest (the\ntop\nevent)\nand\nproceeding\nto\nsuccessively\nlower\nlevels (International Electrotechnical Commission, 2003).\nBottom-up dependability analysis methods include event\ntree analysis, failure mode and effects analysis (FMEA), and\nhazard and operability study (HAZOP), while top-down\nmethods include fault tree analysis (FTA), Markov analysis,\nPetri net analysis, and reliability block diagrams (RBD).\n2.2.1. General Guidance\nIEC 60300-3-1 gives a general overview of the common\ndependability analysis techniques, including fault tree\nanalysis, Markov analysis, Petri net analysis, and stress-\nstrength analysis. IEC 60300-3-1 presents tables outlining\nthe general applicability and characteristics of each method\nas well as concise summaries of each method (including\nbenefits,\nlimitations,\nand\nexamples)\nin\na\nseparate\ninformative\nannex\n(International\nElectrotechnical\nCommission, 2003). The methods can be categorized\naccording to their purpose of either fault avoidance (e.g.,\nstress-strength\nanalysis),\narchitectural\nanalysis\nand\ndependability allocation (bottom-up methods, such as\nFMEA, or top-down methods, such as FTA), or estimation\nof measures for basic events (such as failure rate\nprediction). Analysis based on either a hardware (bottom-\nup), functional (top-down), or combination approach should\nbe used to assess high risk items and provide corrective\nactions (United States Department of Defense, 1980).\nAnother standard that covers various dependability analyses\nis SAE ARP4761, an Aerospace Recommended Practice\n(ARP)  that provides guidelines and methods of performing\nsafety assessments for certification of civil aircraft (SAE\nInternational, 1996). Methods covered in SAE ARP4761 for\nsafety assessment include FTA, dependence diagram (DD),\nMarkov analysis, FMEA, and common cause analysis.\nTo support the quantification of dependability, the IEC\ntechnical\ncommittee\n(Dependability)\ndeveloped\nIEC 61703 to provide the mathematical expressions for\nreliability,\navailability,\nmaintainability,\nand\nother\nmaintenance\nterms\n(International\nElectrotechnical\nCommission, 2001). The expressions are grouped into\nclasses for various items: non-repaired items, repaired items\nwith zero time to restoration, and repaired items with non-\nzero time to restoration. Numerous equations are provided\nin IEC 61703 for the generic case of an exponentially\ndistributed time to failure.\n2.2.2. Bottom-Up Methods\nFMEA\nFMEA is a formal and systematic approach to identify\npotential failure modes of a system along with their causes\nand\nimmediate\nand\nfinal\neffects\non\nsystem\nperformance (International Electrotechnical Commission,\n2006a) through the usage of information about failure\n(\u201cWhat has failed?\u201d) and its effects (\u201cWhat are the\nconsequences?\u201d) (SAE\nInternational,\n2001).\nIt\nis\nadvantageous to perform FMEA early in the development of\na product or process so that failure modes can be eliminated\nor mitigated as cost effectively as possible. FMEA can be\nused to identify failures (e.g., hardware, software, human\nperformance) and improve reliability and maintainability via\ninformation for the development of diagnostic and\nmaintenance procedures. FMEA has been modified for\nvarious purposes; failure modes, effects and criticality\nanalysis (FMECA) is an extension of FMEA that uses a\nmetric called criticality to rank the severity of failure\nmodes (International Electrotechnical Commission, 2006a)\nas well as the probability of each failure mode (SAE\nInternational, 2001).\nFor example, SAE ARP5580 describes the procedure for\nhow to perform FMEA. This procedure includes a basic\nmethodology for the three FMEA classifications related to\nhow the failure modes are postulated: functional FMEA (at",
+    "page_number": 4,
+    "source_location": "p. 4, \u00a7ADS-79D-HDBK",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ANNUAL CONFERENCE OF THE PROGNOSTICS AND HEALTH MANAGEMENT SOCIETY 2014",
+    "heading": "ANNUAL CONFERENCE OF THE PROGNOSTICS AND HEALTH MANAGEMENT SOCIETY 2014",
+    "text": "the conceptual design level), interface FMEA (before the\ndetailed design of the interconnected subsystems), and\ndetailed FMEA (performed when detailed designs are\navailable) (SAE International, 2001). SAE ARP5580 can be\nused to assess the reliability of systems with increasing\nimpact when FMEA is performed at increasing levels of\ndetail during development of hardware or software.\nSAE ARP5580 provides many definitions of key terms\n(e.g., \u2018allocation\u2019, \u2018criticality\u2019, and \u2018fault tree\u2019) and other\nitems typically included within FMEA. SAE ARP5580\nprovides ground rules (with an example), numbering\nconventions for functional FMEA to describe systems\naccording to a hierarchy (subsystems, components,\nsoftware, etc.) with well-defined inputs and outputs, and\nexamples of severity classifications for military, aerospace,\nand automobile industries.\nDFMEA and PFMEA\nAnother standard concerning FMEA is SAE J1739, which\nsupports the development of an effective design FMEA\n(DFMEA) and a FMEA for manufacturing and assembly\nprocesses (PFMEA) (SAE International, 2009). Based on\nreferences (e.g., SAE ARP5580 and IEC 60812) and input\nfrom original equipment manufacturers (OEMs) and their\nsuppliers, SAE J1739 includes current terms, requirements,\nranking charts, and worksheets for the identification and\nmitigation of failure mode risks. Examples are given for a\nblock or boundary diagram (for DFMEA), a process flow\ndiagram (for PFMEA), and design and process FMEA\nworksheets related to the auto industry. Also, suggestions\nare given in tabulated form for design and process FMEA\nseverity (S) evaluation criteria as well as those for\noccurrence (O) and detection (D) evaluation criteria. Even\nthough the risk priority number (RPN) is defined as the\nproduct S   O   D, SAE J1739 warns that this number,\nwhich ranges from 1 to 1000, should not be used as the sole\nmetric for risk evaluation via thresholding.\nFMEA and FMECA\nAnother standard that gives guidance to produce successful\nFMEA and FMECA is IEC 60812, which was developed by\nthe\nIEC\ntechnical\ncommittee\n(Dependability) (International\nElectrotechnical\nCommission, 2006a). IEC 60812 is a standard that provides\nsteps, terms, criticality measures (potential risk, risk priority\nnumber, criticality matrix), failure modes, basic principles,\nprocedures, and examples for FMEA and FMECA.\nIEC 60812 advises that while FMECA may be a very cost-\neffective method for assessing failure risks, a probability\nrisk analysis (PRA) is preferable to a FMECA; FMECA\nshould not be the only basis for judging risks, especially\nsince RPNs have deficiencies such as inadequate scaling, as\ndiscussed in SAE J1739. Also, FMEA has limitations in that\nit is difficult and tedious to apply to complex systems with\nmultiple\nfunctions (International\nElectrotechnical\nCommission, 2006a).\n2.2.3. Top-Down Methods\nFault Tree Analysis (FTA)\nFTA is a technique that is helpful in overcoming the current\nlimitations of FMEA (SAE International, 2001). FTA is a\ndeductive method used to determine the causes that can lead\nto the occurrence of a defined outcome, called the \u2018top\nevent\u2019 (International Electrotechnical Commission, 2006b).\nFTA achieves this goal through use of a fault tree.\nConstruction of the tree is a top-down process that\ncontinually approaches the desired lower level of\nmechanism and mode. The lowest possible level contains\nthe primary (bottom) events, the individual causes of\npotential failures or faults (International Electrotechnical\nCommission, 2006b). Thus, FTA identifies potential\nproblems caused by design, operational stresses, and flaws\nin product manufacturing processes. Hence, fault trees\nshould be developed early during system design and\ncontinue\nthroughout\nthe\ndevelopment\nof\na\nproduct (International\nElectrotechnical\nCommission,\n2006b).\nTo enable the use of fault tree analysis, the IEC technical\ncommittee 56 developed IEC 61025, which addresses the\ntwo approaches to FTA: a qualitative or logical approach\n(Method A), used largely in the nuclear industry, and a\nquantitative or numerical approach (Method B) that results\nin a quantitative probability of the occurrence of a top event\nwithin manufacturing and other industries (International\nElectrotechnical Commission, 2006b). IEC 61025 describes\nFTA with its definitions (e.g., \u2018top event\u2019, \u2018gate\u2019, and\n\u2018event\u2019), steps (fault tree construction, analysis, reporting,\netc.), and fault tree symbols (for static and dynamics gates).\nIEC 61025 provides the mathematics for reliability of series\nand parallel (redundant) systems, which uses probabilistic\ndata at the component level from reliability or actual field\ntest data to determine the probability of the occurrence of\nthe \u2018top event\u2019.\nMarkov Analysis\nMarkov analysis is another method to determine the\ndependability and safety of systems. The IEC technical\ncommittee 56 produced IEC 61165, a standard that gives an\noverview\nof\nthe\nMarkov\ntechnique (International\nElectrotechnical Commission, 2006c). Markov techniques\nuse state transition diagrams to represent the temporal\nbehavior of a system, which is a connected number of\nelements, each of which has only one of two states: up or\ndown. The entire system transitions from one state to\nanother as the system elements fail or are restored according\nto defined rates. IEC 61165 uses symbols from IEC 60050\n(\u2018International Electrotechnical Vocabulary\u2019) but defines\nother fundamental terminology (e.g., \u2018up state\u2019 and \u2018down\nstate\u2019), symbols (circles, rectangles, etc.), and mathematical\ntechniques (e.g., via ordinary differential equations and\nLaplace transforms). The standard contains examples for the",
+    "page_number": 5,
+    "source_location": "p. 5, \u00a7ANNUAL CONFERENCE OF THE PROGNOSTICS AND",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ANNUAL CONFERENCE OF THE PROGNOSTICS AND HEALTH MANAGEMENT SOCIETY 2014",
+    "heading": "ANNUAL CONFERENCE OF THE PROGNOSTICS AND HEALTH MANAGEMENT SOCIETY 2014",
+    "text": "homogeneous Markov technique, in which the state\ntransition rates are assumed to be time-independent\n(International Electrotechnical Commission, 2006c). IEC\n61165 shows that the differences between the expressions\nfor reliability, maintainability, and availability arise from\nthe different state transition diagrams used to create the\nequations. Maintenance strategies can be modeled with\nMarkov techniques, while other techniques such as fault tree\nanalysis (FTA) and reliability block diagrams (RBDs) do\nnot account for complex maintenance strategies.\nPetri Net Analysis\nSince their creation in 1962, Petri nets have been used to\ndescribe, design, and maintain a wide range of systems and\nprocesses in industries including aerospace, banking,\nmanufacturing systems, and nuclear power systems\n(International\nOrganization\nfor\nStandardization\n&\nInternational Electrotechnical Commission, 2004). Petri nets\nare a rigorous method to mathematically describe processes\nbased on basic set theory (Truss, 1998). Furthermore, Petri\nnets can be used to generate Markov models. In the 1980s,\nPetri nets were extended to Higher-level Petri nets (HLPNs)\nto model discrete-event systems. HLPNs were also used to\nadvance the use of Petri nets for complex systems,\nanalogous to the use of high-level programming languages\nto overcome challenges with assembly languages.\nTo aid the use of HLPNs and facilitate the development of\nPetri net software tools, the ISO/IEC 15909-1 standard was\ndeveloped by SC 7 (\u2018Software and system engineering\u2019) of\nJTC 1 (\u2018Information technology\u2019), a Joint Technical\nCommittee",
+    "page_number": 6,
+    "source_location": "p. 6, \u00a7ANNUAL CONFERENCE OF THE PROGNOSTICS AND",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "(JTC)",
+    "heading": "(JTC)",
+    "text": "composed\nof\nISO\nand\nIEC\nmembers (International Organization for Standardization &\nInternational\nElectrotechnical\nCommission,\n2004).\nISO/IEC 15909-1 defines a mathematical semantic model,\nan abstract mathematical syntax for annotations, and a\ngraphical notation for High-level Petri nets (International\nOrganization\nfor\nStandardization\n&\nInternational\nElectrotechnical Commission, 2004). ISO/IEC 15909-1\ndefines terms (such as \u2018arc\u2019, \u2018multiset\u2019, \u2018Petri net\u2019, \u2018token\u2019,\n\u2018transition\u2019, etc.) and mathematical conventions needed for\nHigh-level Petri nets and provides the formal concepts of\nmarking, enabling, and transition rules needed for HLPN\ngraphs (HLPNGs) that represent complex processes within\nmanufacturing and other industries. ISO/IEC 15909-2\ndefines the transfer format, the Petri Net Markup Language\n(PNML), to support the exchange of HLPNs (International\nOrganization\nfor\nStandardization\n&\nInternational\nElectrotechnical Commission, 2011).\n2.3. Measurement Techniques\nDependability analysis, whether top-down or bottom-up or\nsome combination thereof, is used to identify the failure\nmodes of the system and help manufacturers to determine\nwhich risks should be mitigated or eliminated. If a failure\nmode must exist, being unavoidable for system operation,\nthen the failure mode may be monitored or predicted via\ndiagnostics and prognostics with sensors and established\nmeasurement and analysis techniques. The system designer\nmust be aware of the various measurement techniques and\ntheir preferred uses based on the accepted experience of\nothers.\nSeveral standards contain explicit guidelines on the use of\nmeasurement techniques for PHM. This section summarizes\nthose particular standards indicated under the \u2018Measurement\ntechniques\u2019 category within Table 3. However, due to the\ndetailed nature and variety of measurement techniques, this\nsection covers only the standards that are relatively general\nin scope and application for manufacturing.\nFor example, Annex B of ISO 17359 contains nine tables of\nguidance for measurement techniques for various systems,\nincluding\ngenerators,\nfans,\nengines,\nand\npumps\n(International Organization for Standardization, 2011). The\ntables relate the possible faults for each system to the\nassociated measureable symptoms. For example, ISO 17359\nreveals that the bearing unbalance of an electric motor\naffects the vibration directly, but only impacts the other\ndetectable symptoms tangentially. Such tables are essential\nfor understanding the basic physical consequences of system\nfaults to aid in the selection and positioning of sensors.\nSimilarly, Annex D of ISO 13379-1 relates measurement\ntechniques and numerous diagnostic models in tabular form\n(International Organization for Standardization, 2012b). The\ncombination of the information from ISO 17359 and ISO\n13379-1 helps both novices and experts in PHM to\ndetermine the measurement types and associated diagnostic\ntechniques for a given system fault. For example, a bearing\nunbalance could be detected via vibration monitoring\n(according to ISO 17359) and analyzed via a subsequent\ndata-driven statistical method (according to ISO 13379-1).\n2.4. Diagnostics and Prognostics\nDiagnostics is the determination of the current condition of\na component or system, and prognostics is the predictive\nability of future performance degradation and expected\nfailures (SAE\nInternational,\n2008).\nThe\nfollowing\nsubsections summarize those particular standards indicated\nunder the \u2018Diagnostics and Prognostics\u2019 category within\nTable 3. The number of standards dedicated to diagnostics\nand prognostics is fairly small, offering a significant\nopportunity for standards development.\n2.4.1. Diagnostics\nOne recently-published standard aids the diagnostics of\ngeneral PHM processes; ISO 13379-1 was created to aid the\ncondition monitoring of industrial machines including\nturbines, compressors, pumps, generators, electrical motors,\nblowers, gearboxes, and fans (International Organization for\nStandardization, 2012b). ISO 13379-1, which was prepared\nunder SC 5 (Condition monitoring and diagnostics of",
+    "page_number": 6,
+    "source_location": "p. 6, \u00a7(JTC)",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ANNUAL CONFERENCE OF THE PROGNOSTICS AND HEALTH MANAGEMENT SOCIETY 2014",
+    "heading": "ANNUAL CONFERENCE OF THE PROGNOSTICS AND HEALTH MANAGEMENT SOCIETY 2014",
+    "text": "machines) of ISO/TC 108 (Mechanical vibration, shock and\ncondition monitoring), outlines the nine generic steps for\ndiagnostics, composed of the union of FMEA or FMECA,\nas outlined in IEC 60812, and failure mode symptoms\nanalysis (FMSA) methodology outlined in ISO 13379-1.\nFMSA is essentially a modification of a FMECA process\nthat focuses on the selection of the most appropriate\ndetection and monitoring techniques and strategies. The\nprocess results in a monitoring priority number (MPN) for\neach failure mode. The MPN is the product of four numbers\nrepresenting the confidence (each rated from 1 to 5) of\ndetection, severity, diagnosis, and prognosis for the given\nfailure mode. The highest MPN value indicates the most\nsuitable\ntechnique\nfor\ndetection,\ndiagnostics,\nand\nprognostics of the associated failure mode (International\nOrganization for Standardization, 2012b).\nISO 13379-1 also compares the strengths and weaknesses of\ndata-driven diagnostic approaches (e.g., neural network,\nlogistic regression, and support vector machine) and\nknowledge-based diagnostic approaches (e.g., causal tree\nand first principles). The last step in the diagnostic process\nis a formal diagnostic report, such as the example given in\nAnnex E of ISO 13379-1, which includes information about\nthe event, its diagnosis, symptoms, failure modes, and\nrecommendations for corrective action and fault avoidance.\n2.4.2. Prognostics\nOther standards provide guidance for prognostics, because\nthere is currently no precise procedure or standard\nmethodology. Fault prognostics require prior knowledge of\nthe probable failure modes, the anticipated future activities\nof the machine, and the relationships between failure modes\nand operating conditions (International Organization for\nStandardization, 2004).\nTo facilitate the development of prognostics within general\nPHM processes, ISO 13381-1 outlines general guidelines,\napproaches, and concepts for prognostics (International\nOrganization for Standardization, 2004). Terms such as\nprognosis (an estimation of time to failure and associated\nrisk), confidence level, root cause, and estimated time to\nfailure (ETTF) are defined in ISO 13381-1. The standard\nalso outlines the four basic phases of prognosis: pre-\nprocessing, existing failure mode prognosis, future failure\nmode prognosis, and post-action prognosis. ISO 13381-\n1 states that the trip set point used for thresholding to\nprevent damage or failure is a parameter value, normally\ndetermined from standards, manufacturers\u2019 guidelines, and\nexperience. Other thresholds, such as alert and alarm limits,\nare set at values below the trip set point to initiate\nmaintenance. Once a fault has been detected based on a\nfailure mode behavior model (FMECA, FTA, etc.), the\nestimated time to failure (ETTF) needs to be determined by\nexpert opinion and/or empirical methods (International\nOrganization for Standardization, 2004).\n2.5. Data Management\nMonitoring the condition of machines is not an easy\ntask because the integration of various PHM software is\ntypically not \u2018plug-and-play\u2019 (International Organization for\nStandardization, 2003). This section summarizes several\nstandards that guide the management of PHM data and,\nhence, the integration of various PHM software via the\ntransfer of standardized data formats.\nISO 13374-1 provides the basic requirements for open\nsoftware specifications to facilitate the transfer of data\namong various condition monitoring software, regardless of\nplatform or hardware protocols (International Organization\nfor Standardization, 2003). ISO 13374-1 establishes the\ngeneral guidelines, including the requirement of an \u2018open\nmachine\ncondition\nmonitoring\ninformation\nschema\narchitecture as an underlying framework\u2019 (International\nOrganization\nfor\nStandardization,\n2003).\nVendor-\nindependent extensible markup language (XML) schema\nand protocols can be used for the network exchange of PHM\ninformation. In accordance with ISO 13374, the Machinery\nInformation\nManagement\nOpen\nSystems\nAlliance\n(MIMOSA) published a conceptual schema called the\nCommon Relational Information Schema (CRIS) in XML\nschema and other formats. The CRIS has been used in the\ncondition monitoring industry to integrate information from\nmany systems (MIMOSA, 2006).\nISO 13374-2 provides details of the methodology and\nrequirements\nfor\ndata\nprocessing\nwithin\ncondition\nmonitoring and diagnostics (CM&D) systems. ISO 13374-2\ndescribes all the data objects, types, relationships, etc.\nrequired\nfor\na\nCM&D\ninformation\narchitecture\n(International Organization for Standardization, 2007). ISO\n13374-2 provides an informative annex about the unified\nmodeling language (UML), XML, and Middleware services.\nFinally, MIMOSA publishes an open CM&D information\nspecification known as the MIMOSA Open Systems\nArchitecture for Enterprise Application Integration (OSA-\nEAI\u2122), which is compliant with the requirements outlined\nin ISO 13374-1 and ISO 13374-2 and free for\ndownload (MIMOSA, 2013). MIMOSA also publishes an\nopen CM&D specification known as the MIMOSA Open\nSystems Architecture for Condition Based Maintenance\n(OSA-CBM\u2122), which is based on OSA-EAI\u2122, enabling\nintegration of systems from various suppliers (International\nOrganization for Standardization, 2007).\nISO 18435-1 gives an overview of the elements and rules of\nan integration modeling method to describe a manufacturing\napplication\u2019s requirements for integration of an automation\napplication with other applications, e.g., diagnostics,\nprognostics,\ncapability\nassessment,\nand\nmaintenance\napplications\nwith\nproduction\nand\ncontrol\napplications (International Organization for Standardization,\n2009). The method is based upon the Application Domain\nIntegration Diagram (ADID), which facilitates the transfer",
+    "page_number": 7,
+    "source_location": "p. 7, \u00a7ANNUAL CONFERENCE OF THE PROGNOSTICS AND",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ANNUAL CONFERENCE OF THE PROGNOSTICS AND HEALTH MANAGEMENT SOCIETY 2014",
+    "heading": "ANNUAL CONFERENCE OF THE PROGNOSTICS AND HEALTH MANAGEMENT SOCIETY 2014",
+    "text": "of information among domains of the manufacturing\nprocess. The domains include the processing blocks of\nISO 13374, such as the Data Monitoring block or the State\nDetection\nblock.",
+    "page_number": 8,
+    "source_location": "p. 8, \u00a7ANNUAL CONFERENCE OF THE PROGNOSTICS AND",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ISO 18435-1",
+    "heading": "ISO 18435-1",
+    "text": "defines\nterms\n(e.g.,\n\u2018integration\u2019 and \u2018interaction\u2019) and provides examples of\nexchanged information among domains.\nISO 18435-2 defines the application interaction matrix\nelement (AIME) and application domain matrix element\n(ADME) structures and relationships, including the steps to\nconstruct\nan\nADME\nfor\nsupport\nby\na\nset\nof\nAIMEs (International Organization for Standardization,\n2012a). An AIME represents a set of capabilities provided\nby a set of manufacturing resources of an application. An\nADME is a means to model the information exchanges\nbetween\napplications,\nbeing\nconstructed\nfrom\ninteroperability profiles referenced in AIMEs. ISO 18435-2\noutlines the XML schema for the headers and bodies that\ncomprise AIMEs and ADMEs. AIME bodies consist of\ncontext and conveyance sections, and ADME bodies consist\nof context, conveyance, and content sections. ISO 18435-2\nalso contains formal definitions of the ADME/AIME\nschemas in informative annexes (International Organization\nfor Standardization, 2012a).",
+    "page_number": 8,
+    "source_location": "p. 8, \u00a7ISO 18435-1",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "3. CURRENT STANDARDS DEVELOPMENT",
+    "heading": "3. CURRENT STANDARDS DEVELOPMENT",
+    "text": "New standards and revisions to existing standards related to\nPHM are currently under development, as seen in Table 2.\nThis section summarizes the scopes of these standards.\nTable 2.  PHM-related standards under development.\nOrganization\nCommittee/\nSubcommittee Standard\n1st\u2009Edition\n/ Revision?\nOverview\nDependability analysis\nDiagnostics and Prognostics\nData management\nSAE Int.\nG-11r",
+    "page_number": 8,
+    "source_location": "p. 8, \u00a73. CURRENT STANDARDS DEVELOPMENT",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ARP6204",
+    "heading": "ARP6204",
+    "text": "1st Edition\nX\nSAE Int.\nHM-1",
+    "page_number": 8,
+    "source_location": "p. 8, \u00a7ARP6204",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ARP6268",
+    "heading": "ARP6268",
+    "text": "1st Edition\nX\nSAE Int.\nHM-1",
+    "page_number": 8,
+    "source_location": "p. 8, \u00a7ARP6268",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ARP6407",
+    "heading": "ARP6407",
+    "text": "1st Edition\nX\nSAE Int.\nHM-1",
+    "page_number": 8,
+    "source_location": "p. 8, \u00a7ARP6407",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ARP6883",
+    "heading": "ARP6883",
+    "text": "1st Edition\nX\nIEEE\nRS",
+    "page_number": 8,
+    "source_location": "p. 8, \u00a7ARP6883",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "P1856",
+    "heading": "P1856",
+    "text": "1st Edition\nX",
+    "page_number": 8,
+    "source_location": "p. 8, \u00a7P1856",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "JTC 1/SC 7",
+    "heading": "JTC 1/SC 7",
+    "text": "ISO/IEC 15909-2 1st Edition\nX\nISO",
+    "page_number": 8,
+    "source_location": "p. 8, \u00a7JTC 1/SC 7",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "TC 108/SC 5 ISO 13379-2",
+    "heading": "TC 108/SC 5 ISO 13379-2",
+    "text": "1st Edition\nX\nISO",
+    "page_number": 8,
+    "source_location": "p. 8, \u00a7TC 108/SC 5 ISO 13379-2",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "TC 108/SC 5 ISO 13381-1",
+    "heading": "TC 108/SC 5 ISO 13381-1",
+    "text": "Revision\nX\nISO",
+    "page_number": 8,
+    "source_location": "p. 8, \u00a7TC 108/SC 5 ISO 13381-1",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "TC 108/SC 5 ISO 18129",
+    "heading": "TC 108/SC 5 ISO 18129",
+    "text": "1st Edition\nX\nISO",
+    "page_number": 8,
+    "source_location": "p. 8, \u00a7TC 108/SC 5 ISO 18129",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "TC 184/SC 5 ISO 22400-1",
+    "heading": "TC 184/SC 5 ISO 22400-1",
+    "text": "1st Edition\nX\nISO",
+    "page_number": 8,
+    "source_location": "p. 8, \u00a7TC 184/SC 5 ISO 22400-1",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "TC 184/SC 5 ISO 22400-2",
+    "heading": "TC 184/SC 5 ISO 22400-2",
+    "text": "1st Edition\nX\nISO",
+    "page_number": 8,
+    "source_location": "p. 8, \u00a7TC 184/SC 5 ISO 22400-2",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "TC 184/SC 5 ISO 18435-3",
+    "heading": "TC 184/SC 5 ISO 18435-3",
+    "text": "1st Edition\nX\nSAE Int.\nHM-1",
+    "page_number": 8,
+    "source_location": "p. 8, \u00a7TC 184/SC 5 ISO 18435-3",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ARP6290",
+    "heading": "ARP6290",
+    "text": "1st Edition\nX\n3.1. Overview\nCurrently, SAE International is developing SAE ARP6204,\na standard for \u201cCondition Based Maintenance (CBM)\nRecommended Practices,\u201d under the G-11r Reliability\nCommittee. The scope of the document is to outline a path\nfor an organization to implement a CBM approach to\nmaintenance, including practices regarding both CBM\ndesign and field equipment support (SAE International,\n2013). The G-11r Reliability Committee has benchmarked\nthe CBM framework and performance specifications and is\ndeveloping a formal application specification (Zhou, Bo &\nWei, 2013).\nOther SAE International standards are under development in\nthe HM-1 Integrated Vehicle Health Management (IVHM)\nCommittee. Guidance is lacking for the systems engineering\naspects of IVHM design; SAE ARP6407 will help to fill this\ngap by providing technology-independent guidance for the\ndesign of IVHM systems (SAE International, 2014a).\nFurthermore, SAE ARP6883 will provide guidelines for\nwriting IVHM requirements for aerospace systems, and\nSAE ARP6268 will help improve coordination and\ncommunication between manufacturers and suppliers.\nAnother broad standard under development is IEEE P1856 -\n\u201cStandard\nFramework\nfor\nPrognostics\nand\nHealth\nManagement of Electronic Systems\u201d (IEEE Standards\nAssociation, 2013). In 2012, the IEEE Standards Board\napproved the new standard development project to produce\nIEEE P1856, which is sponsored by the Reliability Society\n(IEEE-RS) (IEEE Reliability Society, 2014). The working\ngroup meets regularly to prepare a draft for ballot in\n2014 (IEEE Reliability Society, 2014). Even though this\nstandard is being developed by IEEE, the intent is for it to\nhave broad applicability in mechanical structures, civil\nstructures, nuclear technology, and aeronautics (The Center\nfor Advanced Life Cycle Engineering (CALCE), 2013).\n3.2. Dependability Analysis\nThe first edition of ISO/IEC 15909-3 is under development\nby ISO/IEC JTC 1/SC 7 to aid the use of High-level Petri\nnets (International Organization for Standardization &\nInternational\nElectrotechnical\nCommission,\n2014).\nISO/IEC 15909-3, expected to be the last part of the\nISO/IEC 15909 series, will address the techniques for\nmodularity and extensions of High-level Petri nets for\ndependability analysis of PHM systems.\n3.3. Diagnostics and Prognostics\nISO 13379-2 (\u2018Data-driven applications\u2019) will aid the\ncondition monitoring of industrial machines via diagnostics\nand is currently in the committee draft stage within\nISO/TC 108/SC 5. Also, ISO 13381-1 is now at the\ncommittee draft stage while being updated to advance\nprognostics within PHM systems. Furthermore, within the\nsame subcommittee, a new standard, ISO 18129, is in the\ndraft international stage to address \u2018approaches for\nperformance diagnosis\u2018 (International Organization for\nStandardization, 2014).",
+    "page_number": 8,
+    "source_location": "p. 8, \u00a7ARP6290",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ANNUAL CONFERENCE OF THE PROGNOSTICS AND HEALTH MANAGEMENT SOCIETY 2014",
+    "heading": "ANNUAL CONFERENCE OF THE PROGNOSTICS AND HEALTH MANAGEMENT SOCIETY 2014",
+    "text": "The ISO 22400 series of standards are also being developed\nby ISO/TC 184/SC 5 to guide the creation, computation,\nmeasurement,\nutilization,\nand\nmaturation\nof\nkey\nperformance indicators (KPIs) within the manufacturing\noperations\nmanagement",
+    "page_number": 9,
+    "source_location": "p. 9, \u00a7ANNUAL CONFERENCE OF THE PROGNOSTICS AND",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "(MOM)",
+    "heading": "(MOM)",
+    "text": "domain (International\nOrganization for Standardization, 2013). KPIs are the most\nuseful measures for monitoring and evaluating the\nperformance of a production-oriented enterprise to help\nindustries meet their performance targets in an intelligent\nmanner (International Organization for Standardization,\n2013). Because KPIs are serviced by effective PHM\nsystems, standards related to KPIs could easily influence the\npersonnel are active in the development of the ISO 22400\nstandard series.\n3.4. Data Management\nSAE",
+    "page_number": 9,
+    "source_location": "p. 9, \u00a7(MOM)",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ARP6290,",
+    "heading": "ARP6290,",
+    "text": "under\ndevelopment\nin\nthe\nHM-1\nCommittee, will provide guidance for the creation of\noptimum architectures for IVHM that are in line with the\norganization\u2019s\nbusiness\ngoals\nand\nobjectives.\nSAE\nARP6290 will incorporate suggestions from ISO 13374 into\nspecific guidelines for IVHM architecture development\n(SAE International, 2014b).\nFuture improvements to ATA MSG-3 (Air Transport\nAssociation of America, 2013), used for developing\nmaintenance plans for aircraft, engines, and systems, will\ninvolve an existing data format specification known as\nATA SPEC2000, a comprehensive set of e-Business\nspecifications, products, and services that help to overcome\nthe supply chain challenges in the aircraft industry (Air\nTransport Association of America, 2012). ATA SPEC2000\nhelps aircraft manufacturers with information exchange in\norder to have statistically significant data for optimizing and\ndeveloping maintenance programs.",
+    "page_number": 9,
+    "source_location": "p. 9, \u00a7ARP6290,",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "4. CONCLUSIONS",
+    "heading": "4. CONCLUSIONS",
+    "text": "The National Institute of Standards and Technology\nconducted a survey of PHM-related standards to determine\nthe industries and needs addressed by such standards, the\nextent of these standards, and any similarities as well as\npotential gaps among the documents. This effort revealed\nthat standards exist that are related to all aspects of the\ndevelopment of prognostics and health management\nsystems:\ngeneral\noverview,\ndependability\nanalysis,\nmeasurement techniques, diagnostic analysis, prognostic\nanalysis, data management, performance metrics, and\npersonnel training. Some standards were focused on\nproviding guidance for specific applications, yet still broad\nenough for general application across industries. Other\nstandards were more focused on a specific product or\nprocess within a target industry.\nBased on the lessons learned from the PHM-related\nstandards, recommendations can be\nmade for the\ndevelopment of future PHM standards:\n\uf0b7\nThe \u2018overview\u2019 standards cover numerous domains yet\ncould be updated and harmonized by the respective\norganizations to provide better consolidation among the\nseparate standards, providing for a more generally\napproved PHM process across disciplines.\n\uf0b7\nThe \u2018dependability analysis\u2019 standards could be\nextended by combining the KPI standards under\ndevelopment with a dependability method to provide a\nbridge of guidance between design and business\ndecisions for manufacturing systems and systems of\nsystems.\n\uf0b7\nThe \u2018diagnostics and prognostics\u2019 standards are lacking,\ndue in part to the difficult nature of reliable diagnostics\nand prognostics techniques across various industries.\nHowever, the existing standards are still valuable for\nindustry. Collaborations among PHM experts are\nrecommended for the generation of new standards for\ndiagnostics and prognostics that fill high-priority gaps\nfor\nmanufacturing\nsystems.\nPriorities\nwill\nbe\nestablished at an upcoming industry workshop held at\n\uf0b7\nThe \u2018data management\u2019 standards appear to be\nthorough and consistent among each other, providing\ngeneric structures for PHM data and control flow.\nExtension to a \u2018digital factory\u2019 could be reported in\nfuture editions of these standards.\nmethods\nand\nsupporting\nstandards\nfor\nPHM\nof\nmanufacturing systems and systems of systems.",
+    "page_number": 9,
+    "source_location": "p. 9, \u00a74. CONCLUSIONS",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ACKNOWLEDGEMENT",
+    "heading": "ACKNOWLEDGEMENT",
+    "text": "The\nauthors\nthank\nPatrice\nBoulanger\n(Standards\nattainment of the standards used for this work.",
+    "page_number": 9,
+    "source_location": "p. 9, \u00a7ACKNOWLEDGEMENT",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "REFERENCES",
+    "heading": "REFERENCES",
+    "text": "C. Adams. (2009) Understanding MSG-3. Aviation Today.\nAvailable:\nhttp://www.aviationtoday.com/am/repairstations/Under\nstanding-MSG-3_33062.html\nAir Transport Association of America (2012). SPEC2000:\nhttp://www.spec2000.com/\nAir Transport Association of America (2013). MSG-3:\nOperator/Manufacturer\nScheduled\nMaintenance\nDevelopment, Volume 1 \u2013 Fixed Wing Aircraft\nR. Bostelman, J. Teizer, S. J. Ray, M. Agronin, & D.\nAlbanese (2014). Methods for improving visibility\nmeasurement standards of powered industrial vehicles.\nSafety science, vol. 62, pp. 257-270.",
+    "page_number": 9,
+    "source_location": "p. 9, \u00a7REFERENCES",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ANNUAL CONFERENCE OF THE PROGNOSTICS AND HEALTH MANAGEMENT SOCIETY 2014",
+    "heading": "ANNUAL CONFERENCE OF THE PROGNOSTICS AND HEALTH MANAGEMENT SOCIETY 2014",
+    "text": "K. A. Hunten, A. Barnard Feeney, & V. Srinivasan (2013).\nRecent advances in sharing standardized STEP\ncomposite\nstructure\ndesign\nand\nmanufacturing\ninformation. Computer-Aided Design, vol. 45, pp.\n1215-1221.\nIEEE\nReliability\nSociety\n(2014).\nIEEE\nStandards\nDevelopment:\nhttp://rs.ieee.org/ieee-standards-\ndevelopment.html\nIEEE Standards Association (2013). P1856 - Standard\nFramework for Prognostics and Health Management of\nElectronic\nSystems:\nhttp://standards.ieee.org/develop/project/1856.html\nInternational Electrotechnical Commission (2001). IEC\n61703 - Mathematical expressions for reliability,\navailability, maintainability and maintenance support\nterms\nInternational Electrotechnical Commission (2003). IEC\n60300-3-1 - Dependability management \u2013 Part 3-1:\nApplication\nguide\n\u2013\nAnalysis\ntechniques\nfor\ndependability \u2013 Guide on methodology\nInternational Electrotechnical Commission (2006a). IEC\n60812 - Analysis techniques for system reliability \u2013\nProcedure for failure mode and effects analysis",
+    "page_number": 10,
+    "source_location": "p. 10, \u00a7ANNUAL CONFERENCE OF THE PROGNOSTICS AND",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "(FMEA)",
+    "heading": "(FMEA)",
+    "text": "International Electrotechnical Commission (2006b). IEC\n61025 - Fault tree analysis (FTA)\nInternational Electrotechnical Commission (2006c). IEC\n61165 - Application of Markov techniques\nInternational Organization for Standardization (2003). ISO\n13374-1:2003 - Condition monitoring and diagnostics\nof machines \u2212 Data processing, communication and\npresentation \u2212 Part 1: General guidelines\nInternational Organization for Standardization (2004). ISO\n13381-1:2004 - Condition monitoring and diagnostics\nof machines \u2212 Prognostics \u2212 Part 1: General guidelines\nInternational\nOrganization\nfor\nStandardization\n&\nInternational Electrotechnical Commission (2004).",
+    "page_number": 10,
+    "source_location": "p. 10, \u00a7(FMEA)",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ISO/IEC 15909-1:2004",
+    "heading": "ISO/IEC 15909-1:2004",
+    "text": "- Software and system\nengineering \u2212 High-level Petri nets \u2212 Part 1: Concepts,\ndefinitions and graphical notation\nInternational Organization for Standardization (2007). ISO\n13374-2:2007 - Condition monitoring and diagnostics\nof machines \u2212 Data processing, communication and\npresentation \u2212 Part 2: Data processing\nInternational Organization for Standardization (2009). ISO\n18435-1:2009 - Industrial automation systems and\nintegration \u2212 Diagnostics, capability assessment and\nmaintenance\napplications\nintegration\n\u2212\nPart\n1:\nOverview and general requirements\nInternational Organization for Standardization (2011). ISO\n17359:2011 - Condition monitoring and diagnostics of\nmachines \u2212 General guidelines\nInternational\nOrganization\nfor\nStandardization\n&\nInternational Electrotechnical Commission (2011).",
+    "page_number": 10,
+    "source_location": "p. 10, \u00a7ISO/IEC 15909-1:2004",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ISO/IEC 15909-2:2011",
+    "heading": "ISO/IEC 15909-2:2011",
+    "text": "- Software and system\nengineering \u2212 High-level Petri nets \u2212 Part 2: Transfer\nformat\nInternational Organization for Standardization (2012a). ISO\n18435-2:2012 - Industrial automation systems and\nintegration \u2212 Diagnostics, capability assessment and\nmaintenance\napplications\nintegration\n\u2212\nPart\n2:\nDescriptions and definitions of application domain\nmatrix elements\nInternational Organization for Standardization (2012b). ISO\n13379-1:2012 - Condition monitoring and diagnostics\nof machines \u2212 Data interpretation and diagnostics\ntechniques \u2212 Part 1: General guidelines\nInternational Organization for Standardization (2013).",
+    "page_number": 10,
+    "source_location": "p. 10, \u00a7ISO/IEC 15909-2:2011",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ISO/WD",
+    "heading": "ISO/WD",
+    "text": "22400-1\n-\nManufacturing\noperations\nmanagement \u2212 Key performance indicators \u2212 Part 1:\nOverview, concepts and terminology\nInternational Organization for Standardization (2014).\nISO/DIS 18129 - Condition monitoring and diagnostics\nof machines \u2212 Approaches for performance diagnosis\nInternational\nOrganization\nfor\nStandardization\n&\nInternational Electrotechnical Commission (2014).\nISO/IEC CD 15909-3 - Software and system\nengineering \u2212 High-level Petri nets \u2212 Part 3: Petri Net\nExtensions\nK. B. Lee, E. Y. Song, & P. S. Gu (2012). Integration of\nMTConnect and Standard-Based Sensor Networks for\nManufacturing Equipment Monitoring. ASME 2012\nInternational Manufacturing Science and Engineering\nConference, pp. 841-848\nH. Ludwig & E. Spiegel. (2014, January 20, 2014)\nAmerica's\nReal\nManufacturing\nAdvantage.\nStrategy+Business. 11.\nJ. Marvel & R. Bostelman (2013). Towards mobile\nmanipulator safety standards. Robotic and Sensors\nEnvironments (ROSE), 2013 IEEE International\nSymposium on, pp. 31-36\nS. Mathew (2012). PHM Standards - IEEE PHM Standard:\nhttps://www.phmsociety.org/sites/phmsociety.org/files/\nPHM%20Society%20Standards%20Research%20Panel\n_IEEE%20PHM.pdf\nMIMOSA (2006). MIMOSA's Open System Architecture for\nEnterprise\nApplication\nIntegration",
+    "page_number": 10,
+    "source_location": "p. 10, \u00a7ISO/WD",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "(OSA-EAI)",
+    "heading": "(OSA-EAI)",
+    "text": "Technical\nArchitecture\nSummary\nhttp://www.mimosa.org/sites/default/files/TechDocs/O\nSA-\nEAI_Technical_Architecture_Summary_Dec_2006.pdf\nMIMOSA (2013). MIMOSA's Open System Architecture for\nEnterprise\nApplication\nIntegration",
+    "page_number": 10,
+    "source_location": "p. 10, \u00a7(OSA-EAI)",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "(OSA-EAI):",
+    "heading": "(OSA-EAI):",
+    "text": "http://www.mimosa.org/?q=node/300\nNational Institute of Standards and Technology (2014).\nPrognostics and Health Management for Smart\nManufacturing\nSystems:\nhttp://www.nist.gov/el/isd/ks/phm4sms.cfm\nSAE International (1996). ARP4761 - Guidelines and\nMethods for Conducting the Safety Assessment Process\non Civil Airborne Systems and Equipment",
+    "page_number": 10,
+    "source_location": "p. 10, \u00a7(OSA-EAI):",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ANNUAL CONFERENCE OF THE PROGNOSTICS AND HEALTH MANAGEMENT SOCIETY 2014",
+    "heading": "ANNUAL CONFERENCE OF THE PROGNOSTICS AND HEALTH MANAGEMENT SOCIETY 2014",
+    "text": "SAE International (2001). ARP5580 - Recommended\nFailure Modes and Effects Analysis (FMEA) Practices\nfor Non-Automobile Applications\nSAE International (2008). AIR5871 - Prognostics for Gas\nTurbine Engines\nSAE International (2009). J1739 - Potential Failure Mode\nand Effects Analysis in Design (Design FMEA),\nPotential Failure Mode and Effects Analysis in\nManufacturing and Assembly Processes (Process",
+    "page_number": 11,
+    "source_location": "p. 11, \u00a7ANNUAL CONFERENCE OF THE PROGNOSTICS AND",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "FMEA)",
+    "heading": "FMEA)",
+    "text": "SAE International (2013). ARP6204 - Condition Based\nMaintenance",
+    "page_number": 11,
+    "source_location": "p. 11, \u00a7FMEA)",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "(CBM)",
+    "heading": "(CBM)",
+    "text": "Recommended\nPractices:\nhttp://standards.sae.org/wip/arp6204/\nSAE International (2014a). Integrated Vehicle Health\nManagement\nDesign\nGuidelines:\nhttp://standards.sae.org/wip/arp6407/\nSAE International (2014b). ARP6290 - Guidelines for the\nDevelopment of Architectures for Integrated Vehicle\nHealth\nManagement\nSystems:\nhttp://standards.sae.org/wip/arp6290/\nThe Center for Advanced Life Cycle Engineering (CALCE)\n(2013).",
+    "page_number": 11,
+    "source_location": "p. 11, \u00a7(CBM)",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "CALCE",
+    "heading": "CALCE",
+    "text": "PHM\nNews\n-\nAugust\n2013:\nhttp://www.prognostics.umd.edu/WhatsNew/2013/calce\n-phm-aug2013.html\nJ. K. Truss (1998). Discrete Mathematics for Computer\nScientists, 2nd ed.: Addison-Wesley\nUnited\nStates\nArmy\n(2013).",
+    "page_number": 11,
+    "source_location": "p. 11, \u00a7CALCE",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ADS-79D-HDBK",
+    "heading": "ADS-79D-HDBK",
+    "text": "-\nAeronautical Design Standard Handbook for Condition\nBased Maintenance Systems for US Army Aircraft\nUnited States Department of Defense (1980). MIL-STD-\n1629A - Procedures for performing a failure mode,\neffects and criticality analysis\nG. W. Vogl, B. A. Weiss, & M. A. Donmez (2014).\nStandards\nRelated\nto\nPrognostics\nand\nHealth\nManagement (PHM) for Manufacturing. National\nY. Zhou, J. Bo, & T. Wei (2013). A review of current\nprognostics and health management system related\nstandards. Chemical Engineering Transactions, vol. 33,\npp. 277-282. doi: 10.3303/CET1333047",
+    "page_number": 11,
+    "source_location": "p. 11, \u00a7ADS-79D-HDBK",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "BIOGRAPHIES",
+    "heading": "BIOGRAPHIES",
+    "text": "Dr. Gregory W. Vogl is a Mechanical\nEngineer at the National Institute of\nGaithersburg, Maryland. He received his\nB.S. (2000), M.S. (2003), and Ph.D. (2006)\ndegrees in Engineering Mechanics from\nVirginia Tech, Virginia, USA. Currently,\nGreg is a member of the Prognostics and Health\nManagement\nfor\nSmart\nManufacturing\nSystems",
+    "page_number": 11,
+    "source_location": "p. 11, \u00a7BIOGRAPHIES",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "(PHM4SMS)",
+    "heading": "(PHM4SMS)",
+    "text": "project,\nwhich\nseeks\nto\ndevelop\na\nmethodology, protocols, and reference datasets to enable\nrobust real-time diagnostics and prognostics for smart\nmanufacturing systems. Previously, he designed, fabricated,\nand experimented on microelectromechanical systems as a\nNational Research Council Postdoctoral Researcher at\nwhich he worked on machine tool metrology and standards\ndevelopment. His interests include machine tool spindle\nhealth, diagnostic and prognostic methods, nonlinear\ndynamics, engineering mechanics, and metrology.\nDr. Brian A. Weiss has a B.S. in\nMechanical\nEngineering\n(2000),\nProfessional Masters in Engineering (2003),\nand Ph.D. in Mechanical Engineering\n(2012) from the University of Maryland,\nCollege Park, Maryland, USA. He is\ncurrently the Associate Program Manager of\nthe Smart Manufacturing Operations Planning and Control\nprogram and the Project Leader of the Prognostics and\nHealth Management for Smart Manufacturing Systems\nproject within the Engineering Laboratory (EL) at the\nPrior to his leadership roles in the SMOPAC program and\nthe PHM4SMS project, he spent 15 years conducting\nperformance assessments across numerous military and first\nresponse technologies including autonomous unmanned\nground vehicles; tactical applications operating on Android\ndevices; advanced soldier sensor technologies; free-form,\ntwo-way, speech-to-speech translation devices for tactical\nuse; urban search and rescue robots; and bomb disposal\nrobots. His efforts have earned him numerous awards\nincluding a Department of Commerce Gold Medal (2013),\nSilver Medal (2011), Bronze Medals (2004 & 2008), and\nthe Jacob Rabinow Applied Research Award (2006).\nDr. Alkan Donmez is currently the Group\nLeader of the Production Systems Group as\nwell as the Program Manager for the\nMeasurement\nScience\nfor\nAdditive\nManufacturing\nprogram\nin\nthe\nEngineering Laboratory.  He has been with\nsupervising research in advanced manufacturing sciences,\nincluding\nmachine\ntool\nperformance\nmodeling\nand\nmetrology, machining process metrology, as well as the\nrecent efforts in metal-based additive manufacturing (AM).\nHe has actively participated in national and international\nstandard committees, developing machine tool performance\ntesting standards, for more than 20 years.  He has published\nmore than 70 technical papers and reports in the area of\nmachine tool metrology and manufacturing sciences.  He\nhas received various awards for his technical contributions,\nDepartment of Commerce Silver and Bronze Medals.",
+    "page_number": 11,
+    "source_location": "p. 11, \u00a7(PHM4SMS)",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "APPENDIX",
+    "heading": "APPENDIX",
+    "text": "Table 3.  Standards related to PHM for manufacturing.\nOrganization\nCommittee/\nSubcommittee Standard\nYear\nIssued Title\nOverview\nCost and Dependability analyses\nMeasurement techniques\nDiagnostics and Prognostics\nData management\nTraining\nApplications\nATA\nMSG",
+    "page_number": 12,
+    "source_location": "p. 12, \u00a7APPENDIX",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "MSG-3:",
+    "heading": "MSG-3:",
+    "text": "Operator/Manufacturer\nScheduled\nMaintenance\nDevelopment, Volume 1 \u2013 Fixed Wing Aircraft\nX\nX\nIEC",
+    "page_number": 12,
+    "source_location": "p. 12, \u00a7MSG-3:",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "IEC 61703",
+    "heading": "IEC 61703",
+    "text": "Mathematical\nexpressions\nfor\nreliability,\navailability,\nmaintainability and maintenance support terms\nX\nISO",
+    "page_number": 12,
+    "source_location": "p. 12, \u00a7IEC 61703",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ISO 13372",
+    "heading": "ISO 13372",
+    "text": "Condition monitoring\nand diagnostics\nof\nmachines\n\u2013\nVocabulary\nX\nISO",
+    "page_number": 12,
+    "source_location": "p. 12, \u00a7ISO 13372",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ISO 17359",
+    "heading": "ISO 17359",
+    "text": "Condition monitoring and diagnostics of machines \u2212 General\nguidelines\nX\nX\nSAE\nE-32",
+    "page_number": 12,
+    "source_location": "p. 12, \u00a7ISO 17359",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ARP1587B",
+    "heading": "ARP1587B",
+    "text": "Aircraft Gas Turbine Engine Health Management System Guide\nX\nX\nUS Army\nAviation\nEngineering",
+    "page_number": 12,
+    "source_location": "p. 12, \u00a7ARP1587B",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ADS-79D-HDBK 2013",
+    "heading": "ADS-79D-HDBK 2013",
+    "text": "Aeronautical Design Standard Handbook for Condition Based\nMaintenance Systems for US Army Aircraft\nX\nX X\nX\nIEC",
+    "page_number": 12,
+    "source_location": "p. 12, \u00a7ADS-79D-HDBK 2013",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "IEC 60300-3-1",
+    "heading": "IEC 60300-3-1",
+    "text": "Dependability management \u2013 Part 3-1: Application guide \u2013\nAnalysis techniques for dependability \u2013 Guide on methodology\nX\nIEC",
+    "page_number": 12,
+    "source_location": "p. 12, \u00a7IEC 60300-3-1",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "IEC 60300-3-3",
+    "heading": "IEC 60300-3-3",
+    "text": "Dependability management \u2013 Part 3-3: Application guide \u2013 Life\ncycle costing\nX\nIEC",
+    "page_number": 12,
+    "source_location": "p. 12, \u00a7IEC 60300-3-3",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "IEC 60812",
+    "heading": "IEC 60812",
+    "text": "Analysis techniques for system reliability \u2013 Procedure for\nfailure mode and effects analysis (FMEA)\nX\nIEC",
+    "page_number": 12,
+    "source_location": "p. 12, \u00a7IEC 60812",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "IEC 61025",
+    "heading": "IEC 61025",
+    "text": "Fault tree analysis (FTA)\nX\nIEC",
+    "page_number": 12,
+    "source_location": "p. 12, \u00a7IEC 61025",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "IEC 61165",
+    "heading": "IEC 61165",
+    "text": "Application of Markov techniques\nX\nSAE",
+    "page_number": 12,
+    "source_location": "p. 12, \u00a7IEC 61165",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "J1739",
+    "heading": "J1739",
+    "text": "Potential Failure Mode and Effects Analysis in Design (Design\nFMEA), Potential Failure Mode and Effects Analysis in\nManufacturing and Assembly Processes (Process FMEA)\nX\nSAE\nHM-1",
+    "page_number": 12,
+    "source_location": "p. 12, \u00a7J1739",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ARP6275",
+    "heading": "ARP6275",
+    "text": "Determination of Cost Benefits from Implementing an\nIntegrated Vehicle Health Management System\nX\nSAE\nG-11r",
+    "page_number": 12,
+    "source_location": "p. 12, \u00a7ARP6275",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ARP5580",
+    "heading": "ARP5580",
+    "text": "Recommended Failure Modes and Effects Analysis (FMEA)\nPractices for Non-Automobile Applications\nX\nSAE\nS-18",
+    "page_number": 12,
+    "source_location": "p. 12, \u00a7ARP5580",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ARP4761",
+    "heading": "ARP4761",
+    "text": "Guidelines and Methods for Conducting the Safety Assessment\nProcess on Civil Airborne Systems and Equipment\nX\nX",
+    "page_number": 12,
+    "source_location": "p. 12, \u00a7ARP4761",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ISO/IEC 15909-1 2004",
+    "heading": "ISO/IEC 15909-1 2004",
+    "text": "Software and system engineering \u2212 High-level Petri nets \u2212 Part\n1: Concepts, definitions and graphical notation\nX",
+    "page_number": 12,
+    "source_location": "p. 12, \u00a7ISO/IEC 15909-1 2004",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ISO/IEC 15909-2 2011",
+    "heading": "ISO/IEC 15909-2 2011",
+    "text": "Software and system engineering \u2212 High-level Petri nets \u2212 Part\n2: Transfer format\nX\nISO",
+    "page_number": 12,
+    "source_location": "p. 12, \u00a7ISO/IEC 15909-2 2011",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ISO 13373-1",
+    "heading": "ISO 13373-1",
+    "text": "Condition monitoring and diagnostics of machines \u2212 Vibration\ncondition monitoring \u2212 Part 1: General procedures\nX\nISO",
+    "page_number": 12,
+    "source_location": "p. 12, \u00a7ISO 13373-1",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ISO 13373-2",
+    "heading": "ISO 13373-2",
+    "text": "Condition monitoring and diagnostics of machines \u2212 Vibration\ncondition monitoring \u2212 Part 2: Processing, analysis and\npresentation of vibration data\nX\nISO",
+    "page_number": 12,
+    "source_location": "p. 12, \u00a7ISO 13373-2",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ISO 18434-1",
+    "heading": "ISO 18434-1",
+    "text": "Condition monitoring\nand diagnostics\nof\nmachines\n\u2013\nThermography \u2013 Part 1: General procedures\nX\nISO",
+    "page_number": 12,
+    "source_location": "p. 12, \u00a7ISO 18434-1",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "TC 108/SC 5",
+    "heading": "TC 108/SC 5",
+    "text": "Condition monitoring and diagnostics of machine systems \u2013\nElectrical signature analysis of three-phase induction motors\nX\nISO",
+    "page_number": 12,
+    "source_location": "p. 12, \u00a7TC 108/SC 5",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ISO 22096",
+    "heading": "ISO 22096",
+    "text": "Condition monitoring and diagnostics of machines \u2013 Acoustic\nemission\nX\nISO",
+    "page_number": 12,
+    "source_location": "p. 12, \u00a7ISO 22096",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ISO 29821-1",
+    "heading": "ISO 29821-1",
+    "text": "Condition monitoring and diagnostics of machines \u2013 Ultrasound\n\u2013 Part 1: General guidelines\nX\nISO",
+    "page_number": 12,
+    "source_location": "p. 12, \u00a7ISO 29821-1",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ISO 13379-1",
+    "heading": "ISO 13379-1",
+    "text": "Condition monitoring and diagnostics of machines \u2212 Data\ninterpretation and diagnostics techniques \u2212 Part 1: General\nguidelines\nX\nISO",
+    "page_number": 12,
+    "source_location": "p. 12, \u00a7ISO 13379-1",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ISO 13381-1",
+    "heading": "ISO 13381-1",
+    "text": "Condition monitoring and diagnostics of machines \u2212\nPrognostics \u2212 Part 1: General guidelines\nX",
+    "page_number": 12,
+    "source_location": "p. 12, \u00a7ISO 13381-1",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ANNUAL CONFERENCE OF THE PROGNOSTICS AND HEALTH MANAGEMENT SOCIETY 2014",
+    "heading": "ANNUAL CONFERENCE OF THE PROGNOSTICS AND HEALTH MANAGEMENT SOCIETY 2014",
+    "text": "SAE\nE-32",
+    "page_number": 13,
+    "source_location": "p. 13, \u00a7ANNUAL CONFERENCE OF THE PROGNOSTICS AND",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "AIR5871",
+    "heading": "AIR5871",
+    "text": "Prognostics for Gas Turbine Engines\nX\nX\nISO",
+    "page_number": 13,
+    "source_location": "p. 13, \u00a7AIR5871",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ISO 15531-1",
+    "heading": "ISO 15531-1",
+    "text": "Industrial automation systems and integration \u2013 Industrial\nmanufacturing management data \u2013 Part 1: General overview\nX\nISO",
+    "page_number": 13,
+    "source_location": "p. 13, \u00a7ISO 15531-1",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ISO 15531-42",
+    "heading": "ISO 15531-42",
+    "text": "Industrial automation systems and integration \u2013 Industrial\nmanufacturing management data \u2013 Part 42: Time Model\nX\nISO",
+    "page_number": 13,
+    "source_location": "p. 13, \u00a7ISO 15531-42",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ISO 15531-43",
+    "heading": "ISO 15531-43",
+    "text": "Industrial automation systems and integration \u2013 Industrial\nmanufacturing management data \u2013 Part 43: Manufacturing flow\nmanagement data: Data model for flow monitoring and\nmanufacturing data exchange\nX\nISO",
+    "page_number": 13,
+    "source_location": "p. 13, \u00a7ISO 15531-43",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ISO 15531-44",
+    "heading": "ISO 15531-44",
+    "text": "Industrial automation systems and integration \u2013 Industrial\nmanufacturing management data \u2013 Part 44: Information\nmodelling for shop floor data acquisition\nX\nISO",
+    "page_number": 13,
+    "source_location": "p. 13, \u00a7ISO 15531-44",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ISO 15926-1",
+    "heading": "ISO 15926-1",
+    "text": "Industrial automation systems and integration \u2212 Integration of\nlife-cycle data for process plants including oil and gas\nproduction facilities \u2212 Part 1: Overview and fundamental\nprinciples\nX\nISO",
+    "page_number": 13,
+    "source_location": "p. 13, \u00a7ISO 15926-1",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ISO 15926-2",
+    "heading": "ISO 15926-2",
+    "text": "Industrial automation systems and integration \u2212 Integration of\nlife-cycle data for process plants including oil and gas\nproduction facilities \u2212 Part 2: Data model\nX\nISO",
+    "page_number": 13,
+    "source_location": "p. 13, \u00a7ISO 15926-2",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ISO 13374-1",
+    "heading": "ISO 13374-1",
+    "text": "Condition monitoring and diagnostics of machines \u2212 Data\nprocessing, communication and presentation \u2212 Part 1: General\nguidelines\nX\nISO",
+    "page_number": 13,
+    "source_location": "p. 13, \u00a7ISO 13374-1",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ISO 13374-2",
+    "heading": "ISO 13374-2",
+    "text": "Condition monitoring and diagnostics of machines \u2212 Data\nprocessing, communication and presentation \u2212 Part 2: Data\nprocessing\nX\nISO",
+    "page_number": 13,
+    "source_location": "p. 13, \u00a7ISO 13374-2",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ISO 13374-3",
+    "heading": "ISO 13374-3",
+    "text": "Condition monitoring and diagnostics of machines \u2212 Data\nprocessing, communication and presentation \u2212 Part 3:\nCommunication\nX\nISO",
+    "page_number": 13,
+    "source_location": "p. 13, \u00a7ISO 13374-3",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ISO 18435-1",
+    "heading": "ISO 18435-1",
+    "text": "Industrial automation systems and integration \u2013 Diagnostics,\ncapability assessment and maintenance applications integration\n\u2013 Part 1: Overview and general requirements\nX\nISO",
+    "page_number": 13,
+    "source_location": "p. 13, \u00a7ISO 18435-1",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ISO 18435-2",
+    "heading": "ISO 18435-2",
+    "text": "Industrial automation systems and integration \u2212 Diagnostics,\ncapability assessment and maintenance applications integration\n\u2212 Part 2: Descriptions and definitions of application domain\nmatrix elements\nX\nISO",
+    "page_number": 13,
+    "source_location": "p. 13, \u00a7ISO 18435-2",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ISO 18436-1",
+    "heading": "ISO 18436-1",
+    "text": "Condition monitoring\nand diagnostics\nof\nmachines\n\u2013\nRequirements for qualification and assessment of personnel \u2013\nPart 1: Requirements for assessment bodies and the assessment\nprocess\nX\nISO",
+    "page_number": 13,
+    "source_location": "p. 13, \u00a7ISO 18436-1",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ISO 18436-2",
+    "heading": "ISO 18436-2",
+    "text": "Condition monitoring\nand diagnostics\nof\nmachines\n\u2013\nRequirements for training and certification of personnel \u2013 Part\n2: Vibration condition monitoring and diagnostics\nX\nISO",
+    "page_number": 13,
+    "source_location": "p. 13, \u00a7ISO 18436-2",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ISO 18436-3",
+    "heading": "ISO 18436-3",
+    "text": "Condition monitoring\nand diagnostics\nof\nmachines\n\u2013\nRequirements for qualification and assessment of personnel \u2013\nPart 3: Requirements for training bodies and the training process\nX\nISO",
+    "page_number": 13,
+    "source_location": "p. 13, \u00a7ISO 18436-3",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ISO 18436-4",
+    "heading": "ISO 18436-4",
+    "text": "Condition monitoring\nand diagnostics\nof\nmachines\n\u2013\nRequirements for qualification and assessment of personnel \u2013\nPart 4: Field lubricant analysis\nX\nISO",
+    "page_number": 13,
+    "source_location": "p. 13, \u00a7ISO 18436-4",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ISO 18436-5",
+    "heading": "ISO 18436-5",
+    "text": "Condition monitoring\nand diagnostics\nof\nmachines\n\u2013\nRequirements for qualification and assessment of personnel \u2013\nPart 5: Lubricant laboratory technician/analyst\nX\nISO",
+    "page_number": 13,
+    "source_location": "p. 13, \u00a7ISO 18436-5",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ISO 18436-6",
+    "heading": "ISO 18436-6",
+    "text": "Condition monitoring\nand diagnostics\nof\nmachines\n\u2013\nRequirements for qualification and assessment of personnel \u2013\nPart 6: Acoustic emission\nX\nISO",
+    "page_number": 13,
+    "source_location": "p. 13, \u00a7ISO 18436-6",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ISO 18436-7",
+    "heading": "ISO 18436-7",
+    "text": "Condition monitoring\nand diagnostics\nof\nmachines\n\u2013\nRequirements for qualification and assessment of personnel \u2013\nPart 7: Thermography\nX\nISO",
+    "page_number": 13,
+    "source_location": "p. 13, \u00a7ISO 18436-7",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ISO 18436-8",
+    "heading": "ISO 18436-8",
+    "text": "Condition monitoring\nand diagnostics\nof\nmachines\n\u2013\nRequirements for qualification and assessment of personnel \u2013\nPart 8: Ultrasound\nX\nSAE\nS-18",
+    "page_number": 13,
+    "source_location": "p. 13, \u00a7ISO 18436-8",
+    "content_type": "text"
+  },
+  {
+    "document_id": "DOC-IND-PAPER-001-V1",
+    "section": "ARP4754A",
+    "heading": "ARP4754A",
+    "text": "Guidelines for Development of Civil Aircraft and Systems\nX",
+    "page_number": 13,
+    "source_location": "p. 13, \u00a7ARP4754A",
+    "content_type": "text"
+  }
+]

@@ -318,3 +318,353 @@ def profile_from_path(file_path: str) -> dict:
     result["file_path"] = abs_path
     result["error"] = None
     return result
+
+
+# ── Exhaustive Interactive HTML Report Generator (fg-data-profiling) ──────────
+
+import sys
+
+def generate_exhaustive_html_report(file_path: str, output_html_path: str, title: str = "AIConnex Data Profiling Report") -> dict:
+    """
+    Generate an exhaustive interactive HTML EDA report using fg-data-profiling.
+    Saves the output HTML to output_html_path and returns a status dict.
+    """
+    abs_input = os.path.abspath(file_path)
+    abs_output = os.path.abspath(output_html_path)
+
+    if not os.path.exists(abs_input):
+        return {"success": False, "error": f"Input file not found: {abs_input}"}
+
+    os.makedirs(os.path.dirname(abs_output), exist_ok=True)
+
+    # Ensure vendor path is registered in sys.path
+    vendor_src = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "vendor", "fg-data-profiling", "src"))
+    if vendor_src not in sys.path:
+        sys.path.insert(0, vendor_src)
+
+    try:
+        ext = os.path.splitext(abs_input)[1].lower()
+        if ext == ".parquet":
+            df = pd.read_parquet(abs_input)
+        else:
+            df = pd.read_csv(abs_input, low_memory=False)
+
+        # Cap at 10,000 rows for sub-5 second compilation and lightweight <2MB report size
+        if len(df) > 10000:
+            df = df.head(10000)
+
+        # Fast lightweight configuration with AI-Connex Coral Orange plotting palette
+        report_kwargs = {
+            "title": title,
+            "minimal": False,
+            "explorative": False,
+            "interactions": {"continuous": False},
+            "correlations": {
+                "pearson": {"calculate": True},
+                "spearman": {"calculate": True},
+                "kendall": {"calculate": False},
+                "phi_k": {"calculate": False},
+                "cramers": {"calculate": False},
+            },
+            "missing_diagrams": {
+                "bar": True,
+                "matrix": True,
+                "heatmap": True,
+            },
+            "samples": {"head": 5, "tail": 5},
+            "html": {
+                "style": {
+                    "theme": None,
+                    "primary_colors": ["#FF6B35", "#E85520", "#FF8F5A"],
+                }
+            },
+            "plot": {
+                "cat_frequency": {
+                    "colors": ["#FF6B35", "#FF8F5A", "#FFAA80", "#FFC4A6", "#FFE0D0"]
+                }
+            }
+        }
+
+        try:
+            from data_profiling import ProfileReport
+            profile = ProfileReport(df, **report_kwargs)
+            profile.to_file(abs_output)
+            _apply_aiconnex_theme_to_html(abs_output)
+            return {"success": True, "output_path": abs_output, "rows_analyzed": len(df)}
+        except Exception as report_err:
+            from ydata_profiling import ProfileReport
+            profile = ProfileReport(df, **report_kwargs)
+            profile.to_file(abs_output)
+            _apply_aiconnex_theme_to_html(abs_output)
+            return {"success": True, "output_path": abs_output, "rows_analyzed": len(df)}
+
+    except Exception as exc:
+        traceback.print_exc()
+        return {"success": False, "error": str(exc)}
+
+
+def _apply_aiconnex_theme_to_html(html_path: str, theme: str = "light"):
+    """Inject AIConnex dual Light & Dark theme typography, font sizes, and card styling into generated HTML."""
+    if not os.path.exists(html_path):
+        return
+
+    try:
+        with open(html_path, "r", encoding="utf-8") as f:
+            content = f.read()
+
+        style_block = """
+<style id="aiconnex-light-theme-master">
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap');
+
+  :root {
+    --bs-body-font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    --bs-body-bg: #F4F5F7 !important;
+    --bs-body-color: #0F172A !important;
+    --bs-border-color: #E2E8F0 !important;
+    --bs-primary: #FF6B35 !important;
+    --bs-primary-rgb: 255, 107, 53 !important;
+  }
+
+  body, html {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    background-color: #F4F5F7 !important;
+    color: #0F172A !important;
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .container, .container-fluid {
+    background-color: transparent !important;
+    max-width: 100% !important;
+    padding: 16px 20px !important;
+  }
+
+  /* Cards & Section Containers */
+  .card, .section-items > .row, .tab-content, .variable, .overview, .correlations, .missing, .sample {
+    background-color: #FFFFFF !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 16px !important;
+    color: #0F172A !important;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px 0 rgba(0, 0, 0, 0.02) !important;
+    margin-bottom: 20px !important;
+    padding: 18px 22px !important;
+    transition: all 0.2s ease !important;
+  }
+
+  /* Headings & Titles */
+  h1, .h1, .page-header h1, a.anchor-link, .variable-header a {
+    font-size: 1.35rem !important;
+    font-weight: 800 !important;
+    color: #0F172A !important;
+    letter-spacing: -0.02em !important;
+    margin-bottom: 0.75rem !important;
+    text-decoration: none !important;
+  }
+
+  h2, .h2 {
+    font-size: 1.15rem !important;
+    font-weight: 700 !important;
+    color: #0F172A !important;
+    letter-spacing: -0.01em !important;
+    margin-top: 1rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  h3, .h3, .variable-header {
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    color: #0F172A !important;
+  }
+
+  h4, h5, h6 {
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
+    color: #475569 !important;
+  }
+
+  /* Navigation & Tabs (Overview, Variables, Correlations, Missing, Sample, Histogram, etc.) */
+  nav.navbar, nav.nav-pills, .nav-tabs, .nav-pills, ul.nav, .tab-nav {
+    background-color: #FFFFFF !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 14px !important;
+    padding: 6px !important;
+    gap: 4px !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03) !important;
+  }
+
+  .nav-link, .nav-pills .nav-link, .nav-tabs .nav-link {
+    color: #64748B !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    border-radius: 10px !important;
+    padding: 7px 16px !important;
+    border: none !important;
+    background-color: transparent !important;
+    transition: all 0.2s ease !important;
+    cursor: pointer !important;
+  }
+
+  .nav-link:hover {
+    color: #0F172A !important;
+    background-color: #F1F5F9 !important;
+  }
+
+  .nav-link.active, .nav-pills .nav-link.active, .nav-tabs .nav-link.active, .tab-nav .nav-link.active {
+    background-color: #FF6B35 !important;
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+    box-shadow: 0 2px 8px rgba(255, 107, 53, 0.28) !important;
+  }
+
+  /* More Details & Action Buttons */
+  button.btn, .btn, .btn-primary, .btn-outline-primary, .btn-secondary, .btn-light, a.btn, button[data-bs-toggle="collapse"] {
+    background-color: #FFFFFF !important;
+    color: #475569 !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 10px !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    padding: 6px 12px !important;
+    transition: all 0.2s ease !important;
+    cursor: pointer !important;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02) !important;
+  }
+
+  button.btn:hover, .btn:hover, .btn-light:hover, a.btn:hover, button[data-bs-toggle="collapse"]:hover {
+    background-color: #FFF7ED !important;
+    color: #EA580C !important;
+    border-color: #FFD8A8 !important;
+  }
+
+  .btn-primary, button.btn-primary {
+    background-color: #FF6B35 !important;
+    color: #FFFFFF !important;
+    border: 1px solid #FF6B35 !important;
+    box-shadow: 0 2px 6px rgba(255, 107, 53, 0.25) !important;
+  }
+
+  /* Progress Bars */
+  .progress {
+    background-color: #F1F5F9 !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 9999px !important;
+    height: 18px !important;
+    overflow: hidden !important;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.03) !important;
+  }
+
+  .progress-bar, .bar, .progress > div, [role="progressbar"] {
+    background: linear-gradient(135deg, #FF8F5A 0%, #FF6B35 100%) !important;
+    color: #FFFFFF !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    line-height: 18px !important;
+    border-radius: 9999px !important;
+    box-shadow: 0 1px 3px rgba(255, 107, 53, 0.3) !important;
+  }
+
+  /* Stat Tables */
+  table, .table {
+    color: #0F172A !important;
+    font-size: 12px !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    width: 100% !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    margin-bottom: 12px !important;
+  }
+
+  table th, .table th {
+    background-color: #F8FAFC !important;
+    color: #475569 !important;
+    font-weight: 700 !important;
+    font-size: 11px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    border-bottom: 1px solid #E2E8F0 !important;
+    border-top: none !important;
+    padding: 10px 14px !important;
+  }
+
+  table td, .table td {
+    background-color: #FFFFFF !important;
+    border-top: 1px solid #F1F5F9 !important;
+    border-bottom: none !important;
+    color: #0F172A !important;
+    padding: 9px 14px !important;
+    font-size: 12px !important;
+  }
+
+  table.table-striped > tbody > tr:nth-of-type(odd) > * {
+    background-color: #FAFAFA !important;
+    color: #0F172A !important;
+  }
+
+  .table-hover tbody tr:hover td {
+    background-color: #FFF7ED !important;
+  }
+
+  /* Badges */
+  .badge {
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    border-radius: 8px !important;
+    padding: 4px 8px !important;
+    letter-spacing: 0.02em !important;
+  }
+
+  .badge-warning, .bg-warning, .badge-danger, .bg-danger, [class*="badge"][class*="correlation"], [class*="badge"][class*="alert"] {
+    background-color: #FFF7ED !important;
+    color: #C2410C !important;
+    border: 1px solid #FFEDD5 !important;
+  }
+
+  .badge-primary, .bg-primary, [class*="badge"][class*="categorical"] {
+    background-color: #F5F3FF !important;
+    color: #6D28D9 !important;
+    border: 1px solid #EDE9FE !important;
+  }
+
+  .badge-success, .bg-success, [class*="badge"][class*="numeric"] {
+    background-color: #ECFDF5 !important;
+    color: #047857 !important;
+    border: 1px solid #D1FAE5 !important;
+  }
+
+  .badge-secondary, .bg-secondary {
+    background-color: #F1F5F9 !important;
+    color: #475569 !important;
+    border: 1px solid #E2E8F0 !important;
+  }
+
+  /* SVG Graphics & Histograms */
+  svg rect[fill="#1f77b4"], svg rect[fill="rgb(31, 119, 180)"], svg rect[fill="#0d6efd"], svg rect[fill="rgb(13, 110, 253)"], svg rect[fill="#2563eb"], svg path.bar {
+    fill: #FF6B35 !important;
+  }
+
+  svg text {
+    fill: #475569 !important;
+    font-family: 'Inter', sans-serif !important;
+  }
+</style>
+"""
+
+        if "aiconnex-light-theme-master" in content:
+            import re
+            content = re.sub(r'<style id="aiconnex-light-theme-master">.*?</style>', style_block, content, flags=re.DOTALL)
+        elif "</head>" in content:
+            content = content.replace("</head>", f"{style_block}\n</head>")
+        else:
+            content = f"{style_block}\n{content}"
+
+        with open(html_path, "w", encoding="utf-8") as f:
+            f.write(content)
+    except Exception as e:
+        print(f"Theme injection error: {e}")
+

@@ -1,0 +1,28 @@
+# Platform Capability Registry (System Truth)
+capabilities:
+  file_ingestion:
+    supported:
+      - csv
+      - xlsx
+      - parquet
+      - mat
+      - tdms
+      - zip
+  dataset_exploration:
+    enabled: true
+  multi_dag_execution:
+    enabled: true
+    supported_dags:
+      - DAG_414
+      - DAG_949
+  model_export:
+    formats:
+      - onnx
+      - joblib
+      - pkl
+  enabled_agents:
+    - PreUploadAgent
+    - ScoutAgent
+    - WorkflowPlanner
+    - PlatformAgent
+    - MemoryAgent

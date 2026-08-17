@@ -1,0 +1,13 @@
+{
+  "document_id": "DOC-IND-NIST-003-V1",
+  "source_id": "SRC-IND-NIST-003",
+  "title": "NIST PHM Capabilities Review for Smart Manufacturing Systems",
+  "version": "2017",
+  "document_type": "pdf",
+  "content_hash": "1811e732afcd7ce5afffba855e1a33a981b395f969e12309666985416a5f7e22",
+  "page_count": 33,
+  "total_sections": 5,
+  "total_words": 12832,
+  "storage_uri": "s3://aiconnex-platform-kb-prod/industrial/NIST_PHM_Capabilities_Review.pdf",
+  "created_at": "2026-08-14T08:41:26.513825+00:00"
+}

@@ -1,0 +1,13 @@
+{
+  "document_id": "DOC-IND-NASA-003-V1",
+  "source_id": "SRC-IND-NASA-003",
+  "title": "NASA Technical Report 20100024368 C-MAPSS Turbofan Degradation Simulation",
+  "version": "2010",
+  "document_type": "pdf",
+  "content_hash": "fe262bf67f474b304c2432553e48b6e136d5b4668cb9d413b2c948fa2c605ac6",
+  "page_count": 24,
+  "total_sections": 39,
+  "total_words": 9186,
+  "storage_uri": "s3://aiconnex-platform-kb-prod/industrial/NASA_TR_20100024368_Propulsion_CMAPSS.pdf",
+  "created_at": "2026-08-14T08:41:27.300982+00:00"
+}

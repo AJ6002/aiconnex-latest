@@ -1,0 +1,209 @@
+{
+  "document_id": "DOC-DATA-DOC-001-V1",
+  "section_count": 16,
+  "sections": [
+    {
+      "section_id": "SEC-0001",
+      "document_id": "DOC-DATA-DOC-001-V1",
+      "heading_level": 1,
+      "heading_text": "HTDS Industrial Effluent Dataset \u2014 Preference & Branching Specification (Final)",
+      "section_path": "HTDS Industrial Effluent Dataset \u2014 Preference & Branching Specification (Final)",
+      "content": "> **Scope**: Multi-Model Generation + Multi-DAG Candidate Parallel Execution + Evaluation Triad  \n> **Alignment**: `deep_system_audit.md` Architecture Standard (LangGraph Layer 1 + ML Engine Layer 2)  \n> **Audience**: Non-Data-Science ETP Plant Managers, Process Engineers, & Agentic Platform Engineers  \n> **Purpose**: Intent Extraction + Multi-DAG Resolution + MCDA Evaluation Triad + HITL Question Blueprint  \n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0002",
+      "document_id": "DOC-DATA-DOC-001-V1",
+      "heading_level": 3,
+      "heading_text": "What is this data?",
+      "section_path": "HTDS Industrial Effluent Dataset \u2014 Preference & Branching Specification (Final) > Section 1: Dataset Summary (In Simple Words) > What is this data?",
+      "content": "The **HTDS Dataset** (`HTDS-v1.csv` / `HTDS-v1.xlsx`) tracks daily **industrial pharmaceutical wastewater discharges** from Laurus Labs Ltd (Unit-3) delivered to a central Effluent Treatment Plant (ETP) across 883 batch deliveries (January 1, 2024 to May 23, 2025).\n\nThink of it like a medical blood test report \u2014 but for a chemical factory's liquid waste stream. Every day, as production batches finish (solvent extraction, reactor washing, mother liquor distillation), effluent tanks are sampled before being dispatched to the treatment facility.\n\n**Dataset Profile & Dimensions:**\n- **Total Batch Records:** `883` daily batch deliveries\n- **Date Range:** `2024-01-01` to `2025-05-23` (883 temporal steps)\n- **Primary Source:** Laurus Labs Ltd (Unit-3)-JNPC\n- **Effluent Type:** `HTDS` (High Total Dissolved Solids)\n\n**9 Parameter Channels (Plain English Descriptions):**\n\n| Parameter Name | Data Type | What It Measures (Plain English) | Operational Importance |\n|---|---|---|---|\n| `Company Name` | Metadata | Manufacturing unit name (*Laurus Labs Unit-3*) | Facility identification |\n| `Recived Date` | Datetime | Date batch was received at ETP | Temporal step tracking |\n| `Effluent type` | Metadata | Stream category (*HTDS* vs *LTDS*) | Effluent classification |\n| `Volume (m3)` | Numeric | Volume of wastewater delivered in cubic meters ($m^3$) | Hydraulic load on treatment tanks |\n| `PH` | Numeric | Acidity / Alkalinity level ($1.0 \\text{ acidic} \\rightarrow 14.0 \\text{ alkaline}$) | Indicates acid washes ($pH < 6.5$) or caustic rinses |\n| `TDS` (Target) | Numeric | Total Dissolved Solids in milligrams per liter ($\\text{mg/L}$) | **Primary target:** Salt & mineral concentration |\n| `COD` | Numeric | Chemical Oxygen Demand in milligrams per liter ($\\text{mg/L}$) | Organic chemical load & solvent content |\n| `AN` | Numeric | Ammoniacal Nitrogen concentration ($\\text{mg/L}$) | Nitrogenous compound byproduct load |\n| `SS` | Numeric | Suspended Solids concentration ($\\text{mg/L}$) | Undissolved particulate matter |\n\n---",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Parameter Name | Data Type | What It Measures (Plain English) | Operational Importance |\n|---|---|---|---|\n| `Company Name` | Metadata | Manufacturing unit name (*Laurus Labs Unit-3*) | Facility identification |\n| `Recived Date` | Datetime | Date batch was received at ETP | Temporal step tracking |\n| `Effluent type` | Metadata | Stream category (*HTDS* vs *LTDS*) | Effluent classification |\n| `Volume (m3)` | Numeric | Volume of wastewater delivered in cubic meters ($m^3$) | Hydraulic load on treatment tanks |\n| `PH` | Numeric | Acidity / Alkalinity level ($1.0 \\text{ acidic} \\rightarrow 14.0 \\text{ alkaline}$) | Indicates acid washes ($pH < 6.5$) or caustic rinses |\n| `TDS` (Target) | Numeric | Total Dissolved Solids in milligrams per liter ($\\text{mg/L}$) | **Primary target:** Salt & mineral concentration |\n| `COD` | Numeric | Chemical Oxygen Demand in milligrams per liter ($\\text{mg/L}$) | Organic chemical load & solvent content |\n| `AN` | Numeric | Ammoniacal Nitrogen concentration ($\\text{mg/L}$) | Nitrogenous compound byproduct load |\n| `SS` | Numeric | Suspended Solids concentration ($\\text{mg/L}$) | Undissolved particulate matter |"
+      ]
+    },
+    {
+      "section_id": "SEC-0003",
+      "document_id": "DOC-DATA-DOC-001-V1",
+      "heading_level": 2,
+      "heading_text": "Section 2: Multi-Model Generation & DAG Candidate Pool Architecture",
+      "section_path": "HTDS Industrial Effluent Dataset \u2014 Preference & Branching Specification (Final) > Section 2: Multi-Model Generation & DAG Candidate Pool Architecture",
+      "content": "Per **`deep_system_audit.md` (Section 4)**, the AIConnex Platform Agent does not run a single static model. When `HTDS-v1.csv` is ingested, the system resolves a **Multi-DAG Candidate Pool (3 to 5 candidate recipes)** executed in parallel via `ThreadPoolExecutor`, followed by a **Stacked Ensemble Meta-Learner** and the **3-Judge Evaluation Triad**.\n\n``` \n                         HTDS DATASET INTELLIGENCE CONTRACT (DIC)\n                                           \u2502\n                                           \u25bc\n                    \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n                    \u2502 PLATFORM AGENT: MULTI-DAG RESOLVER         \u2502\n                    \u2502 Resolves 3 to 5 Parallel Candidate Recipes  \u2502\n                    \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n                                           \u2502\n       \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n       \u25bc                                   \u25bc                                   \u25bc\n CANDIDATE 1 (DAG_414):             CANDIDATE 2 (DAG_415):             CANDIDATE 3 (DAG_654):\n LightGBM Regressor                 XGBoost / HistGradient             Isolation Forest Anomaly\n (Adaptive k=30 Lags)              (Target Differenced \u0394y_t)           (Unified Discharge Monitor)\n       \u2502                                   \u2502                                   \u2502\n       \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n                                           \u2502\n                                           \u25bc\n                    \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n                    \u2502 CANDIDATE 4: STACKED ENSEMBLE META-LEARNER  \u2502\n                    \u2502 Combines Candidates 1-3 Predictions         \u2502\n                    \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n                                           \u2502\n                                           \u25bc\n                    \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n                    \u2502       3-JUDGE EVALUATION TRIAD (MCDA)       \u2502\n                    \u2502  50% Quantitative Scorer (R\u00b2, MAE, MAPE)    \u2502\n                    \u2502  30% LLM Qualitative Judge (Physical Rules) \u2502\n                    \u2502  20% User Intent & Constraint Match         \u2502\n                    \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n                                           \u2502\n                                           \u25bc\n                    \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n                    \u2502  WINNER SELECTION & LEADERBOARD ENTRY       \u2502\n                    \u2502  Logs Winner to MLflow + Deploys REST API   \u2502\n                    \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n```\n\n---",
+      "content_type": "mixed",
+      "code_blocks": [
+        {
+          "language": "text",
+          "code": "                         HTDS DATASET INTELLIGENCE CONTRACT (DIC)\n                                           \u2502\n                                           \u25bc\n                    \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n                    \u2502 PLATFORM AGENT: MULTI-DAG RESOLVER         \u2502\n                    \u2502 Resolves 3 to 5 Parallel Candidate Recipes  \u2502\n                    \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n                                           \u2502\n       \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n       \u25bc                                   \u25bc                                   \u25bc\n CANDIDATE 1 (DAG_414):             CANDIDATE 2 (DAG_415):             CANDIDATE 3 (DAG_654):\n LightGBM Regressor                 XGBoost / HistGradient             Isolation Forest Anomaly\n (Adaptive k=30 Lags)              (Target Differenced \u0394y_t)           (Unified Discharge Monitor)\n       \u2502                                   \u2502                                   \u2502\n       \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n                                           \u2502\n                                           \u25bc\n                    \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n                    \u2502 CANDIDATE 4: STACKED ENSEMBLE META-LEARNER  \u2502\n                    \u2502 Combines Candidates 1-3 Predictions         \u2502\n                    \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n                                           \u2502\n                                           \u25bc\n                    \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n                    \u2502       3-JUDGE EVALUATION TRIAD (MCDA)       \u2502\n                    \u2502  50% Quantitative Scorer (R\u00b2, MAE, MAPE)    \u2502\n                    \u2502  30% LLM Qualitative Judge (Physical Rules) \u2502\n                    \u2502  20% User Intent & Constraint Match         \u2502\n                    \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n                                           \u2502\n                                           \u25bc\n                    \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n                    \u2502  WINNER SELECTION & LEADERBOARD ENTRY       \u2502\n                    \u2502  Logs Winner to MLflow + Deploys REST API   \u2502\n                    \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518"
+        }
+      ],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0004",
+      "document_id": "DOC-DATA-DOC-001-V1",
+      "heading_level": 3,
+      "heading_text": "FAMILY A: REGRESSION \u2014 \"Predict a Number\"",
+      "section_path": "HTDS Industrial Effluent Dataset \u2014 Preference & Branching Specification (Final) > Section 3: The 19 Model Branches Across 3 Families > FAMILY A: REGRESSION \u2014 \"Predict a Number\"",
+      "content": "Models that answer: *\"What will our effluent concentration or volume be tomorrow?\"*\n\n| Branch ID | Branch Name | Candidate DAG | Primary Output | In Plain English |\n|---|---|---|---|---|\n| **A1.1** | **Next-Day TDS Forecast** | `DAG_414` | Next-day TDS ($\\text{mg/L}$) | *\"Tomorrow's effluent TDS will be ~39,960 mg/L.\"* Primary operational forecast for evaporator & RO plant planning. |\n| **A1.2** | **Multi-Day TDS Trend** | `DAG_414_horizon` | 3\u20137 day TDS trajectory | *\"TDS will average 42,500 mg/L over the next 3 days.\"* Useful for chemical inventory & salt recovery planning. |\n| **A1.3** | **COD Organic Load Forecast** | `DAG_414_cod` | Next-day COD ($\\text{mg/L}$) | *\"Tomorrow's organic COD load will be ~84,800 mg/L.\"* Helps biological treatment operators prepare aeration basins. |\n| **A1.4** | **Effluent Volume Forecast** | `DAG_414_vol` | Next-day Volume ($m^3$) | *\"Tomorrow's incoming volume will be 150 m\u00b3.\"* Assists hydraulic tank storage management. |\n| **A2.1** | **Legal Margin Predictor** | `DAG_414_margin` | Compliance buffer ($\\text{mg/L}$) | *\"Tomorrow's TDS will be 10,040 mg/L below the 50,000 mg/L legal compliance ceiling.\"* |\n| **A2.2** | **Salt Accumulation Rate** | `DAG_414_diff` | Daily $\\Delta \\text{TDS}$ ($\\text{mg/L/day}$) | *\"Salinity is accumulating at +1,200 mg/L per day across this manufacturing campaign.\"* |\n| **A3.0** | **ETP Compliance Health Index** | `DAG_414_index` | Score $100\\% \\rightarrow 0\\%$ | *\"Overall effluent compliance score for today's batch is 88/100.\"* Single score for plant dashboards. |\n| **A4.0** | **Discharge Status Classifier** | `DAG_414_cls` | Category: Normal/Watch/Alert | *\"Today's batch status: NORMAL \u2014 safe for standard ETP processing.\"* Clear bucket for plant operators. |\n\n---",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Branch ID | Branch Name | Candidate DAG | Primary Output | In Plain English |\n|---|---|---|---|---|\n| **A1.1** | **Next-Day TDS Forecast** | `DAG_414` | Next-day TDS ($\\text{mg/L}$) | *\"Tomorrow's effluent TDS will be ~39,960 mg/L.\"* Primary operational forecast for evaporator & RO plant planning. |\n| **A1.2** | **Multi-Day TDS Trend** | `DAG_414_horizon` | 3\u20137 day TDS trajectory | *\"TDS will average 42,500 mg/L over the next 3 days.\"* Useful for chemical inventory & salt recovery planning. |\n| **A1.3** | **COD Organic Load Forecast** | `DAG_414_cod` | Next-day COD ($\\text{mg/L}$) | *\"Tomorrow's organic COD load will be ~84,800 mg/L.\"* Helps biological treatment operators prepare aeration basins. |\n| **A1.4** | **Effluent Volume Forecast** | `DAG_414_vol` | Next-day Volume ($m^3$) | *\"Tomorrow's incoming volume will be 150 m\u00b3.\"* Assists hydraulic tank storage management. |\n| **A2.1** | **Legal Margin Predictor** | `DAG_414_margin` | Compliance buffer ($\\text{mg/L}$) | *\"Tomorrow's TDS will be 10,040 mg/L below the 50,000 mg/L legal compliance ceiling.\"* |\n| **A2.2** | **Salt Accumulation Rate** | `DAG_414_diff` | Daily $\\Delta \\text{TDS}$ ($\\text{mg/L/day}$) | *\"Salinity is accumulating at +1,200 mg/L per day across this manufacturing campaign.\"* |\n| **A3.0** | **ETP Compliance Health Index** | `DAG_414_index` | Score $100\\% \\rightarrow 0\\%$ | *\"Overall effluent compliance score for today's batch is 88/100.\"* Single score for plant dashboards. |\n| **A4.0** | **Discharge Status Classifier** | `DAG_414_cls` | Category: Normal/Watch/Alert | *\"Today's batch status: NORMAL \u2014 safe for standard ETP processing.\"* Clear bucket for plant operators. |"
+      ]
+    },
+    {
+      "section_id": "SEC-0005",
+      "document_id": "DOC-DATA-DOC-001-V1",
+      "heading_level": 3,
+      "heading_text": "FAMILY B: ANOMALY \u2014 \"Catch Something Wrong\"",
+      "section_path": "HTDS Industrial Effluent Dataset \u2014 Preference & Branching Specification (Final) > Section 3: The 19 Model Branches Across 3 Families > FAMILY B: ANOMALY \u2014 \"Catch Something Wrong\"",
+      "content": "Models that answer: *\"Is this wastewater batch abnormal or contaminated compared to historical patterns?\"*\n\n| Branch ID | Branch Name | Candidate DAG | Primary Output | In Plain English |\n|---|---|---|---|---|\n| **B1.0** | **Single Unified ETP Monitor** | `DAG_654` | Anomaly Score ($0.0 \\rightarrow 1.0$) | *\"Batch #883 showing abnormal chemical composition \u2014 recommend holding tank isolation.\"* One alert covering all contamination types. |\n| **B2.1** | **High-Salinity Shock Monitor** | `DAG_654_tds` | Salt Shock Flag | *\"High-salinity shock detected: TDS is running 12,000 mg/L above normal baseline.\"* Isolates salt shocks for evaporator protection. |\n| **B2.2** | **Organic COD Spill Monitor** | `DAG_654_cod` | COD Spill Flag | *\"Organic solvent spill detected: COD surged to 112,000 mg/L. Risk of killing biological ETP bacteria.\"* |\n| **B2.3** | **Acidic Stream Intrusion Monitor** | `DAG_654_ph` | Acid Intrusion Flag | *\"Acidic stream intrusion detected: pH dropped to 6.5. High risk of equipment corrosion.\"* |\n| **B3.0** | **Campaign Onset Alert** | `DAG_654_onset` | Change-point step $t$ | *\"Effluent baseline shifted on May 18th \u2014 new chemical manufacturing campaign started.\"* |\n| **B4.0** | **Shock Root-Cause Classifier** | `DAG_654_cat` | Fault Category | *\"Shock isolated to: ORGANIC SOLVENT SPILL (confidence: 94%).\"* Tells operators which plant line caused the spill. |\n| **B5.0** | **Legal Violation Alert** | `DAG_654_limit` | Binary Legal Alert | *\"\u26a0\ufe0f CRITICAL: TDS exceeding legal discharge limit of 50,000 mg/L. Divert to emergency holding tank.\"* |\n\n---",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Branch ID | Branch Name | Candidate DAG | Primary Output | In Plain English |\n|---|---|---|---|---|\n| **B1.0** | **Single Unified ETP Monitor** | `DAG_654` | Anomaly Score ($0.0 \\rightarrow 1.0$) | *\"Batch #883 showing abnormal chemical composition \u2014 recommend holding tank isolation.\"* One alert covering all contamination types. |\n| **B2.1** | **High-Salinity Shock Monitor** | `DAG_654_tds` | Salt Shock Flag | *\"High-salinity shock detected: TDS is running 12,000 mg/L above normal baseline.\"* Isolates salt shocks for evaporator protection. |\n| **B2.2** | **Organic COD Spill Monitor** | `DAG_654_cod` | COD Spill Flag | *\"Organic solvent spill detected: COD surged to 112,000 mg/L. Risk of killing biological ETP bacteria.\"* |\n| **B2.3** | **Acidic Stream Intrusion Monitor** | `DAG_654_ph` | Acid Intrusion Flag | *\"Acidic stream intrusion detected: pH dropped to 6.5. High risk of equipment corrosion.\"* |\n| **B3.0** | **Campaign Onset Alert** | `DAG_654_onset` | Change-point step $t$ | *\"Effluent baseline shifted on May 18th \u2014 new chemical manufacturing campaign started.\"* |\n| **B4.0** | **Shock Root-Cause Classifier** | `DAG_654_cat` | Fault Category | *\"Shock isolated to: ORGANIC SOLVENT SPILL (confidence: 94%).\"* Tells operators which plant line caused the spill. |\n| **B5.0** | **Legal Violation Alert** | `DAG_654_limit` | Binary Legal Alert | *\"\u26a0\ufe0f CRITICAL: TDS exceeding legal discharge limit of 50,000 mg/L. Divert to emergency holding tank.\"* |"
+      ]
+    },
+    {
+      "section_id": "SEC-0006",
+      "document_id": "DOC-DATA-DOC-001-V1",
+      "heading_level": 3,
+      "heading_text": "FAMILY C: HYBRID \u2014 \"Smart Combined Systems\"",
+      "section_path": "HTDS Industrial Effluent Dataset \u2014 Preference & Branching Specification (Final) > Section 3: The 19 Model Branches Across 3 Families > FAMILY C: HYBRID \u2014 \"Smart Combined Systems\"",
+      "content": "Models that combine anomaly detection and quantitative forecasting into a single intelligent workflow.\n\n| Branch ID | Branch Name | Candidate Architecture | How It Works | In Plain English |\n|---|---|---|---|---|\n| **C1.0** | **Smart Auto-Activate** | `DAG_654` $\\rightarrow$ `DAG_414` | Quiet `DAG_654` monitor runs 24/7. When shock is detected $\\rightarrow$ automatically activates `DAG_414` Next-Day TDS forecast. | *\"Batch running normally for 40 days. [Silent.] Shock detected on Day #41. [Activating forecast...] Next-Day TDS predicted to reach 47,500 mg/L.\"* |\n| **C2.0** | **Two-Stage Assessment** | `DAG_Classifier` + `DAG_414_Regime` | Stage 1: Classifies discharge regime (Routine vs Shock). Stage 2: Runs a regime-specific forecast model. | *\"Batch classified as CHEMICAL SHOCK REGIME. Running shock-tuned forecast model... Predicted TDS: 46,200 mg/L.\"* |\n| **C3.0** | **Anomaly-Enriched Forecast** | `DAG_654` score $\\rightarrow$ `DAG_414` feature | `DAG_654` anomaly score ($0.0 \\rightarrow 1.0$) is fed as an extra input feature into the `DAG_414` TDS forecaster. | *\"Anomaly score = 0.82 (High Shock). Forecaster with anomaly enrichment: Next-Day TDS = 44,100 mg/L.\"* |\n| **C4.0** | **Multi-Output Joint ETP Engine** | `DAG_414_StackedEnsemble` | Single multi-head model that simultaneously outputs: (1) Next-Day TDS, (2) Anomaly Score, (3) Shock Category. | *\"Next-Day TDS = 39,960 mg/L \\| Anomaly Score = 0.14 \\| Status = NORMAL.\"* One model, complete ETP intelligence. |\n\n---",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Branch ID | Branch Name | Candidate Architecture | How It Works | In Plain English |\n|---|---|---|---|---|\n| **C1.0** | **Smart Auto-Activate** | `DAG_654` $\\rightarrow$ `DAG_414` | Quiet `DAG_654` monitor runs 24/7. When shock is detected $\\rightarrow$ automatically activates `DAG_414` Next-Day TDS forecast. | *\"Batch running normally for 40 days. [Silent.] Shock detected on Day #41. [Activating forecast...] Next-Day TDS predicted to reach 47,500 mg/L.\"* |\n| **C2.0** | **Two-Stage Assessment** | `DAG_Classifier` + `DAG_414_Regime` | Stage 1: Classifies discharge regime (Routine vs Shock). Stage 2: Runs a regime-specific forecast model. | *\"Batch classified as CHEMICAL SHOCK REGIME. Running shock-tuned forecast model... Predicted TDS: 46,200 mg/L.\"* |\n| **C3.0** | **Anomaly-Enriched Forecast** | `DAG_654` score $\\rightarrow$ `DAG_414` feature | `DAG_654` anomaly score ($0.0 \\rightarrow 1.0$) is fed as an extra input feature into the `DAG_414` TDS forecaster. | *\"Anomaly score = 0.82 (High Shock). Forecaster with anomaly enrichment: Next-Day TDS = 44,100 mg/L.\"* |\n| **C4.0** | **Multi-Output Joint ETP Engine** | `DAG_414_StackedEnsemble` | Single multi-head model that simultaneously outputs: (1) Next-Day TDS, (2) Anomaly Score, (3) Shock Category. | *\"Next-Day TDS = 39,960 mg/L \\| Anomaly Score = 0.14 \\| Status = NORMAL.\"* One model, complete ETP intelligence. |"
+      ]
+    },
+    {
+      "section_id": "SEC-0007",
+      "document_id": "DOC-DATA-DOC-001-V1",
+      "heading_level": 2,
+      "heading_text": "Section 4: 3-Judge Evaluation Triad & MCDA Scoring (Per Audit Standard)",
+      "section_path": "HTDS Industrial Effluent Dataset \u2014 Preference & Branching Specification (Final) > Section 4: 3-Judge Evaluation Triad & MCDA Scoring (Per Audit Standard)",
+      "content": "Per **`deep_system_audit.md` (Section 4, Page 12)**, candidate models generated across Families A, B, and C are evaluated using the **Multi-Criteria Decision Analysis (MCDA)** framework:\n\n``` \n                            MCDA WEIGHTING FORMULA\n                                      \u2502\n \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n \u25bc                                    \u25bc                                    \u25bc\n50% QUANTITATIVE SCORER              30% LLM QUALITATIVE JUDGE            20% USER INTENT MATCH\n(R\u00b2, MAE, MAPE, Latency)             (Physical Constraint Check)          (Constraint & Urgency)\n```",
+      "content_type": "mixed",
+      "code_blocks": [
+        {
+          "language": "text",
+          "code": "                            MCDA WEIGHTING FORMULA\n                                      \u2502\n \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n \u25bc                                    \u25bc                                    \u25bc\n50% QUANTITATIVE SCORER              30% LLM QUALITATIVE JUDGE            20% USER INTENT MATCH\n(R\u00b2, MAE, MAPE, Latency)             (Physical Constraint Check)          (Constraint & Urgency)"
+        }
+      ],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0008",
+      "document_id": "DOC-DATA-DOC-001-V1",
+      "heading_level": 3,
+      "heading_text": "MCDA Scorecard Calculation",
+      "section_path": "HTDS Industrial Effluent Dataset \u2014 Preference & Branching Specification (Final) > Section 4: 3-Judge Evaluation Triad & MCDA Scoring (Per Audit Standard) > MCDA Scorecard Calculation",
+      "content": "$$\\text{MCDA Score} = 0.50 \\times \\text{Score}_{\\text{Quantitative}} + 0.30 \\times \\text{Score}_{\\text{LLM\\_Judge}} + 0.20 \\times \\text{Score}_{\\text{Intent\\_Match}}$$\n\n| Evaluation Component | Weight | Metric / Evaluation Criteria | HTDS Performance Benchmark |\n|---|---|---|---|\n| **1. Quantitative Scorer Agent** | **50%** | $R^2 \\ge 0.90$, $\\text{MAE} \\le 3,000 \\text{ mg/L}$, $\\text{MAPE} \\le 15\\%$, Inference Latency $< 50\\text{ms}$ | $R^2 = 0.9017$, $\\text{MAE} = 2,961\\text{ mg/L}$, $\\text{MAPE} = 13.83\\%$ (PASS) |\n| **2. LLM Qualitative Judge Agent** | **30%** | Validates physical constraints (no negative TDS predictions, `{target}_lag1` protected from `SelectKBest` dropping, no undefined log transforms) | Verified 100% compliance with physical ETP constraints (PASS) |\n| **3. User Intent Matcher** | **20%** | Matches extracted `ConversationUnderstandingContract` (CUC) user goals (e.g. Next-Day TDS vs Solvent Spill Alert) | Matches user operational intent (PASS) |\n\n---",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Evaluation Component | Weight | Metric / Evaluation Criteria | HTDS Performance Benchmark |\n|---|---|---|---|\n| **1. Quantitative Scorer Agent** | **50%** | $R^2 \\ge 0.90$, $\\text{MAE} \\le 3,000 \\text{ mg/L}$, $\\text{MAPE} \\le 15\\%$, Inference Latency $< 50\\text{ms}$ | $R^2 = 0.9017$, $\\text{MAE} = 2,961\\text{ mg/L}$, $\\text{MAPE} = 13.83\\%$ (PASS) |\n| **2. LLM Qualitative Judge Agent** | **30%** | Validates physical constraints (no negative TDS predictions, `{target}_lag1` protected from `SelectKBest` dropping, no undefined log transforms) | Verified 100% compliance with physical ETP constraints (PASS) |\n| **3. User Intent Matcher** | **20%** | Matches extracted `ConversationUnderstandingContract` (CUC) user goals (e.g. Next-Day TDS vs Solvent Spill Alert) | Matches user operational intent (PASS) |"
+      ]
+    },
+    {
+      "section_id": "SEC-0009",
+      "document_id": "DOC-DATA-DOC-001-V1",
+      "heading_level": 2,
+      "heading_text": "Section 5: 5-Stage Contract Pipeline Integration",
+      "section_path": "HTDS Industrial Effluent Dataset \u2014 Preference & Branching Specification (Final) > Section 5: 5-Stage Contract Pipeline Integration",
+      "content": "To guarantee seamless interaction across all 4 system layers, the HTDS specification maps directly to the **5-Stage Contract Pipeline** in `deep_system_audit.md`:\n\n``` \n Stage 1: ConversationUnderstandingContract (CUC)\n \u2514\u2500\u25ba User Intent: \"Predict tomorrow's salinity level to prevent ETP overflow\"\n      \u2502\n Stage 2: ScoutEnrichedContract\n \u2514\u2500\u25ba Upload Metadata: HTDS-v1.csv (883 rows, 9 columns, duplicate date grain detected)\n      \u2502\n Stage 3: PreCompilerContract\n \u2514\u2500\u25ba Compiler Setup: Temporal sorting, scale skewness flag, protected lag rule\n      \u2502\n Stage 4: DatasetIntelligenceContract (DIC)\n \u2514\u2500\u25ba Schema: [Recived Date, PH, Volume (m3), COD, AN, SS, TDS] | Task: Regression (DAG_414)\n      \u2502\n Stage 5: SelectionResult + LeaderboardEntry[]\n \u2514\u2500\u25ba Winner: Candidate 4 (LightGBM DAG_414 + Adaptive k=30) | MCDA Score: 0.925 -> Deployed\n```\n\n---",
+      "content_type": "mixed",
+      "code_blocks": [
+        {
+          "language": "text",
+          "code": " Stage 1: ConversationUnderstandingContract (CUC)\n \u2514\u2500\u25ba User Intent: \"Predict tomorrow's salinity level to prevent ETP overflow\"\n      \u2502\n Stage 2: ScoutEnrichedContract\n \u2514\u2500\u25ba Upload Metadata: HTDS-v1.csv (883 rows, 9 columns, duplicate date grain detected)\n      \u2502\n Stage 3: PreCompilerContract\n \u2514\u2500\u25ba Compiler Setup: Temporal sorting, scale skewness flag, protected lag rule\n      \u2502\n Stage 4: DatasetIntelligenceContract (DIC)\n \u2514\u2500\u25ba Schema: [Recived Date, PH, Volume (m3), COD, AN, SS, TDS] | Task: Regression (DAG_414)\n      \u2502\n Stage 5: SelectionResult + LeaderboardEntry[]\n \u2514\u2500\u25ba Winner: Candidate 4 (LightGBM DAG_414 + Adaptive k=30) | MCDA Score: 0.925 -> Deployed"
+        }
+      ],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0010",
+      "document_id": "DOC-DATA-DOC-001-V1",
+      "heading_level": 2,
+      "heading_text": "Section 6: Non-Technical HITL Question Blueprint",
+      "section_path": "HTDS Industrial Effluent Dataset \u2014 Preference & Branching Specification (Final) > Section 6: Non-Technical HITL Question Blueprint",
+      "content": "All questions framed for an **ETP Plant Manager or Environmental Engineer** \u2014 zero data science jargon.\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0011",
+      "document_id": "DOC-DATA-DOC-001-V1",
+      "heading_level": 3,
+      "heading_text": "Question 1: Primary Operational Goal",
+      "section_path": "HTDS Industrial Effluent Dataset \u2014 Preference & Branching Specification (Final) > Section 6: Non-Technical HITL Question Blueprint > Question 1: Primary Operational Goal",
+      "content": "> *\"What is the main task you would like AIConnex to perform for your effluent treatment plant?\"*\n> - **[A] Predict tomorrow's TDS salinity level** *(Forecast Next-Day TDS in mg/L for evaporator & RO plant planning)*\n> - **[B] Alert me when a high-salinity shock or organic solvent spill occurs** *(Real-time contamination monitoring)*\n> - **[C] Keep a quiet monitor running 24/7, but activate a TDS forecast as soon as a chemical shock is detected** *(Smart combined system \u2014 recommended for plant operations)*\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0012",
+      "document_id": "DOC-DATA-DOC-001-V1",
+      "heading_level": 3,
+      "heading_text": "Question 2: Specific Parameter Focus",
+      "section_path": "HTDS Industrial Effluent Dataset \u2014 Preference & Branching Specification (Final) > Section 6: Non-Technical HITL Question Blueprint > Question 2: Specific Parameter Focus",
+      "content": "> *\"Which chemical parameter is your highest priority to track?\"*\n> - **[A] Total Dissolved Solids (TDS)** *(Primary focus on salt concentration and evaporator capacity)*\n> - **[B] Chemical Oxygen Demand (COD)** *(Primary focus on organic solvent loads and biological treatment safety)*\n> - **[C] Both TDS and COD together** *(Multi-parameter plant monitoring)*\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0013",
+      "document_id": "DOC-DATA-DOC-001-V1",
+      "heading_level": 3,
+      "heading_text": "Question 3: Alert Sensitivity Preference *(Only if user chose Option B or C in Question 1)*",
+      "section_path": "HTDS Industrial Effluent Dataset \u2014 Preference & Branching Specification (Final) > Section 6: Non-Technical HITL Question Blueprint > Question 3: Alert Sensitivity Preference *(Only if user chose Option B or C in Question 1)*",
+      "content": "> *\"How sensitive should the chemical shock alarm be?\"*\n> - **[A] High Sensitivity** *(Early warning \u2014 flags subtle pH drops or mild COD surges)*\n> - **[B] Balanced Sensitivity** *(Flags confirmed chemical shocks \u2014 recommended)*\n> - **[C] Critical Alerts Only** *(Flags only severe legal limit breaches > 50,000 mg/L TDS or > 110,000 mg/L COD)*\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0014",
+      "document_id": "DOC-DATA-DOC-001-V1",
+      "heading_level": 3,
+      "heading_text": "Question 4: Forecast Presentation Format *(Only if user chose Option A in Question 1)*",
+      "section_path": "HTDS Industrial Effluent Dataset \u2014 Preference & Branching Specification (Final) > Section 6: Non-Technical HITL Question Blueprint > Question 4: Forecast Presentation Format *(Only if user chose Option A in Question 1)*",
+      "content": "> *\"How should tomorrow's forecast be displayed on your control room dashboard?\"*\n> - **[A] Exact predicted number in mg/L** *(e.g., \"Tomorrow's TDS: 39,960 mg/L\")*\n> - **[B] Traffic Light Status** *(GREEN = Normal, YELLOW = Watchlist, RED = Emergency Holding Tank)*\n> - **[C] Both \u2014 exact number plus traffic light status**\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0015",
+      "document_id": "DOC-DATA-DOC-001-V1",
+      "heading_level": 3,
+      "heading_text": "Branch Count Summary",
+      "section_path": "HTDS Industrial Effluent Dataset \u2014 Preference & Branching Specification (Final) > Section 7: Summary & Principles > Branch Count Summary",
+      "content": "| Family | Branches | Description |\n|---|---|---|\n| **A: Regression** | 8 | Next-Day TDS, Multi-Day Trend, COD Load, Volume, Legal Margin, Accumulation Rate, Health Index, Status Classifier |\n| **B: Anomaly** | 7 | Unified Monitor, Salinity Shock, Organic Spill, Acidic Intrusion, Campaign Onset, Root Cause Classifier, Legal Violation Alert |\n| **C: Hybrid** | 4 | Smart Auto-Activate, Two-Stage Assessment, Anomaly-Enriched Forecast, Multi-Output Joint ETP Engine |\n| **TOTAL** | **19** | **Complete Model Branching Specification for HTDS Effluent Data** |",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Family | Branches | Description |\n|---|---|---|\n| **A: Regression** | 8 | Next-Day TDS, Multi-Day Trend, COD Load, Volume, Legal Margin, Accumulation Rate, Health Index, Status Classifier |\n| **B: Anomaly** | 7 | Unified Monitor, Salinity Shock, Organic Spill, Acidic Intrusion, Campaign Onset, Root Cause Classifier, Legal Violation Alert |\n| **C: Hybrid** | 4 | Smart Auto-Activate, Two-Stage Assessment, Anomaly-Enriched Forecast, Multi-Output Joint ETP Engine |\n| **TOTAL** | **19** | **Complete Model Branching Specification for HTDS Effluent Data** |"
+      ]
+    },
+    {
+      "section_id": "SEC-0016",
+      "document_id": "DOC-DATA-DOC-001-V1",
+      "heading_level": 3,
+      "heading_text": "Key Architectural Principles (Per `deep_system_audit.md`)",
+      "section_path": "HTDS Industrial Effluent Dataset \u2014 Preference & Branching Specification (Final) > Section 7: Summary & Principles > Key Architectural Principles (Per `deep_system_audit.md`)",
+      "content": "1. **Multi-DAG Parallel Resolution:** 3 to 5 candidate recipes (`DAG_414`, `DAG_415`, `DAG_654`) run in parallel via `ThreadPoolExecutor`.\n2. **Stacked Ensemble Meta-Learner:** Combines top candidate predictions into a unified meta-model.\n3. **MCDA 3-Judge Evaluation Triad:** Winner selected using 50% Quantitative Scorer + 30% LLM Qualitative Judge + 20% User Intent Match.\n4. **5-Stage Contract Pipeline Flow:** Guarantees strict data contract handoffs from CUC $\\rightarrow$ DIC $\\rightarrow$ SelectionResult leaderboard.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    }
+  ]
+}

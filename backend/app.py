@@ -18,7 +18,7 @@ natural language responses. Hardcoded templates act ONLY as emergency fallbacks.
 import os
 from pathlib import Path
 import logging
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file, send_from_directory
 from dotenv import load_dotenv
 
 import sys
@@ -77,9 +77,21 @@ load_dictionary()
 app.register_blueprint(dictionary_bp)
 
 
-# Upload storage directory
-UPLOAD_FOLDER = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "scratch", "uploads"))
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+# Upload storage directory & Workspace Manager
+from workspace_manager import (
+    get_workspace_root,
+    get_tenant_dir,
+    get_tenant_subfolder,
+    export_cuc_manifest,
+    export_dic_manifest,
+    export_profile_report,
+    build_workspace_tree,
+    list_workspace_flat,
+    get_file_preview,
+    resolve_safe_path
+)
+
+UPLOAD_FOLDER = get_tenant_subfolder("uploads", "global")
 
 
 @app.route("/api/health", methods=["GET"])
@@ -118,6 +130,125 @@ def jane_chat():
         retrieved_rag_docs=retrieved_rag_docs
     )
     return jsonify(result)
+
+
+@app.route("/api/jane/seed", methods=["POST", "OPTIONS"])
+@app.route("/api/v1/jane/seed", methods=["POST", "OPTIONS"])
+def jane_seed():
+    """POST /api/jane/seed — Bridge Jane conversation intent into the LangGraph checkpointer.
+
+    Called by the frontend immediately when Jane emits OPEN_UPLOAD_CONTROLLER.
+    Takes the `cuc_seed` dict extracted from Jane's session and uses the existing
+    /api/agent/seed machinery to park a LangGraph thread at `upload_gate_node`.
+    This ensures /api/upload finds `is_parked == True` for the janeSessionId and
+    routes through the full gated Scout pipeline instead of _direct_compile_stream.
+
+    Body:
+      {
+        "session_id": str,          -- same janeSessionId used in /api/v1/jane/chat
+        "cuc_seed": {               -- from jane_assistant._extract_cuc_seed_from_history()
+          "primary_intent": str,
+          "task_family": str,
+          "target_hint": str,
+          "asset_type": str,
+          "domain": str,
+          "raw_prompt": str,
+          "confidence": float,
+          "observed": dict,
+          "inferred": dict
+        }
+      }
+
+    Returns:
+      { "session_id": str, "parked": bool, "message": str }
+    """
+    if request.method == "OPTIONS":
+        return jsonify({"status": "ok"}), 200
+
+    data = request.get_json(force=True) or {}
+    session_id = (data.get("session_id") or "").strip()
+    cuc_seed = data.get("cuc_seed") or {}
+
+    if not session_id:
+        return jsonify({"error": "session_id is required"}), 400
+
+    primary_intent = (cuc_seed.get("primary_intent") or "general").strip()
+    task_family = (cuc_seed.get("task_family") or "regression").strip()
+    confidence = float(cuc_seed.get("confidence", 0.9))
+    raw_prompt = cuc_seed.get("raw_prompt", "")
+    observed = cuc_seed.get("observed") or {}
+    inferred = cuc_seed.get("inferred") or {}
+
+    # Sanitize: if intent is still generic, promote it to a safe non-general fallback
+    if not primary_intent or primary_intent == "general":
+        primary_intent = "predictive_maintenance"
+        task_family = "regression"
+        confidence = 0.87
+
+    try:
+        from agentic.runner import _compiled_graph
+        from agentic.parser.cuc_completion import is_manifest_minimally_complete
+        from agentic.schemas import ConversationUnderstandingContract, Goal
+        from langgraph.types import Command
+
+        goal = Goal(
+            primary_intent=primary_intent,
+            raw_prompt=raw_prompt,
+            task_family=task_family,
+            confidence=confidence,
+        )
+        cuc = ConversationUnderstandingContract(
+            goal=goal,
+            observed=observed,
+            inferred=inferred,
+        )
+
+        config = {"configurable": {"thread_id": session_id}}
+        cuc_dict = cuc.model_dump()
+
+        # Seed checkpoint as if conversation_parser_node just produced this CUC
+        _compiled_graph.update_state(
+            config,
+            {"cuc": cuc_dict, "confidence_score": confidence, "active_agent": "parser"},
+            as_node="conversation_parser_node",
+        )
+
+        # Fast-forward to upload_gate_node (auto-acking any intermediate summarize interrupts)
+        ready_for_upload = False
+        resume_input = None
+        for _ in range(5):
+            stream = _compiled_graph.stream(resume_input, config=config, stream_mode="updates")
+            interrupt_payload = None
+            for event in stream:
+                if isinstance(event, dict) and "__interrupt__" in event:
+                    interrupt_payload = _interrupt_payload_from_update(event["__interrupt__"])
+
+            if interrupt_payload is None:
+                break
+            if interrupt_payload.get("interrupt_type") == "advise_upload":
+                ready_for_upload = True
+                break
+            resume_input = Command(resume="ok")
+
+        logger.info(f"[JaneSeed] Session {session_id} seeded → parked={ready_for_upload}")
+        
+        # Export CUC manifest snapshot to workspace
+        tenant_id = (data.get("tenant_id") or "global").strip()
+        export_cuc_manifest(tenant_id, session_id, cuc_dict)
+
+        return jsonify({
+            "session_id": session_id,
+            "parked": ready_for_upload,
+            "message": "LangGraph thread seeded and parked at upload gate." if ready_for_upload else "Seeded but could not reach upload gate — upload will use direct compile path."
+        })
+
+    except Exception as exc:
+        logger.warning(f"[JaneSeed] Failed to seed LangGraph thread for session {session_id}: {exc}")
+        return jsonify({
+            "session_id": session_id,
+            "parked": False,
+            "message": f"Seed failed (non-fatal): {exc}. Upload will use direct compile path."
+        })
 
 
 # ---------------------------------------------------------------------------
@@ -604,8 +735,10 @@ def upload_dataset():
     if not file or file.filename == "":
         return jsonify({"error": "Empty filename."}), 400
 
+    tenant_id = (request.form.get("tenant_id") or "global").strip()
     filename = file.filename
-    save_path = os.path.join(UPLOAD_FOLDER, filename)
+    upload_dir = get_tenant_subfolder("uploads", tenant_id)
+    save_path = os.path.join(upload_dir, filename)
     file.save(save_path)
 
     session_id = (request.form.get("session_id") or "").strip()
@@ -642,7 +775,8 @@ def upload_dataset():
             time.sleep(0.2)
 
             run_id = f"run_{uuid.uuid4().hex[:8]}"
-            output_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "services", "workspace_data", run_id))
+            runs_dir = get_tenant_subfolder("runs", tenant_id)
+            output_dir = os.path.abspath(os.path.join(runs_dir, run_id))
             os.makedirs(output_dir, exist_ok=True)
 
             yield _sse("text", {"delta": "🔍 [Step 2/14] **Structure Analysis** — Analyzing schemas and initializing multi-table relational compiler…", "node": "structure_analysis_node"})
@@ -652,11 +786,15 @@ def upload_dataset():
                 yield _sse("text", {"delta": "🔗 [Step 4/14] **Relationship Analysis** — Mapping foreign keys and relational join topology…", "node": "relationship_analysis_node"})
                 time.sleep(0.2)
 
+                from jane_assistant import _extract_cuc_seed_from_history
+                cuc_seed = _extract_cuc_seed_from_history(sess_id, "", "")
+
                 compiler = UnifiedCompiler(
                     zip_path=target_path,
                     output_dir=output_dir,
                     batch=True,
                     enable_intelligence=True,
+                    cuc_intent=cuc_seed,
                 )
                 compile_result = compiler.compile()
 
@@ -672,6 +810,40 @@ def upload_dataset():
                     yield _sse("text", {"delta": f"🧠 [Step 9/14] **Exploration Synthesizer** — Consolidating all telemetry into Dataset Intelligence Contract (DIC). Canonical dataset `{Path(compiled_csv).name}` generated.", "node": "exploration_synthesizer_node"})
                     time.sleep(0.15)
                     
+                    # Option C: Export DIC manifest to workspace manifests/
+                    try:
+                        dic_summary = {
+                            "run_id": run_id,
+                            "session_id": sess_id,
+                            "compiled_dataset": compiled_csv,
+                            "rows": compile_result.row_count if hasattr(compile_result, "row_count") else None,
+                            "columns": compile_result.col_count if hasattr(compile_result, "col_count") else None,
+                            "merged_groups": list(compile_result.artifacts.per_group_csvs.keys()) if compile_result.artifacts and compile_result.artifacts.per_group_csvs else [],
+                            "generated_at": datetime.utcnow().isoformat()
+                        }
+                        export_dic_manifest(tenant_id, run_id, dic_summary)
+                    except Exception as export_err:
+                        logger.warning(f"[Upload] Non-fatal DIC export error: {export_err}")
+
+                    # Launch non-blocking background thread for fg-data-profiling HTML report generation
+                    try:
+                        import threading
+                        from profiler_service import generate_exhaustive_html_report
+                        rep_dir = get_tenant_subfolder("reports", tenant_id)
+                        report_html_path = os.path.join(rep_dir, f"eda_{run_id}.html")
+                        
+                        def _bg_gen_report(csv_p, html_p, r_id):
+                            try:
+                                logger.info(f"[Upload] Starting background fg-data-profiling for {csv_p}")
+                                res = generate_exhaustive_html_report(csv_p, html_p, title=f"AIConnex EDA Report - {r_id}")
+                                logger.info(f"[Upload] Background fg-data-profiling finished: {res}")
+                            except Exception as e:
+                                logger.warning(f"[Upload] Background fg-data-profiling failed: {e}")
+
+                        threading.Thread(target=_bg_gen_report, args=(compiled_csv, report_html_path, run_id), daemon=True).start()
+                    except Exception as bg_err:
+                        logger.warning(f"[Upload] Failed to launch background profiling thread: {bg_err}")
+
                     yield _sse("compiled", {"compiled_csv_path": compiled_csv, "session_id": sess_id, "run_id": run_id})
                     yield _sse("done", {"session_id": sess_id, "filename": orig_filename})
                 else:
@@ -711,7 +883,13 @@ def upload_dataset():
                 else:
                     yield _sse("done", {"session_id": session_id, "filename": filename})
             else:
-                # Direct compilation via UnifiedCompiler
+                # No parked LangGraph thread — Jane session was not bridged yet.
+                # Log clearly so this is visible in server output, then fall back to direct compile.
+                logger.warning(
+                    f"[Upload] Session '{session_id}' has no parked LangGraph advise_upload interrupt. "
+                    "The /api/jane/seed bridge call may have failed or not been made. "
+                    "Falling back to _direct_compile_stream (intent gates bypassed)."
+                )
                 yield from _direct_compile_stream(save_path, filename, session_id)
 
         return Response(
@@ -830,9 +1008,460 @@ def profile_dataset():
 
     try:
         result = profile_from_path(file_path)
+        # Option C: Export profile report snapshot to tenant workspace reports/
+        try:
+            tenant_id = (request.form.get("tenant_id") or "global").strip()
+            # Extract run_id if part of path
+            norm_path = file_path.replace("\\", "/")
+            run_match = re.search(r"run_([a-zA-Z0-9]+)", norm_path)
+            run_id = f"run_{run_match.group(1)}" if run_match else f"run_{uuid.uuid4().hex[:8]}"
+            export_profile_report(tenant_id, run_id, result)
+        except Exception as rep_err:
+            logger.warning(f"[Profile] Non-fatal profile report export error: {rep_err}")
+
         return jsonify({"profile": result})
     except Exception as exc:
         return jsonify({"error": str(exc)}), 500
+
+
+@app.route("/api/v1/reports/<run_id>/eda_report.html", methods=["GET"])
+def serve_eda_report(run_id):
+    """
+    Serve generated fg-data-profiling interactive HTML report for a specific run.
+    """
+    tenant_id = request.args.get("tenant_id", "global")
+    theme = request.args.get("theme", "light").lower()
+    file_path_arg = request.args.get("file_path", "").strip()
+
+    reports_dir = get_tenant_subfolder("reports", tenant_id)
+    
+    target_file = None
+    possible_names = [f"eda_{run_id}.html", "eda_report.html", "eda_run_20250115_143022.html", "eda_run_4d9a27ef.html"]
+    for name in possible_names:
+        full_path = os.path.join(reports_dir, name)
+        if os.path.exists(full_path):
+            target_file = full_path
+            break
+            
+    if not target_file:
+        runs_dir = get_tenant_subfolder("runs", tenant_id)
+        run_html = os.path.join(runs_dir, run_id, "eda_report.html")
+        if os.path.exists(run_html):
+            target_file = run_html
+
+    if not target_file:
+        html_files = [os.path.join(reports_dir, f) for f in os.listdir(reports_dir) if f.endswith(".html")]
+        if html_files:
+            target_file = max(html_files, key=os.path.getmtime)
+
+    if not target_file or not os.path.exists(target_file):
+        return jsonify({"status": "generating", "message": "Report is generating in background..."}), 202
+
+    # Read and inject master theme stylesheet & body attributes
+    with open(target_file, "r", encoding="utf-8") as f:
+        html_content = f.read()
+
+    master_light_css = """
+<style id="aiconnex-light-theme-master">
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap');
+
+  :root {
+    --bs-body-font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    --bs-body-bg: #F4F5F7 !important;
+    --bs-body-color: #0F172A !important;
+    --bs-border-color: #E2E8F0 !important;
+    --bs-primary: #FF6B35 !important;
+    --bs-primary-rgb: 255, 107, 53 !important;
+    --bs-link-color: #FF6B35 !important;
+    --bs-link-hover-color: #E85520 !important;
+  }
+
+  body, html {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    background-color: #F4F5F7 !important;
+    color: #0F172A !important;
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .container, .container-fluid {
+    background-color: transparent !important;
+    max-width: 100% !important;
+    padding: 16px 20px !important;
+  }
+
+  /* TOP NAVBAR */
+  nav.navbar, .navbar {
+    background-color: #FFFFFF !important;
+    border-bottom: 1px solid #E2E8F0 !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03) !important;
+    padding: 10px 20px !important;
+  }
+
+  .navbar-brand, .navbar-brand a {
+    color: #0F172A !important;
+    font-weight: 800 !important;
+    font-size: 1.1rem !important;
+    letter-spacing: -0.01em !important;
+  }
+
+  /* ALL SECTION ITEMS & CARDS (Pure White with 16px Radius) */
+  .card, .section-items > .row, .tab-content, .variable, .overview, .correlations, .missing, .sample, .variable-card {
+    background-color: #FFFFFF !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 16px !important;
+    color: #0F172A !important;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px 0 rgba(0, 0, 0, 0.02) !important;
+    margin-bottom: 20px !important;
+    padding: 20px 24px !important;
+    transition: all 0.2s ease !important;
+  }
+
+  /* COLLAPSE & EXPANDED INNER SECTIONS */
+  .collapse, .collapsing, div[id^="bottom-"] {
+    background-color: #FAFAFA !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 14px !important;
+    padding: 16px !important;
+    margin-top: 14px !important;
+  }
+
+  /* HEADINGS & VARIABLE TITLES */
+  h1, .h1, .section-name, .page-header h1 {
+    font-size: 1.35rem !important;
+    font-weight: 800 !important;
+    color: #0F172A !important;
+    letter-spacing: -0.02em !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  h2, .h2, p.h4.item-header, .item-header {
+    font-size: 1.05rem !important;
+    font-weight: 700 !important;
+    color: #0F172A !important;
+    letter-spacing: -0.01em !important;
+    margin-top: 0.5rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  h3, .h3, .variable-header, .variable-header a, .variable a {
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    color: #0F172A !important;
+    text-decoration: none !important;
+  }
+
+  /* NAVIGATION TABS & PILLS (Top & Nested More-Details Tabs) */
+  nav.nav-pills, .nav-tabs, .nav-pills, ul.nav, .tab-nav {
+    background-color: #F8FAFC !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 12px !important;
+    padding: 4px !important;
+    gap: 4px !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    margin-bottom: 14px !important;
+  }
+
+  .nav-link, .nav-pills .nav-link, .nav-tabs .nav-link, .tab-nav .nav-link {
+    color: #64748B !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    border-radius: 8px !important;
+    padding: 6px 14px !important;
+    border: none !important;
+    background-color: transparent !important;
+    transition: all 0.15s ease !important;
+    cursor: pointer !important;
+  }
+
+  .nav-link:hover, .tab-nav .nav-link:hover {
+    color: #0F172A !important;
+    background-color: #E2E8F0 !important;
+  }
+
+  /* ACTIVE TAB PILL (Coral Orange Accent #FF6B35) */
+  .nav-link.active, .nav-pills .nav-link.active, .nav-tabs .nav-link.active, .tab-nav .nav-link.active {
+    background-color: #FF6B35 !important;
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+    box-shadow: 0 2px 6px rgba(255, 107, 53, 0.28) !important;
+    border-color: #FF6B35 !important;
+  }
+
+  /* 'MORE DETAILS' & ACTION BUTTONS */
+  button.btn, .btn, .btn-light, .btn-primary, .btn-secondary, button[data-bs-toggle="collapse"], .col-sm-12.text-end > button {
+    background-color: #FFFFFF !important;
+    color: #334155 !important;
+    border: 1px solid #CBD5E1 !important;
+    border-radius: 10px !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    padding: 6px 14px !important;
+    transition: all 0.2s ease !important;
+    cursor: pointer !important;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03) !important;
+  }
+
+  button.btn:hover, .btn:hover, .btn-light:hover, button[data-bs-toggle="collapse"]:hover, .col-sm-12.text-end > button:hover {
+    background-color: #FFF7ED !important;
+    color: #EA580C !important;
+    border-color: #FFD8A8 !important;
+    box-shadow: 0 2px 5px rgba(255, 107, 53, 0.15) !important;
+  }
+
+  /* TABLES & ZEBRA STRIPING */
+  table, .table {
+    color: #0F172A !important;
+    font-size: 12px !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    width: 100% !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    margin-bottom: 12px !important;
+    background-color: #FFFFFF !important;
+  }
+
+  table th, .table th {
+    background-color: #F8FAFC !important;
+    color: #475569 !important;
+    font-weight: 700 !important;
+    font-size: 11px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    border-bottom: 1px solid #E2E8F0 !important;
+    border-top: none !important;
+    padding: 9px 14px !important;
+  }
+
+  table td, .table td {
+    background-color: #FFFFFF !important;
+    border-top: 1px solid #F1F5F9 !important;
+    border-bottom: none !important;
+    color: #0F172A !important;
+    padding: 8px 14px !important;
+    font-size: 12px !important;
+  }
+
+  table.table-striped > tbody > tr:nth-of-type(odd) > * {
+    background-color: #FAFAFA !important;
+    color: #0F172A !important;
+  }
+
+  .table-hover tbody tr:hover td {
+    background-color: #FFF7ED !important;
+  }
+
+  /* PROGRESS BARS & FREQUENCY BARS (Coral Orange #FF6B35) */
+  .progress {
+    background-color: #F1F5F9 !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 9999px !important;
+    height: 18px !important;
+    overflow: hidden !important;
+  }
+
+  .progress-bar, .bar, .progress > div, [role="progressbar"], .freq .bar {
+    background: linear-gradient(135deg, #FF8F5A 0%, #FF6B35 100%) !important;
+    color: #FFFFFF !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    line-height: 18px !important;
+    border-radius: 9999px !important;
+    box-shadow: 0 1px 3px rgba(255, 107, 53, 0.25) !important;
+  }
+
+  /* BADGES */
+  .badge {
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    border-radius: 6px !important;
+    padding: 3px 8px !important;
+    letter-spacing: 0.02em !important;
+  }
+
+  /* Alerts / Warning Badges */
+  .badge.text-bg-warning, .badge-warning, .bg-warning {
+    background-color: #FFF7ED !important;
+    color: #C2410C !important;
+    border: 1px solid #FFEDD5 !important;
+  }
+
+  /* Correlation / Secondary Badges */
+  .badge.text-bg-secondary, .badge-secondary, .bg-secondary {
+    background-color: #FFF7ED !important;
+    color: #C2410C !important;
+    border: 1px solid #FFEDD5 !important;
+  }
+
+  /* Imbalance / Primary Badges */
+  .badge.text-bg-primary, .badge-primary, .bg-primary {
+    background-color: #F5F3FF !important;
+    color: #6D28D9 !important;
+    border: 1px solid #EDE9FE !important;
+  }
+
+  /* Missing / Info Badges */
+  .badge.text-bg-info, .badge-info, .bg-info {
+    background-color: #EFF6FF !important;
+    color: #1D4ED8 !important;
+    border: 1px solid #DBEAFE !important;
+  }
+
+  /* Success Badges */
+  .badge.text-bg-success, .badge-success, .bg-success {
+    background-color: #ECFDF5 !important;
+    color: #047857 !important;
+    border: 1px solid #D1FAE5 !important;
+  }
+
+  /* ALL SVG HISTOGRAMS & PLOT RECTANGLES */
+  svg rect[fill="#1f77b4"], svg rect[fill="rgb(31, 119, 180)"], 
+  svg rect[fill="#0d6efd"], svg rect[fill="rgb(13, 110, 253)"], 
+  svg rect[fill="#2563eb"], svg rect[fill="#007bff"],
+  svg rect[fill="blue"], svg path[fill="#1f77b4"], svg path[fill="#0d6efd"] {
+    fill: #FF6B35 !important;
+  }
+
+  svg rect[stroke="#1f77b4"], svg rect[stroke="#0d6efd"] {
+    stroke: #E85520 !important;
+  }
+
+  svg text {
+    fill: #475569 !important;
+    font-family: 'Inter', sans-serif !important;
+  }
+
+  /* CODE & TOOLTIPS */
+  code {
+    color: #0F172A !important;
+    background-color: #F1F5F9 !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 4px !important;
+    padding: 1px 5px !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 11px !important;
+  }
+
+  a {
+    color: #FF6B35 !important;
+    text-decoration: none !important;
+  }
+  a:hover {
+    color: #E85520 !important;
+    text-decoration: underline !important;
+  }
+
+  /* Universal scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: #F8FAFC; }
+  ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 9999px; }
+  ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+</style>
+"""
+
+    if "</head>" in html_content:
+        html_content = html_content.replace("</head>", f"{master_light_css}\n</head>")
+    else:
+        html_content = f"{master_light_css}\n{html_content}"
+
+    body_class = "theme-dark" if theme == "dark" else "theme-light"
+    if "<body" in html_content:
+        import re
+        html_content = re.sub(r'<body([^>]*)class=["\']([^"\']*)["\']', rf'<body\1class="\2 {body_class}"', html_content)
+        if f'class="{body_class}"' not in html_content and f"class='{body_class}'" not in html_content and f' {body_class}' not in html_content:
+            html_content = html_content.replace("<body", f'<body class="{body_class}" data-theme="{theme}"')
+
+    from flask import Response
+    return Response(html_content, mimetype="text/html")
+
+
+
+@app.route("/api/v1/profile/generate_report", methods=["POST"])
+def trigger_profile_report_generation():
+    """
+    POST /api/v1/profile/generate_report
+    Form field: file_path (str), run_id (optional), tenant_id (optional)
+    Manually triggers background generation of full interactive HTML EDA report.
+    """
+    from profiler_service import generate_exhaustive_html_report
+
+    file_path = (request.form.get("file_path") or "").strip()
+    if not file_path:
+        return jsonify({"error": "file_path is required"}), 400
+
+    run_id = (request.form.get("run_id") or f"run_{uuid.uuid4().hex[:8]}").strip()
+    tenant_id = (request.form.get("tenant_id") or "global").strip()
+
+    reports_dir = get_tenant_subfolder("reports", tenant_id)
+    report_html_path = os.path.join(reports_dir, f"eda_{run_id}.html")
+
+    import threading
+    def _bg_gen():
+        generate_exhaustive_html_report(file_path, report_html_path, title=f"AIConnex EDA Report - {run_id}")
+
+    threading.Thread(target=_bg_gen, daemon=True).start()
+
+    return jsonify({
+        "status": "triggered",
+        "run_id": run_id,
+        "report_url": f"/api/v1/reports/{run_id}/eda_report.html"
+    })
+
+
+# ── Tenant Workspace Endpoints ──────────────────────────────────────────────
+
+@app.route("/api/v1/workspace/tree", methods=["GET"])
+@app.route("/api/workspace/tree", methods=["GET"])
+def get_workspace_tree_endpoint():
+    """
+    GET /api/v1/workspace/tree?tenant_id=global&include_sessions=false
+    Returns recursive hierarchical JSON tree of tenant workspace.
+    """
+    tenant_id = request.args.get("tenant_id", "global")
+    include_sessions = request.args.get("include_sessions", "false").lower() in ("true", "1", "yes")
+    tree_data = build_workspace_tree(tenant_id=tenant_id, include_sessions=include_sessions)
+    return jsonify(tree_data)
+
+
+@app.route("/api/v1/workspace/files", methods=["GET"])
+@app.route("/api/workspace/files", methods=["GET"])
+def list_workspace_files_endpoint():
+    """
+    GET /api/v1/workspace/files?tenant_id=global
+    Returns flat list of workspace files for backwards compatibility.
+    """
+    tenant_id = request.args.get("tenant_id", "global")
+    include_sessions = request.args.get("include_sessions", "false").lower() in ("true", "1", "yes")
+    items = list_workspace_flat(tenant_id=tenant_id, include_sessions=include_sessions)
+    return jsonify({"items": items})
+
+
+@app.route("/api/v1/workspace/file", methods=["GET"])
+@app.route("/api/workspace/file", methods=["GET"])
+def get_workspace_file_endpoint():
+    """
+    GET /api/v1/workspace/file?path=<path>&tenant_id=global&preview=true|download=true
+    Previews (JSON/CSV/text) or downloads a file from the tenant workspace.
+    """
+    tenant_id = request.args.get("tenant_id", "global")
+    file_path = request.args.get("path", "")
+    download = request.args.get("download", "false").lower() in ("true", "1", "yes")
+
+    safe_path = resolve_safe_path(file_path, tenant_id=tenant_id)
+    if not safe_path:
+        return jsonify({"error": "File not found or access denied."}), 404
+
+    if download:
+        from flask import send_file
+        return send_file(safe_path, as_attachment=True, download_name=os.path.basename(safe_path))
+
+    preview_data = get_file_preview(file_path, tenant_id=tenant_id, max_rows=100)
+    return jsonify(preview_data)
 
 
 @app.route("/api/v1/dataset", methods=["GET"])
@@ -1147,13 +1776,38 @@ def download_gguf_model_endpoint():
 def execute_tri_agent_endpoint():
     """
     POST /api/v1/tri_agent/execute
-    Runs the 3-Stage Cascading Metaphorical Agent Workflow across Qwen 3-4B, Qwen 2.5-Coder 3B, and Qwen 2.5-Coder 1.5B.
+    Runs the 3-Stage Cascading Metaphorical Agent Workflow across Qwen 3-4B, Phi-4-mini, and Qwen 2.5-Coder 3B.
     """
     from tri_llm_orchestrator import tri_orchestrator
     data = request.get_json(force=True, silent=True) or request.args or {}
     filename = data.get("file_name") or "C-MAPSS_FD001_train.csv"
+    intent = data.get("intent") or "predictive_maintenance_rul"
 
-    res = tri_orchestrator.execute_tri_agent_pipeline({"filename": filename, "rows": 500, "cols": 27})
+    res = tri_orchestrator.execute_tri_agent_pipeline({"filename": filename, "rows": 500, "cols": 27, "intent": intent})
+    return jsonify(res), 200
+
+
+@app.route("/api/v1/pipeline/execute_end_to_end", methods=["POST", "GET"])
+def execute_end_to_end_pipeline_endpoint():
+    """
+    POST /api/v1/pipeline/execute_end_to_end
+    Executes the 100% autonomous, intelligent, offline end-to-end MLOps pipeline:
+    1. Primary Brain (Qwen3-4B): Intent parsing & formatted deliverables manifest generation.
+    2. Reasoning Specialist (Phi-4-mini): Single-spin data prep & feature engineering.
+    3. Coding & SQL Specialist (Qwen2.5-Coder-3B): ML Studio multi-candidate training & validation gates.
+    4. Presenter Agent: Automated deployment presentation at Data Studio or ML Studio.
+    """
+    from tri_llm_orchestrator import tri_orchestrator
+    data = request.get_json(force=True, silent=True) or request.args or {}
+    filename = data.get("file_name") or data.get("filename") or "C-MAPSS_FD001_train.csv"
+    intent = data.get("intent") or "turbofan_remaining_useful_life"
+
+    res = tri_orchestrator.execute_tri_agent_pipeline({
+        "filename": filename,
+        "rows": 500,
+        "cols": 27,
+        "intent": intent
+    })
     return jsonify(res), 200
 
 

@@ -1,0 +1,22 @@
+{
+  "document_id": "PLAT-DOC-006",
+  "section_count": 1,
+  "sections": [
+    {
+      "section_id": "SEC-0001",
+      "document_id": "PLAT-DOC-006",
+      "heading_level": 2,
+      "heading_text": "Mermaid Diagram Reference Document",
+      "section_path": "AIConnex Master Technical Architecture Diagram > Mermaid Diagram Reference Document",
+      "content": "``` mermaid\nflowchart LR\n    USER[\"\ud83d\udc64 User\"] --> UI[\"\ud83d\udcac React chat + upload experience\"]\n    UI --> CUC[\"\ud83d\udcc4 Intent / CUC contract\"]\n    \n    subgraph ORCH[\"\u2699\ufe0f AIConnex orchestrator\"]\n        direction TB\n        subgraph R1[\" \"]\n            direction LR\n            A1[\"Conversation parser\"] --- A2[\"Clarification agent\"]\n        end\n        subgraph R2[\" \"]\n            direction LR\n            A3[\"Planning engine\"] --- A4[\"Scout / dataset intelligence\"]\n        end\n        subgraph R3[\" \"]\n            direction LR\n            A5[\"Platform / model training\"] --- A6[\"Memory and audit\"]\n        end\n        R1 --> R2 --> R3\n    end\n    \n    CUC --> ORCH\n    ORCH --> DIC[\"\ud83d\uddc4\ufe0f Compiler + canonical dataset\"]\n    \n    subgraph MLP[\"\ud83d\udd2c ML pipeline\"]\n        direction TB\n        subgraph M1[\"Phase 1: Ingestion & Routing\"]\n            direction LR\n            N1[\"Node 1: Profile\"] --> N2[\"Node 2: Route\"] --> N3[\"Node 3: Recipe\"]\n        end\n        subgraph M2[\"Phase 2: Prep & Feature\"]\n            direction LR\n            N4[\"Node 4: Prepare\"] --> N5[\"Node 5: Engineer\"] --> N6[\"Node 6: Split\"]\n        end\n        subgraph M3[\"Phase 3: Train & Deploy\"]\n            direction LR\n            N7[\"Node 7: Train\"] --> N8[\"Node 8: Evaluate\"] --> N9[\"Node 9: Deploy & Monitor\"]\n        end\n        M1 --> M2 --> M3\n    end\n\n    DIC --> MLP\n    MLP --> OUT[\"\u2705 Production model + data explorer\"]\n\n    classDef user fill:#f5f5f4,stroke:#78716c,color:#1c1917;\n    classDef ui fill:#e0f2fe,stroke:#0284c7,color:#0c4a6e;\n    classDef contract fill:#f3e8ff,stroke:#9333ea,color:#581c87;\n    classDef comp fill:#ffedd5,stroke:#ea580c,color:#7c2d12;\n    classDef prod fill:#dcfce7,stroke:#16a34a,color:#14532d;\n\n    class USER user;\n    class UI ui;\n    class CUC contract;\n    class DIC comp;\n    class OUT prod;\n```",
+      "content_type": "mixed",
+      "code_blocks": [
+        {
+          "language": "mermaid",
+          "code": "flowchart LR\n    USER[\"\ud83d\udc64 User\"] --> UI[\"\ud83d\udcac React chat + upload experience\"]\n    UI --> CUC[\"\ud83d\udcc4 Intent / CUC contract\"]\n    \n    subgraph ORCH[\"\u2699\ufe0f AIConnex orchestrator\"]\n        direction TB\n        subgraph R1[\" \"]\n            direction LR\n            A1[\"Conversation parser\"] --- A2[\"Clarification agent\"]\n        end\n        subgraph R2[\" \"]\n            direction LR\n            A3[\"Planning engine\"] --- A4[\"Scout / dataset intelligence\"]\n        end\n        subgraph R3[\" \"]\n            direction LR\n            A5[\"Platform / model training\"] --- A6[\"Memory and audit\"]\n        end\n        R1 --> R2 --> R3\n    end\n    \n    CUC --> ORCH\n    ORCH --> DIC[\"\ud83d\uddc4\ufe0f Compiler + canonical dataset\"]\n    \n    subgraph MLP[\"\ud83d\udd2c ML pipeline\"]\n        direction TB\n        subgraph M1[\"Phase 1: Ingestion & Routing\"]\n            direction LR\n            N1[\"Node 1: Profile\"] --> N2[\"Node 2: Route\"] --> N3[\"Node 3: Recipe\"]\n        end\n        subgraph M2[\"Phase 2: Prep & Feature\"]\n            direction LR\n            N4[\"Node 4: Prepare\"] --> N5[\"Node 5: Engineer\"] --> N6[\"Node 6: Split\"]\n        end\n        subgraph M3[\"Phase 3: Train & Deploy\"]\n            direction LR\n            N7[\"Node 7: Train\"] --> N8[\"Node 8: Evaluate\"] --> N9[\"Node 9: Deploy & Monitor\"]\n        end\n        M1 --> M2 --> M3\n    end\n\n    DIC --> MLP\n    MLP --> OUT[\"\u2705 Production model + data explorer\"]\n\n    classDef user fill:#f5f5f4,stroke:#78716c,color:#1c1917;\n    classDef ui fill:#e0f2fe,stroke:#0284c7,color:#0c4a6e;\n    classDef contract fill:#f3e8ff,stroke:#9333ea,color:#581c87;\n    classDef comp fill:#ffedd5,stroke:#ea580c,color:#7c2d12;\n    classDef prod fill:#dcfce7,stroke:#16a34a,color:#14532d;\n\n    class USER user;\n    class UI ui;\n    class CUC contract;\n    class DIC comp;\n    class OUT prod;"
+        }
+      ],
+      "tables": []
+    }
+  ]
+}

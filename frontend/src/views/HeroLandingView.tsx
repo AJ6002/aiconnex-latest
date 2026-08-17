@@ -69,6 +69,28 @@ export const HeroLandingView: React.FC<HeroLandingViewProps> = ({ onSelectView, 
             </button>
 
             <button
+              onClick={() => {
+                fetch('http://localhost:8000/api/v1/pipeline/execute_end_to_end', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ file_name: 'C-MAPSS_FD001_train.csv', intent: 'turbofan_remaining_useful_life' }),
+                })
+                  .then((res) => res.json())
+                  .then((data) => {
+                    const dest = data.deployment_deliverables?.target_destination_view === 'DataStudio' ? 'data_explorer' : 'ml_studio';
+                    onSelectView(dest as ViewMode);
+                  })
+                  .catch(() => {
+                    onSelectView('ml_studio');
+                  });
+              }}
+              className="w-full sm:w-auto bg-[#2B0063] hover:bg-[#3C1053] text-white font-bold px-8 py-3.5 rounded-full flex items-center justify-center gap-2 transition-all shadow-lg hover:shadow-xl active:scale-95 duration-200 group cursor-pointer text-sm sm:text-base border border-[#E86326]/40"
+            >
+              <span className="material-symbols-outlined text-[18px] text-[#E86326]">bolt</span>
+              <span>⚡ Run End-to-End Pipeline (Offline)</span>
+            </button>
+
+            <button
               onClick={onOpenChatBot}
               className="w-full sm:w-auto bg-[#ffffff] border border-[#0D1533] text-[#0D1533] font-semibold px-6 py-3.5 rounded-full flex items-center justify-center gap-2 hover:bg-[#f2f4f6] transition-colors active:scale-95 duration-200 cursor-pointer text-sm sm:text-base shadow-sm"
             >

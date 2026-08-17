@@ -1,0 +1,40 @@
+[
+  {
+    "section_id": "SEC-0001",
+    "document_id": "DOC-EQP-010",
+    "heading_level": 2,
+    "heading_text": "Overview",
+    "section_path": "OPC UA Powertrain Asset Management Specification > Overview",
+    "content": "Explicit model for drive chains and rotating equipment power transmission.",
+    "content_type": "prose",
+    "code_blocks": [],
+    "tables": []
+  },
+  {
+    "section_id": "SEC-0002",
+    "document_id": "DOC-EQP-010",
+    "heading_level": 2,
+    "heading_text": "Powertrain Topology",
+    "section_path": "OPC UA Powertrain Asset Management Specification > Powertrain Topology",
+    "content": "``` \nElectric Motor -> Coupling -> Gearbox -> Transmission Shaft -> Load (Pump/Compressor/Fan)\n```",
+    "content_type": "mixed",
+    "code_blocks": [
+      {
+        "language": "text",
+        "code": "Electric Motor -> Coupling -> Gearbox -> Transmission Shaft -> Load (Pump/Compressor/Fan)"
+      }
+    ],
+    "tables": []
+  },
+  {
+    "section_id": "SEC-0003",
+    "document_id": "DOC-EQP-010",
+    "heading_level": 2,
+    "heading_text": "Key Attributes",
+    "section_path": "OPC UA Powertrain Asset Management Specification > Key Attributes",
+    "content": "- Rating parameters: Nominal Power (kW), Rated Speed (RPM), Torque (Nm), Gear Ratio.\n- Sensor Associations: Vibration (mm/s RMS), Bearing Temperature (\u00b0C), Oil Level.",
+    "content_type": "prose",
+    "code_blocks": [],
+    "tables": []
+  }
+]

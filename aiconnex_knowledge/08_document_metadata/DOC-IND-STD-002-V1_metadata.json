@@ -1,0 +1,13 @@
+{
+  "document_id": "DOC-IND-STD-002-V1",
+  "source_id": "SRC-IND-STD-002",
+  "title": "ISO 13379-1 Condition Monitoring and Diagnostics of Machines \u2014 General Guidelines",
+  "version": "2012",
+  "document_type": "pdf",
+  "content_hash": "68ab9e90f5b2cdf5026b1db4466a66dbdda99fc0549db129649e7334a10ced0e",
+  "page_count": 45,
+  "total_sections": 1,
+  "total_words": 1742,
+  "storage_uri": "s3://aiconnex-platform-kb-prod/industrial/ISO_13379_1_Data_Interpretation_Diagnostics.pdf",
+  "created_at": "2026-08-14T08:41:25.380468+00:00"
+}

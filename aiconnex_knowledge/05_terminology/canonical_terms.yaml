@@ -1,0 +1,455 @@
+canonical_terms:
+- term_id: TERM-SCADA-SCADA
+  canonical_name: Supervisory Control and Data Acquisition
+  term_type: industrial_concept
+  definition: A computer-based system for gathering and analyzing real-time data to
+    monitor and control industrial operations and equipment.
+  synonyms:
+  - Supervisory Control and Data Acquisition
+  abbreviations:
+  - SCADA
+  domain:
+  - scada
+  source:
+  - NIST SP 800-82 Rev. 3
+  authority: A
+  status: Approved
+- term_id: TERM-SCADA-PLC
+  canonical_name: Programmable Logic Controller
+  term_type: industrial_concept
+  definition: A solid-state control system that has a user-programmable memory for
+    storing instructions to implement specific functions such as I/O control, logic,
+    timing, counting, three-mode (PID) control, communication, arithmetic, and data
+    handling.
+  synonyms:
+  - Programmable Logic Controller
+  abbreviations:
+  - PLC
+  domain:
+  - scada
+  source:
+  - NIST SP 800-82 Rev. 3
+  authority: A
+  status: Approved
+- term_id: TERM-SCADA-DCS
+  canonical_name: Distributed Control System
+  term_type: industrial_concept
+  definition: A control system in which control elements are distributed throughout
+    the system with a subsystem sub-controller under the control of a central supervisory
+    control system.
+  synonyms:
+  - Distributed Control System
+  abbreviations:
+  - DCS
+  domain:
+  - scada
+  source:
+  - NIST SP 800-82 Rev. 3
+  authority: A
+  status: Approved
+- term_id: TERM-SCADA-HMI
+  canonical_name: Human-Machine Interface
+  term_type: industrial_concept
+  definition: Hardware or software through which an operator interacts with a controller
+    or system, displaying process variables, alarms, and controls.
+  synonyms:
+  - Human-Machine Interface
+  abbreviations:
+  - HMI
+  domain:
+  - scada
+  source:
+  - NIST SP 800-82 Rev. 3
+  authority: A
+  status: Approved
+- term_id: TERM-SCADA-RTU
+  canonical_name: Remote Terminal Unit
+  term_type: industrial_concept
+  definition: A special-purpose computer equipped with input/output channels to monitor
+    physical sensors and actuate field equipment over communication networks.
+  synonyms:
+  - Remote Terminal Unit
+  abbreviations:
+  - RTU
+  domain:
+  - scada
+  source:
+  - NIST SP 800-82 Rev. 3
+  authority: A
+  status: Approved
+- term_id: TERM-AI/ML-AI
+  canonical_name: Artificial Intelligence
+  term_type: business_concept
+  definition: A machine-based system that can, for a given set of human-defined objectives,
+    make predictions, recommendations, or decisions influencing real or virtual environments.
+  synonyms:
+  - Artificial Intelligence
+  abbreviations:
+  - AI
+  domain:
+  - ai/ml
+  source:
+  - NIST AI 100-1
+  authority: A
+  status: Approved
+- term_id: TERM-AI/ML-ML
+  canonical_name: Machine Learning
+  term_type: business_concept
+  definition: A branch of artificial intelligence and computer science which focuses
+    on the use of data and algorithms to imitate the way humans learn, gradually improving
+    its accuracy.
+  synonyms:
+  - Machine Learning
+  abbreviations:
+  - ML
+  domain:
+  - ai/ml
+  source:
+  - NIST AI 100-1
+  authority: A
+  status: Approved
+- term_id: TERM-AI/ML-SL
+  canonical_name: Supervised Learning
+  term_type: business_concept
+  definition: A machine learning technique where an algorithm is trained on labeled
+    data to map inputs to target outputs.
+  synonyms:
+  - Supervised Learning
+  abbreviations:
+  - SL
+  domain:
+  - ai/ml
+  source:
+  - NIST AI 100-1
+  authority: A
+  status: Approved
+- term_id: TERM-AI/ML-UL
+  canonical_name: Unsupervised Learning
+  term_type: business_concept
+  definition: A machine learning technique used to draw inferences from datasets consisting
+    of input data without labeled responses.
+  synonyms:
+  - Unsupervised Learning
+  abbreviations:
+  - UL
+  domain:
+  - ai/ml
+  source:
+  - NIST AI 100-1
+  authority: A
+  status: Approved
+- term_id: TERM-PHM-PHM
+  canonical_name: Prognostics and Health Management
+  term_type: industrial_concept
+  definition: An engineering discipline that evaluates the real-time condition of
+    an asset under actual operating conditions and predicts remaining useful life.
+  synonyms:
+  - Prognostics and Health Management
+  abbreviations:
+  - PHM
+  domain:
+  - phm
+  source:
+  - NIST AMS 300-2
+  authority: A
+  status: Approved
+- term_id: TERM-Manufacturing-MO
+  canonical_name: Manufacturing Operations
+  term_type: industrial_concept
+  definition: The collection of management activities, scheduling, logistics, execution,
+    and control that converts raw inputs into finished products.
+  synonyms:
+  - Manufacturing Operations
+  abbreviations:
+  - MO
+  domain:
+  - manufacturing
+  source:
+  - NIST CSRC Glossary
+  authority: A
+  status: Approved
+- term_id: WQ.TDS
+  canonical_name: Total Dissolved Solids
+  term_type: measurement
+  definition: The total concentration of dissolved substances (minerals, salts, metals,
+    cations, or anions) in water.
+  synonyms: &id001
+  - TDS
+  - total_dissolved_solids
+  - tds_mg_l
+  abbreviations:
+  - TDS
+  domain:
+  - water_quality
+  unit:
+    canonical: mg/L
+  column_patterns: *id001
+  source:
+  - EPA Drinking Water Glossary / USGS Water Science
+  authority: A
+  status: Approved
+- term_id: WQ.COD
+  canonical_name: Chemical Oxygen Demand
+  term_type: measurement
+  definition: A measure of the capacity of water to consume oxygen during the decomposition
+    of organic matter and oxidation of inorganic chemicals.
+  synonyms: &id002
+  - COD
+  - chemical_oxygen_demand
+  - cod_ppm
+  abbreviations:
+  - COD
+  domain:
+  - wastewater
+  unit:
+    canonical: mg/L
+  column_patterns: *id002
+  source:
+  - EPA Terminology Services
+  authority: A
+  status: Approved
+- term_id: WQ.BOD
+  canonical_name: Biochemical Oxygen Demand
+  term_type: measurement
+  definition: The amount of dissolved oxygen needed by aerobic biological organisms
+    to break down organic material present in a given water sample at given temperature
+    over a specific time period.
+  synonyms: &id003
+  - BOD
+  - biochemical_oxygen_demand
+  - bod5
+  abbreviations:
+  - BOD
+  domain:
+  - wastewater
+  unit:
+    canonical: mg/L
+  column_patterns: *id003
+  source:
+  - EPA Terminology Services
+  authority: A
+  status: Approved
+- term_id: WQ.DO
+  canonical_name: Dissolved Oxygen
+  term_type: measurement
+  definition: The level of free, non-compound oxygen present in water or other liquids,
+    critical for aquatic life and wastewater aeration processes.
+  synonyms: &id004
+  - DO
+  - dissolved_oxygen
+  - do_mg_l
+  abbreviations:
+  - DO
+  domain:
+  - water_quality
+  unit:
+    canonical: mg/L
+  column_patterns: *id004
+  source:
+  - USGS Water Science Glossary
+  authority: A
+  status: Approved
+- term_id: WQ.TSS
+  canonical_name: Total Suspended Solids
+  term_type: measurement
+  definition: Dry-weight of suspended particles, that are not dissolved, in a sample
+    of water that can be trapped by a filter.
+  synonyms: &id005
+  - TSS
+  - total_suspended_solids
+  abbreviations:
+  - TSS
+  domain:
+  - wastewater
+  unit:
+    canonical: mg/L
+  column_patterns: *id005
+  source:
+  - EPA Drinking Water Glossary
+  authority: A
+  status: Approved
+- term_id: WQ.ETP
+  canonical_name: Effluent Treatment Plant
+  term_type: measurement
+  definition: An industrial wastewater treatment facility designed to purify industrial
+    waste water for reuse or safe discharge.
+  synonyms: &id006
+  - ETP
+  - effluent_plant
+  abbreviations:
+  - ETP
+  domain:
+  - industrial_water
+  unit:
+    canonical: facility
+  column_patterns: *id006
+  source:
+  - EPA Terminology Services
+  authority: A
+  status: Approved
+- term_id: PHM.RUL
+  canonical_name: Remaining Useful Life
+  term_type: industrial_concept
+  definition: An estimate of the remaining time, cycles, or distance an asset or component
+    can continue to operate within functional limits before requiring maintenance
+    or suffering functional failure.
+  synonyms: &id007
+  - RUL
+  - remaining_useful_life
+  - rul_hours
+  - rul_cycles
+  abbreviations:
+  - RUL
+  domain:
+  - phm
+  unit: null
+  column_patterns: *id007
+  source:
+  - NIST AMS 300-2 / NASA PHM Review
+  authority: A
+  status: Approved
+- term_id: PHM.PDM
+  canonical_name: Predictive Maintenance
+  term_type: industrial_concept
+  definition: A condition-driven maintenance strategy that uses sensor monitoring
+    and analytics to evaluate asset condition and schedule maintenance prior to expected
+    failure.
+  synonyms: &id008
+  - PdM
+  - predictive_maintenance
+  - condition_based_maintenance
+  - CBM
+  abbreviations:
+  - PdM
+  domain:
+  - maintenance
+  unit: null
+  column_patterns: *id008
+  source:
+  - SMRP Best Practices / ISO 13381-1
+  authority: A
+  status: Approved
+- term_id: PHM.MTBF
+  canonical_name: Mean Time Between Failures
+  term_type: industrial_concept
+  definition: The predicted elapsed time between inherent failures of a repairable
+    system during normal system operation.
+  synonyms: &id009
+  - MTBF
+  - mean_time_between_failures
+  abbreviations:
+  - MTBF
+  domain:
+  - reliability
+  unit:
+    canonical: hours
+  column_patterns: *id009
+  source:
+  - SMRP Best Practices / ISO 14224
+  authority: A
+  status: Approved
+- term_id: PHM.MTTR
+  canonical_name: Mean Time To Repair
+  term_type: industrial_concept
+  definition: The average time required to repair a failed component or system and
+    restore it to operational status.
+  synonyms: &id010
+  - MTTR
+  - mean_time_to_repair
+  abbreviations:
+  - MTTR
+  domain:
+  - maintenance
+  unit:
+    canonical: hours
+  column_patterns: *id010
+  source:
+  - SMRP Best Practices / ISO 14224
+  authority: A
+  status: Approved
+- term_id: PHM.FMEA
+  canonical_name: Failure Mode and Effects Analysis
+  term_type: industrial_concept
+  definition: A systematic technique used to identify potential failure modes, evaluate
+    their causes and effects, and prioritize risk mitigation.
+  synonyms: &id011
+  - FMEA
+  - FMECA
+  - failure_mode_effects_analysis
+  abbreviations:
+  - FMEA
+  domain:
+  - reliability
+  unit: null
+  column_patterns: *id011
+  source:
+  - IEC 60812 / ISO 14224
+  authority: A
+  status: Approved
+- term_id: SCADA.TAG
+  canonical_name: Process Variable Tag
+  term_type: industrial_concept
+  definition: A named data address in a SCADA or DCS system representing a physical
+    sensor measurement, actuator state, or calculated setpoint.
+  synonyms:
+  - tag
+  - scada_tag
+  - process_tag
+  abbreviations:
+  - Tag
+  domain:
+  - scada
+  source:
+  - OPC UA Companion Specification / ISA Dictionary
+  authority: A
+  status: Approved
+- term_id: SCADA.PV
+  canonical_name: Process Variable
+  term_type: industrial_concept
+  definition: The current measured value of a physical process parameter (e.g. pressure,
+    temperature, flow rate) monitored by a control loop.
+  synonyms:
+  - PV
+  - process_variable
+  abbreviations:
+  - PV
+  domain:
+  - automation
+  source:
+  - ISA Automation Dictionary
+  authority: A
+  status: Approved
+- term_id: SCADA.SP
+  canonical_name: Setpoint
+  term_type: industrial_concept
+  definition: The target value that an automatic control system aims to maintain for
+    a given process variable.
+  synonyms:
+  - SP
+  - setpoint
+  - target_value
+  abbreviations:
+  - SP
+  domain:
+  - automation
+  source:
+  - ISA Automation Dictionary
+  authority: A
+  status: Approved
+- term_id: SCADA.HISTORIAN
+  canonical_name: Process Historian
+  term_type: industrial_concept
+  definition: A specialized time-series database designed to ingest, compress, and
+    store high-frequency operational tag data from SCADA and DCS systems.
+  synonyms:
+  - historian
+  - data_historian
+  - process_historian
+  abbreviations:
+  - Historian
+  domain:
+  - automation
+  source:
+  - Siemens SIMATIC / OPC UA
+  authority: A
+  status: Approved

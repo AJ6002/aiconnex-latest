@@ -1,0 +1,602 @@
+{
+  "document_id": "DOC-DOC-SPEC-004-V1",
+  "source_id": "DOC-SPEC-004",
+  "title": "AI-ConneX Data Studio DAG Detailed Documentation",
+  "studio": "DataStudio",
+  "category": "StateTransition",
+  "target_subsystems": [
+    "DAGResolver",
+    "WorkflowPlanner",
+    "NodeGraph"
+  ],
+  "summary": "Multi-DAG execution graph specifications, node state transitions, cyclic dependency guards, and parallel branch execution rules.",
+  "sha256": "f49a88036c117ff57e18a787d60878e66c72aa63f2cf339e34ff1e9753d63164",
+  "file_size_bytes": 51735,
+  "statistics": {
+    "headings_count": 50,
+    "paragraphs_count": 138,
+    "tables_count": 13,
+    "sections_count": 49,
+    "estimated_words": 4235
+  },
+  "sections": [
+    {
+      "section_id": "SEC-DOC-SPEC-004-0001",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "Overview",
+      "section_path": "DOC-SPEC-004 > Overview",
+      "content": "AI-ConneX\n\nData Studio — DAG Engine\n\nResearch • Architecture • Algorithm-Family Discovery • DAG Assignment • POC\n\nStage 3 Technical DocumentationProfiler → DAG Engine → Downstream AI/ML Execution",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0002",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "1. Executive Summary",
+      "section_path": "DOC-SPEC-004 > 1. Executive Summary",
+      "content": "The AI-ConneX Data Studio DAG Engine is the decision and workflow-mapping stage that follows the Data Studio Data Profiler. Its purpose is to inspect the Profile produced for a compiled industrial dataset and determine which algorithm families and executable workflow/DAG templates are technically compatible with that dataset and the user's stated objective.\n\nThe DAG Engine does not blindly select an algorithm. It first establishes eligibility, then ranks candidate Family IDs and DAG IDs, records the evidence used for each assignment, rejects incompatible candidates, and produces a machine-readable DAG Plan that downstream training/execution services can consume.\n\nFor the supplied AI-ConneX algorithm registry, the current workbook contains 1,993 populated algorithm/DAG entries across 10 algorithm families and 108 algorithm names. Each registry row has a FAMILY_ID, FAMILY_NAME, DAG ID, Algorithm, Variant and optional Special Handling field. The registry is therefore treated as a controlled catalog of candidate workflow templates, not as permission to run every algorithm on every dataset.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0003",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "2. Stage Position in Overall AI-ConneX Architecture",
+      "section_path": "DOC-SPEC-004 > 2. Stage Position in Overall AI-ConneX Architecture",
+      "content": "USER | vCHATBOT |  intent_uid / objective / constraints vDATA STUDIO COMPILER |  unified dataset + schema + lineage vDATA STUDIO DATA PROFILER |  profile_uid + dataset facts + quality + semantics vDATA STUDIO DAG ENGINE  <---- Algorithm Family/DAG Registry | +--> Eligibility analysis +--> Family identification +--> Candidate DAG discovery +--> Constraint filtering +--> Ranking +--> Explainability / evidence +--> DAG instantiation +--> Compliance Report #3 | vDAG PLAN / DAG MANIFEST | vMODEL TRAINING / SIMULATION / OPTIMIZATION / EXECUTION STAGES",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0004",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "3. Important Terminology",
+      "section_path": "DOC-SPEC-004 > 3. Important Terminology",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Term | AI-ConneX Meaning |\n| --- | --- |\n| Family ID | High-level algorithm/problem family identified as compatible with the dataset and intent. |\n| DAG ID | Identifier of a registered candidate algorithm/workflow template. |\n| Algorithm | Underlying model or computational method. |\n| Variant | A specific configuration or operational variant of an algorithm. |\n| Special Handling | Known execution requirements or preprocessing considerations. |\n| Candidate DAG | A registry DAG that passes basic compatibility checks. |\n| Instantiated DAG | A candidate DAG populated with the actual dataset, features, target and configuration. |\n| DAG Plan | Machine-readable ranked set of candidates and/or selected executable DAG. |\n| DAG Registry | Controlled catalog containing family, algorithm, variant and handling information. |\n| Profile UID | Identity of the upstream profiling run. |\n| Manifest UID | Identity of the merged intent + compiler + profiler context. |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0005",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "4. R&D Problem Statement",
+      "section_path": "DOC-SPEC-004 > 4. R&D Problem Statement",
+      "content": "Industrial datasets do not arrive with an explicit statement such as 'use XGBoost classification with these features'. The dataset may instead contain sensor measurements, production records, maintenance events, images, text, temporal sequences, control signals or multiple entities. The DAG stage must infer which classes of computational workflows are possible without confusing statistical compatibility with business suitability.\n\nThe R&D problem is therefore a constrained recommendation and workflow-construction problem:\n\nGiven:  Manifest-UID  + Dataset Profile  + User Intent  + Algorithm/DAG RegistryDetermine:  1. Which problem families are plausible?  2. Which registered DAG IDs are eligible?  3. Which candidates violate constraints?  4. Which candidates are strongest and why?  5. How can the selected candidate be instantiated reproducibly?",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0006",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "5. R&D Objectives",
+      "section_path": "DOC-SPEC-004 > 5. R&D Objectives",
+      "content": "Automatically map profile characteristics to one or more algorithm families.\n\nDiscover every registry DAG that satisfies hard compatibility constraints.\n\nRank candidates using intent relevance, data characteristics and operational constraints.\n\nKeep multiple families when the dataset legitimately supports multiple problem formulations.\n\nPrevent an LLM from inventing algorithms or DAG IDs not present in the registry.\n\nExpose evidence and reasons behind every family/DAG assignment.\n\nProduce deterministic results for deterministic inputs and configuration.\n\nGenerate a downstream-ready executable DAG specification.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0007",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "6. Source Registry Analysis — Supplied Algorithm Workbook",
+      "section_path": "DOC-SPEC-004 > 6. Source Registry Analysis — Supplied Algorithm Workbook",
+      "content": "The supplied algorithm_families_complete.xlsx was inspected as the registry source for this stage. It contains 1,993 populated rows, 10 Family IDs, 108 distinct algorithm names and 1,993 distinct DAG IDs in the populated registry rows. 1,906 rows contain a Special Handling value.\n\nThe workbook is therefore a concrete part of the POC design. The DAG Engine should load this registry through a versioned registry adapter rather than hard-code the 1,993 mappings into application logic.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Family ID | Family Name | Registry Entries |\n| --- | --- | --- |\n| F1 | CLASSIFICATION | 282 |\n| F2 | REGRESSION | 290 |\n| F3 | ANOMALY DETECTION | 247 |\n| F4 | CLUSTERING | 239 |\n| F5 | TIME-SERIES | 257 |\n| F6 | DIGITAL TWIN | 135 |\n| F7 | REINFORCEMENT LEARNING | 121 |\n| F8 | RECOMMENDATION | 133 |\n| F9 | NLP/TEXT-CLASSIFICATION | 132 |\n| F10 | COMPUTER VISION | 157 |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0008",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 2,
+      "heading_text": "7.1 Chatbot Context",
+      "section_path": "DOC-SPEC-004 > 7.1 Chatbot Context",
+      "content": "{  \"intent_uid\": \"ACX-INT-00042\",  \"domain\": \"manufacturing\",  \"objective\": \"predict_machine_failure\",  \"task\": \"predictive_maintenance\",  \"target\": \"failure_event\",  \"constraints\": {    \"explainability\": \"required\",    \"latency\": \"low\"  }}",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0009",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 2,
+      "heading_text": "7.2 Compiler Context",
+      "section_path": "DOC-SPEC-004 > 7.2 Compiler Context",
+      "content": "{  \"dataset_uid\": \"ACX-IND-00042\",  \"artifact\": \"dataset.parquet\",  \"schema\": \"schema.json\",  \"lineage\": \"lineage.json\",  \"compilation_report\": \"report_1.json\"}",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0010",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 2,
+      "heading_text": "7.3 Data Profiler Context",
+      "section_path": "DOC-SPEC-004 > 7.3 Data Profiler Context",
+      "content": "{  \"profile_uid\": \"ACX-PROF-....\",  \"manifest_uid\": \"ACX-MAN-00042\",  \"task_hints\": [\"classification\", \"time_series\"],  \"candidate_target\": \"failure_event\",  \"time_index\": \"timestamp\",  \"features\": [\"temperature\", \"vibration\", \"motor_speed\"],  \"quality\": {...},  \"temporal\": {...},  \"semantic\": {...}}\n\nThe DAG Engine's primary input should be the manifest-UID.json from the Profiler stage. The Chatbot intent remains traceable inside that manifest and is not discarded.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0011",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "8. DAG Discovery Pipeline",
+      "section_path": "DOC-SPEC-004 > 8. DAG Discovery Pipeline",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Step | Operation | Result |\n| --- | --- | --- |\n| 1 | Load manifest | Intent + profile + compiler context |\n| 2 | Load registry | Versioned candidate DAG catalog |\n| 3 | Determine task space | Classification/regression/time-series/etc. |\n| 4 | Apply hard constraints | Remove impossible candidates |\n| 5 | Apply data compatibility | Check feature/data modality requirements |\n| 6 | Apply special handling | Check variant-specific requirements |\n| 7 | Score candidates | Rank eligible Family/DAG pairs |\n| 8 | Explain decision | Evidence + confidence + rejection reasons |\n| 9 | Instantiate | Bind dataset, features, target and config |\n| 10 | Validate DAG | Schema/resource/security checks |\n| 11 | Emit Report #3 | Stage evidence |\n| 12 | Emit DAG Plan | Downstream execution input |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0012",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "9. Family Identification",
+      "section_path": "DOC-SPEC-004 > 9. Family Identification",
+      "content": "Family selection should be multi-label rather than forced single-label whenever the evidence supports multiple problem formulations. For example, a manufacturing dataset with a failure label and dense timestamped sensor streams may support both F1 CLASSIFICATION and F5 TIME-SERIES. The DAG Engine should represent the distinction between 'problem family' and 'execution strategy'.\n\nExample:Primary family: F1 CLASSIFICATIONSecondary family: F5 TIME-SERIESReason:  target = failure_event  temporal structure = strong  sequence-aware candidate workflows = eligible",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0013",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "10. Candidate DAG Eligibility",
+      "section_path": "DOC-SPEC-004 > 10. Candidate DAG Eligibility",
+      "content": "A DAG becomes eligible only when all hard constraints are satisfied. Soft characteristics affect ranking rather than automatic rejection.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Constraint Type | Examples | Action |\n| --- | --- | --- |\n| Hard | Required target absent | Reject |\n| Hard | Image DAG but no image modality | Reject |\n| Hard | RL policy requires environment/action/reward but unavailable | Reject |\n| Hard | Required categorical labels absent | Reject |\n| Hard | Special handling explicitly unavailable | Reject |\n| Soft | Dataset size is large | Rank scalable variants higher |\n| Soft | Missingness is moderate | Rank robust variants higher |\n| Soft | Explainability required | Rank interpretable models higher |\n| Soft | Real-time inference | Rank low-latency variants higher |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0014",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "11. Candidate Scoring Model",
+      "section_path": "DOC-SPEC-004 > 11. Candidate Scoring Model",
+      "content": "A proposed score separates feasibility from preference. A candidate that fails a hard requirement receives zero eligibility regardless of its soft score.\n\nEligibility(DAG) =  all(hard_constraints == PASS)Score(DAG) =  0.30 * intent_relevance+ 0.20 * data_compatibility+ 0.15 * target_compatibility+ 0.10 * temporal_compatibility+ 0.10 * scale_compatibility+ 0.05 * quality_robustness+ 0.05 * explainability_fit+ 0.05 * operational_fit\n\nThe weights are configuration, not scientific constants. The final research paper should report the exact weights and an ablation study.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0015",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "12. Example Assignment",
+      "section_path": "DOC-SPEC-004 > 12. Example Assignment",
+      "content": "Profile:  target = failure_event  target_type = binary  timestamp = present  sensor_features = temperature, vibration, rpm  rows = 999842  modality = tabular + temporal  objective = predictive maintenanceFamily candidates:  F1 CLASSIFICATION       -> ELIGIBLE  F5 TIME-SERIES          -> ELIGIBLE  F3 ANOMALY DETECTION    -> CONDITIONAL  F2 REGRESSION           -> REJECT  F10 COMPUTER VISION     -> REJECTDAG selection:  rank eligible registry DAG IDs using compatibility + intent + constraints.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0016",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "13. Special Handling Is a First-Class Input",
+      "section_path": "DOC-SPEC-004 > 13. Special Handling Is a First-Class Input",
+      "content": "The supplied workbook contains Special Handling information for 1,906 of 1,993 populated entries. The DAG Engine must not treat this field as documentation-only. It should be converted into machine-readable execution requirements wherever possible.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Special Handling Concept | Example Machine Rule |\n| --- | --- |\n| Large dataset handling | Prefer scalable execution / chunked training |\n| SAMME algorithm | Set required algorithm variant |\n| Multi-class support | Target cardinality must exceed 2 |\n| Cross-validated | Require validation split/CV configuration |\n| Bayesian hyperopt | Hyperparameter optimization service required |\n| Feature selection | Feature-selection node required |\n| Imbalanced handling | Class imbalance check + mitigation node |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0017",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "14. DAG Instantiation",
+      "section_path": "DOC-SPEC-004 > 14. DAG Instantiation",
+      "content": "A registry DAG ID identifies a template. The actual dataset workflow is created only after binding runtime context.\n\nDAG_XXX (registry template)        |        +-- dataset_uid        +-- manifest_uid        +-- feature set        +-- target        +-- train/validation/test policy        +-- preprocessing requirements        +-- algorithm parameters        +-- resource policy        |        vACX-RUN-DAG-XXXX (instantiated DAG)\n\nThis separation prevents the registry from becoming polluted with dataset-specific executions.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0018",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "15. Example Instantiated DAG",
+      "section_path": "DOC-SPEC-004 > 15. Example Instantiated DAG",
+      "content": "DAG:  INPUT    |    v  schema_validation    |    v  time_split    |    +--> feature_cleaning    |    +--> imbalance_check    |    v  algorithm_node    |    v  validation    |    v  evaluation    |    v  model_artifact",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0019",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "16. Key R&D Failures Found",
+      "section_path": "DOC-SPEC-004 > 16. Key R&D Failures Found",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Failure | Risk | AI-ConneX Solution |\n| --- | --- | --- |\n| Single-family forcing | A dataset may support several valid problem formulations. | Multi-label family discovery + ranked alternatives. |\n| Algorithm guessing | Agent may invent unsupported models. | Registry-grounded retrieval only. |\n| DAG ID hallucination | LLM may output an ID not in registry. | Strict registry lookup and foreign-key validation. |\n| Wrong task inference | Binary target may be mistaken for regression. | Intent + target datatype + semantic evidence. |\n| Temporal leakage | Random split can expose future information. | Time-aware split policy for temporal datasets. |\n| Target leakage | Features may contain post-event information. | Lineage + temporal feature audit. |\n| Special handling ignored | Variant requirements can be missed. | Machine-readable handling constraints. |\n| Overfitting to one algorithm | Best-looking candidate may not generalize. | Top-K candidates + validation stage. |\n| Data quality ignored | Poor data can make an algorithm appear unsuitable. | Consume Profile quality/readiness signals. |\n| DAG explosion | Thousands of registry candidates create huge search space. | Hierarchical family filtering + hard constraints + Top-K. |\n| Resource mismatch | Algorithm may require excessive memory/compute. | Resource-aware eligibility. |\n| Unexplainable selection | Industrial users cannot audit why a model was selected. | Evidence-backed scoring and rejection reasons. |\n| Registry drift | Algorithms change while old IDs remain. | Versioned registry + immutable snapshots. |\n| DAG cycles | A malformed graph can create execution deadlocks. | DAG validator with cycle detection. |\n| Non-reproducible recommendations | Changing registry/order changes results. | Registry version, config hash and deterministic ranking. |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0020",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "17. How AI-ConneX Overcomes These Failures",
+      "section_path": "DOC-SPEC-004 > 17. How AI-ConneX Overcomes These Failures",
+      "content": "Registry-first architecture: the system may only recommend DAG IDs that exist in the approved registry.\n\nTwo-stage filtering: hard feasibility first, soft ranking second.\n\nProfile-driven discovery: data modality, target, cardinality, temporal behavior and quality directly constrain candidates.\n\nIntent-aware ranking: the user's actual industrial objective affects candidate preference.\n\nSpecial Handling compiler: registry text is normalized into execution requirements.\n\nEvidence graph: every recommendation points back to profile facts, intent fields or registry properties.\n\nTop-K output: downstream experimentation can compare multiple viable candidates.\n\nVersioned registry snapshots: every run is reproducible against the exact registry used.\n\nStatic DAG validation: schema, cycles, missing dependencies, unsupported nodes and resource rules are checked before execution.\n\nAgent containment: the agent may interpret and rank evidence but cannot invent or directly execute arbitrary DAGs.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0021",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "18. Agent Helper Architecture",
+      "section_path": "DOC-SPEC-004 > 18. Agent Helper Architecture",
+      "content": "DAG AGENT HELPER                        |                        v                Registry Retrieval                        |                        v                Candidate Analysis                        |                        v             Structured Recommendation                        |                        v             DETERMINISTIC VALIDATOR              /                    \\           PASS                    FAIL            |                       |            v                       v      DAG Instantiation        Rejection Reason            |            v        DAG Validator            |            v        DAG Plan",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0022",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "19. Agent Output Contract",
+      "section_path": "DOC-SPEC-004 > 19. Agent Output Contract",
+      "content": "{  \"family_id\": \"F1\",  \"dag_id\": \"DAG_XXX\",  \"decision\": \"ELIGIBLE\",  \"confidence\": 0.94,  \"evidence\": [    \"target_type=binary\",    \"target=failure_event\",    \"intent=predictive_maintenance\"  ],  \"registry_version\": \"2026.08\",  \"requires\": [\"class_balance_check\"]}\n\nThe agent cannot create a new DAG ID. If no registry candidate is suitable, it must return NO_COMPATIBLE_DAG rather than fabricate one.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0023",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "20. Tech Stack",
+      "section_path": "DOC-SPEC-004 > 20. Tech Stack",
+      "content": "These are proposed baselines and should be pinned in a lockfile after the project's POC compatibility test. The DAG Engine itself should not depend on an LLM for deterministic graph operations.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Layer | Recommended Baseline | Purpose |\n| --- | --- | --- |\n| Runtime | Python 3.12.x | DAG discovery/orchestration |\n| Graph | NetworkX 3.x | DAG validation/topological analysis |\n| Workflow | Apache Airflow 3.x or Prefect 3.x | Production scheduling/orchestration option |\n| Data | Polars 1.x / Apache Arrow 18.x+ | Profile-aware data access |\n| Analytics | Apache DataFusion 46.x+ | Large analytical scans |\n| Registry | PostgreSQL 16.x+ | Versioned algorithm/DAG catalog |\n| API | FastAPI 0.1xx+ | Service interface |\n| Schemas | Pydantic 2.x / JSON Schema | Contracts |\n| Agent | LLM with structured tool calling | Bounded semantic assistance |\n| Validation | Great Expectations 1.19.x or equivalent | Data quality gates |\n| Containers | Docker 27.x+ | Reproducible deployment |\n| Testing | pytest 8.x | Testing |\n| Observability | OpenTelemetry | Tracing/metrics |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0024",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 2,
+      "heading_text": "21.1 POC",
+      "section_path": "DOC-SPEC-004 > 21.1 POC",
+      "content": "64-bit Windows/Linux/macOS.\n\nPython 3.12.x.\n\n8 GB RAM minimum; 16 GB recommended.\n\n4+ CPU cores recommended.\n\nSSD storage for registry, profiles and generated plans.\n\nDocker Desktop/Engine recommended.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0025",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 2,
+      "heading_text": "21.2 Production",
+      "section_path": "DOC-SPEC-004 > 21.2 Production",
+      "content": "16–32+ GB RAM depending on candidate-search concurrency.\n\nPostgreSQL for registry and execution metadata.\n\nObject storage for immutable manifests and DAG plans.\n\nWorker/scheduler infrastructure.\n\nRBAC, TLS and audit logs.\n\nPer-job resource quotas.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0026",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "22. Configuration",
+      "section_path": "DOC-SPEC-004 > 22. Configuration",
+      "content": "# config/dag.yamldag_engine:  version: \"1.0\"  registry_version: \"2026.08\"  top_k: 10  allow_multi_family: true  require_registry_match: true  deterministic_ranking: trueeligibility:  reject_missing_target: true  reject_modality_mismatch: true  reject_resource_overflow: true  require_special_handling: truescoring:  intent_relevance: 0.30  data_compatibility: 0.20  target_compatibility: 0.15  temporal_compatibility: 0.10  scale_compatibility: 0.10  quality_robustness: 0.05  explainability_fit: 0.05  operational_fit: 0.05output:  generate_rejections: true  generate_evidence: true  generate_report_3: true  generate_instantiated_dag: true",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0027",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "23. Commands",
+      "section_path": "DOC-SPEC-004 > 23. Commands",
+      "content": "# Environmentpython -m venv .venv# Windows.venv\\Scripts\\activate# Linux/macOSsource .venv/bin/activate# Installpip install -r requirements.txt# Import registrypython -m dag.cli registry import \\  --file ./registry/algorithm_families_complete.xlsx \\  --version 2026.08# Validate registrypython -m dag.cli registry validate \\  --version 2026.08# Discover candidates from Profiler manifestpython -m dag.cli discover \\  --manifest ./manifests/manifest-ACX-MAN-00042.json \\  --config ./config/dag.yaml# Rank candidatespython -m dag.cli rank \\  --candidates ./plans/candidates.json \\  --config ./config/dag.yaml# Instantiate selected DAGpython -m dag.cli instantiate \\  --candidate ./plans/candidates.json \\  --manifest ./manifests/manifest-ACX-MAN-00042.json# Validate graphpython -m dag.cli validate \\  --dag ./plans/ACX-RUN-DAG-00042.json# Run testspytest -q",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0028",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "24. Directory Architecture",
+      "section_path": "DOC-SPEC-004 > 24. Directory Architecture",
+      "content": "ai-connex-data-studio-dag/|+-- app/|   +-- main.py|   +-- api/|       +-- routes_discovery.py|       +-- routes_ranking.py|       +-- routes_registry.py|       +-- routes_execution.py|       +-- routes_report.py|+-- dag/|   +-- intake.py|   +-- family_classifier.py|   +-- candidate_filter.py|   +-- scorer.py|   +-- registry.py|   +-- registry_parser.py|   +-- special_handling.py|   +-- graph_builder.py|   +-- graph_validator.py|   +-- instantiator.py|   +-- evidence.py|   +-- reporter.py|   +-- uid.py|+-- agent/|   +-- helper.py|   +-- prompts.py|   +-- schemas.py|   +-- tools.py|+-- registry/|   +-- algorithm_families_complete.xlsx|   +-- registry_2026.08.json|   +-- registry.schema.json|+-- schemas/|   +-- dag_candidate.schema.json|   +-- dag_plan.schema.json|   +-- report_3.schema.json|+-- config/|   +-- dag.yaml|   +-- domains/|       +-- manufacturing.yaml|+-- plans/+-- reports/+-- logs/+-- tests/|   +-- unit/|   +-- integration/|   +-- fixtures/|+-- requirements.txt+-- pyproject.toml+-- Dockerfile+-- docker-compose.yml+-- README.md",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0029",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "25. API Design",
+      "section_path": "DOC-SPEC-004 > 25. API Design",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Method | Endpoint | Purpose |\n| --- | --- | --- |\n| POST | /v1/registry/import | Import/version registry |\n| GET | /v1/registry/{version} | Get registry metadata |\n| POST | /v1/dag/discover | Discover candidate families/DAGs |\n| POST | /v1/dag/rank | Rank candidate DAGs |\n| POST | /v1/dag/instantiate | Create executable DAG instance |\n| POST | /v1/dag/validate | Validate DAG graph and contract |\n| GET | /v1/dag/{dag_run_id} | Get DAG plan/status |\n| GET | /v1/dag/{dag_run_id}/report | Get Compliance Report #3 |\n| GET | /health | Health check |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0030",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 2,
+      "heading_text": "25.1 Discovery Request",
+      "section_path": "DOC-SPEC-004 > 25.1 Discovery Request",
+      "content": "POST /v1/dag/discover{  \"manifest_uri\": \"s3://.../manifest-ACX-MAN-00042.json\",  \"registry_version\": \"2026.08\",  \"top_k\": 10}",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0031",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 2,
+      "heading_text": "25.2 Discovery Response",
+      "section_path": "DOC-SPEC-004 > 25.2 Discovery Response",
+      "content": "{  \"dag_discovery_id\": \"ACX-DISC-00042\",  \"families\": [    {\"family_id\": \"F1\", \"score\": 0.94},    {\"family_id\": \"F5\", \"score\": 0.87}  ],  \"candidate_dags\": [    {      \"dag_id\": \"DAG_XXX\",      \"family_id\": \"F1\",      \"score\": 0.93,      \"eligibility\": \"PASS\"    }  ]}",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0032",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "26. Compliance Report #3 — DAG Stage",
+      "section_path": "DOC-SPEC-004 > 26. Compliance Report #3 — DAG Stage",
+      "content": "Report #3 is the formal technical evidence produced by the DAG stage. It documents how the Profiler/Manifest was converted into candidate families, DAG IDs and, where approved, instantiated DAGs.\n\n{  \"report_id\": \"ACX-REP-3-00042\",  \"stage\": \"DATA_STUDIO_DAG\",  \"status\": \"SUCCESS\",  \"input\": {    \"manifest_uid\": \"ACX-MAN-00042\",    \"profile_uid\": \"ACX-PROF-...\",    \"intent_uid\": \"ACX-INT-00042\"  },  \"registry\": {    \"version\": \"2026.08\",    \"entries_loaded\": 1993,    \"families\": 10  },  \"discovery\": {    \"families_considered\": 10,    \"families_eligible\": 3,    \"dags_considered\": 1993,    \"dags_eligible\": 42  },  \"selection\": {    \"top_k\": 10,    \"selected\": \"DAG_XXX\"  },  \"validation\": {    \"registry_match\": \"PASS\",    \"schema\": \"PASS\",    \"cycle_check\": \"PASS\",    \"resource_check\": \"PASS\"  },  \"next_stage\": {    \"artifact\": \"dag_plan.json\"  }}",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0033",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "27. Mandatory Report #3 Sections",
+      "section_path": "DOC-SPEC-004 > 27. Mandatory Report #3 Sections",
+      "content": "Manifest/profile/intent identity.\n\nRegistry version and registry hash.\n\nNumber of families considered.\n\nNumber of candidate DAGs considered.\n\nHard-constraint rejection counts.\n\nEligible Family IDs.\n\nEligible DAG IDs.\n\nScores and scoring configuration.\n\nEvidence for every top-ranked candidate.\n\nRejected candidate reasons.\n\nSpecial Handling requirements.\n\nGraph validation results.\n\nResource validation results.\n\nSelected/instantiated DAG identity.\n\nNext-stage artifact location.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0034",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "28. What This Stage Does with Chatbot Output",
+      "section_path": "DOC-SPEC-004 > 28. What This Stage Does with Chatbot Output",
+      "content": "The DAG Engine does not replace the Chatbot's intent. It uses that intent as a decision constraint. For example, 'predict machine failure' supplies a classification/predictive-maintenance objective, but the Profiler determines whether the dataset actually contains a suitable target and temporal structure.\n\nCHATBOT SAYS:  objective = predict machine failurePROFILER OBSERVES:  failure_event exists  binary target  timestamp exists  sensor streams existDAG ENGINE CONCLUDES:  F1 classification -> eligible  F5 time-series -> eligible  F2 regression -> not suitable for this target",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0035",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "29. Output of DAG Stage",
+      "section_path": "DOC-SPEC-004 > 29. Output of DAG Stage",
+      "content": "Because the DAG stage is downstream of the Data Profiler, its normal output is not another Data Profiler input. The canonical next-stage input is a DAG Plan / instantiated DAG specification. If the phrase 'input for the Data Profiler' is retained in the overall documentation, it should refer to the Profiler's upstream input contract, not this stage's output.\n\nRecommended canonical downstream contract: dag_plan.json.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Output | Purpose |\n| --- | --- |\n| family_assignments.json | All eligible/ranked Family IDs |\n| dag_candidates.json | Eligible/rejected DAG registry candidates |\n| dag_plan.json | Ranked and selected DAG execution plan |\n| instantiated_dag.json | Dataset-specific DAG graph |\n| report_3.json | Compliance Report #3 |\n| evidence.json | Decision provenance and explanations |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0036",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "30. POC Design",
+      "section_path": "DOC-SPEC-004 > 30. POC Design",
+      "content": "The supplied workbook provides the registry needed for a meaningful POC. The POC should combine it with synthetic/realistic industrial manifests generated by the previous stages.\n\nPOC INPUTS  manifest-ACX-MAN-00042.json  algorithm_families_complete.xlsx              |              v        REGISTRY IMPORT              |              v      FAMILY DISCOVERY              |              v      HARD FILTERING              |              v       DAG CANDIDATES              |              v       SCORE + RANK              |              v      DAG VALIDATION              |              v         DAG PLAN              |              +--> report_3.json              +--> evidence.json",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0037",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 2,
+      "heading_text": "30.1 POC Scenarios",
+      "section_path": "DOC-SPEC-004 > 30.1 POC Scenarios",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Scenario | Expected Result |\n| --- | --- |\n| Binary failure label + sensors | F1 primary; F5 may be secondary |\n| Continuous energy consumption target | F2 regression |\n| No labels + unusual sensor behavior | F3 anomaly detection candidate |\n| Timestamped demand measurements | F5 time-series |\n| Customer-item interaction matrix | F8 recommendation |\n| Text incident descriptions | F9 NLP/text classification |\n| Image inspection dataset | F10 computer vision |\n| Cluster discovery with no target | F4 clustering |\n| Control policy/environment/reward | F7 reinforcement learning, if environment contract exists |\n| Simulation/digital replica signals | F6 digital twin, if digital-twin metadata exists |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0038",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "31. POC Acceptance Criteria",
+      "section_path": "DOC-SPEC-004 > 31. POC Acceptance Criteria",
+      "content": "All registry rows are imported without losing FAMILY_ID or DAG ID.\n\nDuplicate DAG IDs are rejected by registry validation.\n\nEvery candidate DAG returned by the engine exists in the registry.\n\nNo candidate is selected when a mandatory target/modality requirement is absent.\n\nAt least one realistic industrial benchmark produces sensible family assignments.\n\nHard rejection reasons are recorded.\n\nTop-K ranking is deterministic under identical registry, manifest and configuration.\n\nGenerated DAGs pass cycle and dependency validation.\n\nReport #3 is generated for every completed discovery run.\n\nRegistry version and hash are preserved in the output.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0039",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "32. Research Evaluation",
+      "section_path": "DOC-SPEC-004 > 32. Research Evaluation",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Metric | Definition |\n| --- | --- |\n| Family precision | Correct family assignments / returned family assignments |\n| Family recall | Correct families discovered / relevant families in ground truth |\n| DAG eligibility precision | Correctly eligible DAGs / predicted eligible DAGs |\n| Top-K hit rate | Relevant DAG appears within K ranked candidates |\n| Constraint violation rate | Returned candidates violating hard constraints / candidates |\n| Hallucination rate | Returned IDs absent from registry / total returned IDs |\n| Decision reproducibility | Identical inputs yielding identical deterministic rankings |\n| Graph validity | Valid instantiated DAGs / generated DAGs |\n| Runtime | Manifest-to-DAG-plan latency |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0040",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "33. Research Hypotheses",
+      "section_path": "DOC-SPEC-004 > 33. Research Hypotheses",
+      "content": "H1: Profile-aware filtering reduces the candidate search space without materially reducing relevant DAG recall.\n\nH2: Intent-aware ranking improves Top-K candidate relevance compared with profile-only ranking.\n\nH3: Registry-constrained agent assistance reduces invalid/hallucinated algorithm selections compared with unconstrained LLM recommendation.\n\nH4: Explicit Special Handling constraints reduce execution-time incompatibilities.\n\nH5: Evidence-backed DAG assignment improves human auditability compared with opaque recommendation.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0041",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "34. Key Research Novelty",
+      "section_path": "DOC-SPEC-004 > 34. Key Research Novelty",
+      "content": "AI-ConneX should not claim that DAG orchestration, AutoML, algorithm recommendation or graph validation are individually novel. The defensible contribution is the integration of these capabilities into an industrial data pipeline where the Profiler's observed dataset characteristics and the Chatbot's intent are joined with a versioned algorithm/DAG registry, producing auditable, constrained and reproducible candidate DAGs.\n\nProposed contribution:Intent  +Observed Data Profile  +Versioned Algorithm Registry  +Constraint Engine  +Evidence-backed Ranking  =Industrial DAG Discovery and Instantiation Layer",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0042",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "35. Security and Governance",
+      "section_path": "DOC-SPEC-004 > 35. Security and Governance",
+      "content": "Never permit arbitrary code generation as a substitute for registered DAG nodes.\n\nRegistry entries must be authenticated/versioned and preferably immutable after release.\n\nAgent tool calls must be allow-listed.\n\nDataset and manifest access must be authorization-controlled.\n\nDAG plans must carry source manifest hash and registry version.\n\nResource limits must be validated before execution.\n\nEvery selected DAG must have an audit trail.\n\nRejected candidates should be retained for explainability/debugging.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0043",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "36. Testing Strategy",
+      "section_path": "DOC-SPEC-004 > 36. Testing Strategy",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Test Type | Examples |\n| --- | --- |\n| Unit | Family classifier, scoring, constraint predicates |\n| Registry | Missing IDs, duplicates, malformed special handling |\n| Graph | Cycle detection, orphan nodes, invalid dependencies |\n| Integration | Manifest + registry → candidates |\n| Regression | Known industrial profiles produce expected Top-K |\n| Security | Unauthorized registry/DAG access, path traversal |\n| Performance | 1,993-entry registry with large profile |\n| Reproducibility | Same inputs/config/registry → same output |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0044",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "37. Research-Paper References",
+      "section_path": "DOC-SPEC-004 > 37. Research-Paper References",
+      "content": "Rahm, E., & Bernstein, P. A. (2001). A survey of approaches to automatic schema matching. The VLDB Journal, 10, 334–350.\n\nDoan, A., Halevy, A. Y., & Ives, Z. G. Principles of Data Integration. Morgan Kaufmann.\n\nFeurer, M., & Hutter, F. (2019). Hyperparameter Optimization. In Automated Machine Learning: Methods, Systems, Challenges.\n\nThornton, C., Hutter, F., Hoos, H. H., & Leyton-Brown, K. (2013). Auto-WEKA: Combined Selection and Hyperparameter Optimization of Classification Algorithms. KDD.\n\nLeite, J. C. S. do P., & Doorn, J. H. (2000). Data flow and process-oriented approaches to workflow/DAG reasoning.\n\nApache Airflow documentation — DAG concepts and workflow orchestration.\n\nNetworkX documentation — directed graphs, DAG utilities and topological algorithms.\n\nApache Arrow documentation — columnar interchange and analytical data representation.\n\nApache DataFusion documentation — analytical execution over Arrow-compatible data.\n\nGreat Expectations documentation — data validation and quality checks.\n\nProvost, F., & Fawcett, T. (2013). Data Science for Business. O'Reilly.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0045",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "38. Recommended R&D Roadmap",
+      "section_path": "DOC-SPEC-004 > 38. Recommended R&D Roadmap",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Phase | Deliverable |\n| --- | --- |\n| D0 | Freeze DAG registry schema and versioning rules |\n| D1 | Import and validate supplied 1,993-entry registry |\n| D2 | Build profile-to-family rules |\n| D3 | Build hard constraint engine |\n| D4 | Build candidate ranking |\n| D5 | Add agent helper with registry-only tools |\n| D6 | Build DAG instantiation and validation |\n| D7 | Generate Report #3 and evidence |\n| D8 | Integrate downstream model execution |\n| D9 | Benchmark, ablation study and research paper |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0046",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "39. Final Architecture Principle",
+      "section_path": "DOC-SPEC-004 > 39. Final Architecture Principle",
+      "content": "The Data Studio DAG Engine converts 'what the dataset is' and 'what the user wants' into 'what computational workflows are legitimately possible'. The Profiler provides evidence; the registry provides the permitted algorithm vocabulary; the DAG Engine applies constraints and ranking; and the downstream execution layer receives a validated DAG Plan.\n\nThe most important control is that the system must never equate an algorithm being mathematically applicable with an algorithm being operationally appropriate. AI-ConneX therefore separates eligibility, ranking, instantiation and execution.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0047",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "Appendix A — Recommended Artifact Chain",
+      "section_path": "DOC-SPEC-004 > Appendix A — Recommended Artifact Chain",
+      "content": "Chatbot:  intent-ACX-INT-00042.jsonCompiler:  dataset-ACX-IND-00042.parquet  schema.json  lineage.json  compilation_report.jsonProfiler:  profile-ACX-PROF-XXXX.json  report_1.json  manifest-ACX-MAN-00042.jsonDAG:  family_assignments.json  dag_candidates.json  dag_plan.json  instantiated_dag.json  report_3.json  evidence.json",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0048",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "Appendix B — UID Relationships",
+      "section_path": "DOC-SPEC-004 > Appendix B — UID Relationships",
+      "content": "ACX-INT-00042      |      vACX-CMP-00042      |      vACX-PROF-XXXX      |      vACX-MAN-00042      |      vACX-DISC-00042      |      vACX-RUN-DAG-00042Registry:REG-2026.08   |   +--> DAG_001 ... DAG_1993",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-004-0049",
+      "document_id": "DOC-DOC-SPEC-004-V1",
+      "heading_level": 1,
+      "heading_text": "Appendix C — Registry Governance",
+      "section_path": "DOC-SPEC-004 > Appendix C — Registry Governance",
+      "content": "Never reuse a DAG ID for a different algorithm/variant meaning.\n\nIncrement registry version when entries, semantics or special handling change.\n\nStore a cryptographic hash of each released registry.\n\nKeep old registry versions available for reproducibility.\n\nValidate Family ID and DAG ID uniqueness.\n\nRequire schema validation before registry activation.\n\nRecord source/version of algorithm implementations separately from DAG identity.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    }
+  ],
+  "extracted_slas": [
+    {
+      "sla_id": "SLA-MEM-DOC-SPEC-004-01",
+      "component_name": "DAGResolver",
+      "metric_name": "max_memory_mb",
+      "target_value": 16384.0,
+      "unit": "MB",
+      "comparison_op": "<=",
+      "workload_condition": "RAM minimum; 16 GB",
+      "severity_on_breach": "warning",
+      "source_spec_id": "DOC-SPEC-004"
+    }
+  ]
+}

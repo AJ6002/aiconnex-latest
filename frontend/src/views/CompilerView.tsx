@@ -234,23 +234,26 @@ export const CompilerView: React.FC<CompilerViewProps> = ({
       setSelectedFile(file);
       setPendingFile(file);
       
-      // Auto-extract heuristic values to pre-populate inputs nicely
+      // Pre-populate wizard fields from filename heuristics and Jane's extracted initialInputs
       const lowerName = file.name.toLowerCase();
-      const defaultTarget = lowerName.includes('insurance') ? 'charges' : (lowerName.includes('house_prices') ? 'SalePrice' : (lowerName.includes('manufacturing') ? 'RUL' : ''));
-      setTargetColInput(defaultTarget);
+      const heuristicTarget = lowerName.includes('insurance') ? 'charges' : (lowerName.includes('house_prices') ? 'SalePrice' : (lowerName.includes('manufacturing') ? 'RUL' : ''));
+      // Jane's extracted intent takes priority over filename heuristic
+      if (!targetColInput && !initialInputs?.targetColumn) setTargetColInput(heuristicTarget);
       
-      const defaultEntity = lowerName.includes('manufacturing') ? 'unit_id' : '';
-      setEntityColInput(defaultEntity);
+      const heuristicEntity = lowerName.includes('manufacturing') ? 'unit_id' : '';
+      if (!entityColInput && !initialInputs?.entityColumn) setEntityColInput(heuristicEntity);
       
-      const defaultTime = lowerName.includes('manufacturing') ? 'time_cycle' : '';
-      setTimeColInput(defaultTime);
+      const heuristicTime = lowerName.includes('manufacturing') ? 'time_cycle' : '';
+      if (!timeColInput && !initialInputs?.timestampColumn) setTimeColInput(heuristicTime);
 
-      const defaultType = (lowerName.includes('insurance') || lowerName.includes('house_prices') || lowerName.includes('manufacturing')) ? 'regression' : 'classification';
-      setProblemTypeInput(defaultType);
+      const heuristicType = (lowerName.includes('insurance') || lowerName.includes('house_prices') || lowerName.includes('manufacturing')) ? 'regression' : 'classification';
+      if (!initialInputs?.problemType) setProblemTypeInput(heuristicType);
 
-      setShowWizard(false);
-      if (onUploadStarted) onUploadStarted(file.name);
-      triggerCompilation(file);
+      // INTENT GATE: Show wizard confirmation modal before starting compilation.
+      // The wizard buttons are the ONLY paths to triggerCompilation for manual uploads.
+      // This ensures user intent (target column, problem type) is confirmed before the
+      // backend LangGraph pipeline is invoked.
+      setShowWizard(true);
     }
   };
 
@@ -1602,6 +1605,7 @@ export const CompilerView: React.FC<CompilerViewProps> = ({
               <button
                 onClick={() => {
                   setShowWizard(false);
+                  if (onUploadStarted) onUploadStarted(pendingFile.name);
                   triggerCompilation(pendingFile);
                 }}
                 className="px-4 py-2.5 text-slate-500 hover:text-slate-800 transition-all font-mono text-xs cursor-pointer bg-transparent border-none"
@@ -1612,6 +1616,7 @@ export const CompilerView: React.FC<CompilerViewProps> = ({
               <button
                 onClick={() => {
                   setShowWizard(false);
+                  if (onUploadStarted) onUploadStarted(pendingFile.name);
                   triggerCompilation(pendingFile, {
                     targetColumn: targetColInput.trim() || undefined,
                     problemType: problemTypeInput,

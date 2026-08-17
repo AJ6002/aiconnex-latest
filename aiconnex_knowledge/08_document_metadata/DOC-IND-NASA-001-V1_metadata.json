@@ -1,0 +1,13 @@
+{
+  "document_id": "DOC-IND-NASA-001-V1",
+  "source_id": "SRC-IND-NASA-001",
+  "title": "NASA Technical Report 19740020847 Prognostics & System Reliability",
+  "version": "1974",
+  "document_type": "pdf",
+  "content_hash": "963b16f72a54740f2fe908607338257ed8f3121754c9e244bc2055fd5cf9ce3b",
+  "page_count": 79,
+  "total_sections": 224,
+  "total_words": 15341,
+  "storage_uri": "s3://aiconnex-platform-kb-prod/industrial/NASA_TR_19740020847_Prognostics.pdf",
+  "created_at": "2026-08-14T08:41:27.054865+00:00"
+}

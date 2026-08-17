@@ -21,7 +21,7 @@ from pydantic import BaseModel, Field
 class KnowledgeSourceRecord(BaseModel):
     source_id: str = Field(..., description="Unique source identifier (e.g. PLAT-DOC-001)")
     title: str = Field(..., description="Human-readable title of the source document")
-    knowledge_domain: Literal["platform", "industrial", "terminology", "dataset", "ml_methodology", "equipment_asset", "standards_regulatory", "tenant_knowledge"] = Field(
+    knowledge_domain: Literal["platform", "industrial", "terminology", "dataset", "ml_methodology", "equipment_asset", "standards_regulatory", "tenant_knowledge", "documentation", "all"] = Field(
         "platform", description="Knowledge domain partition"
     )
     source_type: str = Field(..., description="Type of source (e.g., Architecture Doc, Contract Spec, ADR)")
@@ -79,7 +79,7 @@ class KnowledgeChunkRecord(BaseModel):
 
 class ContextRequest(BaseModel):
     query: str = Field(..., description="Agent question or retrieval prompt")
-    knowledge_domain: Literal["platform", "industrial", "terminology", "dataset", "ml_methodology", "equipment_asset", "standards_regulatory", "tenant_knowledge", "all"] = "platform"
+    knowledge_domain: Literal["platform", "industrial", "terminology", "dataset", "ml_methodology", "equipment_asset", "standards_regulatory", "tenant_knowledge", "documentation", "all"] = "platform"
     knowledge_type: Optional[str] = Field(None, description="Filter tag (e.g., compiler, contracts, architecture)")
     tenant_id: str = Field("global", description="Tenant scope ID")
     project_id: Optional[str] = Field(None, description="Project scope ID within tenant")
@@ -327,6 +327,62 @@ class TenantContext(BaseModel):
     user_id: Optional[str] = Field(None, description="Authenticated user ID")
     user_role: Optional[str] = Field(None, description="User role in project/tenant")
     scope: Literal["global", "tenant", "project", "session", "all"] = Field("all", description="Active query scope")
+
+
+# ─── 11. Documentation & Performance Specification Contracts (Sprint 7) ───────
+
+class PerformanceSLARecord(BaseModel):
+    """Deterministic SLA and performance constraint extracted from specification documents."""
+    sla_id: str = Field(..., description="Unique SLA identifier (e.g. SLA-LATENCY-COMPILER-001)")
+    component_name: str = Field(..., description="Governed system component (e.g. DataStudioCompiler, ScoutAgent)")
+    metric_name: str = Field(..., description="Target metric (e.g. p95_latency_ms, max_memory_mb, throughput_rows_sec)")
+    target_value: float = Field(..., description="Numeric boundary value")
+    unit: str = Field(..., description="Metric engineering unit (e.g. ms, MB, rows/sec, %)")
+    comparison_op: Literal["<=", ">=", "==", "<", ">"] = Field("<=", description="Constraint comparison operator")
+    workload_condition: str = Field("default", description="Workload or operational regime under which this SLA applies")
+    severity_on_breach: Literal["critical", "warning", "info"] = Field("critical", description="Failure severity if violated")
+    source_spec_id: str = Field(..., description="Reference to originating DocumentationSpecRecord")
+
+
+class StateTransitionRecord(BaseModel):
+    """State machine transition rule governing an agent or studio pipeline node."""
+    transition_id: str = Field(..., description="Unique transition rule ID")
+    feature_or_agent: str = Field(..., description="Target agent, studio, or state machine name")
+    from_state: str = Field(..., description="Source state name")
+    to_state: str = Field(..., description="Target state name")
+    trigger_event: str = Field(..., description="Event or condition initiating transition")
+    guard_condition: Optional[str] = Field(None, description="Boolean constraint required to permit transition")
+    is_terminal: bool = Field(False, description="True if target state terminates execution")
+    source_spec_id: str = Field(..., description="Reference to originating DocumentationSpecRecord")
+
+
+class DocumentationSpecRecord(BaseModel):
+    """Authoritative Product Performance and Specification Document Model."""
+    spec_id: str = Field(..., description="Unique spec document identifier (e.g. DOC-SPEC-001)")
+    title: str = Field(..., description="Full human-readable specification title")
+    studio: Literal["DataStudio", "MLStudio", "AgenticStudio", "PlatformCore", "CrossStudio"] = Field("PlatformCore", description="Associated studio subsystem")
+    category: Literal["Performance", "Architecture", "DataContract", "StateTransition", "Security", "Evaluation", "Visualization"] = Field("Performance", description="Specification category")
+    target_subsystems: List[str] = Field(default_factory=list, description="List of system components governed by this specification")
+    summary: str = Field(..., description="Executive summary of the specification")
+    governing_slas: List[PerformanceSLARecord] = Field(default_factory=list, description="Hard quantifiable performance SLAs")
+    state_transitions: List[StateTransitionRecord] = Field(default_factory=list, description="Permitted state machine transitions")
+    error_contracts: List[Dict[str, str]] = Field(default_factory=list, description="Standard error codes, exceptions, and recovery policies")
+    acceptance_criteria: List[str] = Field(default_factory=list, description="Specific criteria required to verify conformance")
+    cross_references: List[str] = Field(default_factory=list, description="Related specification or standard document IDs")
+    source_document_path: str = Field(..., description="Path to raw source file in corpus")
+    authority: Literal["A", "B", "C"] = Field("A", description="Authority level (A = Official System Truth)")
+    status: Literal["Approved", "Draft", "Archived"] = Field("Approved", description="Governance status")
+
+
+class ComplianceAuditReport(BaseModel):
+    """Audit result verifying a plan, codebase change, or benchmark run against performance specs."""
+    component_name: str
+    is_compliant: bool
+    total_slas_checked: int
+    slas_passed: int
+    slas_breached: int
+    breaches: List[Dict[str, Any]] = Field(default_factory=list)
+    timestamp: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 
 

@@ -1,0 +1,13 @@
+{
+  "document_id": "DOC-IND-NIST-004-V1",
+  "source_id": "SRC-IND-NIST-004",
+  "title": "NIST Standards and Techniques for PHM in Advanced Manufacturing",
+  "version": "2020",
+  "document_type": "pdf",
+  "content_hash": "63d1490507cb6f5015dff2deda879324b83f6630bc8b34023f05ea8ff7f84aef",
+  "page_count": 48,
+  "total_sections": 58,
+  "total_words": 15183,
+  "storage_uri": "s3://aiconnex-platform-kb-prod/industrial/NIST_PHM_Manufacturing_Techniques.pdf",
+  "created_at": "2026-08-14T08:41:26.964074+00:00"
+}

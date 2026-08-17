@@ -1,0 +1,8 @@
+{
+  "database_name": "aiconnex_kb_prod",
+  "total_sources": 13,
+  "total_documents": 26,
+  "total_chunks": 356,
+  "last_synced_at": "2026-08-14T05:20:28.235455+00:00",
+  "status": "Active"
+}

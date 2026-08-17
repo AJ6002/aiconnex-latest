@@ -1,0 +1,55 @@
+{
+  "document_id": "PLAT-DOC-010",
+  "section_count": 4,
+  "sections": [
+    {
+      "section_id": "SEC-0001",
+      "document_id": "PLAT-DOC-010",
+      "heading_level": 2,
+      "heading_text": "AIConnex Executive Pitch Deck \u2014 Visual Asset & Code Reference",
+      "section_path": "Slide 4: Timeline & Market Gap Diagram Guide > AIConnex Executive Pitch Deck \u2014 Visual Asset & Code Reference",
+      "content": "---\n\n> **Purpose**: This guide provides both the raw copy-pasteable Mermaid diagram code and the high-resolution rendered graphic for **Slide 4 (\"Why Most AI Projects Stall Before They Even Start\")**.\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0002",
+      "document_id": "PLAT-DOC-010",
+      "heading_level": 2,
+      "heading_text": "1. Rendered Visual Diagram",
+      "section_path": "Slide 4: Timeline & Market Gap Diagram Guide > 1. Rendered Visual Diagram",
+      "content": "![Slide 4 Rendered Flowchart Diagram](C:\\Users\\aksha\\.gemini\\antigravity\\brain\\aca1036f-deab-4f13-a6cc-12be286d4791\\slide4_flowchart_rendered_1785949056183.jpg)\n\n---",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0003",
+      "document_id": "PLAT-DOC-010",
+      "heading_level": 2,
+      "heading_text": "2. Raw Mermaid Code (Copy & Paste Ready)",
+      "section_path": "Slide 4: Timeline & Market Gap Diagram Guide > 2. Raw Mermaid Code (Copy & Paste Ready)",
+      "content": "Use this raw text code in diagram editors such as **Eraser.io**, **Napkin AI**, **Mermaid Live Editor**, **Notion**, or **Canva App**:\n\n``` mermaid\nflowchart TD\n    subgraph TOP[\"\ud83d\udd34 TRADITIONAL INDUSTRIAL JOURNEY (16 WEEKS TOTAL)\"]\n        direction LR\n        A[\"1. Collect Data<br/>(Wks 1\u20133)\"] --> B[\"2. Clean Data<br/>(Wks 4\u20137)\"]\n        B --> C[\"3. Feature Eng.<br/>(Wks 8\u201311)\"] --> D[\"4. Select Features<br/>(Wks 12\u201313)\"]\n        D --> E[\"5. Train & Deploy<br/>(Wks 14\u201316)\"]\n    end\n\n    subgraph BOTTOM[\"\ud83d\udd35 MARKET TOOLING vs THE INDUSTRIAL GAP\"]\n        direction LR\n        GAP[\"\u26a0\ufe0f 100% MANUAL GAP (Weeks 1\u201313)<br/>Raw ZIPs, SCADA Workbooks & Sensor Logs<br/>(Unsolved by Existing Market Tools)\"] \n        AUTO[\"\u26a1 AUTOMATED BY AUTOML (Weeks 14\u201316)<br/>Model Training & Feature Stores<br/>(Assumes Clean Tabular Data)\"]\n        GAP --> AUTO\n    end\n\n    classDef red fill:#fecdd3,stroke:#e11d48,color:#881337,font-weight:bold;\n    classDef green fill:#dcfce7,stroke:#16a34a,color:#14532d,font-weight:bold;\n    classDef blue fill:#e0f2fe,stroke:#0284c7,color:#0c4a6e;\n    \n    class GAP red;\n    class AUTO green;\n    class E green;\n    class A,B,C,D blue;\n```\n\n---",
+      "content_type": "mixed",
+      "code_blocks": [
+        {
+          "language": "mermaid",
+          "code": "flowchart TD\n    subgraph TOP[\"\ud83d\udd34 TRADITIONAL INDUSTRIAL JOURNEY (16 WEEKS TOTAL)\"]\n        direction LR\n        A[\"1. Collect Data<br/>(Wks 1\u20133)\"] --> B[\"2. Clean Data<br/>(Wks 4\u20137)\"]\n        B --> C[\"3. Feature Eng.<br/>(Wks 8\u201311)\"] --> D[\"4. Select Features<br/>(Wks 12\u201313)\"]\n        D --> E[\"5. Train & Deploy<br/>(Wks 14\u201316)\"]\n    end\n\n    subgraph BOTTOM[\"\ud83d\udd35 MARKET TOOLING vs THE INDUSTRIAL GAP\"]\n        direction LR\n        GAP[\"\u26a0\ufe0f 100% MANUAL GAP (Weeks 1\u201313)<br/>Raw ZIPs, SCADA Workbooks & Sensor Logs<br/>(Unsolved by Existing Market Tools)\"] \n        AUTO[\"\u26a1 AUTOMATED BY AUTOML (Weeks 14\u201316)<br/>Model Training & Feature Stores<br/>(Assumes Clean Tabular Data)\"]\n        GAP --> AUTO\n    end\n\n    classDef red fill:#fecdd3,stroke:#e11d48,color:#881337,font-weight:bold;\n    classDef green fill:#dcfce7,stroke:#16a34a,color:#14532d,font-weight:bold;\n    classDef blue fill:#e0f2fe,stroke:#0284c7,color:#0c4a6e;\n    \n    class GAP red;\n    class AUTO green;\n    class E green;\n    class A,B,C,D blue;"
+        }
+      ],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-0004",
+      "document_id": "PLAT-DOC-010",
+      "heading_level": 2,
+      "heading_text": "3. Slide 4 Content Summary",
+      "section_path": "Slide 4: Timeline & Market Gap Diagram Guide > 3. Slide 4 Content Summary",
+      "content": "* **Header**: Why Most AI Projects Stall Before They Even Start\n* **Subtitle**: Teams spend most of their time preparing data \u2014 and by the time the model is ready, the budget and patience are gone.\n* **Key Message**: Existing market tools (Feature Stores & AutoML) automated the second half (*after data is clean*). AIConnex solves the hardest first half (*getting messy raw industrial data clean in the first place*).",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+[
+  {
+    "chunk_id": "DOC-EQP-007-CH-0000",
+    "document_id": "DOC-EQP-007",
+    "version": "1.0",
+    "section": "OPC UA for Asset Administration Shell (AAS) Specification > Overview",
+    "subsection": "Overview",
+    "page_start": null,
+    "page_end": null,
+    "chunk_index": 0,
+    "text": "Standardized digital representation of physical assets across Industry 4.0 applications.",
+    "text_hash": "5e36a5f4286028c187aaec04703323008a8cbecc1bfd9585e3f51512bb3d686e",
+    "token_count": 17,
+    "authority_level": "A",
+    "status": "Active"
+  },
+  {
+    "chunk_id": "DOC-EQP-007-CH-0001",
+    "document_id": "DOC-EQP-007",
+    "version": "1.0",
+    "section": "OPC UA for Asset Administration Shell (AAS) Specification > AAS Submodels",
+    "subsection": "AAS Submodels",
+    "page_start": null,
+    "page_end": null,
+    "chunk_index": 1,
+    "text": "- **Identification**: Asset ID, GTIN, Serial Number.\n- **TechnicalData**: Design specifications, operating envelope, pressure/temperature limits.\n- **OperationalData**: Real-time sensor telemetry and process variables.\n- **MaintenanceHistory**: Log of inspections, overhauls, and replacement activities.\n- **Documentation**: Manuals, P&ID diagrams, ISO certification compliance.",
+    "text_hash": "57b8bee82ef20a4c559cdaf1b7b04ad4da8644dc47546b59094ef0c4853f1498",
+    "token_count": 73,
+    "authority_level": "A",
+    "status": "Active"
+  }
+]

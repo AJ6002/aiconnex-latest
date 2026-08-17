@@ -1,0 +1,760 @@
+{
+  "document_id": "DOC-DOC-SPEC-005-V1",
+  "source_id": "DOC-SPEC-005",
+  "title": "AI-ConneX Data Studio PREPARE Node Detailed Documentation",
+  "studio": "DataStudio",
+  "category": "DataContract",
+  "target_subsystems": [
+    "PrepareNode",
+    "DataCleaner",
+    "ImputationEngine"
+  ],
+  "summary": "Data cleaning, missing value imputation contracts, outlier filtering bounds, and data type coercion specifications.",
+  "sha256": "0e321d7f329b07daf6983779da9d9552f7d61b5adf440ce2f1e452859b7c9578",
+  "file_size_bytes": 53717,
+  "statistics": {
+    "headings_count": 64,
+    "paragraphs_count": 177,
+    "tables_count": 15,
+    "sections_count": 63,
+    "estimated_words": 4665
+  },
+  "sections": [
+    {
+      "section_id": "SEC-DOC-SPEC-005-0001",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "Overview",
+      "section_path": "DOC-SPEC-005 > Overview",
+      "content": "AI-ConneX\n\nDATA STUDIO — PREPARE NODE\n\nIndustrial Data Preparation, Validation & Readiness Layer — Technical Documentation\n\nCompliance Report #5",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0002",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "1. Executive Definition",
+      "section_path": "DOC-SPEC-005 > 1. Executive Definition",
+      "content": "The PREPARE Node is the first execution node after the AI-ConneX Data Studio Brain. The Brain decides what should happen; PREPARE makes the selected dataset physically and logically ready for downstream Feature Engineering (FE), Split, Training and Evaluation (STEM).\n\nThe PREPARE Node receives the canonical dataset, manifest-UID.json, DAG assignment, recipe plan, lineage and user-intent context produced by earlier stages. It does not rediscover the entire problem from scratch. Instead, it executes controlled preparation operations authorized by the manifest, selected DAG and PREPARE recipe.\n\nCHATBOT  intent     |     vBRAIN  Compiler -> Profiler -> DAG Assigner -> Recipe Orchestrator     |     +-------------------------------+     |                               |     v                               vcanonical dataset              manifest-UID.json     |                               |     +---------------+---------------+                     |                     v              PREPARE NODE                     |          +----------+----------+          |          |          |       Validate    Clean      Standardize          |          |          |          +----------+----------+                     |                     v             PREPARED DATASET                     |                     v                FE / STEM",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0003",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "2. Purpose and Scope",
+      "section_path": "DOC-SPEC-005 > 2. Purpose and Scope",
+      "content": "PREPARE is responsible for data readiness, not model intelligence. Its job is to make the dataset structurally valid, semantically consistent, quality-controlled and safe for the selected downstream workflow.\n\nValidate that the input matches the manifest and expected schema.\n\nApply approved cleaning and normalization operations.\n\nResolve or quarantine missing, malformed and invalid records according to policy.\n\nNormalize timestamps, units, categories and identifiers where required.\n\nHandle duplicates according to explicit rules.\n\nApply domain-aware filtering only when justified.\n\nPreserve lineage for every transformation.\n\nProduce a prepared dataset and a preparation/compliance report.\n\nBlock unsafe transformations instead of silently changing industrial data.\n\nEmit metadata needed by FE and STEM.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0004",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "3. Position in the AI-ConneX Pipeline",
+      "section_path": "DOC-SPEC-005 > 3. Position in the AI-ConneX Pipeline",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Stage | Main Responsibility | PREPARE Relationship |\n| --- | --- | --- |\n| Chatbot | Captures business intent and constraints | Intent is inherited; PREPARE does not overwrite it |\n| Compiler | Unifies raw industrial data | PREPARE consumes the compiled canonical dataset |\n| Data Profiler | Describes actual data | PREPARE uses profile evidence and constraints |\n| DAG Assigner | Selects compatible workflow | PREPARE follows the selected DAG's data requirements |\n| Recipe Orchestrator | Selects PREPARE/FE/STEM recipes | PREPARE executes the PREPARE recipe contract |\n| PREPARE | Makes data execution-ready | Produces prepared dataset + preparation metadata |\n| FE | Creates predictive/analytical features | Consumes PREPARE output |\n| STEM | Split, train and evaluate | Consumes FE output and preparation lineage |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0005",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "4. What PREPARE Receives",
+      "section_path": "DOC-SPEC-005 > 4. What PREPARE Receives",
+      "content": "prepare_input/  dataset/    canonical.parquet  manifest/    manifest-UID.json  brain/    dag_plan.json    recipe_plan.json  intent/    intent.json  lineage/    lineage.json  policies/    preparation_policy.yaml\n\nThe manifest is the principal control document. It describes what the Brain believes the data is; PREPARE verifies that reality has not changed between profiling/planning and execution.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0006",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "5. What PREPARE Receives from the Previous Chatbot Stage",
+      "section_path": "DOC-SPEC-005 > 5. What PREPARE Receives from the Previous Chatbot Stage",
+      "content": "The Chatbot's output is not directly converted into cleaning instructions. It is carried through the Brain as user intent. This distinction is critical: a user might say 'remove bad sensor readings', but the exact meaning of 'bad' must be resolved using the profile, industrial constraints and registered recipes.\n\nCHATBOT OUTPUT{  \"intent_uid\": \"ACX-INT-00042\",  \"objective\": \"predict machine failure\",  \"target\": \"failure_event\",  \"constraints\": {      \"near_real_time\": false,      \"explainability\": \"required\"  },  \"domain_context\": \"...\",  \"user_constraints\": [...]}          |          vBRAIN / MANIFEST          |          vPREPARE  uses intent as CONTEXT + CONSTRAINT,  not as unrestricted executable instructions.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0007",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "6. PREPARE Input Contract",
+      "section_path": "DOC-SPEC-005 > 6. PREPARE Input Contract",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Field | Required | Purpose |\n| --- | --- | --- |\n| dataset_uid | Yes | Identifies compiled dataset |\n| manifest_uid | Yes | Binds preparation to Brain decision |\n| dag_id | Yes | Determines workflow requirements |\n| recipe_id/version | Yes | Defines authorized preparation |\n| schema fingerprint | Yes | Detects schema drift |\n| intent_uid | Yes | Maintains business lineage |\n| profile version | Yes | Records evidence used for planning |\n| policy version | Yes | Controls cleaning behavior |\n| source lineage | Yes | Allows trace-back |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0008",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "8. R&D Problem Statement",
+      "section_path": "DOC-SPEC-005 > 8. R&D Problem Statement",
+      "content": "The R&D challenge is not 'how to clean a dataframe'. The real challenge is deciding what may safely be changed in industrial data without destroying operational meaning.\n\nIndustrial sensor data can contain missing measurements, transient spikes, maintenance windows, duplicated events, clock drift, unit inconsistencies, impossible physical values and categorical codes that changed between systems. A generic cleaning script can easily convert legitimate events into apparently clean but incorrect data.\n\nTherefore AI-ConneX PREPARE is policy-driven, manifest-aware and lineage-preserving.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0009",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "9. Key R&D Failures Discovered / Anticipated",
+      "section_path": "DOC-SPEC-005 > 9. Key R&D Failures Discovered / Anticipated",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Failure | Why Naive Pipelines Fail | AI-ConneX PREPARE Response |\n| --- | --- | --- |\n| Blind row deletion | Deletes rare but meaningful industrial events | Quarantine + policy-based handling |\n| Mean imputation everywhere | Can distort sensor distributions | Column/task-aware strategy |\n| Outlier removal | Maintenance/failure events may look like outliers | Context-aware outlier policy |\n| Duplicate dropping | Repeated events may represent real observations | Key/time/entity-aware duplicate policy |\n| Random timestamp parsing | Timezone/format ambiguity corrupts ordering | Explicit timezone + parsing validation |\n| Unit mismatch | psi/kPa or °C/°F can silently mix | Unit metadata + conversion contract |\n| Schema drift | Production columns change over time | Manifest fingerprint + drift gate |\n| Leakage through preparation | Future-derived values can enter training data | Temporal and scope-aware guard |\n| Over-normalization | Industrial identifiers lose meaning | Semantic column classes |\n| Join damage inherited from source | Many-to-many relationships explode rows | Pre-join cardinality validation |\n| Silent coercion | Invalid strings become nulls | Conversion failure quarantine |\n| Memory overload | Full dataframe operations fail on large data | Chunk/stream/columnar execution |\n| Non-reproducible cleaning | Same input produces different output | Versioned recipes + deterministic settings |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0010",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "10. PREPARE Design Principle: Never Clean Blindly",
+      "section_path": "DOC-SPEC-005 > 10. PREPARE Design Principle: Never Clean Blindly",
+      "content": "The central principle is: every material transformation must be explainable by a rule, recipe, policy or explicit user/domain constraint.\n\nTRANSFORMATION      |      +--> Why is this column affected?      +--> Why this operation?      +--> Which recipe?      +--> Which policy?      +--> Which manifest evidence?      +--> How many records changed?      +--> Can original values be recovered?      |      vLINEAGE EVENT",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0011",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "11. Schema Validation",
+      "section_path": "DOC-SPEC-005 > 11. Schema Validation",
+      "content": "Before modifying values, PREPARE verifies that the dataset still resembles the dataset that was profiled.\n\nColumn presence.\n\nColumn names and aliases.\n\nData types.\n\nNullable status.\n\nExpected key fields.\n\nTarget availability.\n\nTimestamp availability.\n\nSchema fingerprint.\n\nExpected row/partition structure.\n\nSchema mismatch should normally stop or quarantine the run rather than automatically 'fixing' a major drift. Minor compatible drift may be handled by registered compatibility rules.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0012",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "12. Missing-Value Handling",
+      "section_path": "DOC-SPEC-005 > 12. Missing-Value Handling",
+      "content": "Missingness is treated as information first and a defect second. The strategy depends on column role, temporal structure, entity structure and recipe requirements.\n\nThe chosen operation is recorded with counts before and after transformation.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Situation | Possible Action |\n| --- | --- |\n| Numeric sensor, short gap | Forward interpolation / controlled imputation |\n| Numeric sensor, long gap | Keep missing or quarantine interval |\n| Categorical field | Explicit unknown category or policy-defined mode |\n| Identifier | Usually fail/quarantine |\n| Target | Do not impute blindly; remove from supervised training scope |\n| Timestamp | Fail or quarantine if required for selected DAG |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0013",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "13. Duplicate Handling",
+      "section_path": "DOC-SPEC-005 > 13. Duplicate Handling",
+      "content": "Duplicates are not necessarily errors. PREPARE distinguishes exact duplicates, key duplicates and legitimate repeated measurements.\n\nExact duplicate rows.\n\nDuplicate business keys.\n\nRepeated sensor measurements at the same timestamp.\n\nDuplicate records caused by source replay.\n\nMultiple valid events sharing the same timestamp.\n\nThe policy should specify whether to retain first/last, aggregate, reconcile, quarantine or reject.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0014",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "14. Invalid and Impossible Values",
+      "section_path": "DOC-SPEC-005 > 14. Invalid and Impossible Values",
+      "content": "PREPARE can enforce physical or business-domain constraints when they are available. Examples include negative runtime hours, impossible temperatures, invalid status codes, impossible timestamps and values outside instrument limits.\n\nHard constraints should be deterministic. Soft statistical anomalies should not automatically be treated as errors.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0015",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "15. Outlier Strategy",
+      "section_path": "DOC-SPEC-005 > 15. Outlier Strategy",
+      "content": "An outlier detector is not automatically an outlier remover. A machine failure, pressure spike or emergency shutdown can be the most valuable observation in a predictive-maintenance dataset.\n\nFlag rather than delete by default.\n\nUse domain thresholds when available.\n\nUse statistical thresholds only as supporting evidence.\n\nConsider maintenance/event context.\n\nKeep an original-value lineage.\n\nAllow downstream DAG/recipe to decide whether flagged points are excluded.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0016",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "16. Timestamp Preparation",
+      "section_path": "DOC-SPEC-005 > 16. Timestamp Preparation",
+      "content": "Parse supported timestamp formats.\n\nNormalize timezone handling.\n\nCheck monotonicity where required.\n\nDetect impossible/future timestamps.\n\nDetect duplicate timestamps within entity.\n\nCompute sampling interval statistics.\n\nFlag gaps and bursts.\n\nPreserve original timestamp when conversion is material.\n\nTemporal correctness is especially important because a technically clean dataset can still be invalid if preparation uses information from the future.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0017",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "17. Unit Normalization",
+      "section_path": "DOC-SPEC-005 > 17. Unit Normalization",
+      "content": "Industrial datasets frequently mix engineering units. PREPARE should maintain a unit registry and record conversions rather than merely renaming columns.\n\ntemperature:  source_unit: F  target_unit: C  conversion: (F - 32) * 5/9pressure:  source_unit: psi  target_unit: kPa  conversion: psi * 6.894757\n\nEvery conversion should record source unit, target unit, conversion rule and recipe version.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0018",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "18. Categorical and Identifier Preparation",
+      "section_path": "DOC-SPEC-005 > 18. Categorical and Identifier Preparation",
+      "content": "Normalize whitespace/casing only where semantically safe.\n\nMap known aliases using a controlled dictionary.\n\nDo not collapse identifiers that differ only because they appear similar.\n\nPreserve original category values for lineage.\n\nValidate category domains when a controlled vocabulary exists.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0019",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "19. Data Validation Architecture",
+      "section_path": "DOC-SPEC-005 > 19. Data Validation Architecture",
+      "content": "AI-ConneX can implement declarative validation using a framework such as Great Expectations or an internal equivalent. Great Expectations describes Expectations as verifiable assertions about data and provides reusable validation/checkpoint concepts and validation results. citeturn0search8turn0search6\n\nExpectation Suite      |      vCheckpoint / Validation Run      |      +--> PASS      |      +--> WARN      |      +--> FAIL      |      vValidation Report\n\nFor an industrial deployment, the project should define which expectations are hard gates and which are warnings. A validation framework is an implementation choice; the AI-ConneX contract is the important architectural concept.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0020",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "20. Canonical Internal Representation",
+      "section_path": "DOC-SPEC-005 > 20. Canonical Internal Representation",
+      "content": "A columnar representation such as Apache Arrow/Parquet is recommended for the prepared artifact because Arrow defines a language-independent in-memory format and IPC/data transport model, while Parquet provides practical persistent columnar storage. Arrow is explicitly designed for efficient data interchange and in-memory analytics. citeturn0search0turn0search4\n\nRAW / COMPILED       |       vArrow-compatible execution       |       vParquet / Arrow prepared artifact       |       +--> FE       +--> STEM",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0021",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "21. PREPARE Recipe Model",
+      "section_path": "DOC-SPEC-005 > 21. PREPARE Recipe Model",
+      "content": "recipe:  id: PREPARE-TEMPORAL-001  version: 1.2.0  inputs:    required:      - timestamp      - entity_id  operations:    - validate_schema    - parse_timestamp    - normalize_timezone    - validate_missingness    - quarantine_invalid_timestamps    - validate_sampling_gaps  outputs:    dataset    validation_report    lineage  safety:    destructive_operations: false    leakage_guard: enabled",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0022",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "22. Preparation Categories",
+      "section_path": "DOC-SPEC-005 > 22. Preparation Categories",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Category | Examples |\n| --- | --- |\n| Structural | schema, columns, types, indexes |\n| Quality | nulls, invalid values, duplicates |\n| Temporal | timestamps, timezone, ordering, gaps |\n| Semantic | units, category mapping, identifiers |\n| Domain | physical limits, business constraints |\n| Scale | partitioning, chunking, memory strategy |\n| Security | classification, masking, access control |\n| Lineage | source-to-output transformation records |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0023",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "23. Quarantine Architecture",
+      "section_path": "DOC-SPEC-005 > 23. Quarantine Architecture",
+      "content": "Instead of deleting uncertain records, PREPARE should preferentially move them to a quarantine artifact with a reason code.\n\nprepared/  data.parquetquarantine/  records.parquet  reasons.jsonreasons:  INVALID_TIMESTAMP  UNKNOWN_UNIT  SCHEMA_MISMATCH  DOMAIN_VIOLATION  DUPLICATE_CONFLICT  TYPE_CONVERSION_FAILURE\n\nThis is especially important for industry because an anomalous record may be the evidence of the exact failure the model is intended to detect.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0024",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "24. Before/After Accounting",
+      "section_path": "DOC-SPEC-005 > 24. Before/After Accounting",
+      "content": "Every PREPARE run should provide accounting:\n\ninput_rowsoutput_rowsquarantined_rowsdropped_rowsmodified_rowscolumns_modifiednulls_beforenulls_afterduplicates_beforeduplicates_aftervalidation_passedvalidation_failed\n\nA run without this accounting should not be considered fully auditable.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0025",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "25. Lineage Model",
+      "section_path": "DOC-SPEC-005 > 25. Lineage Model",
+      "content": "manifest_uid    |    +--> prepare_run_uid            |            +--> input_hash            +--> recipe_id/version            +--> policy_id/version            +--> operation_001            +--> operation_002            +--> ...            +--> output_hash            +--> quarantine_hash",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0026",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "26. Output of PREPARE",
+      "section_path": "DOC-SPEC-005 > 26. Output of PREPARE",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Artifact | Purpose | Consumer |\n| --- | --- | --- |\n| prepared_dataset.parquet | Clean/validated execution dataset | FE/STEM |\n| prepare_report_5.json | Compliance/evidence report | Audit/Brain/Operations |\n| prepare_summary.json | Human/machine summary | UI/API |\n| prepare_lineage.json | Transformation lineage | Governance |\n| validation_results.json | Expectation/check results | Quality gate |\n| quarantine.parquet | Unresolved/unsafe records | Review/forensics |\n| prepared_manifest.json | Updated artifact metadata | FE/STEM |\n| schema_fingerprint.json | Prepared schema identity | FE |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0027",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "27. What PREPARE Outputs to Feature Engineering",
+      "section_path": "DOC-SPEC-005 > 27. What PREPARE Outputs to Feature Engineering",
+      "content": "PREPARE must not simply output a dataframe. It outputs a controlled dataset package.\n\nFE INPUT PACKAGE  |  +-- prepared_dataset.parquet  +-- prepared_manifest.json  +-- schema_fingerprint.json  +-- validation_results.json  +-- lineage.json  +-- recipe_reference.json  +-- target_definition.json  +-- temporal_policy.json  +-- entity_policy.json\n\nFE can therefore determine which columns are safe and available, what target is expected, how time/entity boundaries should be respected and what transformations have already occurred.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0028",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "28. Relationship to the Data Profiler",
+      "section_path": "DOC-SPEC-005 > 28. Relationship to the Data Profiler",
+      "content": "The user requested how PREPARE outputs back into the Data Profiler. Architecturally, PREPARE should not replace the Brain's original manifest. Instead, it should emit a post-preparation validation/profile artifact that can be consumed by a downstream validation profiler or used to update the manifest lineage.\n\nORIGINAL PROFILER       |       vmanifest-UID.json       |       vPREPARE       |       +--> prepared_dataset       +--> prepare_report_5       +--> post_prepare_profile.json       |       vFE / STEMOPTIONAL FEEDBACK:post_prepare_profile       |       vData Quality / Profiler monitoring\n\nThis distinction prevents circular architecture: the original Profiler describes the input to planning, while a post-prepare validation profile verifies the result of preparation.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0029",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "29. PREPARE → Profiler Feedback",
+      "section_path": "DOC-SPEC-005 > 29. PREPARE → Profiler Feedback",
+      "content": "Rows removed/quarantined.\n\nNew missingness statistics.\n\nSchema after preparation.\n\nDistribution changes.\n\nCategory cardinality changes.\n\nTimestamp gap statistics.\n\nUnit-normalization evidence.\n\nValidation results.\n\nPotential new anomalies introduced by transformation.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0030",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "30. Leakage Safety",
+      "section_path": "DOC-SPEC-005 > 30. Leakage Safety",
+      "content": "Preparation must distinguish operations that can be performed globally from operations that learn parameters from data. Any operation whose parameters are learned from observations—such as imputation statistics, scaling statistics or category dictionaries—must be scoped correctly when the downstream workflow requires train/test separation.\n\nA strong design is to allow PREPARE to perform structural, deterministic validation globally, while learned transformations are represented as recipe components whose fitting scope is controlled by the downstream STEM split. This is an architectural safeguard rather than a blanket rule that all cleaning must happen after splitting.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0031",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "31. PREPARE vs FE Boundary",
+      "section_path": "DOC-SPEC-005 > 31. PREPARE vs FE Boundary",
+      "content": "Example: converting psi to kPa is PREPARE. Creating a 30-minute rolling pressure mean is FE. The boundary must remain explicit for lineage and leakage control.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| PREPARE | FE |\n| --- | --- |\n| Make data valid | Make data predictive |\n| Fix representation | Create derived variables |\n| Validate schema | Create lag/rolling/interaction features |\n| Normalize units | Create domain features |\n| Handle source-quality issues | Select/transform features |\n| Quarantine bad records | Build model-ready feature matrix |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0032",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "32. PREPARE vs STEM Boundary",
+      "section_path": "DOC-SPEC-005 > 32. PREPARE vs STEM Boundary",
+      "content": "PREPARE should not train models. STEM owns split, training and evaluation. If a preparation decision depends on the split—for example, fitting an imputer or scaler—its fitting operation should be represented so STEM can execute it within the correct training scope.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0033",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "33. R&D Failure: Over-Automation",
+      "section_path": "DOC-SPEC-005 > 33. R&D Failure: Over-Automation",
+      "content": "One major architectural failure would be allowing an agent to decide that every problem can be solved by a generic cleaning template. AI-ConneX avoids this by requiring the Recipe Orchestrator to select registered PREPARE recipes based on the manifest and DAG constraints.\n\nAgent suggestion      |      vRecipe Registry      |      vCapability / Schema Validator      |      +--> valid --> execute      |      +--> invalid --> stop / ask",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0034",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "34. R&D Failure: Data Destruction",
+      "section_path": "DOC-SPEC-005 > 34. R&D Failure: Data Destruction",
+      "content": "Traditional ETL pipelines sometimes overwrite or discard source values. AI-ConneX uses immutable raw/compiled artifacts, output versioning and quarantine so that a preparation mistake does not destroy the evidence.\n\nRaw data immutable.\n\nCompiled data immutable.\n\nPrepared output versioned.\n\nQuarantine retained.\n\nHashes recorded.\n\nTransformations recorded.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0035",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "35. R&D Failure: 'Clean' But Wrong",
+      "section_path": "DOC-SPEC-005 > 35. R&D Failure: 'Clean' But Wrong",
+      "content": "The most dangerous PREPARE failure is a dataset that passes basic validation but has lost business meaning. Examples include deleting failure spikes, collapsing machine IDs, converting timezones incorrectly or imputing long sensor outages.\n\nAI-ConneX therefore separates structural validity from semantic validity and requires domain-aware rules where available.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0036",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "36. R&D Failure: Scale",
+      "section_path": "DOC-SPEC-005 > 36. R&D Failure: Scale",
+      "content": "Use columnar storage.\n\nProcess only required columns.\n\nPartition large datasets.\n\nStream/chunk expensive transformations.\n\nPush filtering/aggregation to a query engine when appropriate.\n\nUse lazy execution where supported.\n\nRecord resource usage in the run report.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0037",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "37. Recommended Tech Stack",
+      "section_path": "DOC-SPEC-005 > 37. Recommended Tech Stack",
+      "content": "Exact versions should be frozen in a lockfile after POC compatibility testing. Apache Arrow is particularly appropriate as an interoperability layer because it is language-independent and designed for data interchange/in-memory analytics. citeturn0search0turn0search4",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Layer | Recommended Stack | Purpose |\n| --- | --- | --- |\n| Runtime | Python 3.12.x | Core preparation engine |\n| DataFrame | Polars 1.x / pandas 2.x | Tabular transformations |\n| Columnar | Apache Arrow + Parquet | Interchange/storage |\n| Validation | Great Expectations 1.x or internal validator | Data assertions |\n| Schema | Pydantic 2.x + JSON Schema | Contracts |\n| API | FastAPI | Service interface |\n| Orchestration | Prefect 3.x / Airflow 3.x | Execution |\n| Storage | S3-compatible object store | Artifacts |\n| Metadata | PostgreSQL 16+ | Runs/manifests/registry |\n| Container | Docker | Isolation |\n| Tests | pytest | Unit/integration/regression |\n| Observability | OpenTelemetry | Traces/metrics/logs |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0038",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "38. System Requirements",
+      "section_path": "DOC-SPEC-005 > 38. System Requirements",
+      "content": "Large industrial workloads should be benchmarked against actual data volumes rather than relying on these baseline values.",
+      "content_type": "mixed",
+      "code_blocks": [],
+      "tables": [
+        "| Deployment | Baseline |\n| --- | --- |\n| OS | Ubuntu 22.04/24.04 LTS or equivalent Linux |\n| CPU | 4+ cores for POC; 8–16+ recommended production |\n| RAM | 16 GB POC; 32–64 GB for larger workloads |\n| Storage | SSD; size based on raw + compiled + prepared + quarantine copies |\n| Python | 3.12.x |\n| Network | Required for object storage/metadata services when externalized |\n| Container | Docker 26+ recommended |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0039",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "39. Directory Architecture",
+      "section_path": "DOC-SPEC-005 > 39. Directory Architecture",
+      "content": "prepare/|+-- api/|   +-- routes.py|   +-- schemas.py|+-- engine/|   +-- runner.py|   +-- context.py|+-- validation/|   +-- schema.py|   +-- expectations.py|   +-- business_rules.py|   +-- validator.py|+-- transforms/|   +-- missing.py|   +-- duplicates.py|   +-- timestamps.py|   +-- units.py|   +-- categories.py|   +-- invalid_values.py|   +-- outliers.py|+-- quarantine/|   +-- manager.py|   +-- reason_codes.py|+-- lineage/|   +-- tracker.py|+-- recipes/|   +-- registry.py|   +-- loader.py|+-- reports/|   +-- report5.py|+-- storage/|   +-- reader.py|   +-- writer.py|+-- tests/|   +-- unit/|   +-- integration/|   +-- leakage/|   +-- regression/|+-- config/|   +-- prepare.yaml",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0040",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "40. Configuration Example",
+      "section_path": "DOC-SPEC-005 > 40. Configuration Example",
+      "content": "prepare:  mode: strict  preserve_source: true  quarantine_enabled: truevalidation:  schema: strict  business_rules: enabled  null_policy: recipe_defined  unit_policy: registry_definedtemporal:  timezone_policy: explicit  future_timestamp_policy: quarantineduplicates:  strategy: recipe_definedoutliers:  action: flag_by_defaultlineage:  enabled: true  hash_algorithm: sha256output:  format: parquet  compression: zstdaudit:  report_id: REPORT_5  immutable: true",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0041",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "41. CLI Commands",
+      "section_path": "DOC-SPEC-005 > 41. CLI Commands",
+      "content": "# installpython -m venv .venvsource .venv/bin/activatepip install -r requirements.txt# validate input packagepython -m prepare validate   --manifest manifests/manifest-UID.json   --dataset data/canonical.parquet# dry runpython -m prepare run   --manifest manifests/manifest-UID.json   --recipe PREPARE-TEMPORAL-001   --dry-run# executepython -m prepare run   --manifest manifests/manifest-UID.json   --recipe PREPARE-TEMPORAL-001   --output artifacts/prepared/# reportpython -m prepare report   --run-id ACX-PREP-00042# testspytest tests/",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0042",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "42. API Design",
+      "section_path": "DOC-SPEC-005 > 42. API Design",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Method | Endpoint | Purpose |\n| --- | --- | --- |\n| POST | /v1/prepare/validate | Validate dataset against manifest |\n| POST | /v1/prepare/dry-run | Show planned transformations |\n| POST | /v1/prepare/run | Execute preparation recipe |\n| GET | /v1/prepare/runs/{run_id} | Run status |\n| GET | /v1/prepare/runs/{run_id}/report | Report #5 |\n| GET | /v1/prepare/runs/{run_id}/lineage | Transformation lineage |\n| GET | /v1/prepare/runs/{run_id}/quarantine | Quarantine metadata |\n| POST | /v1/prepare/runs/{run_id}/approve | Approve controlled exception |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0043",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "43. Dry-Run Mode",
+      "section_path": "DOC-SPEC-005 > 43. Dry-Run Mode",
+      "content": "Dry-run is strongly recommended for industrial deployments. It calculates intended changes without writing the final dataset.\n\nDRY RUNInput:  10,000,000 rowsExpected:  42,100 rows with invalid timestamps  12,300 duplicate keys  5 columns require unit conversion  0 target nulls  0 schema-breaking changesDecision:  WARN / BLOCK / EXECUTE\n\nThis allows an engineer or domain expert to inspect potentially destructive operations before execution.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0044",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "44. Compliance Report #5 — Purpose",
+      "section_path": "DOC-SPEC-005 > 44. Compliance Report #5 — Purpose",
+      "content": "Compliance Report #5 is the formal evidence package generated by PREPARE. It answers: what entered the node, what rules were authorized, what changed, what failed, what was quarantined, what was produced and whether the result is safe for downstream execution.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0045",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "45. Compliance Report #5 — Required Sections",
+      "section_path": "DOC-SPEC-005 > 45. Compliance Report #5 — Required Sections",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Section | Evidence |\n| --- | --- |\n| Identity | run UID, manifest UID, dataset UID |\n| Input integrity | input hash, schema fingerprint |\n| Intent | intent UID + inherited constraints |\n| Recipe | recipe ID/version |\n| Policy | policy ID/version |\n| Validation | checks and outcomes |\n| Transformations | operation-by-operation counts |\n| Quarantine | records and reasons |\n| Output | output hash, row/column counts |\n| Lineage | source-to-output mapping |\n| Exceptions | warnings/approvals |\n| Resource use | CPU/RAM/time where available |\n| Final status | PASS/WARN/BLOCK |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0046",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "46. Example Report Status",
+      "section_path": "DOC-SPEC-005 > 46. Example Report Status",
+      "content": "{  \"report_id\": \"REPORT_5\",  \"status\": \"PASS_WITH_WARNINGS\",  \"manifest_uid\": \"ACX-MAN-00042\",  \"prepare_run_uid\": \"ACX-PREP-00042\",  \"input_rows\": 1250000,  \"output_rows\": 1238700,  \"quarantined_rows\": 11300,  \"modified_rows\": 421000,  \"schema_valid\": true,  \"leakage_guard\": \"PASS\",  \"lineage_complete\": true,  \"recipe\": \"PREPARE-TEMPORAL-001@1.2.0\"}",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0047",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "47. Compliance Gates",
+      "section_path": "DOC-SPEC-005 > 47. Compliance Gates",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Gate | PASS Condition | Failure Action |\n| --- | --- | --- |\n| Manifest | UID and fingerprint valid | BLOCK |\n| Schema | Compatible with expected schema | BLOCK/WARN by policy |\n| Target | Valid target for selected task | BLOCK for supervised workflow |\n| Timestamp | Valid where required | BLOCK |\n| Units | Known/approved conversions | BLOCK/WARN |\n| Nulls | Within recipe threshold | WARN/BLOCK |\n| Duplicates | Within policy | WARN/BLOCK |\n| Domain | No hard violations | BLOCK/quarantine |\n| Lineage | Complete | BLOCK |\n| Output | Written and hash verified | BLOCK |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0048",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "48. Proof of Concept Architecture",
+      "section_path": "DOC-SPEC-005 > 48. Proof of Concept Architecture",
+      "content": "Test Industrial Dataset                          |                          v                 +----------------+                 |  BRAIN OUTPUT   |                 | manifest + DAG  |                 | recipe          |                 +-------+--------+                         |                         v                 +----------------+                 | PREPARE DRYRUN |                 +-------+--------+                         |            +------------+-------------+            |            |             |            v            v             v          Schema       Quality       Domain          checks       checks        checks            |            |             |            +------------+-------------+                         |                         v                  Execute Prepare                         |             +-----------+-----------+             |                       |             v                       v       Prepared Dataset        Quarantine             |             v            FE",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0049",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "49. POC Test Cases",
+      "section_path": "DOC-SPEC-005 > 49. POC Test Cases",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Test | Injected Condition | Expected Result |\n| --- | --- | --- |\n| T01 | Missing numeric values | Recipe-defined imputation/flag |\n| T02 | Missing target | BLOCK supervised run |\n| T03 | Invalid timestamp | Quarantine or BLOCK |\n| T04 | Duplicate event | Policy-based resolution |\n| T05 | psi/kPa mix | Unit validation/conversion |\n| T06 | Unknown category | Controlled unknown/quarantine |\n| T07 | Physical impossible value | Quarantine/flag |\n| T08 | Schema drift | BLOCK unless compatibility rule |\n| T09 | Future timestamp | BLOCK/quarantine |\n| T10 | 10M+ rows | Successful partitioned execution |\n| T11 | Failure spike | Preserve/flag rather than blindly delete |\n| T12 | Repeated execution | Same deterministic output |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0050",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "50. POC Acceptance Criteria",
+      "section_path": "DOC-SPEC-005 > 50. POC Acceptance Criteria",
+      "content": "100% of input files retain traceable lineage.\n\n100% of hard-gate schema violations are blocked.\n\nKnown target-null cases are never silently imputed.\n\nKnown temporal leakage cases are blocked or explicitly escalated.\n\nUnsafe unit conversions cannot execute without a registered rule.\n\nQuarantined records remain recoverable.\n\nEvery modified column has a transformation record.\n\nPrepared output passes its post-preparation validation suite.\n\nRepeated deterministic runs produce equivalent output and report metadata.\n\nFE receives a complete prepared-data contract.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0051",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "51. Research Hypotheses",
+      "section_path": "DOC-SPEC-005 > 51. Research Hypotheses",
+      "content": "H1: Manifest-driven preparation reduces silent data corruption compared with generic cleaning pipelines.\n\nH2: Quarantine-first handling preserves more industrially meaningful rare events than aggressive outlier deletion.\n\nH3: Recipe-registry control improves reproducibility of preparation across datasets and teams.\n\nH4: Dry-run plus compliance accounting reduces unsafe transformations.\n\nH5: Columnar execution improves preparation throughput for large industrial datasets.\n\nH6: Post-preparation profiling improves detection of unintended distribution/schema changes.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0052",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "52. Research Metrics",
+      "section_path": "DOC-SPEC-005 > 52. Research Metrics",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Metric | Measurement |\n| --- | --- |\n| Preparation accuracy | Correctly handled injected data-quality cases |\n| False-clean rate | Invalid records incorrectly accepted |\n| False-rejection rate | Valid records incorrectly quarantined |\n| Data retention | Valid records preserved |\n| Transformation fidelity | Expected vs actual transformation |\n| Lineage completeness | Transformations with complete provenance |\n| Reproducibility | Equivalent outputs over repeated runs |\n| Throughput | Rows/sec or GB/min |\n| Resource efficiency | CPU/RAM per GB |\n| Time-to-ready | Input arrival to FE-ready artifact |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0053",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "53. Research-Paper References",
+      "section_path": "DOC-SPEC-005 > 53. Research-Paper References",
+      "content": "Apache Arrow documentation — language-independent columnar format, metadata and data interchange/IPC. citeturn0search0turn0search4\n\nGreat Expectations documentation — Expectations, validation workflows, Checkpoints and validation results. citeturn0search8turn0search6\n\nData-Centric AI literature — systematic emphasis on data quality and data-centric development for AI. Use the references from the AI-ConneX Brain documentation as the conceptual foundation.\n\nAutomated data processing and feature-engineering surveys — support the importance and complexity of automated preparation.\n\nAutomated provenance-based screening of ML data-preparation pipelines — relevant to lineage and leakage-aware preparation.\n\nAI/ML industrial data-centric development literature — relevant to SME/industrial adoption and production constraints.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0054",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "54. Research Contribution of AI-ConneX PREPARE",
+      "section_path": "DOC-SPEC-005 > 54. Research Contribution of AI-ConneX PREPARE",
+      "content": "The proposed contribution is not another generic data-cleaning library. AI-ConneX PREPARE is a manifest- and recipe-controlled industrial preparation node positioned after a reasoning Brain. Its distinctive architectural hypothesis is that preparation should be generated from the combination of user intent, observed data profile, selected DAG and registered recipe, while every material transformation remains auditable.\n\nThis should be experimentally validated against conventional scripts, generic ETL pipelines and baseline automated preprocessing systems before claiming superiority.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0055",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "55. Industrial Security and Governance",
+      "section_path": "DOC-SPEC-005 > 55. Industrial Security and Governance",
+      "content": "Least-privilege access to source and output datasets.\n\nEncryption in transit and at rest.\n\nNo credentials in recipes or manifests.\n\nPII/sensitive-field classification before transformations.\n\nImmutable raw artifacts.\n\nRole-based approval for destructive operations.\n\nAudit logs for exceptions.\n\nVersioned policies and recipes.\n\nRetention rules for quarantine artifacts.\n\nArtifact hashes for integrity.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0056",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "56. Operational Monitoring",
+      "section_path": "DOC-SPEC-005 > 56. Operational Monitoring",
+      "content": "",
+      "content_type": "table",
+      "code_blocks": [],
+      "tables": [
+        "| Signal | Why Monitor |\n| --- | --- |\n| Schema drift | Detect upstream changes |\n| Null rate | Detect source degradation |\n| Quarantine rate | Detect unusual source behavior |\n| Duplicate rate | Detect replay/system issues |\n| Timestamp gaps | Detect telemetry failure |\n| Unit violations | Detect integration errors |\n| Preparation duration | Detect performance regression |\n| Output row ratio | Detect accidental data loss |\n| Distribution shift | Detect source/process change |"
+      ]
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0057",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "57. Alerting Examples",
+      "section_path": "DOC-SPEC-005 > 57. Alerting Examples",
+      "content": "ALERT: PREPARE-QUARANTINE-RATE-HIGHDataset: ACX-DATA-00042Quarantine: 8.7%Baseline: 0.4%Action: BLOCK downstream promotionALERT: SCHEMA-DRIFTColumn: pressure_kpaExpected: float64Observed: stringAction: BLOCKALERT: ROW-LOSSInput: 10,000,000Output: 7,800,000Threshold: 2%Action: BLOCK",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0058",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "58. PREPARE as an Industrial Control Point",
+      "section_path": "DOC-SPEC-005 > 58. PREPARE as an Industrial Control Point",
+      "content": "The PREPARE Node should be treated as a controlled checkpoint rather than a simple preprocessing script. Once PREPARE passes, downstream FE/STEM can rely on a stronger contract. If it fails, the pipeline stops before feature engineering or training consumes corrupted or ambiguous data.\n\nRAW/COMPILED     |     v   PREPARE     |   [CONTROL]  /         FAIL        PASS |           |STOP         v          FEATURE ENGINEERING               |               v              STEM",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0059",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "59. Final Architecture",
+      "section_path": "DOC-SPEC-005 > 59. Final Architecture",
+      "content": "AI-CONNEX DATA STUDIO                    BRAIN  +-----------------------------------------------+  | Chatbot Intent                                |  |      ↓                                        |  | Compiler → Profiler → DAG Assigner            |  |                         ↓                      |  |                 Recipe Orchestrator           |  +-------------------------+---------------------+                            |                 manifest + dataset +                 DAG + recipe + lineage                            |                            v                 +---------------------+                 |     PREPARE NODE    |                 |---------------------|                 | validate            |                 | clean               |                 | standardize         |                 | quarantine          |                 | account             |                 | revalidate          |                 | lineage             |                 +----------+----------+                            |                 prepared package                            |                            v                     FEATURE ENGINEERING                            |                            v                       SPLIT / TRAIN                            |                            v                         EVALUATE",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0060",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "60. Final Justification",
+      "section_path": "DOC-SPEC-005 > 60. Final Justification",
+      "content": "PREPARE is the first place where the Brain's decisions touch the actual dataset. It is therefore the boundary between planning and execution. Its responsibility is to ensure that the data entering FE/STEM is not merely 'clean', but demonstrably compatible with the selected workflow, policy-compliant, traceable and reproducible.\n\nFor AI-ConneX, the correct mental model is: the Brain decides; PREPARE proves and prepares; FE transforms information into predictive signals; STEM learns and evaluates. This separation makes the pipeline easier to audit, debug, reproduce and adapt to industrial environments.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0061",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "Appendix A — Artifact Flow",
+      "section_path": "DOC-SPEC-005 > Appendix A — Artifact Flow",
+      "content": "CHATBOT  intent.json      |      vBRAIN  manifest-UID.json  dag_plan.json  recipe_plan.json      |      vPREPARE  prepared_dataset.parquet  prepared_manifest.json  validation_results.json  quarantine.parquet  prepare_lineage.json  compliance_report_5.json      |      vFE",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0062",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "Appendix B — Example UID Chain",
+      "section_path": "DOC-SPEC-005 > Appendix B — Example UID Chain",
+      "content": "ACX-INT-00042   |ACX-DATA-00042   |ACX-MAN-00042   |ACX-DAG-00042   |ACX-RCP-00042   |ACX-PREP-00042   |ACX-FE-00042   |ACX-STEM-00042",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    },
+    {
+      "section_id": "SEC-DOC-SPEC-005-0063",
+      "document_id": "DOC-DOC-SPEC-005-V1",
+      "heading_level": 1,
+      "heading_text": "Appendix C — Important Boundary Clarification",
+      "section_path": "DOC-SPEC-005 > Appendix C — Important Boundary Clarification",
+      "content": "The original Data Profiler remains a Brain-stage component. PREPARE does not feed its prepared dataset back into the original profiling step as a replacement. Instead, PREPARE emits a post-preparation validation/profile artifact for verification, monitoring and downstream lineage. This prevents circular dependencies while preserving the ability to detect changes introduced during preparation.",
+      "content_type": "prose",
+      "code_blocks": [],
+      "tables": []
+    }
+  ],
+  "extracted_slas": [
+    {
+      "sla_id": "SLA-MEM-DOC-SPEC-005-01",
+      "component_name": "PrepareNode",
+      "metric_name": "max_memory_mb",
+      "target_value": 16384.0,
+      "unit": "MB",
+      "comparison_op": "<=",
+      "workload_condition": "RAM | 16 GB",
+      "severity_on_breach": "warning",
+      "source_spec_id": "DOC-SPEC-005"
+    }
+  ]
+}

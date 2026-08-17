@@ -28,7 +28,7 @@ def test_source_register_load_all_sources_unfiltered():
     all_sources = manager.load_all_sources()
     assert len(all_sources) >= 8
     for src in all_sources:
-        assert src.source_id.startswith(("PLAT-", "DATA-", "IND-", "SRC-IND-", "TERM-", "ML-"))
+        assert src.source_id.startswith(("PLAT-", "DATA-", "IND-", "SRC-IND-", "TERM-", "ML-", "DOC-", "STD-", "EQP-", "TENANT-"))
 
 
 def test_source_register_get_by_id():

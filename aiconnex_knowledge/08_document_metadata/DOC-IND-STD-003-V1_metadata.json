@@ -1,0 +1,13 @@
+{
+  "document_id": "DOC-IND-STD-003-V1",
+  "source_id": "SRC-IND-STD-003",
+  "title": "ISO 13381-1 Condition Monitoring and Diagnostics of Machines \u2014 Prognostics Part 1",
+  "version": "2015",
+  "document_type": "pdf",
+  "content_hash": "296725b7effd002e5e047ff0886b964b744bff71d533c69f9b2ca1abeffe9688",
+  "page_count": 5,
+  "total_sections": 10,
+  "total_words": 1102,
+  "storage_uri": "s3://aiconnex-platform-kb-prod/industrial/ISO_13381_1_Prognostics_RUL.pdf",
+  "created_at": "2026-08-14T08:41:25.445530+00:00"
+}
