@@ -35,10 +35,11 @@ class CompilerState(str, Enum):
 
 
 class CompilerWorkspace:
-    """Manages spec-compliant directory lifecycle for a compilation job (data/compiler/)."""
+    """Manages spec-compliant directory lifecycle for a compilation job (scratch/compiler/)."""
 
     def __init__(self, job_id: str, root: Optional[Path] = None):
-        self.root = root or Path(r"x:\TAS\AICONNEX\data\compiler")
+        default_root = Path(__file__).resolve().parents[2] / "scratch" / "compiler"
+        self.root = root or default_root
         self.job_id = job_id
         self.incoming = self.root / "incoming" / job_id
         self.quarantine = self.root / "quarantine"
@@ -128,12 +129,12 @@ class JoinAudit:
 
 
 def create_compiler_temp_dir(prefix: str = "aic_compiler_") -> Path:
-    """Create a temporary working directory for the compiler, preferring workspace drive (X: drive) if available."""
+    """Create a temporary working directory for the compiler in local scratch/temp."""
     import os
     import tempfile
     from pathlib import Path
 
-    ws_temp = Path(r"x:\TAS\AICONNEX\scratch\temp")
+    ws_temp = Path(__file__).resolve().parents[2] / "scratch" / "temp"
     try:
         ws_temp.mkdir(parents=True, exist_ok=True)
         return Path(tempfile.mkdtemp(prefix=prefix, dir=ws_temp))

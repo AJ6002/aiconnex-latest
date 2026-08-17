@@ -16,12 +16,13 @@ natural language responses. Hardcoded templates act ONLY as emergency fallbacks.
 """
 
 import os
+import sys
+import uuid
+from datetime import datetime
 from pathlib import Path
 import logging
 from flask import Flask, request, jsonify, send_file, send_from_directory
 from dotenv import load_dotenv
-
-import sys
 # Load root .env first, then local backend .env (with override)
 _root_env = Path(__file__).resolve().parents[1] / ".env"
 if _root_env.exists():
@@ -745,28 +746,35 @@ def upload_dataset():
 
     if session_id:
         # --- SSE resumption path ---
-        from agentic.runner import resume_with_user_input, _compiled_graph
-        from services.aiconnex_zip_compiler.compiler import UnifiedCompiler
-
-        # Check if the thread is actually parked at advise_upload in LangGraph
-        config = {"configurable": {"thread_id": session_id}}
         is_parked = False
+        resume_with_user_input = None
+        _compiled_graph = None
+
         try:
-            snapshot = _compiled_graph.get_state(config)
-            if snapshot and snapshot.next:
-                tasks = getattr(snapshot, "tasks", None) or ()
-                for task in tasks:
-                    interrupts = getattr(task, "interrupts", None) or ()
-                    for intr in interrupts:
-                        val = getattr(intr, "value", intr)
-                        if isinstance(val, dict) and val.get("interrupt_type") == "advise_upload":
-                            is_parked = True
+            from agentic.runner import resume_with_user_input as _resume_fn, _compiled_graph as _graph
+            resume_with_user_input = _resume_fn
+            _compiled_graph = _graph
+
+            # Check if the thread is actually parked at advise_upload in LangGraph
+            config = {"configurable": {"thread_id": session_id}}
+            if _compiled_graph is not None:
+                snapshot = _compiled_graph.get_state(config)
+                if snapshot and snapshot.next:
+                    tasks = getattr(snapshot, "tasks", None) or ()
+                    for task in tasks:
+                        interrupts = getattr(task, "interrupts", None) or ()
+                        for intr in interrupts:
+                            val = getattr(intr, "value", intr)
+                            if isinstance(val, dict) and val.get("interrupt_type") == "advise_upload":
+                                is_parked = True
+                                break
+                        if is_parked:
                             break
-                    if is_parked:
-                        break
         except Exception as exc:
-            logger.warning(f"[Upload] Check state failed: {exc}")
+            logger.warning(f"[Upload] LangGraph runner not available or check state failed: {exc}")
             is_parked = False
+
+        from services.aiconnex_zip_compiler.compiler import UnifiedCompiler
 
         def _direct_compile_stream(target_path: str, orig_filename: str, sess_id: str):
             """Run UnifiedCompiler directly and stream real compilation SSE events."""
