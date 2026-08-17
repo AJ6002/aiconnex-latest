@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useState, useEffect, Component, ErrorInfo, ReactNode } from 'react';
+import React, { Suspense, lazy, useState, useEffect, ErrorInfo, ReactNode } from 'react';
 import { BarChart2, Loader2, AlertCircle, Info, Sliders, TableIcon, TrendingUp, RefreshCw, Layers } from 'lucide-react';
 
 // Lazy-load Graphic Walker with fallback handling
@@ -26,26 +26,26 @@ interface ErrorBoundaryState {
   error?: Error;
 }
 
-class GraphicWalkerErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  constructor(props: ErrorBoundaryProps) {
-    super(props);
-    this.state = { hasError: false };
-  }
+class GraphicWalkerErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  public state: ErrorBoundaryState = { hasError: false };
 
-  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+  public static getDerivedStateFromError(error: Error): ErrorBoundaryState {
     return { hasError: true, error };
   }
 
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+  public componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     console.warn('[AdHocExplorer] GraphicWalker renderer caught error:', error, errorInfo);
   }
 
-  handleRetry = () => {
-    this.setState({ hasError: false, error: undefined });
+  public handleRetry = (): void => {
+    (this as unknown as React.Component<ErrorBoundaryProps, ErrorBoundaryState>).setState({ hasError: false, error: undefined });
   };
 
-  render() {
-    if (this.state.hasError) {
+  public render(): ReactNode {
+    const currentProps = (this as unknown as React.Component<ErrorBoundaryProps, ErrorBoundaryState>).props;
+    const currentState = (this as unknown as React.Component<ErrorBoundaryProps, ErrorBoundaryState>).state;
+
+    if (currentState && currentState.hasError) {
       return (
         <div className="flex flex-col items-center justify-center p-8 bg-slate-50 rounded-2xl border border-slate-200 min-h-[500px] text-center">
           <div className="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center mb-3 text-amber-600">
@@ -64,7 +64,7 @@ class GraphicWalkerErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoun
         </div>
       );
     }
-    return this.props.children;
+    return currentProps ? currentProps.children : null;
   }
 }
 
