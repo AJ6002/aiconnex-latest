@@ -251,12 +251,18 @@ export const DeploymentStudioView: React.FC<DeploymentStudioViewProps> = ({
               <select
                 value={selectedModelId}
                 onChange={(e) => setSelectedModelId(e.target.value)}
-                className="px-3 py-1.5 bg-slate-900 text-white rounded-xl border border-ui text-xs font-mono font-bold focus:outline-none focus:ring-2 focus:ring-[#2B0063]"
+                className="px-4 py-2 bg-[#2B0063] text-white rounded-xl border-2 border-[#E86326] text-xs font-mono font-bold focus:outline-none focus:ring-2 focus:ring-[#E86326] shadow-md cursor-pointer appearance-none pr-8 relative"
+                style={{
+                  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='white'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'right 0.6rem center',
+                  backgroundSize: '1.1em 1.1em'
+                }}
               >
-                <option value="MOD-8091">MOD-8091: XGBoost Trees (98.4% Match)</option>
-                <option value="MOD-8092">MOD-8092: LightGBM Histograms (96.2% Match)</option>
-                <option value="MOD-8093">MOD-8093: Temporal Transformer (94.8% Match)</option>
-                <option value="MOD-8094">MOD-8094: Isolation Forest (91.8% Match)</option>
+                <option value="MOD-8091" className="bg-[#1E1B2E] text-white font-mono font-bold">MOD-8091: XGBoost Trees (98.4% Match)</option>
+                <option value="MOD-8092" className="bg-[#1E1B2E] text-white font-mono font-bold">MOD-8092: LightGBM Histograms (96.2% Match)</option>
+                <option value="MOD-8093" className="bg-[#1E1B2E] text-white font-mono font-bold">MOD-8093: Temporal Transformer (94.8% Match)</option>
+                <option value="MOD-8094" className="bg-[#1E1B2E] text-white font-mono font-bold">MOD-8094: Isolation Forest (91.8% Match)</option>
               </select>
             </div>
           </div>
@@ -375,13 +381,19 @@ export const DeploymentStudioView: React.FC<DeploymentStudioViewProps> = ({
             <select
               value={mathLayer}
               onChange={(e: any) => setMathLayer(e.target.value)}
-              className="w-full p-2.5 bg-slate-900 text-white rounded-xl border border-ui text-xs font-mono font-bold focus:outline-none focus:ring-2 focus:ring-[#2B0063]"
+              className="w-full p-3 bg-[#2B0063] text-white rounded-xl border-2 border-[#E86326] text-xs font-mono font-bold focus:outline-none focus:ring-2 focus:ring-[#E86326] shadow-md cursor-pointer appearance-none pr-8 relative"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='white'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'right 0.8rem center',
+                backgroundSize: '1.1em 1.1em'
+              }}
             >
-              <option value="exponential">Exponential RUL Decay Fit: RUL(t) = RUL₀ · e^(-λt)</option>
-              <option value="minmax">Min-Max Normalization: x_scaled = (x - x_min)/(x_max - x_min)</option>
-              <option value="fft">FFT Frequency Spectrum Transform: X(k) = Σ x(n) e^(-j2πkn/N)</option>
-              <option value="zscore">Z-Score Outlier Filter: z = (x - μ) / σ</option>
-              <option value="moving_avg">Moving Average Filter: y[n] = (1/M) Σ x[n-k]</option>
+              <option value="exponential" className="bg-[#1E1B2E] text-white font-mono font-bold">Exponential RUL Decay Fit: RUL(t) = RUL₀ · e^(-λt)</option>
+              <option value="minmax" className="bg-[#1E1B2E] text-white font-mono font-bold">Min-Max Normalization: x_scaled = (x - x_min)/(x_max - x_min)</option>
+              <option value="fft" className="bg-[#1E1B2E] text-white font-mono font-bold">FFT Frequency Spectrum Transform: X(k) = Σ x(n) e^(-j2πkn/N)</option>
+              <option value="zscore" className="bg-[#1E1B2E] text-white font-mono font-bold">Z-Score Outlier Filter: z = (x - μ) / σ</option>
+              <option value="moving_avg" className="bg-[#1E1B2E] text-white font-mono font-bold">Moving Average Filter: y[n] = (1/M) Σ x[n-k]</option>
             </select>
 
             <div className="p-3 bg-slate-950 rounded-xl border border-ui space-y-2 text-[11px] text-slate-300">
