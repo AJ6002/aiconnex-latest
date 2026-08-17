@@ -13,7 +13,7 @@ import json
 import pytest
 from pathlib import Path
 
-from aiconnex_agent.platform.manifest_builder import build_manifest, save_manifest_to_file
+from agentic.platform.manifest_builder import build_manifest, save_manifest_to_file
 
 
 @pytest.fixture

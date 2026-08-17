@@ -32,9 +32,9 @@ from typing import Any, Dict
 
 from langgraph.types import interrupt
 
-from aiconnex_agent.state import MasterAgentState
-from aiconnex_agent.scout.strategy_peek import peek_dataset_card_and_options
-from aiconnex_agent.scout import compiler_adapter as adapter
+from agentic.state import MasterAgentState
+from agentic.scout.strategy_peek import peek_dataset_card_and_options
+from agentic.scout import compiler_adapter as adapter
 
 logger = logging.getLogger(__name__)
 
@@ -49,7 +49,7 @@ def _resolve_output_dir(state: MasterAgentState, upload_path: Path) -> Path:
     return _DEFAULT_OUTPUT_ROOT / state.session_id
 
 
-from aiconnex_agent.schemas import InterruptPayload, InterruptOption
+from agentic.schemas import InterruptPayload, InterruptOption
 
 
 def _ask_user_to_choose_strategy(options) -> str:
@@ -92,7 +92,7 @@ def real_scout_agent_node(state: MasterAgentState) -> Dict[str, Any]:
     """Real Scout Agent Node: real file -> real UnifiedCompiler -> real contracts."""
     logger.info("[ScoutAgent] Executing real scout node")
 
-    from aiconnex_zip_compiler.compiler import UnifiedCompiler
+    from services.aiconnex_zip_compiler.compiler import UnifiedCompiler
 
     if not state.upload_path:
         # Gap 1 safety net: no real file was ever provided - this is a genuine
@@ -172,7 +172,7 @@ def real_scout_agent_node(state: MasterAgentState) -> Dict[str, Any]:
     dic_dict["quality_report"] = adapter.build_quality_report(result).model_dump()
 
     # -- Issue 6: DIC post-compile completeness validation --
-    from aiconnex_agent.scout.dic_validator import DICValidator
+    from agentic.scout.dic_validator import DICValidator
     validator = DICValidator()
     is_valid, validation_warnings = validator.validate(dic_dict)
     existing_warnings = dic_dict.get("compiler_warnings", [])
@@ -185,7 +185,7 @@ def real_scout_agent_node(state: MasterAgentState) -> Dict[str, Any]:
 
     if combined_csv:
         try:
-            from aiconnex_agent.scout.recipe_catalog_builder import build_recipe_catalog
+            from agentic.scout.recipe_catalog_builder import build_recipe_catalog
             catalog = build_recipe_catalog(str(combined_csv))
             dic_dict["dataset_card"] = catalog["dataset_card"]
             dic_dict["schema_map"] = catalog["schema_map"]
@@ -207,7 +207,7 @@ def real_scout_agent_node(state: MasterAgentState) -> Dict[str, Any]:
 
     # --- Telemetry: emit dataset compilation profile ---
     try:
-        from aiconnex_agent.telemetry.emitters import ScoutEmitter
+        from agentic.telemetry.emitters import ScoutEmitter
         ScoutEmitter().emit(
             session_id=state.session_id,
             dic_dict=dic_dict,

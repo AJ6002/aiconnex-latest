@@ -15,12 +15,12 @@ import json
 import pytest
 from unittest.mock import MagicMock, patch
 
-from aiconnex_agent.platform_kb.schemas import (
+from agentic.platform_kb.schemas import (
     KnowledgeSourceRecord,
     KnowledgeDocumentRecord,
     KnowledgeChunkRecord,
 )
-from aiconnex_agent.platform_kb.deterministic_store import (
+from agentic.platform_kb.deterministic_store import (
     DeterministicStore,
     CatalogPipeline,
     CATALOG_DIR,

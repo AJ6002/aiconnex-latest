@@ -1223,3 +1223,186 @@
 .viz-card-decision-box.flagged strong {
   color: rgba(255,255,255,0.70);
 }
+
+/* ═══════════════════════════════════════════════════════
+   JANE ASSISTANT MISTUNE MARKDOWN PROSE STYLES
+   ══════════════════════════════════════════════════════ */
+.jane-markdown-prose h1,
+.jane-markdown-prose h2,
+.jane-markdown-prose h3,
+.jane-markdown-prose h4 {
+  font-weight: 700;
+  color: #1e293b;
+  margin-top: 0.5rem;
+  margin-bottom: 0.25rem;
+  line-height: 1.3;
+}
+
+.jane-markdown-prose h1 { font-size: 1rem; }
+.jane-markdown-prose h2 { font-size: 0.9rem; }
+.jane-markdown-prose h3 { font-size: 0.825rem; }
+
+.jane-markdown-prose p {
+  margin-bottom: 0.4rem;
+}
+
+.jane-markdown-prose p:last-child {
+  margin-bottom: 0;
+}
+
+.jane-markdown-prose ul {
+  list-style-type: disc;
+  padding-left: 1.25rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.4rem;
+}
+
+.jane-markdown-prose ol {
+  list-style-type: decimal;
+  padding-left: 1.25rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.4rem;
+}
+
+.jane-markdown-prose li {
+  margin-bottom: 0.2rem;
+}
+
+.jane-markdown-prose strong {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.jane-markdown-prose code:not(pre code) {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  background-color: rgba(15, 23, 42, 0.08);
+  color: #c2410c;
+  padding: 0.15rem 0.35rem;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+}
+
+.jane-markdown-prose a {
+  color: #ea580c;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.jane-markdown-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.5rem 0;
+  font-size: 0.725rem;
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+}
+
+.jane-markdown-prose th {
+  background-color: #f1f5f9;
+  font-weight: 700;
+  color: #0f172a;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #cbd5e1;
+  text-align: left;
+}
+
+.jane-markdown-prose td {
+  padding: 0.35rem 0.6rem;
+  border: 1px solid #e2e8f0;
+  color: #334155;
+}
+
+.jane-markdown-prose tr:nth-child(even) td {
+  background-color: #f8fafc;
+}
+
+.jane-markdown-prose pre {
+  background-color: #0f172a;
+  color: #34d399;
+  padding: 0.6rem 0.8rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.75rem;
+  margin: 0.5rem 0;
+  border: 1px solid #1e293b;
+}
+
+.jane-markdown-prose pre code {
+  background: transparent !important;
+  color: inherit !important;
+  padding: 0 !important;
+  border: none !important;
+}
+
+/* ── Mistune Industrial Alert Callouts ── */
+.industrial-alert {
+  padding: 0.6rem 0.8rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  margin: 0.5rem 0;
+  border-left-width: 4px;
+}
+
+.industrial-alert-note {
+  background-color: #eff6ff;
+  border-left-color: #3b82f6;
+  color: #1e3a8a;
+}
+
+.industrial-alert-tip {
+  background-color: #ecfdf5;
+  border-left-color: #10b981;
+  color: #064e3b;
+}
+
+.industrial-alert-important {
+  background-color: #eef2ff;
+  border-left-color: #6366f1;
+  color: #312e81;
+}
+
+.industrial-alert-warning {
+  background-color: #fffbeb;
+  border-left-color: #f59e0b;
+  color: #78350f;
+}
+
+.industrial-alert-caution {
+  background-color: #fff1f2;
+  border-left-color: #f43f5e;
+  color: #881337;
+}
+
+.code-badge {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+/* ── Interactive Clarification Options ── */
+.clarification-chip-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.3rem 0.65rem;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #1e293b;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+}
+
+.clarification-chip-btn:hover {
+  background-color: #ff6b35;
+  border-color: #ff6b35;
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(255, 107, 53, 0.2);
+}
+
+

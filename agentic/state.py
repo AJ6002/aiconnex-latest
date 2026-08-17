@@ -10,7 +10,7 @@ import uuid
 from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, Field
 
-from aiconnex_agent.schemas import (
+from agentic.schemas import (
     ConversationUnderstandingContract,
     ScoutEnrichedContract,
     PreCompilerContract,

@@ -36,7 +36,7 @@ try:
 except ImportError:
     _Mem0Memory = None
 
-from aiconnex_agent.memory.backends.base import SemanticMemoryBackend
+from agentic.memory.backends.base import SemanticMemoryBackend
 
 _DEFAULT_OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 _DEFAULT_EMBEDDER_MODEL = os.getenv("AICONNEX_MEM0_EMBEDDER_MODEL", "nomic-embed-text")

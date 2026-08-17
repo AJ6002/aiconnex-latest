@@ -274,8 +274,24 @@ def profile_from_path(file_path: str) -> dict:
             "most_missing_col": "",
         }
 
+    # Reject archive files — profiler requires pre-compiled CSV/Parquet
+    ext = os.path.splitext(abs_path)[1].lower()
+    if ext in (".zip", ".tar", ".gz", ".7z", ".rar", ".bz2"):
+        return {
+            "error": f"Cannot profile archive file ({ext}). Dataset must be compiled to CSV/Parquet first.",
+            "rows_total": 0,
+            "rows_sampled": 0,
+            "columns": 0,
+            "column_stats": [],
+            "top_correlations": [],
+            "max_skewness": 0.0,
+            "most_skewed_col": "",
+            "outlier_pct": 0.0,
+            "max_missing_pct": 0.0,
+            "most_missing_col": "",
+        }
+
     try:
-        ext = os.path.splitext(abs_path)[1].lower()
         if ext == ".parquet":
             df = pd.read_parquet(abs_path)
         elif ext == ".csv":

@@ -3,14 +3,14 @@
 
 from __future__ import annotations
 import pytest
-from aiconnex_agent.schemas import (
+from agentic.schemas import (
     CandidateRecipe,
     ScorerReport,
     JudgeReport,
     LeaderboardEntry,
     SelectionResult,
 )
-from aiconnex_agent.state import MasterAgentState
+from agentic.state import MasterAgentState
 
 
 def test_candidate_recipe_roundtrip():

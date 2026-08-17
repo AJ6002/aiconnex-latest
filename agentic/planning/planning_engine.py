@@ -15,9 +15,9 @@ from __future__ import annotations
 import logging
 from typing import Any, Dict
 
-from aiconnex_agent.state import MasterAgentState
-from aiconnex_agent.planning.intent_plan_mapper import IntentPlanMapper
-from aiconnex_agent.planning.plan_validator import PlanValidator
+from agentic.state import MasterAgentState
+from agentic.planning.intent_plan_mapper import IntentPlanMapper
+from agentic.planning.plan_validator import PlanValidator
 
 logger = logging.getLogger(__name__)
 
@@ -40,7 +40,7 @@ def real_planning_engine_node(state: MasterAgentState) -> Dict[str, Any]:
 
     # --- Telemetry: emit to cross-cutting observability service ---
     try:
-        from aiconnex_agent.telemetry.emitters import PlannerEmitter
+        from agentic.telemetry.emitters import PlannerEmitter
         PlannerEmitter().emit(
             session_id=state.session_id,
             intent=intent,

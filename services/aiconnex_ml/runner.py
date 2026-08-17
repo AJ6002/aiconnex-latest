@@ -9,7 +9,7 @@ Usage:
     python runner.py --manifest manifest.json
 
 Or in code:
-    from aiconnex_ml.runner import PipelineRunner
+    from services.aiconnex_ml.runner import PipelineRunner
     runner = PipelineRunner("manifest.json")
     final_manifest = runner.run()
 """
@@ -19,13 +19,13 @@ import argparse
 import sys
 from typing import Dict, Any
 
-from aiconnex_ml.shared.utils.manifest import load_manifest, save_manifest, mark_step_complete
-from aiconnex_ml.shared.data.loader import load_dataset
-from aiconnex_ml.shared.splitter.policy import enforce_split
-from aiconnex_ml.shared.data.validation_gate_1 import check_vg1
-from aiconnex_ml.engineer_node import run_engineer_node
-from aiconnex_ml.monitoring.validation_gate_2 import run_vg2
-from aiconnex_ml.monitoring.reporter import generate_json_report, generate_markdown_report
+from services.aiconnex_ml.shared.utils.manifest import load_manifest, save_manifest, mark_step_complete
+from services.aiconnex_ml.shared.data.loader import load_dataset
+from services.aiconnex_ml.shared.splitter.policy import enforce_split
+from services.aiconnex_ml.shared.data.validation_gate_1 import check_vg1
+from services.aiconnex_ml.engineer_node import run_engineer_node
+from services.aiconnex_ml.monitoring.validation_gate_2 import run_vg2
+from services.aiconnex_ml.monitoring.reporter import generate_json_report, generate_markdown_report
 
 
 MAX_VG1_RETRIES = 3
@@ -113,7 +113,7 @@ class PipelineRunner:
         self._log_node("TRAIN")
 
         if ml_task == "regression":
-            from aiconnex_ml.regression.trainer import RegressionTrainer
+            from services.aiconnex_ml.regression.trainer import RegressionTrainer
             trainer = RegressionTrainer(manifest)
             manifest = trainer.run(
                 X_train, y_train, X_val, y_val, X_test, y_test,
@@ -121,7 +121,7 @@ class PipelineRunner:
             )
 
         elif ml_task == "anomaly":
-            from aiconnex_ml.anomaly.trainer import AnomalyTrainer
+            from services.aiconnex_ml.anomaly.trainer import AnomalyTrainer
             import numpy as np
             fault_col = manifest.get("label_contract", {}).get("fault_label_column")
             y_val_true = df_val[fault_col].values if fault_col and fault_col in df_val.columns else None

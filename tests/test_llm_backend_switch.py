@@ -10,7 +10,7 @@ construction time either.
 import os
 import pytest
 
-from aiconnex_agent.llm import get_llm, get_ollama_llm, get_openai_llm
+from agentic.llm import get_llm, get_ollama_llm, get_openai_llm
 from langchain_community.llms import Ollama
 
 

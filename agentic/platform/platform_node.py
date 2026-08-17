@@ -20,16 +20,16 @@ from typing import Any, Dict, List, Tuple
 
 import numpy as np
 
-from aiconnex_agent.state import MasterAgentState
-from aiconnex_agent.schemas import CandidateRecipe, ScorerReport, JudgeReport
-from aiconnex_agent.platform.multi_dag_resolver import resolve_candidates
-from aiconnex_agent.platform.scorer_agent import score_candidate
-from aiconnex_agent.platform.judge_agent import judge_candidate
-from aiconnex_agent.platform.selector_agent import select_winner
-from aiconnex_agent.platform.mlflow_logger import log_experiment
-from aiconnex_agent.memory.events import make_event
-from aiconnex_agent.memory.event_store import get_event_store
-from aiconnex_ml.shared.ensemble import StackedEnsembleMetaLearner
+from agentic.state import MasterAgentState
+from agentic.schemas import CandidateRecipe, ScorerReport, JudgeReport
+from agentic.platform.multi_dag_resolver import resolve_candidates
+from agentic.platform.scorer_agent import score_candidate
+from agentic.platform.judge_agent import judge_candidate
+from agentic.platform.selector_agent import select_winner
+from agentic.platform.mlflow_logger import log_experiment
+from agentic.memory.events import make_event
+from agentic.memory.event_store import get_event_store
+from services.aiconnex_ml.shared.ensemble import StackedEnsembleMetaLearner
 
 logger = logging.getLogger(__name__)
 
@@ -53,8 +53,8 @@ def _train_candidate(
     upload_path = getattr(state, "upload_path", None)
     if upload_path and os.path.exists(upload_path):
         try:
-            from aiconnex_agent.platform.manifest_builder import build_manifest, save_manifest_to_file
-            from aiconnex_ml.runner import PipelineRunner
+            from agentic.platform.manifest_builder import build_manifest, save_manifest_to_file
+            from services.aiconnex_ml.runner import PipelineRunner
 
             if hasattr(state.dic, "model_dump"):
                 dic_dict = state.dic.model_dump()

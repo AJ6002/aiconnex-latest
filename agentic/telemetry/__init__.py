@@ -12,9 +12,9 @@ Provides a single import surface for all telemetry needs across agent nodes:
 All calls degrade gracefully to no-ops when mlflow is not installed.
 """
 
-from aiconnex_agent.telemetry.tracker import AgentTelemetry, get_telemetry
-from aiconnex_agent.telemetry.llm_tracer import init_llm_tracing
-from aiconnex_agent.telemetry.emitters import (
+from agentic.telemetry.tracker import AgentTelemetry, get_telemetry
+from agentic.telemetry.llm_tracer import init_llm_tracing
+from agentic.telemetry.emitters import (
     PlannerEmitter,
     ScoutEmitter,
     PlatformEmitter,

@@ -1,7 +1,7 @@
 # tests/test_mlflow_logger.py
 """Tests for MLflow Logger facade (refactored to cross-cutting telemetry service).
 
-The facade ``aiconnex_agent.platform.mlflow_logger.log_experiment()`` now
+The facade ``agentic.platform.mlflow_logger.log_experiment()`` now
 delegates to ``PlatformEmitter``. These tests verify:
   1. The facade API contract is preserved (correct return dict).
   2. PlatformEmitter.log_experiment() is called with the right arguments.
@@ -12,10 +12,10 @@ from __future__ import annotations
 import pytest
 from unittest.mock import patch, MagicMock
 
-from aiconnex_agent.schemas import (
+from agentic.schemas import (
     ScorerReport, JudgeReport, SelectionResult, LeaderboardEntry,
 )
-from aiconnex_agent.platform.mlflow_logger import log_experiment
+from agentic.platform.mlflow_logger import log_experiment
 
 
 def _make_test_data():
@@ -52,7 +52,7 @@ def test_log_experiment_returns_run_info():
         "session_id": "wf_test1234",
     }
     with patch(
-        "aiconnex_agent.telemetry.emitters.PlatformEmitter.log_experiment",
+        "agentic.telemetry.emitters.PlatformEmitter.log_experiment",
         return_value=mock_result,
     ) as mock_emit:
         result = log_experiment("wf_test1234", selection, scorers, judges)
@@ -68,7 +68,7 @@ def test_log_experiment_logs_winner_metrics():
     scorers, judges, selection = _make_test_data()
 
     with patch(
-        "aiconnex_agent.telemetry.emitters.PlatformEmitter.log_experiment",
+        "agentic.telemetry.emitters.PlatformEmitter.log_experiment",
         return_value={"status": "logged", "session_id": "wf_test5678"},
     ) as mock_emit:
         log_experiment("wf_test5678", selection, scorers, judges)
@@ -82,7 +82,7 @@ def test_log_experiment_logs_winner_metrics():
 
 def test_log_experiment_graceful_without_mlflow():
     """If mlflow is not installed (tracker has _HAS_MLFLOW=False), log_experiment must not raise."""
-    with patch("aiconnex_agent.telemetry.tracker._HAS_MLFLOW", False):
+    with patch("agentic.telemetry.tracker._HAS_MLFLOW", False):
         scorers, judges, selection = _make_test_data()
         result = log_experiment("wf_nomlflow", selection, scorers, judges)
     # Must return a dict with at least session_id (either logged or no-run graceful)

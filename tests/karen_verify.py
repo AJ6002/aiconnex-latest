@@ -1,7 +1,7 @@
 import os
 
 print("=== 9. PostgreSQL ===")
-from aiconnex_agent.platform_kb.db_client import KBInfraClient
+from agentic.platform_kb.db_client import KBInfraClient
 c = KBInfraClient()
 conn = c.get_postgres_connection()
 cur = conn.cursor()
@@ -15,7 +15,7 @@ conn.close()
 
 print("=== 10. Neo4j ===")
 from neo4j import GraphDatabase
-from aiconnex_agent.platform_kb.config import get_kb_config
+from agentic.platform_kb.config import get_kb_config
 cfg = get_kb_config().neo4j
 d = GraphDatabase.driver(cfg.bolt_uri, auth=(cfg.user, cfg.password))
 s = d.session()

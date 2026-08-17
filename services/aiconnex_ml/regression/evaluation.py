@@ -14,8 +14,8 @@ from sklearn.metrics import (
     mean_absolute_percentage_error, r2_score,
 )
 
-from aiconnex_ml.regression.losses import asymmetric_rul_score
-from aiconnex_ml.shared.utils.compatibility import safe_dict
+from services.aiconnex_ml.regression.losses import asymmetric_rul_score
+from services.aiconnex_ml.shared.utils.compatibility import safe_dict
 
 
 def compute_regression_metrics(

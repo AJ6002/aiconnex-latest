@@ -14,13 +14,13 @@ from unittest.mock import MagicMock, patch
 import pandas as pd
 import pytest
 
-from aiconnex_zip_compiler.plugins.context import PipelineContext, FileInventoryItem
-from aiconnex_zip_compiler.plugins.registry import PluginRegistry
-from aiconnex_zip_compiler.plugins.parsers.tdms_parser import TdmsParserPlugin
-from aiconnex_zip_compiler.plugins.parsers.json_parser import JsonParserPlugin
-from aiconnex_zip_compiler.plugins.parsers.sqlite_parser import SqliteParserPlugin
-from aiconnex_zip_compiler.plugins.parsers.xml_parser import XmlParserPlugin
-from aiconnex_zip_compiler.plugins.parsers.text_delimited_autodetect_parser import (
+from services.aiconnex_zip_compiler.plugins.context import PipelineContext, FileInventoryItem
+from services.aiconnex_zip_compiler.plugins.registry import PluginRegistry
+from services.aiconnex_zip_compiler.plugins.parsers.tdms_parser import TdmsParserPlugin
+from services.aiconnex_zip_compiler.plugins.parsers.json_parser import JsonParserPlugin
+from services.aiconnex_zip_compiler.plugins.parsers.sqlite_parser import SqliteParserPlugin
+from services.aiconnex_zip_compiler.plugins.parsers.xml_parser import XmlParserPlugin
+from services.aiconnex_zip_compiler.plugins.parsers.text_delimited_autodetect_parser import (
     TextDelimitedAutodetectParserPlugin,
 )
 

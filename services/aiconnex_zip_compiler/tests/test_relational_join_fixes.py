@@ -2,12 +2,12 @@ import pytest
 import pandas as pd
 from pathlib import Path
 
-from aiconnex_zip_compiler.plugins.assemblers.relational_join_assembler import (
+from services.aiconnex_zip_compiler.plugins.assemblers.relational_join_assembler import (
     RelationalJoinAssemblerPlugin,
     RelationalJoinAssembler,
 )
-from aiconnex_zip_compiler.plugins.context import PipelineContext
-from aiconnex_zip_compiler.intent.models import CompilationStrategy
+from services.aiconnex_zip_compiler.plugins.context import PipelineContext
+from services.aiconnex_zip_compiler.intent.models import CompilationStrategy
 
 
 def test_cumulative_cartesian_guard_evaluates_per_iteration(monkeypatch):

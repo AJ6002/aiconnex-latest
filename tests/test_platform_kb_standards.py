@@ -18,11 +18,11 @@ Validates:
 import pytest
 from pydantic import ValidationError
 
-from aiconnex_agent.platform_kb.schemas import StandardRecord, ContextRequest
-from aiconnex_agent.platform_kb.standards_service import StandardsService
-from aiconnex_agent.platform_kb.context_builder import ContextBuilder
-from aiconnex_agent.platform_kb.retrieval_service import RetrievalService
-from aiconnex_agent.platform_kb.db_client import KBInfraClient
+from agentic.platform_kb.schemas import StandardRecord, ContextRequest
+from agentic.platform_kb.standards_service import StandardsService
+from agentic.platform_kb.context_builder import ContextBuilder
+from agentic.platform_kb.retrieval_service import RetrievalService
+from agentic.platform_kb.db_client import KBInfraClient
 
 
 def test_01_standard_record_schema_validation():

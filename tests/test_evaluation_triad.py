@@ -6,10 +6,10 @@ import numpy as np
 import pytest
 from unittest.mock import patch
 
-from aiconnex_agent.schemas import ScorerReport, JudgeReport, SelectionResult
-from aiconnex_agent.platform.scorer_agent import score_candidate
-from aiconnex_agent.platform.judge_agent import judge_candidate
-from aiconnex_agent.platform.selector_agent import select_winner
+from agentic.schemas import ScorerReport, JudgeReport, SelectionResult
+from agentic.platform.scorer_agent import score_candidate
+from agentic.platform.judge_agent import judge_candidate
+from agentic.platform.selector_agent import select_winner
 
 
 # --- Scorer Agent ---
@@ -53,7 +53,7 @@ def test_judge_deterministic_fallback():
         recipe_id="test_recipe", r2_score=0.9, rmse=10.0,
         mae=7.0, mape=5.0, latency_ms=10.0, model_size_mb=0.5,
     )
-    with patch("aiconnex_agent.platform.judge_agent.get_llm", side_effect=Exception("LLM unavailable")):
+    with patch("agentic.platform.judge_agent.get_llm", side_effect=Exception("LLM unavailable")):
         report = judge_candidate("test_recipe", scorer, {"rows": 1000, "columns": 20})
 
     assert isinstance(report, JudgeReport)
@@ -68,7 +68,7 @@ def test_judge_heuristic_scoring():
         recipe_id="good_model", r2_score=0.95, rmse=5.0,
         mae=3.0, mape=2.0, latency_ms=5.0, model_size_mb=0.3,
     )
-    with patch("aiconnex_agent.platform.judge_agent.get_llm", side_effect=Exception("No LLM")):
+    with patch("agentic.platform.judge_agent.get_llm", side_effect=Exception("No LLM")):
         report = judge_candidate("good_model", scorer, {})
     # Good metrics should yield a high qualitative score
     assert report.qualitative_score >= 0.7

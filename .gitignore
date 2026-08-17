@@ -48,6 +48,9 @@ env/
 .ruff_cache/
 mlflow.db*
 *.db
+*.sqlite
+*.sqlite3
+backend/data/
 .env
 node_modules/
 dist/

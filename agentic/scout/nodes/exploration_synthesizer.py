@@ -25,7 +25,7 @@ from __future__ import annotations
 import logging
 from typing import Any, Dict, List, Optional
 
-from aiconnex_agent.schemas import (
+from agentic.schemas import (
     AnalyticalRecipe,
     ArchiveManifest,
     BranchingHints,
@@ -43,7 +43,7 @@ from aiconnex_agent.schemas import (
     StructureAnalysis,
     TemporalStructure,
 )
-from aiconnex_agent.state import MasterAgentState
+from agentic.state import MasterAgentState
 
 logger = logging.getLogger(__name__)
 
@@ -248,7 +248,7 @@ def _build_legacy_dic(
     """Populate the legacy DIC so hitl_flow, platform_node, and manifest_builder
     keep working unchanged after the split."""
     from pathlib import Path
-    from aiconnex_agent.schemas import BranchingHints as BH
+    from agentic.schemas import BranchingHints as BH
 
     identity = DatasetIdentity(
         name=Path(archive.archive_path).stem if archive.archive_path else "compiled_dataset",
@@ -278,7 +278,7 @@ def _build_legacy_dic(
 
     # Legacy DIC.feature_catalog is a loose Dict[column -> {type, role, description}].
     # Project FeatureCatalogV2 into that shape and annotate with Terminology KB canonical concepts.
-    from aiconnex_agent.platform_kb.context_builder import ContextBuilder
+    from agentic.platform_kb.context_builder import ContextBuilder
     ctx_builder = ContextBuilder()
 
     legacy_feature_catalog: Dict[str, Any] = {}

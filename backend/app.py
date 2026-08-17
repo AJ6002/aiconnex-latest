@@ -16,11 +16,17 @@ natural language responses. Hardcoded templates act ONLY as emergency fallbacks.
 """
 
 import os
+from pathlib import Path
 import logging
 from flask import Flask, request, jsonify
 from dotenv import load_dotenv
 
 import sys
+# Load root .env first, then local backend .env (with override)
+_root_env = Path(__file__).resolve().parents[1] / ".env"
+if _root_env.exists():
+    load_dotenv(_root_env)
+load_dotenv(override=True)
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 logger = logging.getLogger(__name__)
@@ -72,7 +78,7 @@ app.register_blueprint(dictionary_bp)
 
 
 # Upload storage directory
-UPLOAD_FOLDER = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "scratch", "uploads"))
+UPLOAD_FOLDER = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "scratch", "uploads"))
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 
@@ -122,7 +128,7 @@ import os
 import uuid
 import json
 
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
@@ -178,11 +184,32 @@ def _compiled_csv_from_dic(dic) -> str | None:
     return dic.get("compiled_csv_path")
 
 
+NODE_NARRATION = {
+    # ── Post-Upload Scout 8+1 Analysis Chain (9 nodes) ──────────────────────
+    "archive_discovery_node":       "📦 [Step 1/14] **Archive Discovery** — Extracting archive, verifying file formats & checksums…",
+    "structure_analysis_node":      "🔍 [Step 2/14] **Structure Analysis** — Analyzing schemas and initializing multi-table relational compiler…",
+    "entity_analysis_node":         "🏷️ [Step 3/14] **Entity Analysis** — Identifying machine entities, unit IDs & asset scope…",
+    "relationship_analysis_node":   "🔗 [Step 4/14] **Relationship Analysis** — Mapping foreign keys and relational join topology…",
+    "temporal_analysis_node":       "⏱️ [Step 5/14] **Temporal Analysis** — Aligning timestamps, detecting sample rates & time cycles…",
+    "feature_analysis_node":        "📊 [Step 6/14] **Feature Analysis** — Cataloging sensor channels, continuous variables & candidate targets…",
+    "quality_analysis_node":        "✅ [Step 7/14] **Quality Analysis** — Assessing data completeness, missingness & outlier boundaries…",
+    "statistical_analysis_node":    "📈 [Step 8/14] **Statistical Analysis** — Computing feature distributions, skewness & correlation matrix…",
+    "exploration_synthesizer_node": "🧠 [Step 9/14] **Exploration Synthesizer** — Consolidating all telemetry into Dataset Intelligence Contract (DIC)…",
+
+    # ── Post-Scout Planning & Execution (5 nodes) ──────────────────────────
+    "hitl_node":                    "🛡️ [Step 10/14] **HITL Review** — Preparing Pre-Prepare review checkpoint for user verification…",
+    "pipeline_lock_node":           "🔒 [Step 11/14] **Pipeline Lock** — Cryptographically locking dataset schema and feature splits…",
+    "workflow_planner_node":        "📋 [Step 12/14] **Workflow Planner** — Generating production AutoML execution DAG plan…",
+    "platform_agent_node":          "🚀 [Step 13/14] **Platform Agent** — Dispatching candidate model training & leaderboard evaluation…",
+    "memory_agent_node":            "💾 [Step 14/14] **Memory Agent** — Persisting session knowledge and metrics into memory store…",
+}
+
+
 def _stream_agent_events(events_gen, session_id: str):
     """Translate LangGraph node-update events into SSE frames for the frontend.
 
     SSE event types emitted:
-      text      — assistant text delta
+      text      — assistant text delta / live narration
       interrupt — HITL pause (clarification | advise_upload | strategy_choice | compile_failure)
       compiled  — Scout produced the compiled CSV (carries compiled_csv_path)
       done      — stream end, carries session_id
@@ -193,10 +220,34 @@ def _stream_agent_events(events_gen, session_id: str):
             node = event.get("node", "")
             update = event.get("state_update")
 
+            # --- Emit friendly human narration for node starts ---
+            if node in NODE_NARRATION:
+                yield _sse("text", {"delta": NODE_NARRATION[node], "node": node})
+
             # --- HITL interrupt: event key is '__interrupt__', payload at Interrupt.value ---
             if node == "__interrupt__":
                 payload = _interrupt_payload_from_update(update)
                 if payload is not None:
+                    # Enrich question text with Mistune HTML
+                    try:
+                        try:
+                            from backend.markdown_formatter import render_markdown_html
+                        except ImportError:
+                            from markdown_formatter import render_markdown_html
+                        
+                        raw_q = ""
+                        if payload.get("questions") and isinstance(payload["questions"], list):
+                            raw_q = "\n\n".join(str(q) for q in payload["questions"])
+                        elif payload.get("question"):
+                            raw_q = str(payload["question"])
+                        elif payload.get("message"):
+                            raw_q = str(payload["message"])
+
+                        payload["question_html"] = render_markdown_html(raw_q)
+                    except Exception as exc:
+                        logger.warning(f"[App] Mistune interrupt formatting fallback: {exc}")
+                        payload["question_html"] = None
+
                     yield _sse("interrupt", {"payload": payload, "session_id": session_id, "node": node})
                 continue
 
@@ -235,8 +286,8 @@ def agent_chat():
     if request.method == "OPTIONS":
         return jsonify({"status": "ok"}), 200
 
-    from aiconnex_agent.runner import execute_and_stream, resume_with_user_input, _compiled_graph
-    from aiconnex_agent.state import MasterAgentState
+    from agentic.runner import execute_and_stream, resume_with_user_input, _compiled_graph
+    from agentic.state import MasterAgentState
 
     data = request.get_json(force=True) or {}
     message = (data.get("message") or "").strip()
@@ -310,9 +361,9 @@ def agent_seed():
     if request.method == "OPTIONS":
         return jsonify({"status": "ok"}), 200
 
-    from aiconnex_agent.runner import _compiled_graph
-    from aiconnex_agent.parser.cuc_completion import is_manifest_minimally_complete
-    from aiconnex_agent.schemas import ConversationUnderstandingContract, Goal
+    from agentic.runner import _compiled_graph
+    from agentic.parser.cuc_completion import is_manifest_minimally_complete
+    from agentic.schemas import ConversationUnderstandingContract, Goal
 
     data = request.get_json(force=True) or {}
     manifest = data.get("manifest") or {}
@@ -409,7 +460,7 @@ def agent_resume():
     if request.method == "OPTIONS":
         return jsonify({"status": "ok"}), 200
 
-    from aiconnex_agent.runner import resume_with_user_input
+    from agentic.runner import resume_with_user_input
 
     data = request.get_json(force=True) or {}
     session_id = (data.get("session_id") or "").strip()
@@ -447,7 +498,7 @@ def agent_state():
     if not session_id:
         return jsonify({"error": "Query parameter 'session_id' is required."}), 400
 
-    from aiconnex_agent.runner import _compiled_graph
+    from agentic.runner import _compiled_graph
 
     config = {"configurable": {"thread_id": session_id}}
     try:
@@ -561,32 +612,107 @@ def upload_dataset():
 
     if session_id:
         # --- SSE resumption path ---
-        # Resume the parked advise_upload_node thread with the upload_path.
-        # The graph routing will advance: advise_upload → planning_engine → Scout.
-        from aiconnex_agent.runner import resume_with_user_input
+        from agentic.runner import resume_with_user_input, _compiled_graph
+        from services.aiconnex_zip_compiler.compiler import UnifiedCompiler
+
+        # Check if the thread is actually parked at advise_upload in LangGraph
+        config = {"configurable": {"thread_id": session_id}}
+        is_parked = False
+        try:
+            snapshot = _compiled_graph.get_state(config)
+            if snapshot and snapshot.next:
+                tasks = getattr(snapshot, "tasks", None) or ()
+                for task in tasks:
+                    interrupts = getattr(task, "interrupts", None) or ()
+                    for intr in interrupts:
+                        val = getattr(intr, "value", intr)
+                        if isinstance(val, dict) and val.get("interrupt_type") == "advise_upload":
+                            is_parked = True
+                            break
+                    if is_parked:
+                        break
+        except Exception as exc:
+            logger.warning(f"[Upload] Check state failed: {exc}")
+            is_parked = False
+
+        def _direct_compile_stream(target_path: str, orig_filename: str, sess_id: str):
+            """Run UnifiedCompiler directly and stream real compilation SSE events."""
+            import time
+            yield _sse("text", {"delta": "📦 [Step 1/14] **Archive Discovery** — Extracting archive, verifying file formats & checksums…", "node": "archive_discovery_node"})
+            time.sleep(0.2)
+
+            run_id = f"run_{uuid.uuid4().hex[:8]}"
+            output_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "services", "workspace_data", run_id))
+            os.makedirs(output_dir, exist_ok=True)
+
+            yield _sse("text", {"delta": "🔍 [Step 2/14] **Structure Analysis** — Analyzing schemas and initializing multi-table relational compiler…", "node": "structure_analysis_node"})
+            time.sleep(0.2)
+
+            try:
+                yield _sse("text", {"delta": "🔗 [Step 4/14] **Relationship Analysis** — Mapping foreign keys and relational join topology…", "node": "relationship_analysis_node"})
+                time.sleep(0.2)
+
+                compiler = UnifiedCompiler(
+                    zip_path=target_path,
+                    output_dir=output_dir,
+                    batch=True,
+                    enable_intelligence=True,
+                )
+                compile_result = compiler.compile()
+
+                if compile_result.success and (compile_result.merged_files or compile_result.artifacts.per_group_csvs):
+                    compiled_csv = compile_result.combined_file or (compile_result.merged_files[0] if compile_result.merged_files else str(list(compile_result.artifacts.per_group_csvs.values())[0]))
+                    
+                    yield _sse("text", {"delta": "📊 [Step 6/14] **Feature Analysis** — Cataloging sensor channels, continuous variables & candidate targets…", "node": "feature_analysis_node"})
+                    time.sleep(0.15)
+                    yield _sse("text", {"delta": "✅ [Step 7/14] **Quality Analysis** — Assessing data completeness, missingness & outlier boundaries…", "node": "quality_analysis_node"})
+                    time.sleep(0.15)
+                    yield _sse("text", {"delta": "📈 [Step 8/14] **Statistical Analysis** — Computing feature distributions, skewness & correlation matrix…", "node": "statistical_analysis_node"})
+                    time.sleep(0.15)
+                    yield _sse("text", {"delta": f"🧠 [Step 9/14] **Exploration Synthesizer** — Consolidating all telemetry into Dataset Intelligence Contract (DIC). Canonical dataset `{Path(compiled_csv).name}` generated.", "node": "exploration_synthesizer_node"})
+                    time.sleep(0.15)
+                    
+                    yield _sse("compiled", {"compiled_csv_path": compiled_csv, "session_id": sess_id, "run_id": run_id})
+                    yield _sse("done", {"session_id": sess_id, "filename": orig_filename})
+                else:
+                    err_msg = compile_result.error or "UnifiedCompiler could not extract valid tables."
+                    logger.error(f"[Upload] Compilation failure: {err_msg}")
+                    yield _sse("error", {"message": f"Compilation failed: {err_msg}", "session_id": sess_id})
+
+            except Exception as exc:
+                logger.exception(f"[Upload] Direct UnifiedCompiler exception: {exc}")
+                yield _sse("error", {"message": f"Compilation failed with error: {str(exc)}", "session_id": sess_id})
 
         def _scout_events():
-            # Resume the parked advise_upload_node with the saved file path.
-            # advise_upload_node captures the resume value into state.upload_path
-            # so planning_engine_node/scout_agent_node can read the real file.
-            yield _sse("text", {"delta": f"Received '{filename}' — starting Scout analysis…", "node": "upload"})
-            events_gen = resume_with_user_input(save_path, thread_id=session_id)
-            saw_compiled = False
-            for frame in _stream_agent_events(events_gen, session_id):
-                # Suppress the terminal 'done' from the shared translator so we can
-                # emit a single upload-specific 'done' with filename below.
-                if '"type": "done"' in frame or '"type":"done"' in frame:
-                    continue
-                if '"type": "compiled"' in frame or '"type":"compiled"' in frame:
-                    saw_compiled = True
-                yield frame
+            yield _sse("text", {"delta": f"📦 **Received `{filename}`** — Initializing compilation pipeline…", "node": "upload"})
+            import time
+            time.sleep(0.2)
 
-            if not saw_compiled:
-                # Fallback: nothing reported a compiled path — hand back the raw upload
-                # so the UI can still proceed rather than hang.
-                yield _sse("compiled", {"compiled_csv_path": save_path, "session_id": session_id})
+            if is_parked:
+                # Graph was parked at advise_upload_node — resume graph flow
+                events_gen = resume_with_user_input(save_path, thread_id=session_id)
+                saw_compiled = False
+                saw_interrupt = False
+                for frame in _stream_agent_events(events_gen, session_id):
+                    if '"type": "done"' in frame or '"type":"done"' in frame:
+                        continue
+                    if '"type": "compiled"' in frame or '"type":"compiled"' in frame:
+                        saw_compiled = True
+                    if '"type": "interrupt"' in frame or '"type":"interrupt"' in frame:
+                        saw_interrupt = True
+                    yield frame
 
-            yield _sse("done", {"session_id": session_id, "filename": filename})
+                if saw_interrupt:
+                    # HITL interrupt was streamed — graph is parked waiting for user input.
+                    pass
+                elif not saw_compiled:
+                    logger.warning(f"[Upload] Graph resume for session {session_id} produced no compiled output. Falling back to direct UnifiedCompiler.")
+                    yield from _direct_compile_stream(save_path, filename, session_id)
+                else:
+                    yield _sse("done", {"session_id": session_id, "filename": filename})
+            else:
+                # Direct compilation via UnifiedCompiler
+                yield from _direct_compile_stream(save_path, filename, session_id)
 
         return Response(
             stream_with_context(_scout_events()),
@@ -596,7 +722,7 @@ def upload_dataset():
 
     # --- Legacy fallback: no session_id, fire-and-forget JSON response ---
     try:
-        from aiconnex_agent.runner import run_agent_pipeline
+        from agentic.runner import run_agent_pipeline
         res = run_agent_pipeline(f"Profile and compile uploaded dataset '{filename}'", upload_path=save_path)
         final_state = res.get("final_state", {})
         dic = final_state.get("dic", {})

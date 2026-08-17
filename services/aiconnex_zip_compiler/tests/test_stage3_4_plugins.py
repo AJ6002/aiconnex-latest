@@ -12,11 +12,11 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 
-from aiconnex_zip_compiler.plugins.registry import PluginRegistry
-from aiconnex_zip_compiler.plugins.context import PipelineContext
-from aiconnex_zip_compiler.plugins.assemblers.multi_source_union_assembler import MultiSourceUnionAssemblerPlugin
-from aiconnex_zip_compiler.plugins.assemblers.keyed_time_join_assembler import KeyedTimeJoinAssemblerPlugin
-from aiconnex_zip_compiler.plugins.normalizers.unit_standardizer import UnitStandardizerPlugin
+from services.aiconnex_zip_compiler.plugins.registry import PluginRegistry
+from services.aiconnex_zip_compiler.plugins.context import PipelineContext
+from services.aiconnex_zip_compiler.plugins.assemblers.multi_source_union_assembler import MultiSourceUnionAssemblerPlugin
+from services.aiconnex_zip_compiler.plugins.assemblers.keyed_time_join_assembler import KeyedTimeJoinAssemblerPlugin
+from services.aiconnex_zip_compiler.plugins.normalizers.unit_standardizer import UnitStandardizerPlugin
 
 
 @pytest.fixture(autouse=True)

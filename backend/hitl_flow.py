@@ -59,7 +59,13 @@ def _merge(contract: HITLContract, extraction: HITLTurnExtraction) -> HITLContra
     return contract
 
 
-# ─── Opening prompt (dataset-driven, no ETP fallback) ────────────────────────
+_FALLBACK_OPENING_MESSAGE = (
+    "Your dataset 'your dataset' has been compiled, but Scout wasn't "
+    "able to derive concrete analytical objectives automatically. "
+    "Could you tell me in one sentence what you'd like this dataset to "
+    "help you accomplish?"
+)
+
 
 def _build_recipe_opening(dic_context: dict) -> str:
     """Dynamic HITL opening prompt built from Scout's actual Recipe Catalog.
@@ -73,6 +79,8 @@ def _build_recipe_opening(dic_context: dict) -> str:
     dataset_name = (dic_context.get("dataset_identity") or {}).get("name") or "your dataset"
 
     if not recipes:
+        if dataset_name == "your dataset":
+            return _FALLBACK_OPENING_MESSAGE
         return (
             f"Your dataset '{dataset_name}' has been compiled, but Scout wasn't "
             "able to derive concrete analytical objectives automatically. "

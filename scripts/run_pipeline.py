@@ -311,10 +311,10 @@ class PipelineRunner:
             if self.dataset_path.suffix.lower() == ".zip":
                 _p(_c(CYAN, f"\n[ZIP Ingestion] Detected .zip archive → invoking aiconnex_zip_compiler..."))
                 try:
-                    from aiconnex_zip_compiler import UnifiedCompiler
+                    from services.aiconnex_zip_compiler import UnifiedCompiler
                 except ImportError:
                     sys.path.insert(0, str(ROOT_DIR))
-                    from aiconnex_zip_compiler import UnifiedCompiler
+                    from services.aiconnex_zip_compiler import UnifiedCompiler
 
                 compiled_dir = self.output_dir / "compiled"
                 compiler = UnifiedCompiler(self.dataset_path, compiled_dir)

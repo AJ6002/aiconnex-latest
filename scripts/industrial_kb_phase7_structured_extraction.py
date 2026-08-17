@@ -20,7 +20,7 @@ PROJECT_ROOT = r"x:\TAS\AICONNEX"
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
-from aiconnex_agent.platform_kb.config import get_kb_config
+from agentic.platform_kb.config import get_kb_config
 
 CHUNKS_DIR = os.path.join(PROJECT_ROOT, "aiconnex_knowledge", "09_chunks")
 STRUCTURED_DIR = os.path.join(PROJECT_ROOT, "aiconnex_knowledge", "04_structured")

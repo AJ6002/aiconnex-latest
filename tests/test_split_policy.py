@@ -5,7 +5,7 @@ test_split_policy.py - Tests for topology-enforced splitting
 import pytest
 import numpy as np
 import pandas as pd
-from aiconnex_ml.shared.splitter.policy import (
+from services.aiconnex_ml.shared.splitter.policy import (
     enforce_split, _chronological_split, _group_chronological_split, _random_split
 )
 

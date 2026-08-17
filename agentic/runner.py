@@ -11,8 +11,8 @@ import logging
 from typing import Dict, Any, Generator
 from langgraph.types import Command
 
-from aiconnex_agent.graph import build_graph
-from aiconnex_agent.state import MasterAgentState
+from agentic.graph import build_graph
+from agentic.state import MasterAgentState
 
 logger = logging.getLogger(__name__)
 

@@ -46,7 +46,7 @@ class PlannerEmitter:
         plan_steps: List[Dict[str, Any]],
     ) -> None:
         """Emit planning engine telemetry."""
-        from aiconnex_agent.telemetry.tracker import get_telemetry
+        from agentic.telemetry.tracker import get_telemetry
 
         telemetry = get_telemetry()
         telemetry.setup(session_id)
@@ -90,7 +90,7 @@ class ScoutEmitter:
         scout_dict: Dict[str, Any],
     ) -> None:
         """Emit Scout Agent compilation telemetry."""
-        from aiconnex_agent.telemetry.tracker import get_telemetry
+        from agentic.telemetry.tracker import get_telemetry
 
         telemetry = get_telemetry()
         telemetry.setup(session_id)
@@ -152,7 +152,7 @@ class PlatformEmitter:
         Returns:
             Dict with ``run_id``, ``experiment_name``, ``tracking_uri``, ``status``.
         """
-        from aiconnex_agent.telemetry.tracker import get_telemetry
+        from agentic.telemetry.tracker import get_telemetry
 
         telemetry = get_telemetry()
         telemetry.setup(session_id)
@@ -279,7 +279,7 @@ class MemoryEmitter:
         semantic_hits: int = 0,
     ) -> None:
         """Emit Memory Agent telemetry."""
-        from aiconnex_agent.telemetry.tracker import get_telemetry
+        from agentic.telemetry.tracker import get_telemetry
 
         telemetry = get_telemetry()
         telemetry.setup(session_id)

@@ -1,10 +1,10 @@
 # tests/test_memory_agent_node.py
 import pytest
-from aiconnex_agent.state import MasterAgentState
-from aiconnex_agent.schemas import ConversationUnderstandingContract, DatasetIntelligenceContract
-from aiconnex_agent.memory.event_store import get_event_store, reset_event_store
-from aiconnex_agent.memory.events import make_event
-from aiconnex_agent.memory.memory_agent import real_memory_agent_node
+from agentic.state import MasterAgentState
+from agentic.schemas import ConversationUnderstandingContract, DatasetIntelligenceContract
+from agentic.memory.event_store import get_event_store, reset_event_store
+from agentic.memory.events import make_event
+from agentic.memory.memory_agent import real_memory_agent_node
 
 
 @pytest.fixture(autouse=True)
@@ -98,7 +98,7 @@ def test_default_state_produces_no_dataset_entity():
 # --- Phase 5a.6 Task 3: semantic search on query_status read path ---
 
 def test_query_status_returns_semantic_hits_for_matching_prompt():
-    from aiconnex_agent.memory.backends.factory import reset_semantic_backend
+    from agentic.memory.backends.factory import reset_semantic_backend
 
     reset_semantic_backend()
 

@@ -8,7 +8,7 @@ this is now a proper cross-cutting service so the tracing bootstrap is
 owned by the telemetry layer and not by the LLM factory.
 
 Usage:
-    from aiconnex_agent.telemetry.llm_tracer import init_llm_tracing
+    from agentic.telemetry.llm_tracer import init_llm_tracing
     init_llm_tracing()   # idempotent — safe to call multiple times
 """
 

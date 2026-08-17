@@ -10,8 +10,8 @@ Validates:
 """
 
 import pytest
-from aiconnex_agent.platform_kb.config import KBConfig, PostgresConfig, QdrantConfig, MinIOConfig
-from aiconnex_agent.platform_kb.db_client import KBInfraClient, CriticalDependencyError
+from agentic.platform_kb.config import KBConfig, PostgresConfig, QdrantConfig, MinIOConfig
+from agentic.platform_kb.db_client import KBInfraClient, CriticalDependencyError
 
 
 def test_kb_config_defaults():

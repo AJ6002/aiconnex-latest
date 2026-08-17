@@ -5,45 +5,28 @@ scikit-learn>=1.2.0
 xgboost>=1.7.0
 pyarrow>=12.0.0
 shap>=0.42.0
+scipy>=1.10.0
 
 # ─── AWS ─────────────────────────────────────────────────────────────────────
 boto3>=1.26.0
 sagemaker>=2.140.0
 
-# ─── Testing ─────────────────────────────────────────────────────────────────
-pytest>=7.4.0
-pytest-cov>=4.1.0
+# ─── Web, API & Chatbot Services ─────────────────────────────────────────────
+flask>=3.0.0
+flask-cors>=4.0.0
+fastapi>=0.100.0
+uvicorn>=0.20.0
+python-multipart>=0.0.6
+mistune>=3.0.0
+openai>=1.0.0
+python-dotenv>=1.0.0
+pyyaml>=6.0.0
 
-# ─── Code Quality ────────────────────────────────────────────────────────────
-ruff>=0.1.0
-
-# ─── Env / Config ────────────────────────────────────────────────────────────
-packaging>=23.0
-
-# ─── Agentic Memory (Phase 5a) ────────────────────────────────────────────────
+# ─── Agentic Orchestration & LangGraph ───────────────────────────────────────
 langgraph>=0.2.0
+langgraph-checkpoint-sqlite>=2.0.0
 langchain-community>=0.2.0
 pydantic>=2.0.0
-
-# mem0ai is an OPTIONAL semantic-memory backend (Phase 5a.6, Sprint 2).
-# It is NOT required for the default test suite or for local_fake backend use -
-# aiconnex_agent/memory/backends/mem0_adapter.py guards this import and raises
-# a clear RuntimeError if used without installing it. Only install this if you
-# explicitly set AICONNEX_MEMORY_BACKEND=mem0.
-# Setup (fully local, no API keys/cloud accounts required):
-#   pip install mem0ai
-#   ollama pull nomic-embed-text
-#   ollama pull llama3.1
-# mem0ai>=2.0.0
-
-# langchain-openai is an OPTIONAL LLM backend (aiconnex_agent/llm.py).
-# The agent defaults to Ollama (AICONNEX_LLM_BACKEND=ollama, or unset) and
-# currently stays on the Ollama Cloud model gpt-oss:120b-cloud by design -
-# model quality was prioritized over local latency (requires `ollama signin`).
-# Switch to OpenAI by setting AICONNEX_LLM_BACKEND=openai and OPENAI_API_KEY.
-# get_openai_llm() guards this import and raises a clear RuntimeError if
-# langchain-openai isn't installed or OPENAI_API_KEY isn't set.
-# langchain-openai>=0.2.0
 
 # ─── Platform Knowledge Base (PostgreSQL, Qdrant, MinIO) ──────────────────────
 psycopg2-binary>=2.9.9
@@ -52,3 +35,8 @@ qdrant-client>=1.7.0
 minio>=7.2.0
 sentence-transformers>=2.2.0
 
+# ─── Testing & Quality ───────────────────────────────────────────────────────
+pytest>=7.4.0
+pytest-cov>=4.1.0
+ruff>=0.1.0
+packaging>=23.0

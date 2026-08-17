@@ -27,13 +27,13 @@ from typing import Any, Dict, List
 
 from langgraph.types import interrupt
 
-from aiconnex_agent.schemas import (
+from agentic.schemas import (
     InterruptPayload,
     StructureAnalysis,
     TableSchema,
 )
-from aiconnex_agent.scout.nodes._shared import dtype_str
-from aiconnex_agent.state import MasterAgentState
+from agentic.scout.nodes._shared import dtype_str
+from agentic.state import MasterAgentState
 
 logger = logging.getLogger(__name__)
 
@@ -101,7 +101,7 @@ def structure_analysis_node(state: MasterAgentState) -> Dict[str, Any]:
     enable_intelligence = compiler_request.infer_targets or compiler_request.infer_problem_candidates
 
     # Compile with 1 retry on transient failure
-    from aiconnex_zip_compiler.compiler import UnifiedCompiler
+    from services.aiconnex_zip_compiler.compiler import UnifiedCompiler
     result = None
     last_error: str | None = None
     for attempt in range(2):

@@ -14,8 +14,8 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
-from aiconnex_zip_compiler.compiler import UnifiedCompiler, CompileResult
-from aiconnex_zip_compiler.reporter import classify_compilation_failure
+from services.aiconnex_zip_compiler.compiler import UnifiedCompiler, CompileResult
+from services.aiconnex_zip_compiler.reporter import classify_compilation_failure
 
 
 @pytest.fixture
@@ -128,7 +128,7 @@ def test_failure_reporter_classification(temp_workspace):
 
 def test_schema_gate_evaluation(temp_workspace):
     """Test Case 8: SchemaGate pre-validation and ingestion routing"""
-    from aiconnex_zip_compiler.schema_gate import SchemaGate
+    from services.aiconnex_zip_compiler.schema_gate import SchemaGate
 
     # Valid ZIP archive test
     valid_zip = temp_workspace / "gate_valid.zip"

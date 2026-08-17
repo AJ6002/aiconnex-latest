@@ -23,7 +23,7 @@ from psycopg2.extras import RealDictCursor
 from minio import Minio
 from qdrant_client import QdrantClient
 
-from aiconnex_agent.platform_kb.config import KBConfig, get_kb_config
+from agentic.platform_kb.config import KBConfig, get_kb_config
 
 logger = logging.getLogger(__name__)
 

@@ -9,7 +9,7 @@ Verifies:
 """
 
 import pytest
-from aiconnex_agent.schemas import (
+from agentic.schemas import (
     ConversationUnderstandingContract,
     ScoutEnrichedContract,
     UploadMetadata,

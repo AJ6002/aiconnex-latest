@@ -9,9 +9,9 @@ strings.
 import pytest
 from unittest.mock import patch
 
-from aiconnex_agent.state import MasterAgentState
-from aiconnex_agent.schemas import ConversationUnderstandingContract
-from aiconnex_agent.parser.clarification_node import real_clarification_node
+from agentic.state import MasterAgentState
+from agentic.schemas import ConversationUnderstandingContract
+from agentic.parser.clarification_node import real_clarification_node
 
 
 def test_clarification_node_uses_real_generator_questions_not_hardcoded():
@@ -25,7 +25,7 @@ def test_clarification_node_uses_real_generator_questions_not_hardcoded():
         captured_interrupt_payload.update(payload)
         return "Automatic Pipeline"
 
-    with patch("aiconnex_agent.parser.clarification_node.interrupt", side_effect=_fake_interrupt):
+    with patch("agentic.parser.clarification_node.interrupt", side_effect=_fake_interrupt):
         res = real_clarification_node(state)
 
     # The questions passed to interrupt() must come from ClarificationGenerator,
@@ -45,7 +45,7 @@ def test_clarification_node_questions_reflect_missing_files():
         cuc=ConversationUnderstandingContract(goal={"primary_intent": "train_rul"}, observed={"mentioned_files": []}),
     )
 
-    with patch("aiconnex_agent.parser.clarification_node.interrupt", return_value="ok") as mock_interrupt:
+    with patch("agentic.parser.clarification_node.interrupt", return_value="ok") as mock_interrupt:
         real_clarification_node(state)
 
     payload = mock_interrupt.call_args[0][0]

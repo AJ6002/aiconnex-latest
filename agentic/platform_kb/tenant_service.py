@@ -16,15 +16,15 @@ import json
 import logging
 from typing import Dict, List, Any, Optional
 
-from aiconnex_agent.platform_kb.schemas import (
+from agentic.platform_kb.schemas import (
     TenantRecord,
     ProjectRecord,
     TenantAssetRecord,
     TenantContext,
 )
-from aiconnex_agent.platform_kb.db_client import KBInfraClient
-from aiconnex_agent.platform_kb.equipment_service import EquipmentService
-from aiconnex_agent.platform_kb.standards_service import StandardsService
+from agentic.platform_kb.db_client import KBInfraClient
+from agentic.platform_kb.equipment_service import EquipmentService
+from agentic.platform_kb.standards_service import StandardsService
 
 logger = logging.getLogger(__name__)
 

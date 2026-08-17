@@ -15,10 +15,10 @@ import logging
 from typing import List
 
 import fitz  # PyMuPDF
-from aiconnex_agent.platform_kb.normalizer import MarkdownNormalizer
-from aiconnex_agent.platform_kb.chunker import HierarchicalChunker
-from aiconnex_agent.platform_kb.embedder import EmbeddingEngine, QdrantUpserter
-from aiconnex_agent.platform_kb.schemas import KnowledgeChunkRecord, KnowledgeSourceRecord
+from agentic.platform_kb.normalizer import MarkdownNormalizer
+from agentic.platform_kb.chunker import HierarchicalChunker
+from agentic.platform_kb.embedder import EmbeddingEngine, QdrantUpserter
+from agentic.platform_kb.schemas import KnowledgeChunkRecord, KnowledgeSourceRecord
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger("EquipmentEmbedder")

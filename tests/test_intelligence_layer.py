@@ -19,8 +19,8 @@ from typing import Any, Dict, List
 import pandas as pd
 import pytest
 
-from aiconnex_zip_compiler.batch_writer import export_partition_batch
-from aiconnex_zip_compiler.intelligence import (
+from services.aiconnex_zip_compiler.batch_writer import export_partition_batch
+from services.aiconnex_zip_compiler.intelligence import (
     ArchiveExplorer,
     FormatDetector,
     MetadataExtractor,
@@ -33,7 +33,7 @@ if SemanticAnalyzer is None or ParserAdvisor is None:
     pytest.skip("Scout compiler LLM intelligence modules not present on this branch", allow_module_level=True)
 
 try:
-    from aiconnex_zip_compiler.intelligence.llm_client import LLMResponse
+    from services.aiconnex_zip_compiler.intelligence.llm_client import LLMResponse
 
 except ImportError:
     class LLMResponse:  # type: ignore
@@ -43,7 +43,7 @@ except ImportError:
             self.raw_text = raw_text
             self.duration_seconds = duration_seconds
 
-from aiconnex_zip_compiler.intelligence.models import (
+from services.aiconnex_zip_compiler.intelligence.models import (
     IntelligenceReport,
     TableMetadata,
 )
@@ -434,7 +434,7 @@ def test_problem_discoverer_deduplicates_colliding_option_ids(sample_df):
 
 
 def test_safe_confidence_clamps_and_coerces():
-    from aiconnex_zip_compiler.intelligence.validation import safe_confidence
+    from services.aiconnex_zip_compiler.intelligence.validation import safe_confidence
 
     assert safe_confidence(0.5) == 0.5
     assert safe_confidence(1.5) == 1.0, "must clamp above 1.0"
@@ -445,7 +445,7 @@ def test_safe_confidence_clamps_and_coerces():
 
 
 def test_safe_choice_falls_back_on_unexpected_value():
-    from aiconnex_zip_compiler.intelligence.validation import safe_choice
+    from services.aiconnex_zip_compiler.intelligence.validation import safe_choice
 
     allowed = {"a", "b", "c"}
     assert safe_choice("b", allowed, default="a") == "b"
@@ -454,7 +454,7 @@ def test_safe_choice_falls_back_on_unexpected_value():
 
 
 def test_parser_advisor_rejects_unknown_plugin_id():
-    from aiconnex_zip_compiler.intelligence.models import FileFingerprint
+    from services.aiconnex_zip_compiler.intelligence.models import FileFingerprint
 
     fingerprints = [
         FileFingerprint(
@@ -544,8 +544,8 @@ def test_partition_batch_returns_none_without_partitions(tmp_path, sample_df):
 # ---------------------------------------------------------------------------
 
 def test_llm_bridge_maps_partition_batch_strategy(sample_df):
-    from aiconnex_zip_compiler.intent import resolve_llm_strategy
-    from aiconnex_zip_compiler.intelligence.models import (
+    from services.aiconnex_zip_compiler.intent import resolve_llm_strategy
+    from services.aiconnex_zip_compiler.intelligence.models import (
         GeneratedIntentOption,
         PartitionGroup,
         ProblemHypothesis,
@@ -586,8 +586,8 @@ def test_llm_bridge_maps_partition_batch_strategy(sample_df):
 
 
 def test_llm_bridge_returns_none_for_unknown_choice(sample_df):
-    from aiconnex_zip_compiler.intent import resolve_llm_strategy
-    from aiconnex_zip_compiler.intelligence.models import ProblemHypothesis
+    from services.aiconnex_zip_compiler.intent import resolve_llm_strategy
+    from services.aiconnex_zip_compiler.intelligence.models import ProblemHypothesis
 
     report = IntelligenceReport(archive_name="test.zip")
     report.problem_hypothesis = ProblemHypothesis(domain="d", intent_options=[])

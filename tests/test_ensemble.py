@@ -4,7 +4,7 @@
 from __future__ import annotations
 import numpy as np
 import pytest
-from aiconnex_ml.shared.ensemble import StackedEnsembleMetaLearner
+from services.aiconnex_ml.shared.ensemble import StackedEnsembleMetaLearner
 
 
 def test_fit_and_predict_basic():

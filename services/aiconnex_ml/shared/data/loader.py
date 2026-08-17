@@ -40,7 +40,7 @@ def load_dataframe(path: str, **kwargs) -> pd.DataFrame:
 def _download_from_s3(s3_uri: str) -> str:
     """Download an S3 file to a local temp location and return the local path."""
     import tempfile
-    from aiconnex_ml.shared.utils.s3 import parse_s3_uri, download_file
+    from services.aiconnex_ml.shared.utils.s3 import parse_s3_uri, download_file
     bucket, key = parse_s3_uri(s3_uri)
     filename = os.path.basename(key)
     tmp_dir = tempfile.mkdtemp(prefix="aiconnex_load_")

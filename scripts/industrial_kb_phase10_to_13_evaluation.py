@@ -16,9 +16,9 @@ PROJECT_ROOT = r"x:\TAS\AICONNEX"
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
-from aiconnex_agent.platform_kb.retrieval_service import RetrievalService
-from aiconnex_agent.platform_kb.context_builder import ContextBuilder
-from aiconnex_agent.platform_kb.schemas import ContextRequest
+from agentic.platform_kb.retrieval_service import RetrievalService
+from agentic.platform_kb.context_builder import ContextBuilder
+from agentic.platform_kb.schemas import ContextRequest
 
 logging.basicConfig(level=logging.INFO)
 

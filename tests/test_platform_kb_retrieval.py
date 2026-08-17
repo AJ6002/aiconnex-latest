@@ -15,8 +15,8 @@ import json
 import pytest
 from unittest.mock import MagicMock, patch
 
-from aiconnex_agent.platform_kb.schemas import ContextRequest, EvidenceItem, EvidencePack
-from aiconnex_agent.platform_kb.retrieval_service import (
+from agentic.platform_kb.schemas import ContextRequest, EvidenceItem, EvidencePack
+from agentic.platform_kb.retrieval_service import (
     RetrievalService,
     PROVENANCE_DIR,
 )

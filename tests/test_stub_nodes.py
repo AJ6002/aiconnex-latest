@@ -1,8 +1,8 @@
 # tests/test_stub_nodes.py
 import pytest
 from unittest.mock import patch
-from aiconnex_agent.state import MasterAgentState
-from aiconnex_agent.nodes.stub_nodes import (
+from agentic.state import MasterAgentState
+from agentic.nodes.stub_nodes import (
     stub_conversation_parser_node,
     stub_planning_engine_node,
     stub_scout_agent_node,
@@ -33,7 +33,7 @@ def test_stub_scout_agent_node_flags_missing_upload_path():
     route back to 'scout' — NOT 'evaluator' — so the graph does not advance
     the plan with an empty/fake DIC. (Bug #1 fix verification.)"""
     state = MasterAgentState(plan_steps=[{"target_agent": "scout", "step_id": "step_1"}])
-    with patch("aiconnex_agent.scout.scout_node.interrupt", return_value="ok") as mock_interrupt:
+    with patch("agentic.scout.scout_node.interrupt", return_value="ok") as mock_interrupt:
         res = stub_scout_agent_node(state)
     assert mock_interrupt.called
     assert "no dataset file" in mock_interrupt.call_args[0][0]["questions"][0]

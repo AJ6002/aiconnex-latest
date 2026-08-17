@@ -12,9 +12,9 @@ import numpy as np
 from sklearn.model_selection import RandomizedSearchCV, PredefinedSplit
 from sklearn.metrics import make_scorer
 
-from aiconnex_ml.regression.registry import get_algorithm
-from aiconnex_ml.regression.losses import asymmetric_rul_score
-from aiconnex_ml.shared.utils.hardware import xgboost_device, lightgbm_device
+from services.aiconnex_ml.regression.registry import get_algorithm
+from services.aiconnex_ml.regression.losses import asymmetric_rul_score
+from services.aiconnex_ml.shared.utils.hardware import xgboost_device, lightgbm_device
 
 
 def run_hpo(

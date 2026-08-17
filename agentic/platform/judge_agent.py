@@ -14,10 +14,10 @@ import logging
 import re
 from typing import Any, Dict
 
-from aiconnex_agent.schemas import ScorerReport, JudgeReport
+from agentic.schemas import ScorerReport, JudgeReport
 
 try:
-    from aiconnex_agent.llm import get_llm
+    from agentic.llm import get_llm
 except ImportError:
     get_llm = None  # type: ignore
 
@@ -82,7 +82,7 @@ def judge_candidate(
     # Attempt LLM evaluation
     try:
         if get_llm is None:
-            raise RuntimeError("aiconnex_agent.llm unavailable")
+            raise RuntimeError("agentic.llm unavailable")
         llm = get_llm()
 
 

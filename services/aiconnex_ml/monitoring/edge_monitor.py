@@ -151,5 +151,5 @@ class EdgeMonitor:
         recent = np.array(self.baseline_scores[-len(baseline):])
         if len(recent) < 10:
             return 0.0
-        from aiconnex_ml.anomaly.drift import compute_psi
+        from services.aiconnex_ml.anomaly.drift import compute_psi
         return compute_psi(baseline, recent, bins)

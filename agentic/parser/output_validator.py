@@ -6,7 +6,7 @@ Sub-module 4: Validates extraction dict against ConversationUnderstandingContrac
 
 from __future__ import annotations
 from typing import Dict, Any
-from aiconnex_agent.schemas import ConversationUnderstandingContract, Goal
+from agentic.schemas import ConversationUnderstandingContract, Goal
 
 
 class StructuredOutputValidator:

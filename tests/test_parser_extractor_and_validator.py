@@ -1,9 +1,9 @@
 # tests/test_parser_extractor_and_validator.py
 import json
 import pytest
-from aiconnex_agent.schemas import ConversationUnderstandingContract
-from aiconnex_agent.parser.semantic_extractor import SemanticExtractor
-from aiconnex_agent.parser.output_validator import StructuredOutputValidator
+from agentic.schemas import ConversationUnderstandingContract
+from agentic.parser.semantic_extractor import SemanticExtractor
+from agentic.parser.output_validator import StructuredOutputValidator
 
 
 def test_semantic_extractor_heuristic_fallback():
@@ -49,7 +49,7 @@ class _StubLLM:
 
 
 def test_semantic_extractor_uses_real_llm_call_path_by_default(monkeypatch):
-    import aiconnex_agent.parser.semantic_extractor as se_module
+    import agentic.parser.semantic_extractor as se_module
 
     llm_response = json.dumps({
         "goal": {"primary_intent": "train_rul"},
@@ -67,7 +67,7 @@ def test_semantic_extractor_uses_real_llm_call_path_by_default(monkeypatch):
 
 
 def test_semantic_extractor_handles_markdown_fenced_json(monkeypatch):
-    import aiconnex_agent.parser.semantic_extractor as se_module
+    import agentic.parser.semantic_extractor as se_module
 
     fenced = "```json\n" + json.dumps({"goal": {"primary_intent": "compile_zip"}}) + "\n```"
     monkeypatch.setattr(se_module, "get_llm", lambda *a, **kw: _StubLLM(fenced))
@@ -78,7 +78,7 @@ def test_semantic_extractor_handles_markdown_fenced_json(monkeypatch):
 
 
 def test_semantic_extractor_rejects_hallucinated_intent_and_falls_back(monkeypatch):
-    import aiconnex_agent.parser.semantic_extractor as se_module
+    import agentic.parser.semantic_extractor as se_module
 
     # LLM hallucinates a plugin/intent that isn't in the valid set.
     hallucinated = json.dumps({"goal": {"primary_intent": "per_partition_anomaly_detection"}})
@@ -91,7 +91,7 @@ def test_semantic_extractor_rejects_hallucinated_intent_and_falls_back(monkeypat
 
 
 def test_semantic_extractor_falls_back_on_network_error(monkeypatch):
-    import aiconnex_agent.parser.semantic_extractor as se_module
+    import agentic.parser.semantic_extractor as se_module
 
     def _raise_llm(*a, **kw):
         raise ConnectionError("simulated Ollama connection failure")
@@ -104,7 +104,7 @@ def test_semantic_extractor_falls_back_on_network_error(monkeypatch):
 
 
 def test_semantic_extractor_falls_back_on_malformed_json(monkeypatch):
-    import aiconnex_agent.parser.semantic_extractor as se_module
+    import agentic.parser.semantic_extractor as se_module
 
     monkeypatch.setattr(se_module, "get_llm", lambda *a, **kw: _StubLLM("not valid json at all"))
 
@@ -114,7 +114,7 @@ def test_semantic_extractor_falls_back_on_malformed_json(monkeypatch):
 
 
 def test_semantic_extractor_use_llm_false_skips_llm_entirely(monkeypatch):
-    import aiconnex_agent.parser.semantic_extractor as se_module
+    import agentic.parser.semantic_extractor as se_module
 
     def _should_not_be_called(*a, **kw):
         raise AssertionError("get_llm() must not be called when use_llm=False")

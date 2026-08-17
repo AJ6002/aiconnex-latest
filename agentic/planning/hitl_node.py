@@ -31,8 +31,8 @@ from typing import Any, Dict, List
 
 from langgraph.types import interrupt
 
-from aiconnex_agent.schemas import InterruptPayload
-from aiconnex_agent.state import MasterAgentState
+from agentic.schemas import InterruptPayload
+from agentic.state import MasterAgentState
 
 logger = logging.getLogger(__name__)
 
@@ -41,7 +41,7 @@ logger = logging.getLogger(__name__)
 # chatbot/backend/ isn't on the aiconnex_agent import path by default; do the
 # same insertion terminal_runner.py does so we can import hitl_flow / hitl_schemas.
 _REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-_CHATBOT_BACKEND = os.path.join(_REPO_ROOT, "chatbot", "backend")
+_CHATBOT_BACKEND = os.path.join(_REPO_ROOT, "backend")
 if _CHATBOT_BACKEND not in sys.path:
     sys.path.insert(0, _CHATBOT_BACKEND)
 

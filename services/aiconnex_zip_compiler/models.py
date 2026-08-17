@@ -7,8 +7,72 @@ Previously these lived in schema_mapper.py and relational_joiner.py (now deleted
 
 from __future__ import annotations
 
+import hashlib
+import json
+import os
+import shutil
+import tempfile
 from dataclasses import dataclass, field
+from enum import Enum
+from pathlib import Path
 from typing import Any, Dict, List, Optional
+
+
+class CompilerState(str, Enum):
+    """12-state compiler execution lifecycle matching Section 40 specification."""
+    RECEIVED = "RECEIVED"
+    INSPECTING = "INSPECTING"
+    WAITING_FOR_AGENT = "WAITING_FOR_AGENT"
+    PLAN_READY = "PLAN_READY"
+    VALIDATING = "VALIDATING"
+    EXECUTING = "EXECUTING"
+    VALIDATING_OUTPUT = "VALIDATING_OUTPUT"
+    COMPILED = "COMPILED"
+    WARNING = "WARNING"
+    NEEDS_CONFIRMATION = "NEEDS_CONFIRMATION"
+    QUARANTINED = "QUARANTINED"
+    FAILED = "FAILED"
+
+
+class CompilerWorkspace:
+    """Manages spec-compliant directory lifecycle for a compilation job (data/compiler/)."""
+
+    def __init__(self, job_id: str, root: Optional[Path] = None):
+        self.root = root or Path(r"x:\TAS\AICONNEX\data\compiler")
+        self.job_id = job_id
+        self.incoming = self.root / "incoming" / job_id
+        self.quarantine = self.root / "quarantine"
+        self.extracted = self.root / "extracted" / job_id
+        self.intermediate = self.root / "intermediate" / job_id
+        self.unified = self.root / "unified" / job_id
+        self.reports = self.root / "reports" / job_id
+
+    def setup(self) -> None:
+        """Create the directory hierarchy."""
+        for d in [self.incoming, self.extracted, self.intermediate, self.unified, self.reports]:
+            d.mkdir(parents=True, exist_ok=True)
+        self.quarantine.mkdir(parents=True, exist_ok=True)
+
+    def quarantine_file(self, filepath: Path, reason: str) -> Path:
+        """Quarantine a corrupted/malformed file and persist audit metadata."""
+        dest = self.quarantine / f"{self.job_id}_{filepath.name}"
+        try:
+            shutil.copy2(filepath, dest)
+            sha256 = hashlib.sha256(filepath.read_bytes()).hexdigest()
+        except Exception:
+            sha256 = "unknown"
+            dest.touch()
+
+        meta = {
+            "job_id": self.job_id,
+            "original_path": str(filepath),
+            "reason": reason,
+            "sha256": sha256,
+            "status": "QUARANTINED"
+        }
+        meta_file = self.quarantine / f"{dest.name}.meta.json"
+        meta_file.write_text(json.dumps(meta, indent=2), encoding="utf-8")
+        return dest
 
 
 @dataclass

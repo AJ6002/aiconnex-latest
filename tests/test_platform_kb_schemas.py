@@ -6,7 +6,7 @@ Unit test suite validating Bucket 3 & Step 4 Pydantic Contracts for Platform KB.
 
 import pytest
 from pydantic import ValidationError
-from aiconnex_agent.platform_kb.schemas import (
+from agentic.platform_kb.schemas import (
     KnowledgeSourceRecord,
     KnowledgeDocumentRecord,
     KnowledgeChunkRecord,

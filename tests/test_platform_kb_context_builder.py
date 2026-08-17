@@ -11,8 +11,8 @@ Validates:
 import pytest
 from unittest.mock import MagicMock
 
-from aiconnex_agent.platform_kb.schemas import ContextRequest, EvidencePack, EvidenceItem
-from aiconnex_agent.platform_kb.context_builder import ContextBuilder
+from agentic.platform_kb.schemas import ContextRequest, EvidencePack, EvidenceItem
+from agentic.platform_kb.context_builder import ContextBuilder
 
 
 def test_context_builder_get_context_mock():

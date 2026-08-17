@@ -27,8 +27,8 @@ import pytest
 
 pytestmark = pytest.mark.tier3
 
-from aiconnex_ml.anomaly.drift import AnomalyDriftPolicy, compute_psi, run_ks_test
-from aiconnex_ml.regression.drift import RegressionDriftPolicy
+from services.aiconnex_ml.anomaly.drift import AnomalyDriftPolicy, compute_psi, run_ks_test
+from services.aiconnex_ml.regression.drift import RegressionDriftPolicy
 
 
 # -- Helpers --------------------------------------------------------------------

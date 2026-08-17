@@ -117,8 +117,8 @@ def feature_engineer_data(payload: FeatureEngineerPayload):
         # Lags + Rolling + Diff REPLACE Poly/PCA to preserve physics.
         # ══════════════════════════════════════════════════════
         if topology in ("time_series", "multi_entity_time_series"):
-            from aiconnex_ml.shared.features.lag import add_lag_features, add_diff_features
-            from aiconnex_ml.shared.features.rolling import add_rolling_features
+            from services.aiconnex_ml.shared.features.lag import add_lag_features, add_diff_features
+            from services.aiconnex_ml.shared.features.rolling import add_rolling_features
 
             # Read recipe overrides or use sensible defaults
             lags = recipe.get("lag_steps", [1, 2, 5])

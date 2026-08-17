@@ -132,14 +132,19 @@ class PluginRegistry:
                     if file_p.name.startswith("__"):
                         continue
                     mod_name = file_p.stem
-                    full_module_name = f"aiconnex_zip_compiler.plugins.{s_dir}.{mod_name}"
+                    pkg = __package__ or "services.aiconnex_zip_compiler.plugins"
+                    full_module_name = f"{pkg}.{s_dir}.{mod_name}"
                     try:
                         if full_module_name in sys.modules:
                             importlib.reload(sys.modules[full_module_name])
                         else:
                             importlib.import_module(full_module_name)
                     except Exception as e:
-                        logger.warning(f"[PluginRegistry] Auto-discovery failed for '{full_module_name}': {e}")
+                        try:
+                            fallback_name = f"aiconnex_zip_compiler.plugins.{s_dir}.{mod_name}"
+                            importlib.import_module(fallback_name)
+                        except Exception as e2:
+                            logger.warning(f"[PluginRegistry] Auto-discovery failed for '{full_module_name}': {e} / {e2}")
 
     def resolve(self, stage: str, context: PipelineContext) -> BasePlugin:
         """

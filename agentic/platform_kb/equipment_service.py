@@ -16,8 +16,8 @@ import json
 import logging
 from typing import Dict, List, Any, Optional
 
-from aiconnex_agent.platform_kb.schemas import EquipmentRecord
-from aiconnex_agent.platform_kb.db_client import KBInfraClient
+from agentic.platform_kb.schemas import EquipmentRecord
+from agentic.platform_kb.db_client import KBInfraClient
 
 logger = logging.getLogger(__name__)
 

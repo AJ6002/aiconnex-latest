@@ -17,9 +17,9 @@ PROJECT_ROOT = r"x:\TAS\AICONNEX"
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
-from aiconnex_agent.platform_kb.embedder import EmbeddingEngine, QdrantUpserter, VECTOR_INDEX_DIR
-from aiconnex_agent.platform_kb.schemas import KnowledgeChunkRecord, KnowledgeSourceRecord
-from aiconnex_agent.platform_kb.db_client import KBInfraClient
+from agentic.platform_kb.embedder import EmbeddingEngine, QdrantUpserter, VECTOR_INDEX_DIR
+from agentic.platform_kb.schemas import KnowledgeChunkRecord, KnowledgeSourceRecord
+from agentic.platform_kb.db_client import KBInfraClient
 
 logging.basicConfig(level=logging.INFO)
 

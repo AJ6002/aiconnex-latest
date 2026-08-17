@@ -1,7 +1,7 @@
 # tests/test_agent_state.py
 import pytest
-from aiconnex_agent.schemas import ConversationUnderstandingContract
-from aiconnex_agent.state import MasterAgentState
+from agentic.schemas import ConversationUnderstandingContract
+from agentic.state import MasterAgentState
 
 
 def test_master_agent_state_initialization():

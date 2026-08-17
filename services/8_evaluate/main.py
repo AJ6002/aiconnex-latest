@@ -257,7 +257,7 @@ def evaluate_model(payload: EvaluatePayload):
         # ── Branch A: Regression / RUL ──────────────────────────────────────
         if ml_task in ("regression", "time_to_event", "rul"):
             try:
-                from aiconnex_ml.regression.evaluation import (
+                from services.aiconnex_ml.regression.evaluation import (
                     compute_regression_metrics,
                     bootstrap_confidence_interval,
                     per_entity_metrics,
@@ -304,7 +304,7 @@ def evaluate_model(payload: EvaluatePayload):
         # ── Branch B: Anomaly Detection ─────────────────────────────────────
         elif ml_task == "anomaly_detection" or "isolationforest" in model_class:
             try:
-                from aiconnex_ml.anomaly.evaluation import compute_anomaly_metrics
+                from services.aiconnex_ml.anomaly.evaluation import compute_anomaly_metrics
 
                 raw_scores = model.decision_function(X_test)      # lower = more anomalous
                 preds_raw  = model.predict(X_test)                # +1 normal, -1 anomaly
@@ -368,7 +368,7 @@ def evaluate_model(payload: EvaluatePayload):
 
         # ── 6. Advisory VG_2 Gate (non-blocking) ───────────────────────────
         try:
-            from aiconnex_ml.monitoring.validation_gate_2 import run_vg2
+            from services.aiconnex_ml.monitoring.validation_gate_2 import run_vg2
             # Populate manifest structure required by check_vg2
             manifest.setdefault("results", {})
             manifest["results"]["evaluation"] = {

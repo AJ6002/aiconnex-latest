@@ -20,7 +20,7 @@ from __future__ import annotations
 
 from typing import List
 
-from aiconnex_agent.schemas import ConversationUnderstandingContract
+from agentic.schemas import ConversationUnderstandingContract
 
 REQUIRED_CONFIDENCE = 0.85
 

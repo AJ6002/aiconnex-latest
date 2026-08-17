@@ -16,7 +16,7 @@ import logging
 import re
 from typing import Any, Dict, Optional
 
-from aiconnex_agent.llm import get_llm
+from agentic.llm import get_llm
 
 logger = logging.getLogger(__name__)
 
@@ -51,7 +51,7 @@ class SemanticExtractor:
         return self._extract_heuristic(user_prompt)
 
     def _extract_via_llm(self, user_prompt: str, system_prompt: str) -> Optional[Dict[str, Any]]:
-        """Calls the configured LLM (aiconnex_agent.llm.get_llm) and parses its structured JSON response."""
+        """Calls the configured LLM (agentic.llm.get_llm) and parses its structured JSON response."""
         if self._llm is None:
             self._llm = get_llm()
 

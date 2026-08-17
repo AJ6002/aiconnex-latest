@@ -12,7 +12,7 @@ import csv
 import logging
 from typing import List, Dict, Any, Optional
 from pydantic import ValidationError
-from aiconnex_agent.platform_kb.schemas import KnowledgeSourceRecord
+from agentic.platform_kb.schemas import KnowledgeSourceRecord
 
 logger = logging.getLogger(__name__)
 

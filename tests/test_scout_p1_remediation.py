@@ -7,8 +7,8 @@ Verifies:
 """
 
 import pytest
-from aiconnex_agent.schemas import InterruptPayload, InterruptOption
-from aiconnex_agent.scout.dic_validator import DICValidator
+from agentic.schemas import InterruptPayload, InterruptOption
+from agentic.scout.dic_validator import DICValidator
 
 
 def test_interrupt_payload_serialization():

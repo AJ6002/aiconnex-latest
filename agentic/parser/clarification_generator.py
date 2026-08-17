@@ -15,8 +15,8 @@ import logging
 import re
 from typing import List, Optional
 
-from aiconnex_agent.schemas import ConversationUnderstandingContract
-from aiconnex_agent.llm import get_llm
+from agentic.schemas import ConversationUnderstandingContract
+from agentic.llm import get_llm
 
 logger = logging.getLogger(__name__)
 

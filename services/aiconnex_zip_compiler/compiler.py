@@ -14,9 +14,9 @@ import logging
 import shutil
 import tempfile
 import time
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Any
 
 import pandas as pd
 
@@ -27,7 +27,7 @@ from .plugins import (
     UnsupportedLayoutError,
     AmbiguousPluginMatchError,
 )
-from .models import SchemaMap, JoinAudit
+from .models import SchemaMap, JoinAudit, CompilerState, CompilerWorkspace
 
 logger = logging.getLogger(__name__)
 
@@ -44,6 +44,8 @@ class CompileResult:
     duration_seconds: float
     success: bool = True
     error: Optional[str] = None
+    state: CompilerState = CompilerState.COMPILED
+    state_history: List[str] = field(default_factory=list)
 
 
 class UnifiedCompiler:
@@ -92,13 +94,21 @@ class UnifiedCompiler:
 
     def compile(self) -> CompileResult:
         t0 = time.time()
-        from .models import create_compiler_temp_dir
-        temp_dir = create_compiler_temp_dir(prefix="aic_compiler_")
+        import uuid
+        job_id = uuid.uuid4().hex[:8]
+        workspace = CompilerWorkspace(job_id=job_id)
+        workspace.setup()
+        temp_dir = workspace.extracted
         self.output_dir.mkdir(parents=True, exist_ok=True)
+
+        state_history: List[str] = [CompilerState.RECEIVED.value]
+        current_state = CompilerState.RECEIVED
 
         # -- Scout Inspection (if ScoutAgent provided) ---------------------------
         if self.scout is not None:
             try:
+                current_state = CompilerState.INSPECTING
+                state_history.append(current_state.value)
                 logger.info("[UnifiedCompiler] ScoutAgent present - running scout.inspect()")
                 self.scout.inspect(inventory=self.zip_path)
             except Exception as e:
@@ -109,7 +119,10 @@ class UnifiedCompiler:
         gate = SchemaGate(self.zip_path)
         decision = gate.evaluate()
         if not decision.is_valid:
+            current_state = CompilerState.FAILED
+            state_history.append(current_state.value)
             logger.error(f"[SchemaGate] Rejected: {decision.gate_message}")
+            workspace.quarantine_file(self.zip_path, reason=f"SchemaGate rejected: {decision.gate_message}")
             if self.scout is not None:
                 try:
                     self.scout.self_heal(
@@ -129,6 +142,8 @@ class UnifiedCompiler:
                 duration_seconds=0.0,
                 success=False,
                 error=f"SchemaGate rejected input: {decision.gate_message}",
+                state=CompilerState.FAILED,
+                state_history=state_history,
             )
         logger.info(f"[SchemaGate] Passed: {decision.gate_message} (Route: {decision.primary_route})")
 
@@ -144,9 +159,13 @@ class UnifiedCompiler:
             registry.auto_discover()
 
             # -- Intelligence Stages 1-3 (archive, formats, parser advice) ----
+            current_state = CompilerState.INSPECTING
+            state_history.append(current_state.value)
             self._run_intelligence_pre_parse(temp_dir, registry)
 
             # -- Stage 1: Discovery Plugin ------------------------------------
+            current_state = CompilerState.EXECUTING
+            state_history.append(current_state.value)
             disc_plugin = registry.resolve("discovery", context)
             context = disc_plugin.execute(context)
             context.active_plugins["discovery"] = f"{disc_plugin.plugin_id}@{disc_plugin.version}"
@@ -175,9 +194,16 @@ class UnifiedCompiler:
             self._run_intelligence_post_parse(context)
 
             # -- HITL Intent Layer (after parsing, before assembly) -----------
+            current_state = CompilerState.WAITING_FOR_AGENT
+            state_history.append(current_state.value)
             self._run_intent_layer(context)
 
+            current_state = CompilerState.PLAN_READY
+            state_history.append(current_state.value)
+
             # -- Stage 3: Assembler Plugin ------------------------------------
+            current_state = CompilerState.EXECUTING
+            state_history.append(current_state.value)
             assembler_plugin = registry.resolve("assembler", context)
             context = assembler_plugin.execute(context)
             context.active_plugins["assembler"] = f"{assembler_plugin.plugin_id}@{assembler_plugin.version}"
@@ -228,6 +254,9 @@ class UnifiedCompiler:
                 for k, v in final_dfs.items()
             ]
 
+            current_state = CompilerState.VALIDATING_OUTPUT
+            state_history.append(current_state.value)
+
             duration = round(time.time() - t0, 3)
             artifacts = export_compiler_handoff(
                 output_dir=self.output_dir,
@@ -238,12 +267,34 @@ class UnifiedCompiler:
                 zip_filename=self.zip_path.name,
             )
 
+            # Copy reports to persistent workspace.unified & workspace.reports
+            try:
+                for src_p in artifacts.per_group_csvs.values():
+                    shutil.copy2(src_p, workspace.unified / src_p.name)
+                for src_p in artifacts.per_group_parquets.values():
+                    shutil.copy2(src_p, workspace.unified / src_p.name)
+                if artifacts.combined_csv:
+                    shutil.copy2(artifacts.combined_csv, workspace.unified / artifacts.combined_csv.name)
+                if artifacts.combined_parquet:
+                    shutil.copy2(artifacts.combined_parquet, workspace.unified / artifacts.combined_parquet.name)
+                if artifacts.dataset_card_json and artifacts.dataset_card_json.exists():
+                    shutil.copy2(artifacts.dataset_card_json, workspace.reports / artifacts.dataset_card_json.name)
+                if artifacts.lineage_json and artifacts.lineage_json.exists():
+                    shutil.copy2(artifacts.lineage_json, workspace.reports / artifacts.lineage_json.name)
+                if artifacts.quality_report_json and artifacts.quality_report_json.exists():
+                    shutil.copy2(artifacts.quality_report_json, workspace.reports / artifacts.quality_report_json.name)
+            except Exception as w_err:
+                logger.debug(f"[UnifiedCompiler] Workspace report copy warning: {w_err}")
+
             # -- Per-Partition Job Batch (individual model per fault mode) ----
             self._maybe_export_partition_batch(context, final_dfs)
 
             # -- Write the intelligence report artifact -----------------------
             if self._intelligence is not None:
                 self._intelligence.write_report(self.output_dir)
+
+            current_state = CompilerState.COMPILED
+            state_history.append(current_state.value)
 
             return CompileResult(
                 input_zip=str(self.zip_path),
@@ -255,11 +306,17 @@ class UnifiedCompiler:
                 schema_map=schema_map,
                 duration_seconds=duration,
                 success=True,
+                state=CompilerState.COMPILED,
+                state_history=state_history,
             )
 
         except Exception as e:
             duration = round(time.time() - t0, 3)
             logger.error(f"[UnifiedCompiler] Ingestion failure: {e}")
+            current_state = CompilerState.FAILED
+            state_history.append(current_state.value)
+            
+            workspace.quarantine_file(self.zip_path, reason=str(e))
             
             if self.scout is not None:
                 import traceback
@@ -281,6 +338,8 @@ class UnifiedCompiler:
                 duration_seconds=duration,
                 success=False,
                 error=str(e),
+                state=CompilerState.FAILED,
+                state_history=state_history,
             )
 
         finally:

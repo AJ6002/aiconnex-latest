@@ -10,7 +10,7 @@ import os
 import yaml
 import logging
 from typing import List, Dict, Any
-from aiconnex_agent.platform_kb.schemas import EquipmentRecord
+from agentic.platform_kb.schemas import EquipmentRecord
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger("EquipmentBuilder")

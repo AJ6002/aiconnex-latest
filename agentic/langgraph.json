@@ -3,7 +3,7 @@
     "."
   ],
   "graphs": {
-    "aiconnex_master_supervisor": "./aiconnex_agent/studio.py:graph"
+    "aiconnex_master_supervisor": "./agentic/studio.py:graph"
   },
   "env": ".env"
 }

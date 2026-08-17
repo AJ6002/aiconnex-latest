@@ -3,7 +3,7 @@
 # Platform steps are NOT in the initial plan template for any intent.
 # They are enqueued dynamically after HITL recipe selection.
 import pytest
-from aiconnex_agent.planning.intent_plan_mapper import IntentPlanMapper
+from agentic.planning.intent_plan_mapper import IntentPlanMapper
 
 
 def test_compile_zip_plan():

@@ -5,7 +5,7 @@ Orchestrates the full regression modeling sequence:
   label_contract → baselines → HPO → evaluation → robustness
 
 Called as:
-    from aiconnex_ml.regression.trainer import RegressionTrainer
+    from services.aiconnex_ml.regression.trainer import RegressionTrainer
     trainer = RegressionTrainer(manifest)
     manifest = trainer.run(X_train, y_train, X_val, y_val, X_test, y_test, df_test)
 """
@@ -15,13 +15,13 @@ from typing import Dict, Any, Optional, List
 import numpy as np
 import pandas as pd
 
-from aiconnex_ml.regression.label_contract import validate_regression_label
-from aiconnex_ml.regression.baselines import run_baselines
-from aiconnex_ml.regression.hpo import run_hpo
-from aiconnex_ml.regression.evaluation import run_evaluation
-from aiconnex_ml.regression.robustness import run_robustness_tests
-from aiconnex_ml.shared.utils.serialization import export_model
-from aiconnex_ml.shared.utils.manifest import mark_step_complete
+from services.aiconnex_ml.regression.label_contract import validate_regression_label
+from services.aiconnex_ml.regression.baselines import run_baselines
+from services.aiconnex_ml.regression.hpo import run_hpo
+from services.aiconnex_ml.regression.evaluation import run_evaluation
+from services.aiconnex_ml.regression.robustness import run_robustness_tests
+from services.aiconnex_ml.shared.utils.serialization import export_model
+from services.aiconnex_ml.shared.utils.manifest import mark_step_complete
 
 
 class RegressionTrainer:

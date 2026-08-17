@@ -22,10 +22,10 @@ import pytest
 
 pytestmark = pytest.mark.tier3
 
-from aiconnex_ml.regression.label_contract import validate_regression_label
-from aiconnex_ml.regression.losses import asymmetric_rul_score
-from aiconnex_ml.regression.baselines import run_baselines
-from aiconnex_ml.regression.evaluation import compute_regression_metrics
+from services.aiconnex_ml.regression.label_contract import validate_regression_label
+from services.aiconnex_ml.regression.losses import asymmetric_rul_score
+from services.aiconnex_ml.regression.baselines import run_baselines
+from services.aiconnex_ml.regression.evaluation import compute_regression_metrics
 
 
 # -- Fixtures -------------------------------------------------------------------

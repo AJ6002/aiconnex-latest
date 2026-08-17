@@ -13,7 +13,7 @@ Validates:
 import os
 import json
 import pytest
-from aiconnex_agent.platform_kb.normalizer import MarkdownNormalizer, NormalizedSection, NORMALIZED_DOCS_DIR
+from agentic.platform_kb.normalizer import MarkdownNormalizer, NormalizedSection, NORMALIZED_DOCS_DIR
 
 
 SAMPLE_MARKDOWN = """# Master Architecture Document

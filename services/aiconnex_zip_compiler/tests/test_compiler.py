@@ -12,8 +12,8 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
-from aiconnex_zip_compiler.compiler import UnifiedCompiler, CompileResult
-from aiconnex_zip_compiler.plugins import PluginRegistry, PipelineContext
+from services.aiconnex_zip_compiler.compiler import UnifiedCompiler, CompileResult
+from services.aiconnex_zip_compiler.plugins import PluginRegistry, PipelineContext
 
 
 @pytest.fixture(autouse=True)

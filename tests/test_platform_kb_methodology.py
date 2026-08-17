@@ -13,10 +13,10 @@ Tests:
 """
 
 import pytest
-from aiconnex_agent.platform_kb.schemas import MLMethodRecord, ContextRequest
-from aiconnex_agent.platform_kb.methodology_service import MethodologyService
-from aiconnex_agent.platform_kb.context_builder import ContextBuilder
-from aiconnex_agent.platform_kb.retrieval_service import RetrievalService
+from agentic.platform_kb.schemas import MLMethodRecord, ContextRequest
+from agentic.platform_kb.methodology_service import MethodologyService
+from agentic.platform_kb.context_builder import ContextBuilder
+from agentic.platform_kb.retrieval_service import RetrievalService
 
 
 @pytest.fixture

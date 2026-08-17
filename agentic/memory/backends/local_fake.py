@@ -15,7 +15,7 @@ from __future__ import annotations
 import re
 from typing import Any, Dict, List
 
-from aiconnex_agent.memory.backends.base import SemanticMemoryBackend
+from agentic.memory.backends.base import SemanticMemoryBackend
 
 
 def _tokenize(text: str) -> set:

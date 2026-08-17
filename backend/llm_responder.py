@@ -8,22 +8,29 @@ OpenRouter Qwen 2.5 Coder 32B. Hardcoded strings act ONLY as fallback safety net
 from __future__ import annotations
 
 import os
+from pathlib import Path
 import logging
 from typing import Dict, Any, Optional
+from dotenv import load_dotenv
 from openai import OpenAI
+
+# Load root .env and local chatbot .env
+_root_env = Path(__file__).resolve().parent.parent / ".env"
+if _root_env.exists():
+    load_dotenv(_root_env)
+load_dotenv(override=True)
 
 logger = logging.getLogger(__name__)
 
 
 def _get_api_key() -> str:
-    key_path = r"C:\Users\tasoman\Documents\key.txt"
-    if os.path.exists(key_path):
-        try:
-            with open(key_path, "r", encoding="utf-8") as f:
-                return f.read().strip()
-        except Exception:
-            pass
-    return os.environ.get("OPENROUTER_API_KEY") or os.environ.get("QWEN_API_KEY") or os.environ.get("GEMINI_API_KEY") or ""
+    """Load API key from environment variables only (no hardcoded file paths)."""
+    return (
+        os.environ.get("OPENROUTER_API_KEY")
+        or os.environ.get("QWEN_API_KEY")
+        or os.environ.get("GEMINI_API_KEY")
+        or ""
+    )
 
 
 def generate_llm_response(
@@ -39,7 +46,7 @@ def generate_llm_response(
         return _heuristic_fallback(intent, context_data)
 
     base_url = os.environ.get("OPENROUTER_BASE_URL", "https://openrouter.ai/api/v1")
-    model = os.environ.get("LLM_MODEL", "qwen/qwen-2.5-coder-32b-instruct")
+    model = os.environ.get("OPENROUTER_MODEL") or os.environ.get("LLM_MODEL") or "qwen/qwen-2.5-coder-32b-instruct"
 
     ctx_str = f"\nContext State: {context_data}" if context_data else ""
     sys_prompt = (

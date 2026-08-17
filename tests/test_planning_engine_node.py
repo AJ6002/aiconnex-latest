@@ -1,8 +1,8 @@
 # tests/test_planning_engine_node.py
 import pytest
-from aiconnex_agent.state import MasterAgentState
-from aiconnex_agent.schemas import ConversationUnderstandingContract
-from aiconnex_agent.planning.planning_engine import real_planning_engine_node
+from agentic.state import MasterAgentState
+from agentic.schemas import ConversationUnderstandingContract
+from agentic.planning.planning_engine import real_planning_engine_node
 
 
 @pytest.mark.parametrize("intent,expected_first_agent,expected_len", [

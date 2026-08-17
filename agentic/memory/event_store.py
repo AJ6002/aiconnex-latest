@@ -17,7 +17,7 @@ import json
 from pathlib import Path
 from typing import List, Optional
 
-from aiconnex_agent.memory.events import BaseEvent
+from agentic.memory.events import BaseEvent
 
 
 class EventStore:

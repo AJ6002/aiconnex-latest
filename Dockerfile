@@ -5,7 +5,7 @@ FROM python:3.9-slim
 RUN pip install scikit-learn==1.2.1 pandas numpy boto3 --no-cache-dir
 
 # 3. Copy your train.py script into the container
-COPY sagemaker_pipeline/src/train.py /app/train.py
+COPY services/sagemaker_pipeline/src/train.py /app/train.py
 
 # 4. Set the working directory
 WORKDIR /app

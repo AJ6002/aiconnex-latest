@@ -9,7 +9,7 @@ client for LangGraph agent node calls. Backends:
   AICONNEX_LLM_BACKEND=openai                       - standard OpenAI client
 
 MLflow LangChain autolog tracing is bootstrapped via the cross-cutting
-telemetry service: aiconnex_agent.telemetry.llm_tracer.init_llm_tracing().
+telemetry service: agentic.telemetry.llm_tracer.init_llm_tracing().
 This module is now a pure LLM factory — it does not own observability.
 """
 
@@ -29,11 +29,11 @@ load_dotenv()
 def _enable_mlflow_tracing() -> None:
     """Bootstrap LangChain autolog via the cross-cutting telemetry service.
 
-    Delegates to aiconnex_agent.telemetry.llm_tracer.init_llm_tracing().
+    Delegates to agentic.telemetry.llm_tracer.init_llm_tracing().
     Kept for backward compatibility — internal calls use this shim.
     """
     try:
-        from aiconnex_agent.telemetry.llm_tracer import init_llm_tracing
+        from agentic.telemetry.llm_tracer import init_llm_tracing
         init_llm_tracing()
     except Exception as exc:
         logger.debug(f"[LLM] Could not init LLM tracing: {exc}")

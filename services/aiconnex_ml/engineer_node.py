@@ -21,19 +21,19 @@ from typing import Dict, Any, List, Tuple, Optional
 import numpy as np
 import pandas as pd
 
-from aiconnex_ml.shared.data.schema_mapping import run_schema_mapping
-from aiconnex_ml.shared.data.time_alignment import run_time_alignment
-from aiconnex_ml.shared.data.quality_checks import run_quality_checks
-from aiconnex_ml.shared.data.contract import enforce_contract
-from aiconnex_ml.shared.features.rolling import add_rolling_features, add_trend_features
-from aiconnex_ml.shared.features.lag import add_lag_features, add_diff_features
-from aiconnex_ml.shared.features.spectral import add_statistical_spectral_features
-from aiconnex_ml.shared.features.scaling import fit_and_apply_all_splits, save_scaler
-from aiconnex_ml.shared.features.mode_normalization import (
+from services.aiconnex_ml.shared.data.schema_mapping import run_schema_mapping
+from services.aiconnex_ml.shared.data.time_alignment import run_time_alignment
+from services.aiconnex_ml.shared.data.quality_checks import run_quality_checks
+from services.aiconnex_ml.shared.data.contract import enforce_contract
+from services.aiconnex_ml.shared.features.rolling import add_rolling_features, add_trend_features
+from services.aiconnex_ml.shared.features.lag import add_lag_features, add_diff_features
+from services.aiconnex_ml.shared.features.spectral import add_statistical_spectral_features
+from services.aiconnex_ml.shared.features.scaling import fit_and_apply_all_splits, save_scaler
+from services.aiconnex_ml.shared.features.mode_normalization import (
     fit_per_mode_scalers, apply_per_mode_scaling, save_mode_scalers
 )
-from aiconnex_ml.shared.features.validation import run_feature_validation
-from aiconnex_ml.shared.utils.manifest import mark_step_complete
+from services.aiconnex_ml.shared.features.validation import run_feature_validation
+from services.aiconnex_ml.shared.utils.manifest import mark_step_complete
 
 
 def run_engineer_node(
@@ -112,7 +112,7 @@ def run_engineer_node(
         if feat_cfg.get("spectral_features", False):
             vibration_cols = [c for c in sensor_cols if "vib" in c.lower() or "accel" in c.lower() or "s" in c.lower()]
             if vibration_cols:
-                from aiconnex_ml.shared.features.spectral import add_fft_features
+                from services.aiconnex_ml.shared.features.spectral import add_fft_features
                 df = add_fft_features(df, vibration_cols, window=64, n_components=5, group_col=entity_col)
                 df = add_statistical_spectral_features(df, vibration_cols)
 

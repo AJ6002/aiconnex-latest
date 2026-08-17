@@ -17,9 +17,9 @@ PROJECT_ROOT = r"x:\TAS\AICONNEX"
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
-from aiconnex_agent.platform_kb.chunker import HierarchicalChunker, estimate_token_count, compute_sha256
-from aiconnex_agent.platform_kb.normalizer import NormalizedSection
-from aiconnex_agent.platform_kb.schemas import KnowledgeChunkRecord
+from agentic.platform_kb.chunker import HierarchicalChunker, estimate_token_count, compute_sha256
+from agentic.platform_kb.normalizer import NormalizedSection
+from agentic.platform_kb.schemas import KnowledgeChunkRecord
 
 logging.basicConfig(level=logging.INFO)
 

@@ -11,13 +11,13 @@ import re
 import logging
 from typing import Dict, Any, Optional, Literal, List
 
-from aiconnex_agent.platform_kb.schemas import ContextRequest, EvidencePack
-from aiconnex_agent.platform_kb.retrieval_service import RetrievalService
-from aiconnex_agent.platform_kb.terminology_service import TerminologyService
-from aiconnex_agent.platform_kb.methodology_service import MethodologyService
-from aiconnex_agent.platform_kb.equipment_service import EquipmentService
-from aiconnex_agent.platform_kb.standards_service import StandardsService
-from aiconnex_agent.platform_kb.tenant_service import TenantService
+from agentic.platform_kb.schemas import ContextRequest, EvidencePack
+from agentic.platform_kb.retrieval_service import RetrievalService
+from agentic.platform_kb.terminology_service import TerminologyService
+from agentic.platform_kb.methodology_service import MethodologyService
+from agentic.platform_kb.equipment_service import EquipmentService
+from agentic.platform_kb.standards_service import StandardsService
+from agentic.platform_kb.tenant_service import TenantService
 
 logger = logging.getLogger(__name__)
 

@@ -19,9 +19,9 @@ from typing import Any, Dict
 
 from langgraph.types import interrupt
 
-from aiconnex_agent.state import MasterAgentState
-from aiconnex_agent.parser.clarification_generator import ClarificationGenerator
-from aiconnex_agent.schemas import InterruptPayload
+from agentic.state import MasterAgentState
+from agentic.parser.clarification_generator import ClarificationGenerator
+from agentic.schemas import InterruptPayload, InterruptOption
 
 logger = logging.getLogger(__name__)
 
@@ -40,10 +40,20 @@ def real_clarification_node(state: MasterAgentState) -> Dict[str, Any]:
 
     questions = clarification_generator.generate(state.cuc)
 
+    options = []
+    goal = state.cuc.goal if hasattr(state.cuc, "goal") else {}
+    intent = goal.primary_intent if hasattr(goal, "primary_intent") else (goal.get("primary_intent") if isinstance(goal, dict) else "general")
+    if intent in ("general", "unknown", ""):
+        options = [
+            InterruptOption(option_id="compile", label="Compile Dataset (.zip)", description="Upload and compile multi-table archive"),
+            InterruptOption(option_id="rul", label="Predict Remaining Useful Life (RUL)", description="Time-to-failure regression modeling"),
+            InterruptOption(option_id="anomaly", label="Detect Sensor Anomalies", description="Unsupervised anomaly detection on SCADA telemetry"),
+        ]
+
     payload = InterruptPayload(
         interrupt_type="clarification",
         questions=questions,
-        options=[],
+        options=options,
         reason="Parser confidence below 0.85 or required CUC fields missing",
     )
 

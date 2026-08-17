@@ -14,13 +14,13 @@ Tests:
 
 import os
 import pytest
-from aiconnex_agent.platform_kb.schemas import (
+from agentic.platform_kb.schemas import (
     TerminologyTermRecord,
     CanonicalTermRelation,
     CanonicalTermResolution,
 )
-from aiconnex_agent.platform_kb.terminology_service import TerminologyService
-from aiconnex_agent.platform_kb.context_builder import ContextBuilder
+from agentic.platform_kb.terminology_service import TerminologyService
+from agentic.platform_kb.context_builder import ContextBuilder
 
 
 @pytest.fixture

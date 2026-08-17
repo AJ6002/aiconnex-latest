@@ -28,12 +28,12 @@ import json
 import pytest
 from pathlib import Path
 
-from aiconnex_agent.platform_kb.config import get_kb_config
-from aiconnex_agent.platform_kb.db_client import KBInfraClient
-from aiconnex_agent.platform_kb.source_register import SourceRegisterManager
-from aiconnex_agent.platform_kb.retrieval_service import RetrievalService
-from aiconnex_agent.platform_kb.context_builder import ContextBuilder
-from aiconnex_agent.platform_kb.schemas import ContextRequest
+from agentic.platform_kb.config import get_kb_config
+from agentic.platform_kb.db_client import KBInfraClient
+from agentic.platform_kb.source_register import SourceRegisterManager
+from agentic.platform_kb.retrieval_service import RetrievalService
+from agentic.platform_kb.context_builder import ContextBuilder
+from agentic.platform_kb.schemas import ContextRequest
 
 pytestmark = pytest.mark.integration
 

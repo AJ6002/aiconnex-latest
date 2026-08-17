@@ -32,11 +32,11 @@ from typing import Any, Dict
 # Repositories & packages on sys.path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
-sys.path.insert(0, str(REPO_ROOT / "chatbot" / "backend"))
+sys.path.insert(0, str(REPO_ROOT / "backend"))
 
 from dotenv import load_dotenv
 load_dotenv(REPO_ROOT / ".env")
-load_dotenv(REPO_ROOT / "chatbot" / "backend" / ".env")
+load_dotenv(REPO_ROOT / "backend" / ".env")
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger("ScoutIntelligenceEval")
@@ -44,7 +44,7 @@ logger = logging.getLogger("ScoutIntelligenceEval")
 
 def run_scout_parsing(input_path: Path, output_dir: Path) -> Dict[str, Any]:
     """Execute UnifiedCompiler & RecipeCatalogBuilder on target dataset/ZIP."""
-    from aiconnex_zip_compiler.compiler import UnifiedCompiler
+    from services.aiconnex_zip_compiler.compiler import UnifiedCompiler
 
     t0 = time.time()
     logger.info(f"Step 1: Running UnifiedCompiler on '{input_path.name}'...")
@@ -74,7 +74,7 @@ def run_scout_parsing(input_path: Path, output_dir: Path) -> Dict[str, Any]:
 
     # Step 2: RecipeCatalogBuilder enrichment
     logger.info("Step 2: Running build_recipe_catalog for rich feature catalog & recipe generation...")
-    from aiconnex_agent.scout.recipe_catalog_builder import build_recipe_catalog
+    from agentic.scout.recipe_catalog_builder import build_recipe_catalog
     dic = build_recipe_catalog(csv_file)
 
     if hasattr(dic, "model_dump"):
@@ -144,7 +144,7 @@ Respond strictly in valid JSON format matching this schema:
 """
 
     try:
-        from aiconnex_agent.llm import get_llm
+        from agentic.llm import get_llm
         llm = get_llm(temperature=0.1)
         response = llm.invoke(prompt)
         content = response.content if hasattr(response, "content") else str(response)

@@ -15,13 +15,13 @@ from __future__ import annotations
 import logging
 from typing import Dict, Any
 
-from aiconnex_agent.state import MasterAgentState
-from aiconnex_agent.parser.prompt_builder import PromptBuilder
-from aiconnex_agent.parser.context_manager import ContextManager
-from aiconnex_agent.parser.semantic_extractor import SemanticExtractor
-from aiconnex_agent.parser.output_validator import StructuredOutputValidator
-from aiconnex_agent.parser.confidence_scorer import ConfidenceScorer
-from aiconnex_agent.parser.clarification_generator import ClarificationGenerator
+from agentic.state import MasterAgentState
+from agentic.parser.prompt_builder import PromptBuilder
+from agentic.parser.context_manager import ContextManager
+from agentic.parser.semantic_extractor import SemanticExtractor
+from agentic.parser.output_validator import StructuredOutputValidator
+from agentic.parser.confidence_scorer import ConfidenceScorer
+from agentic.parser.clarification_generator import ClarificationGenerator
 
 logger = logging.getLogger(__name__)
 

@@ -36,14 +36,14 @@ def _make_csv(tmp_path, rows=200):
 # ── Tests ────────────────────────────────────────────────────────────────────
 
 def test_schema_map_infers_datetime(tmp_path):
-    from aiconnex_agent.scout.recipe_catalog_builder import build_recipe_catalog
+    from agentic.scout.recipe_catalog_builder import build_recipe_catalog
     csv_path = _make_csv(tmp_path)
     catalog = build_recipe_catalog(csv_path)
     assert catalog["schema_map"].get("date") == "datetime"
 
 
 def test_schema_map_infers_numeric(tmp_path):
-    from aiconnex_agent.scout.recipe_catalog_builder import build_recipe_catalog
+    from agentic.scout.recipe_catalog_builder import build_recipe_catalog
     csv_path = _make_csv(tmp_path)
     catalog = build_recipe_catalog(csv_path)
     assert catalog["schema_map"].get("TDS") == "numeric"
@@ -51,7 +51,7 @@ def test_schema_map_infers_numeric(tmp_path):
 
 
 def test_target_candidates_excludes_low_variance(tmp_path):
-    from aiconnex_agent.scout.recipe_catalog_builder import build_recipe_catalog
+    from agentic.scout.recipe_catalog_builder import build_recipe_catalog
     csv_path = _make_csv(tmp_path)
     catalog = build_recipe_catalog(csv_path)
     # All high-variance numeric columns should be candidates
@@ -60,14 +60,14 @@ def test_target_candidates_excludes_low_variance(tmp_path):
 
 
 def test_recipes_not_empty(tmp_path):
-    from aiconnex_agent.scout.recipe_catalog_builder import build_recipe_catalog
+    from agentic.scout.recipe_catalog_builder import build_recipe_catalog
     csv_path = _make_csv(tmp_path)
     catalog = build_recipe_catalog(csv_path)
     assert len(catalog["recipes"]) > 0
 
 
 def test_recipes_include_anomaly(tmp_path):
-    from aiconnex_agent.scout.recipe_catalog_builder import build_recipe_catalog
+    from agentic.scout.recipe_catalog_builder import build_recipe_catalog
     csv_path = _make_csv(tmp_path)
     catalog = build_recipe_catalog(csv_path)
     tasks = [r["task"] for r in catalog["recipes"]]
@@ -75,7 +75,7 @@ def test_recipes_include_anomaly(tmp_path):
 
 
 def test_recipes_include_forecast_when_datetime(tmp_path):
-    from aiconnex_agent.scout.recipe_catalog_builder import build_recipe_catalog
+    from agentic.scout.recipe_catalog_builder import build_recipe_catalog
     csv_path = _make_csv(tmp_path)
     catalog = build_recipe_catalog(csv_path)
     tasks = [r["task"] for r in catalog["recipes"]]
@@ -84,7 +84,7 @@ def test_recipes_include_forecast_when_datetime(tmp_path):
 
 def test_hitl_dynamic_prompt_from_recipes():
     import sys
-    sys.path.insert(0, "chatbot/backend")
+    sys.path.insert(0, "backend")
     from hitl_flow import _build_recipe_opening
     dic_context = {
         "dataset_identity": {"name": "HTDS-v1"},
@@ -102,14 +102,14 @@ def test_hitl_dynamic_prompt_from_recipes():
 
 def test_hitl_fallback_when_no_recipes():
     import sys
-    sys.path.insert(0, "chatbot/backend")
+    sys.path.insert(0, "backend")
     from hitl_flow import _build_recipe_opening, _FALLBACK_OPENING_MESSAGE
     prompt = _build_recipe_opening({"recipes": []})
     assert prompt == _FALLBACK_OPENING_MESSAGE
 
 
 def test_intent_plan_mapper_has_no_platform_in_initial_plan():
-    from aiconnex_agent.planning.intent_plan_mapper import IntentPlanMapper
+    from agentic.planning.intent_plan_mapper import IntentPlanMapper
     mapper = IntentPlanMapper()
     for intent in ("train_rul", "detect_anomalies", "predict"):
         plan = mapper.get_plan(intent)
@@ -118,7 +118,7 @@ def test_intent_plan_mapper_has_no_platform_in_initial_plan():
 
 
 def test_intent_plan_mapper_get_platform_steps():
-    from aiconnex_agent.planning.intent_plan_mapper import IntentPlanMapper
+    from agentic.planning.intent_plan_mapper import IntentPlanMapper
     mapper = IntentPlanMapper()
     steps = mapper.get_platform_steps("REGRESSION", "Predict TDS")
     agents = [s["target_agent"] for s in steps]

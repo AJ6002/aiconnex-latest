@@ -15,8 +15,8 @@ from __future__ import annotations
 import os
 from typing import Optional
 
-from aiconnex_agent.memory.backends.base import SemanticMemoryBackend
-from aiconnex_agent.memory.backends.local_fake import LocalFakeBackend
+from agentic.memory.backends.base import SemanticMemoryBackend
+from agentic.memory.backends.local_fake import LocalFakeBackend
 
 _default_backend: Optional[SemanticMemoryBackend] = None
 
@@ -30,7 +30,7 @@ def _build_backend() -> SemanticMemoryBackend:
     if backend_name == "mem0":
         # Lazy import: mem0_adapter.py itself guards the `mem0ai` dependency
         # and raises a clear RuntimeError if it isn't installed.
-        from aiconnex_agent.memory.backends.mem0_adapter import Mem0Backend
+        from agentic.memory.backends.mem0_adapter import Mem0Backend
         return Mem0Backend()
 
     raise ValueError(

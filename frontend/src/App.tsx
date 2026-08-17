@@ -28,6 +28,7 @@ import { CompilerView } from './views/CompilerView';
 import { DagInspectorView } from './views/DagInspectorView';
 import { WorkflowView } from './views/WorkflowView';
 import { PipelineStudioView } from './views/PipelineStudioView';
+import { PipelineNodeView } from './views/PipelineNodeView';
 import { MasterDataView } from './views/MasterDataView';
 import { TemplatesView } from './views/TemplatesView';
 import { WorkspaceView } from './views/WorkspaceView';
@@ -51,6 +52,10 @@ export default function App() {
   const [pendingView, setPendingView] = useState<ViewMode | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isChatModalOpen, setIsChatModalOpen] = useState(false);
+  const [isChatDocked, setIsChatDocked] = useState(false);
+  const [janeSessionId, setJaneSessionId] = useState<string | null>(null);
+  const [janeNarration, setJaneNarration] = useState<{ text: string; node?: string } | null>(null);
+  const [activeInterrupt, setActiveInterrupt] = useState<any>(null);
 
   const navigateTo = (view: ViewMode) => {
     if (view === currentView) return;
@@ -789,6 +794,10 @@ export default function App() {
                 setCurrentView('pipeline_studio');
               }}
               onApproveDeliverables={() => {
+                setJaneNarration({
+                  text: "🚀 [Step 13/14] **Platform Agent** — Deliverables Approved & Dispatched to ML Studio!\n\nInitiated candidate model training across LightGBM, XGBoost, and Random Forest ensembling. Comparing evaluation leaderboards…",
+                  node: "platform_agent_node"
+                });
                 const targetPath = compiledCsvPath || 'workspace_data/ds1_FD001/C-MAPSS_FD001_train.csv';
                 const form = new FormData();
                 form.append('file_path', targetPath);
@@ -829,12 +838,23 @@ export default function App() {
             <CompilerView
               initialPrompt={userPrompt}
               initialInputs={initialOnboardingInputs}
+              janeSessionId={janeSessionId}
+              onJaneNarration={(msg, node) => setJaneNarration({ text: msg, node })}
+              onJaneInterrupt={(payload) => setActiveInterrupt(payload)}
+              onUploadStarted={(_filename) => {
+                // When upload begins, undock Jane so she comes to the center as the primary interface!
+                setIsChatDocked(false);
+                setIsChatModalOpen(true);
+              }}
               onSendToMLOps={handleSendToMLOpsFromCompiler}
-              onCompilationFinished={(csvPath, filename, profileData) => {
+              onCompilationFinished={(csvPath, _filename, profileData) => {
+                if (!csvPath || csvPath.toLowerCase().endsWith('.zip') || csvPath.toLowerCase().endsWith('.tar')) {
+                  console.error('[App] onCompilationFinished received invalid CSV path:', csvPath);
+                  return;
+                }
                 setCompiledCsvPath(csvPath);
-                if (profileData && profileData.profile) {
+                if (profileData && profileData.profile && !profileData.profile.error) {
                   const prof = profileData.profile;
-                  // If profile contains raw_file_path or similar, derive a unique run_id
                   const randHex = Math.floor(Math.random() * 0xffffffff).toString(16).padStart(8, '0');
                   setActiveRunId('run_' + randHex);
                   setActiveDagId(prof.recommended_dag_id || 'DAG_514');
@@ -845,6 +865,8 @@ export default function App() {
                   setActiveDagId('DAG_514');
                   setActiveFamily('Regression');
                 }
+                // When real compilation finishes, dock Jane to the bottom-right corner and transition to data explorer!
+                setIsChatDocked(true);
                 setCurrentView('data_explorer');
               }}
               fifoQueue={fifoQueue}
@@ -929,12 +951,13 @@ export default function App() {
           )}
 
           {(currentView === 'vg1' || currentView === 'vg2') && (
-            <PipelineStudioView
+            <PipelineNodeView
+              nodeNumber={currentView === 'vg1' ? 7 : 8}
               compiledCsvPath={compiledCsvPath}
               runId={activeRunId}
               dagId={activeDagId}
-              family={activeFamily}
-              onNavigateTo={navigateTo}
+              algorithmFamily={activeFamily}
+              onProceed={() => navigateTo(currentView === 'vg1' ? 'vg2' : 'model_explorer')}
             />
           )}
         </div>
@@ -963,8 +986,24 @@ export default function App() {
       {/* Global Jane Chatbot Modal Window */}
       <ChatBotModal
         isOpen={isChatModalOpen}
-        onClose={() => setIsChatModalOpen(false)}
+        onClose={() => {
+          setIsChatModalOpen(false);
+          setIsChatDocked(false);
+        }}
         onNavigateView={(v) => navigateTo(v as ViewMode)}
+        isDocked={isChatDocked}
+        onDockChange={setIsChatDocked}
+        onSessionCreated={setJaneSessionId}
+        onUploadRequested={() => {
+          setIsChatDocked(true);
+          setIsChatModalOpen(true);
+          navigateTo('compiler');
+        }}
+        externalNarration={janeNarration?.text || null}
+        externalNarrationNode={janeNarration?.node || null}
+        interruptData={activeInterrupt}
+        onInterruptResolved={() => setActiveInterrupt(null)}
+        activeSessionId={janeSessionId}
       />
 
       {/* Persistent Footer Status Bar */}

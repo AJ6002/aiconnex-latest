@@ -22,8 +22,8 @@ import logging
 from pathlib import Path
 from typing import Any, Dict, List, Set
 
-from aiconnex_agent.schemas import RelationshipEdge, RelationshipGraph
-from aiconnex_agent.state import MasterAgentState
+from agentic.schemas import RelationshipEdge, RelationshipGraph
+from agentic.state import MasterAgentState
 
 logger = logging.getLogger(__name__)
 

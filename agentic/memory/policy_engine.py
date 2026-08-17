@@ -18,7 +18,7 @@ from __future__ import annotations
 from typing import Literal, Optional
 from pydantic import BaseModel, Field
 
-from aiconnex_agent.memory.events import BaseEvent
+from agentic.memory.events import BaseEvent
 
 Action = Literal["retain_full", "retain_summary", "aggregate", "discard"]
 Layer = Literal["session", "entity", "procedural", "decision"]

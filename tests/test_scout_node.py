@@ -17,8 +17,8 @@ from unittest.mock import patch, MagicMock
 import pandas as pd
 import pytest
 
-from aiconnex_agent.state import MasterAgentState
-from aiconnex_agent.scout.scout_node import real_scout_agent_node
+from agentic.state import MasterAgentState
+from agentic.scout.scout_node import real_scout_agent_node
 
 
 @pytest.fixture(autouse=True)
@@ -52,7 +52,7 @@ def multi_condition_zip(tmp_path):
 
 def test_scout_flags_missing_upload_path_instead_of_faking_data():
     state = MasterAgentState()  # no upload_path set
-    with patch("aiconnex_agent.scout.scout_node.interrupt", return_value="ok") as mock_interrupt:
+    with patch("agentic.scout.scout_node.interrupt", return_value="ok") as mock_interrupt:
         res = real_scout_agent_node(state)
 
     assert mock_interrupt.called
@@ -85,7 +85,7 @@ def test_scout_retries_once_then_flags_failure(tmp_path):
     bad_zip.write_bytes(b"not a real zip file")
     state = MasterAgentState(upload_path=str(bad_zip))
 
-    with patch("aiconnex_agent.scout.scout_node.interrupt", return_value="ok") as mock_interrupt:
+    with patch("agentic.scout.scout_node.interrupt", return_value="ok") as mock_interrupt:
         res = real_scout_agent_node(state)
 
     assert mock_interrupt.called
@@ -101,10 +101,10 @@ def test_scout_compile_retry_actually_runs_compile_twice_on_failure(tmp_path):
     bad_zip.write_bytes(b"not a real zip file")
     state = MasterAgentState(upload_path=str(bad_zip))
 
-    with patch("aiconnex_agent.scout.scout_node.interrupt", return_value="ok"):
+    with patch("agentic.scout.scout_node.interrupt", return_value="ok"):
         with patch("aiconnex_zip_compiler.compiler.UnifiedCompiler.compile") as mock_compile:
-            from aiconnex_zip_compiler.compiler import CompileResult
-            from aiconnex_zip_compiler.handoff import HandoffArtifacts
+            from services.aiconnex_zip_compiler.compiler import CompileResult
+            from services.aiconnex_zip_compiler.handoff import HandoffArtifacts
             mock_compile.return_value = CompileResult(
                 input_zip=str(bad_zip), output_dir="out", merged_files=[], combined_file=None,
                 artifacts=HandoffArtifacts({}, None, Path(""), Path(""), Path(""), Path("")),
@@ -118,7 +118,7 @@ def test_scout_compile_retry_actually_runs_compile_twice_on_failure(tmp_path):
 # --- Gap 4: CompilerRequest flags actually reach UnifiedCompiler ---
 
 def test_scout_passes_compiler_request_flags_to_unified_compiler(single_table_zip):
-    from aiconnex_agent.schemas import PreCompilerContract, CompilerRequest
+    from agentic.schemas import PreCompilerContract, CompilerRequest
 
     state = MasterAgentState(
         upload_path=str(single_table_zip),
@@ -127,8 +127,8 @@ def test_scout_passes_compiler_request_flags_to_unified_compiler(single_table_zi
 
     with patch("aiconnex_zip_compiler.compiler.UnifiedCompiler.__init__", return_value=None) as mock_init:
         with patch("aiconnex_zip_compiler.compiler.UnifiedCompiler.compile") as mock_compile:
-            from aiconnex_zip_compiler.compiler import CompileResult
-            from aiconnex_zip_compiler.handoff import HandoffArtifacts
+            from services.aiconnex_zip_compiler.compiler import CompileResult
+            from services.aiconnex_zip_compiler.handoff import HandoffArtifacts
             mock_compile.return_value = CompileResult(
                 input_zip=str(single_table_zip), output_dir="out", merged_files=[], combined_file=None,
                 artifacts=HandoffArtifacts({}, None, Path(""), Path(""), Path(""), Path("")),
@@ -146,7 +146,7 @@ def test_scout_passes_compiler_request_flags_to_unified_compiler(single_table_zi
 def test_scout_asks_user_when_multiple_real_strategies_exist(multi_condition_zip):
     state = MasterAgentState(upload_path=str(multi_condition_zip))
 
-    with patch("aiconnex_agent.scout.scout_node.interrupt", return_value="unified_all_conditions") as mock_interrupt:
+    with patch("agentic.scout.scout_node.interrupt", return_value="unified_all_conditions") as mock_interrupt:
         res = real_scout_agent_node(state)
 
     assert mock_interrupt.called
@@ -161,7 +161,7 @@ def test_scout_asks_user_when_multiple_real_strategies_exist(multi_condition_zip
 def test_scout_does_not_ask_when_only_one_real_strategy_exists(single_table_zip):
     state = MasterAgentState(upload_path=str(single_table_zip))
 
-    with patch("aiconnex_agent.scout.scout_node.interrupt") as mock_interrupt:
+    with patch("agentic.scout.scout_node.interrupt") as mock_interrupt:
         real_scout_agent_node(state)
 
     # Single-table zip -> IntentClassifier returns exactly 1 option -> no interrupt.

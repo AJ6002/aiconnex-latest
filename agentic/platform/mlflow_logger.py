@@ -3,7 +3,7 @@
 MLflow Logger — Backward-Compatible Facade
 ============================================
 This module is now a thin facade that delegates to
-``aiconnex_agent.telemetry.emitters.PlatformEmitter``.
+``agentic.telemetry.emitters.PlatformEmitter``.
 
 MLflow tracking has been promoted to a cross-cutting Telemetry
 infrastructure service (aiconnex_agent/telemetry/) so that Planner,
@@ -13,7 +13,7 @@ a single per-session experiment.
 Public API is fully preserved for backward compatibility with any existing
 callers (platform_node.py, tests, external scripts):
 
-    from aiconnex_agent.platform.mlflow_logger import log_experiment
+    from agentic.platform.mlflow_logger import log_experiment
     log_experiment(session_id, selection_result, scorer_reports, judge_reports)
 """
 
@@ -24,7 +24,7 @@ from typing import Any, Dict, List, Optional
 
 import numpy as np
 
-from aiconnex_agent.schemas import ScorerReport, JudgeReport, SelectionResult
+from agentic.schemas import ScorerReport, JudgeReport, SelectionResult
 
 logger = logging.getLogger(__name__)
 
@@ -54,7 +54,7 @@ def log_experiment(
         and ``status`` keys.
     """
     try:
-        from aiconnex_agent.telemetry.emitters import PlatformEmitter
+        from agentic.telemetry.emitters import PlatformEmitter
         emitter = PlatformEmitter()
         return emitter.log_experiment(
             session_id=session_id,

@@ -6,7 +6,7 @@ Unit test suite for Platform KB SourceRegisterManager.
 
 import os
 import pytest
-from aiconnex_agent.platform_kb.source_register import SourceRegisterManager, DEFAULT_REGISTER_CSV
+from agentic.platform_kb.source_register import SourceRegisterManager, DEFAULT_REGISTER_CSV
 
 
 def test_source_register_manager_loads_approved_sources():

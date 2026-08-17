@@ -21,12 +21,12 @@ import logging
 import re
 from typing import Any, Dict
 
-from aiconnex_agent.state import MasterAgentState
-from aiconnex_agent.memory.events import make_event
-from aiconnex_agent.memory.event_store import get_event_store
-from aiconnex_agent.memory.policy_engine import MemoryPolicyEngine
-from aiconnex_agent.memory.memory_builder import MemoryBuilder
-from aiconnex_agent.memory.backends.factory import get_semantic_backend
+from agentic.state import MasterAgentState
+from agentic.memory.events import make_event
+from agentic.memory.event_store import get_event_store
+from agentic.memory.policy_engine import MemoryPolicyEngine
+from agentic.memory.memory_builder import MemoryBuilder
+from agentic.memory.backends.factory import get_semantic_backend
 
 logger = logging.getLogger(__name__)
 
@@ -54,7 +54,7 @@ def _resolve_workflow_id(state: MasterAgentState) -> str:
 def _emit_memory_telemetry(workflow_id: str, event_count: int, bank_context: dict, semantic_hits: list) -> None:
     """Emit telemetry metrics for the memory layer."""
     try:
-        from aiconnex_agent.telemetry.emitters import MemoryEmitter
+        from agentic.telemetry.emitters import MemoryEmitter
         MemoryEmitter().emit(
             session_id=workflow_id,
             event_count=event_count,

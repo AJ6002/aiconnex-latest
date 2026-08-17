@@ -17,14 +17,14 @@ import json
 import logging
 from typing import Dict, List, Any, Optional, Literal
 
-from aiconnex_agent.platform_kb.schemas import (
+from agentic.platform_kb.schemas import (
     TerminologyTermRecord,
     CanonicalTermRelation,
     CanonicalTermResolution,
     ContextRequest,
 )
-from aiconnex_agent.platform_kb.db_client import KBInfraClient
-from aiconnex_agent.platform_kb.embedder import EmbeddingEngine, QdrantUpserter
+from agentic.platform_kb.db_client import KBInfraClient
+from agentic.platform_kb.embedder import EmbeddingEngine, QdrantUpserter
 
 logger = logging.getLogger(__name__)
 

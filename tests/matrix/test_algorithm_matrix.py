@@ -13,9 +13,9 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from aiconnex_ml.regression.registry import REGRESSION_REGISTRY, get_algorithm as get_reg_algo
-from aiconnex_ml.anomaly.registry import ANOMALY_REGISTRY, get_algorithm as get_anom_algo
-from aiconnex_ml.anomaly.trainer import _score_model
+from services.aiconnex_ml.regression.registry import REGRESSION_REGISTRY, get_algorithm as get_reg_algo
+from services.aiconnex_ml.anomaly.registry import ANOMALY_REGISTRY, get_algorithm as get_anom_algo
+from services.aiconnex_ml.anomaly.trainer import _score_model
 
 
 @pytest.fixture

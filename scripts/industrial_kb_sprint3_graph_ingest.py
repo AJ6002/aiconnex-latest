@@ -10,7 +10,7 @@ import os
 import yaml
 import logging
 from neo4j import GraphDatabase
-from aiconnex_agent.platform_kb.config import get_kb_config
+from agentic.platform_kb.config import get_kb_config
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger("MLGraphIngest")

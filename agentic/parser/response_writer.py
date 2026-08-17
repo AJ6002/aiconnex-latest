@@ -29,11 +29,11 @@ import logging
 import re
 from typing import Optional
 
-from aiconnex_agent.llm import get_llm
-from aiconnex_agent.parser.clarification_generator import ClarificationGenerator
-from aiconnex_agent.registries.registry_loader import get_field_value
-from aiconnex_agent.schemas import ConversationPlan, ConversationUnderstandingContract
-from aiconnex_agent.state import MasterAgentState
+from agentic.llm import get_llm
+from agentic.parser.clarification_generator import ClarificationGenerator
+from agentic.registries.registry_loader import get_field_value
+from agentic.schemas import ConversationPlan, ConversationUnderstandingContract
+from agentic.state import MasterAgentState
 
 logger = logging.getLogger(__name__)
 
@@ -177,7 +177,7 @@ def response_writer_node(state: MasterAgentState) -> dict:
     new user turn.
 
     Reuses interrupt_type='clarification' for ask/summarize/confirm alike —
-    from the existing SSE consumer's perspective (chatbot/backend/app.py's
+    from the existing SSE consumer's perspective (backend/app.py's
     _stream_agent_events, ChatView.tsx) this is identical to "the bot said
     something and is waiting for a reply", requiring no new frontend work.
     """
@@ -190,7 +190,7 @@ def response_writer_node(state: MasterAgentState) -> dict:
     logger.info(f"[ResponseWriter] action={plan.action} -> {len(text)} chars")
 
     from langgraph.types import interrupt
-    from aiconnex_agent.schemas import InterruptPayload
+    from agentic.schemas import InterruptPayload
 
     payload = InterruptPayload(
         interrupt_type="clarification",

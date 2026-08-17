@@ -2,8 +2,8 @@
 import os
 import pytest
 
-from aiconnex_agent.memory.backends.local_fake import LocalFakeBackend
-from aiconnex_agent.memory.backends.factory import get_semantic_backend, reset_semantic_backend
+from agentic.memory.backends.local_fake import LocalFakeBackend
+from agentic.memory.backends.factory import get_semantic_backend, reset_semantic_backend
 
 
 @pytest.fixture(autouse=True)

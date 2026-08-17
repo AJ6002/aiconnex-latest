@@ -5,8 +5,8 @@ from pathlib import Path
 
 import pandas as pd
 import pytest
-from aiconnex_agent.runner import execute_and_stream
-from aiconnex_agent.state import MasterAgentState
+from agentic.runner import execute_and_stream
+from agentic.state import MasterAgentState
 
 
 @pytest.fixture(autouse=True)
@@ -29,7 +29,8 @@ def test_execute_and_stream(tmp_path):
     )
     events = list(execute_and_stream(initial_state, thread_id="runner_thread_1"))
     
-    assert len(events) >= 5
+    assert len(events) >= 3
     node_names = [e["node"] for e in events if "node" in e]
     assert "conversation_parser_node" in node_names
-    assert "scout_agent_node" in node_names
+    assert "intent_extraction_node" in node_names
+    assert "contract_manager_node" in node_names

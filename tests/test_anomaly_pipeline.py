@@ -5,9 +5,9 @@ test_anomaly_pipeline.py - Anomaly detection pipeline smoke tests
 import numpy as np
 import pandas as pd
 import pytest
-from aiconnex_ml.anomaly.threshold import ThresholdCalibrator
-from aiconnex_ml.anomaly.evaluation import compute_anomaly_metrics
-from aiconnex_ml.anomaly.drift import AnomalyDriftPolicy, compute_psi
+from services.aiconnex_ml.anomaly.threshold import ThresholdCalibrator
+from services.aiconnex_ml.anomaly.evaluation import compute_anomaly_metrics
+from services.aiconnex_ml.anomaly.drift import AnomalyDriftPolicy, compute_psi
 
 
 def _make_anomaly_data(n_normal=400, n_anomaly=20, n_features=8, random_seed=42):

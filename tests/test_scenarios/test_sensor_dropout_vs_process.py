@@ -25,10 +25,10 @@ import pytest
 
 pytestmark = pytest.mark.tier3
 
-from aiconnex_ml.shared.data.quality_checks import detect_stuck_sensors, check_null_rates
-from aiconnex_ml.regression.robustness import run_robustness_tests
-from aiconnex_ml.regression.baselines import run_baselines
-from aiconnex_ml.regression.evaluation import compute_regression_metrics
+from services.aiconnex_ml.shared.data.quality_checks import detect_stuck_sensors, check_null_rates
+from services.aiconnex_ml.regression.robustness import run_robustness_tests
+from services.aiconnex_ml.regression.baselines import run_baselines
+from services.aiconnex_ml.regression.evaluation import compute_regression_metrics
 
 
 # -- Fixtures -------------------------------------------------------------------

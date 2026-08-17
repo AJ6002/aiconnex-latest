@@ -211,7 +211,7 @@ def _run_training_job(job_id: str, payload: TrainPayload):
 
         # ── 3. VG_1 Data Quality Gate (pre-train validation) ─────────────────
         try:
-            from aiconnex_ml.shared.data.validation_gate_1 import check_vg1
+            from services.aiconnex_ml.shared.data.validation_gate_1 import check_vg1
             is_valid, vg1_report = check_vg1(manifest, df_train)
             JOBS[job_id]["vg1_report"] = vg1_report
             manifest.setdefault("quality_gate_metrics", {})
@@ -385,7 +385,7 @@ def _run_training_job(job_id: str, payload: TrainPayload):
         # ── 7. Try training with the real aiconnex_ml modeling track ─────────
         if is_regression:
             try:
-                from aiconnex_ml.regression.trainer import RegressionTrainer
+                from services.aiconnex_ml.regression.trainer import RegressionTrainer
                 print(f"[TrainNode] Running aiconnex_ml.regression.trainer.RegressionTrainer for '{clean_algo}'...")
 
                 # Construct pre-split datasets for validation HPO
@@ -440,7 +440,7 @@ def _run_training_job(job_id: str, payload: TrainPayload):
 
         else:
             try:
-                from aiconnex_ml.anomaly.trainer import AnomalyTrainer
+                from services.aiconnex_ml.anomaly.trainer import AnomalyTrainer
                 print(f"[TrainNode] Running aiconnex_ml.anomaly.trainer.AnomalyTrainer for '{clean_algo}'...")
 
                 manifest.setdefault("candidate_algorithms", [clean_algo])

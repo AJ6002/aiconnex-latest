@@ -7,7 +7,7 @@ Guarantees the plan is never empty/unroutable.
 
 from __future__ import annotations
 from typing import Any, Dict, List
-from aiconnex_agent.schemas import ExecutionPlan, TaskStep
+from agentic.schemas import ExecutionPlan, TaskStep
 
 _VALID_AGENTS = {"scout", "platform", "memory"}
 

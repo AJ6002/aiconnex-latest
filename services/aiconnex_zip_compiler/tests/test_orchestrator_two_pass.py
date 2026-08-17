@@ -9,14 +9,14 @@ from unittest.mock import MagicMock
 import pandas as pd
 import pytest
 
-from aiconnex_zip_compiler.intelligence.models import (
+from services.aiconnex_zip_compiler.intelligence.models import (
     IntelligenceReport,
     ProblemHypothesis,
     SchemaRoles,
     SemanticLabel,
     TableMetadata,
 )
-from aiconnex_zip_compiler.intelligence.orchestrator import IntelligenceOrchestrator
+from services.aiconnex_zip_compiler.intelligence.orchestrator import IntelligenceOrchestrator
 
 
 def test_decoupled_telemetry_headless_mode():

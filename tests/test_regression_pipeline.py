@@ -6,10 +6,10 @@ Uses synthetic data so it runs without any external files.
 import numpy as np
 import pandas as pd
 import pytest
-from aiconnex_ml.regression.baselines import run_baselines
-from aiconnex_ml.regression.evaluation import compute_regression_metrics
-from aiconnex_ml.regression.robustness import run_robustness_tests
-from aiconnex_ml.regression.losses import asymmetric_rul_score
+from services.aiconnex_ml.regression.baselines import run_baselines
+from services.aiconnex_ml.regression.evaluation import compute_regression_metrics
+from services.aiconnex_ml.regression.robustness import run_robustness_tests
+from services.aiconnex_ml.regression.losses import asymmetric_rul_score
 
 
 def _make_regression_data(n_train=300, n_val=80, n_test=80, n_features=10):

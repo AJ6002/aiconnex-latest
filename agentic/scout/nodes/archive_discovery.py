@@ -30,15 +30,15 @@ from typing import Any, Dict, List
 
 from langgraph.types import interrupt
 
-from aiconnex_agent.schemas import (
+from agentic.schemas import (
     ArchiveManifest,
     ArchiveInventoryItem,
     InterruptPayload,
     InterruptOption,
 )
-from aiconnex_agent.scout.nodes._shared import hash_file
-from aiconnex_agent.scout.strategy_peek import peek_dataset_card_and_options
-from aiconnex_agent.state import MasterAgentState
+from agentic.scout.nodes._shared import hash_file
+from agentic.scout.strategy_peek import peek_dataset_card_and_options
+from agentic.state import MasterAgentState
 
 logger = logging.getLogger(__name__)
 

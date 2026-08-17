@@ -1,7 +1,7 @@
 # tests/test_real_conversation_parser_node.py
 import pytest
-from aiconnex_agent.state import MasterAgentState
-from aiconnex_agent.parser.conversation_parser import real_conversation_parser_node
+from agentic.state import MasterAgentState
+from agentic.parser.conversation_parser import real_conversation_parser_node
 
 
 def test_5_real_user_prompts():

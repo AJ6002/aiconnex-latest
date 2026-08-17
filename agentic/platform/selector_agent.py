@@ -15,7 +15,7 @@ from __future__ import annotations
 import logging
 from typing import Dict, List
 
-from aiconnex_agent.schemas import (
+from agentic.schemas import (
     ScorerReport,
     JudgeReport,
     LeaderboardEntry,

@@ -5,8 +5,8 @@ from pathlib import Path
 import pandas as pd
 import zipfile
 
-from aiconnex_zip_compiler.compiler import UnifiedCompiler, CompileResult
-from aiconnex_zip_compiler.discovery import run_discovery
+from services.aiconnex_zip_compiler.compiler import UnifiedCompiler, CompileResult
+from services.aiconnex_zip_compiler.discovery import run_discovery
 
 def test_excel_and_json_compilation():
     temp_dir = Path(tempfile.mkdtemp(prefix="test_multi_format_"))

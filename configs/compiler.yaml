@@ -1,0 +1,29 @@
+compiler:
+  output_format: parquet
+  preserve_original: true
+  enable_provenance: true
+  enable_parquet_export: true
+
+security:
+  max_upload_gb: 20
+  max_archive_gb: 20
+  max_uncompressed_gb: 100
+  max_files: 10000
+  max_archive_depth: 5
+
+join:
+  max_expansion_factor: 10
+  require_key_validation: true
+  allow_many_to_many: false
+
+agent:
+  auto_execute_threshold: 0.90
+  confirmation_threshold: 0.75
+  max_retries: 3
+
+time:
+  canonical_timezone: UTC
+
+storage:
+  workspace_root: "data/compiler"
+  intermediate_format: parquet

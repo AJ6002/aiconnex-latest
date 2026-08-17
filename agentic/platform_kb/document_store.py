@@ -15,10 +15,10 @@ import logging
 from datetime import datetime, timezone
 from typing import List, Dict, Any, Optional
 
-from aiconnex_agent.platform_kb.config import MinIOConfig
-from aiconnex_agent.platform_kb.db_client import KBInfraClient
-from aiconnex_agent.platform_kb.schemas import KnowledgeSourceRecord
-from aiconnex_agent.platform_kb.source_register import SourceRegisterManager
+from agentic.platform_kb.config import MinIOConfig
+from agentic.platform_kb.db_client import KBInfraClient
+from agentic.platform_kb.schemas import KnowledgeSourceRecord
+from agentic.platform_kb.source_register import SourceRegisterManager
 
 logger = logging.getLogger(__name__)
 

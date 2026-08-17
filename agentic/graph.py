@@ -16,22 +16,22 @@ import os
 from typing import Dict, Any
 from langgraph.graph import StateGraph, START, END
 
-from aiconnex_agent.state import MasterAgentState
+from agentic.state import MasterAgentState
 
 # Pre-Upload chain (unchanged from Task 8)
-from aiconnex_agent.parser.conversation_parser import (
+from agentic.parser.conversation_parser import (
     real_conversation_parser_node,  # legacy — kept importable for older tests
     conversation_manager_node,
     intent_extraction_node,
 )
-from aiconnex_agent.parser.contract_manager import contract_manager_node
-from aiconnex_agent.parser.conversation_planner import conversation_planner_node
-from aiconnex_agent.parser.response_writer import response_writer_node
-from aiconnex_agent.parser.clarification_node import real_clarification_node as clarification_node  # legacy
-from aiconnex_agent.parser.cuc_completion import is_manifest_minimally_complete
+from agentic.parser.contract_manager import contract_manager_node
+from agentic.parser.conversation_planner import conversation_planner_node
+from agentic.parser.response_writer import response_writer_node
+from agentic.parser.clarification_node import real_clarification_node as clarification_node  # legacy
+from agentic.parser.cuc_completion import is_manifest_minimally_complete
 
 # Post-Upload chain — 8-node Scout split (Tasks 2-10) + HITL + Lock + Workflow (Tasks 11-13)
-from aiconnex_agent.scout.nodes import (
+from agentic.scout.nodes import (
     archive_discovery_node,
     structure_analysis_node,
     entity_analysis_node,
@@ -42,18 +42,18 @@ from aiconnex_agent.scout.nodes import (
     statistical_analysis_node,
     exploration_synthesizer_node,
 )
-from aiconnex_agent.planning.hitl_node import hitl_node
-from aiconnex_agent.planning.pipeline_lock import pipeline_lock_node
-from aiconnex_agent.planning.workflow_planner import workflow_planner_node
+from agentic.planning.hitl_node import hitl_node
+from agentic.planning.pipeline_lock import pipeline_lock_node
+from agentic.planning.workflow_planner import workflow_planner_node
 
 # Legacy post-upload nodes — no longer wired, kept importable for archaeology
-from aiconnex_agent.planning.planning_engine import real_planning_engine_node as planning_engine_node  # noqa: F401
-from aiconnex_agent.scout.scout_node import real_scout_agent_node as scout_agent_node  # noqa: F401
-from aiconnex_agent.nodes.plan_evaluator import real_plan_evaluator_node as plan_evaluator_node  # noqa: F401
+from agentic.planning.planning_engine import real_planning_engine_node as planning_engine_node  # noqa: F401
+from agentic.scout.scout_node import real_scout_agent_node as scout_agent_node  # noqa: F401
+from agentic.nodes.plan_evaluator import real_plan_evaluator_node as plan_evaluator_node  # noqa: F401
 
 # Platform + Memory — unchanged, wired as the terminal stages of the new chain
-from aiconnex_agent.platform.platform_node import real_platform_agent_node as platform_agent_node
-from aiconnex_agent.memory.memory_agent import real_memory_agent_node as memory_agent_node
+from agentic.platform.platform_node import real_platform_agent_node as platform_agent_node
+from agentic.memory.memory_agent import real_memory_agent_node as memory_agent_node
 
 
 logger = logging.getLogger(__name__)
@@ -75,7 +75,7 @@ def advise_upload_node(state: MasterAgentState) -> dict:
     always saw upload_path=None and fell into its 'no file' failure branch).
     """
     from langgraph.types import interrupt
-    from aiconnex_agent.schemas import InterruptPayload
+    from agentic.schemas import InterruptPayload
 
     payload = InterruptPayload(
         interrupt_type="advise_upload",
@@ -108,7 +108,7 @@ def upload_gate_node(state: MasterAgentState) -> dict:
     resumed) — matches the v1 responsibility table exactly.
     """
     from langgraph.types import interrupt
-    from aiconnex_agent.schemas import InterruptPayload
+    from agentic.schemas import InterruptPayload
 
     readiness = state.upload_readiness
     missing = readiness.missing_fields if readiness else []
@@ -310,7 +310,7 @@ def build_graph(with_checkpointer: bool = True):
             import sqlite3
 
             _db_dir = os.path.join(
-                os.path.dirname(__file__), "..", "chatbot", "backend", "data", "sessions"
+                os.path.dirname(__file__), "..", "backend", "data", "sessions"
             )
             os.makedirs(_db_dir, exist_ok=True)
             _db_path = os.path.join(_db_dir, "agent_checkpoints.sqlite")

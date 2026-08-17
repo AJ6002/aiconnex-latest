@@ -25,8 +25,8 @@ from __future__ import annotations
 import logging
 from typing import Any, Dict, List
 
-from aiconnex_agent.schemas import WorkflowManifest, WorkflowStage
-from aiconnex_agent.state import MasterAgentState
+from agentic.schemas import WorkflowManifest, WorkflowStage
+from agentic.state import MasterAgentState
 
 logger = logging.getLogger(__name__)
 

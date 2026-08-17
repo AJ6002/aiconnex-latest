@@ -11,11 +11,11 @@ import pytest
 import pandas as pd
 from pathlib import Path
 
-from aiconnex_zip_compiler.plugins.registry import PluginRegistry
-from aiconnex_zip_compiler.plugins.context import PipelineContext, FileInventoryItem
-from aiconnex_zip_compiler.plugins.discovery.archive_manifest_discovery import ArchiveManifestDiscoveryPlugin
-from aiconnex_zip_compiler.plugins.discovery.schema_fingerprint_discovery import SchemaFingerprintDiscoveryPlugin
-from aiconnex_zip_compiler.plugins.discovery.mixed_archive_router import MixedArchiveRouterPlugin
+from services.aiconnex_zip_compiler.plugins.registry import PluginRegistry
+from services.aiconnex_zip_compiler.plugins.context import PipelineContext, FileInventoryItem
+from services.aiconnex_zip_compiler.plugins.discovery.archive_manifest_discovery import ArchiveManifestDiscoveryPlugin
+from services.aiconnex_zip_compiler.plugins.discovery.schema_fingerprint_discovery import SchemaFingerprintDiscoveryPlugin
+from services.aiconnex_zip_compiler.plugins.discovery.mixed_archive_router import MixedArchiveRouterPlugin
 
 
 @pytest.fixture(autouse=True)

@@ -36,7 +36,7 @@ REQUIRED_SCHEMA_KEYS = ["target_column", "features", "time_index", "identifier"]
 
 CONFIG_PATH = os.environ.get(
     "PIPELINE_CONFIG_PATH",
-    os.path.join(os.path.dirname(__file__), "..", "sagemaker_pipeline", "config", "config.json"),
+    os.path.join(os.path.dirname(__file__), "..", "services", "sagemaker_pipeline", "config", "config.json"),
 )
 
 

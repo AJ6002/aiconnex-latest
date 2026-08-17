@@ -24,11 +24,11 @@ import pytest
 
 pytestmark = pytest.mark.tier3
 
-from aiconnex_ml.shared.data.time_alignment import apply_label_lag
-from aiconnex_ml.regression.label_contract import validate_regression_label
-from aiconnex_ml.shared.features.rolling import add_rolling_features
-from aiconnex_ml.shared.features.lag import add_lag_features
-from aiconnex_ml.regression.baselines import run_baselines
+from services.aiconnex_ml.shared.data.time_alignment import apply_label_lag
+from services.aiconnex_ml.regression.label_contract import validate_regression_label
+from services.aiconnex_ml.shared.features.rolling import add_rolling_features
+from services.aiconnex_ml.shared.features.lag import add_lag_features
+from services.aiconnex_ml.regression.baselines import run_baselines
 
 
 # -- Fixtures -------------------------------------------------------------------

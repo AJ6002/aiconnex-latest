@@ -15,10 +15,10 @@ import logging
 from typing import List
 
 import fitz  # PyMuPDF
-from aiconnex_agent.platform_kb.normalizer import MarkdownNormalizer
-from aiconnex_agent.platform_kb.chunker import HierarchicalChunker
-from aiconnex_agent.platform_kb.embedder import EmbeddingEngine, QdrantUpserter
-from aiconnex_agent.platform_kb.schemas import KnowledgeChunkRecord
+from agentic.platform_kb.normalizer import MarkdownNormalizer
+from agentic.platform_kb.chunker import HierarchicalChunker
+from agentic.platform_kb.embedder import EmbeddingEngine, QdrantUpserter
+from agentic.platform_kb.schemas import KnowledgeChunkRecord
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger("MLEmbedder")
@@ -88,7 +88,7 @@ def process_and_embed_ml_documents():
 
     # 3. Vector Embeddings & Qdrant Upsert
     if all_chunks:
-        from aiconnex_agent.platform_kb.schemas import KnowledgeSourceRecord
+        from agentic.platform_kb.schemas import KnowledgeSourceRecord
 
         source_map = {}
         for c in all_chunks:

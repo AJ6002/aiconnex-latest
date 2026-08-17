@@ -1,9 +1,9 @@
 # tests/test_memory_replay.py
 import pytest
-from aiconnex_agent.memory.events import make_event
-from aiconnex_agent.memory.event_store import EventStore
-from aiconnex_agent.memory.policy_engine import MemoryPolicyEngine, RetentionDecision
-from aiconnex_agent.memory.replay import (
+from agentic.memory.events import make_event
+from agentic.memory.event_store import EventStore
+from agentic.memory.policy_engine import MemoryPolicyEngine, RetentionDecision
+from agentic.memory.replay import (
     rebuild_memory_from_events,
     replay_workflow,
     explain_fact,

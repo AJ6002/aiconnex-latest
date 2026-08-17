@@ -16,7 +16,7 @@ import pytest
 
 mem0 = pytest.importorskip("mem0", reason="mem0ai is an optional dependency - not installed by default")
 
-from aiconnex_agent.memory.backends.mem0_adapter import Mem0Backend, _build_mem0_config
+from agentic.memory.backends.mem0_adapter import Mem0Backend, _build_mem0_config
 
 # Second, independent gate for the live-network test below: importorskip only
 # protects against mem0ai being ABSENT. Once mem0ai is actually installed
@@ -73,7 +73,7 @@ def test_mem0_backend_add_and_search_roundtrip():
 def test_mem0_backend_without_install_raises_actionable_runtime_error(monkeypatch):
     """Simulates the mem0ai-absent path even when mem0ai IS installed in this env,
     by patching the module-level _Mem0Memory sentinel back to None."""
-    import aiconnex_agent.memory.backends.mem0_adapter as adapter_module
+    import agentic.memory.backends.mem0_adapter as adapter_module
 
     monkeypatch.setattr(adapter_module, "_Mem0Memory", None)
     with pytest.raises(RuntimeError) as excinfo:

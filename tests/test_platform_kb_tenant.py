@@ -15,16 +15,16 @@ Validates:
 import pytest
 from pydantic import ValidationError
 
-from aiconnex_agent.platform_kb.schemas import (
+from agentic.platform_kb.schemas import (
     TenantRecord,
     ProjectRecord,
     TenantAssetRecord,
     TenantContext,
     ContextRequest,
 )
-from aiconnex_agent.platform_kb.tenant_service import TenantService
-from aiconnex_agent.platform_kb.context_builder import ContextBuilder
-from aiconnex_agent.platform_kb.db_client import KBInfraClient
+from agentic.platform_kb.tenant_service import TenantService
+from agentic.platform_kb.context_builder import ContextBuilder
+from agentic.platform_kb.db_client import KBInfraClient
 
 
 def test_tenant_record_schema():

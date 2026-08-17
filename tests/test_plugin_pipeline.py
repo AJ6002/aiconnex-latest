@@ -13,13 +13,13 @@ import tempfile
 import pytest
 import pandas as pd
 
-from aiconnex_zip_compiler.plugins import (
+from services.aiconnex_zip_compiler.plugins import (
     PluginRegistry,
     PipelineContext,
     AmbiguousPluginMatchError,
     UnsupportedLayoutError,
 )
-from aiconnex_zip_compiler.compiler import UnifiedCompiler
+from services.aiconnex_zip_compiler.compiler import UnifiedCompiler
 
 
 @pytest.fixture(autouse=True)

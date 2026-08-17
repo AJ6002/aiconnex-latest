@@ -28,8 +28,8 @@ from __future__ import annotations
 import logging
 from typing import Any, Dict, List, Tuple
 
-from aiconnex_agent.schemas import ConversationUnderstandingContract, ContradictionRecord, Goal, BusinessContext
-from aiconnex_agent.state import MasterAgentState
+from agentic.schemas import ConversationUnderstandingContract, ContradictionRecord, Goal, BusinessContext
+from agentic.state import MasterAgentState
 
 logger = logging.getLogger(__name__)
 

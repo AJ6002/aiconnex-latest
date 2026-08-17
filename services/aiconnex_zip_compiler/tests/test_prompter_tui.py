@@ -3,10 +3,10 @@ test_prompter_tui.py - Unit tests for expanded HITL TerminalPrompter TUI box & D
 """
 
 from pathlib import Path
-from aiconnex_zip_compiler.intent.models import DatasetCard, IntentOption
-from aiconnex_zip_compiler.intent.card_generator import CardGenerator
-from aiconnex_zip_compiler.intent.classifier import IntentClassifier
-from aiconnex_zip_compiler.intent.prompter import TerminalPrompter
+from services.aiconnex_zip_compiler.intent.models import DatasetCard, IntentOption
+from services.aiconnex_zip_compiler.intent.card_generator import CardGenerator
+from services.aiconnex_zip_compiler.intent.classifier import IntentClassifier
+from services.aiconnex_zip_compiler.intent.prompter import TerminalPrompter
 
 
 def test_dataset_card_subdomains_and_molding():

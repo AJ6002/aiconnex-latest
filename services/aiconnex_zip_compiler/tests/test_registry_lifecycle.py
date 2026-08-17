@@ -6,9 +6,9 @@ Verifies Gap 15 fix: dynamic unfreezing and reloading of the plugin registry.
 
 import pytest
 from pathlib import Path
-from aiconnex_zip_compiler.plugins.registry import PluginRegistry
-from aiconnex_zip_compiler.plugins.base import BasePlugin, MatchResult
-from aiconnex_zip_compiler.plugins.context import PipelineContext
+from services.aiconnex_zip_compiler.plugins.registry import PluginRegistry
+from services.aiconnex_zip_compiler.plugins.base import BasePlugin, MatchResult
+from services.aiconnex_zip_compiler.plugins.context import PipelineContext
 
 
 class DummyPlugin(BasePlugin):

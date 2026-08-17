@@ -13,8 +13,8 @@ Validates:
 import os
 import json
 import pytest
-from aiconnex_agent.platform_kb.normalizer import NormalizedSection
-from aiconnex_agent.platform_kb.chunker import (
+from agentic.platform_kb.normalizer import NormalizedSection
+from agentic.platform_kb.chunker import (
     HierarchicalChunker,
     estimate_token_count,
     compute_sha256,

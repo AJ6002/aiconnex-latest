@@ -16,16 +16,16 @@ from __future__ import annotations
 
 from typing import List, Optional
 
-from aiconnex_agent.memory.events import BaseEvent
-from aiconnex_agent.memory.policy_engine import MemoryPolicyEngine
-from aiconnex_agent.memory.memory_layers import (
+from agentic.memory.events import BaseEvent
+from agentic.memory.policy_engine import MemoryPolicyEngine
+from agentic.memory.memory_layers import (
     SessionMemory,
     EntityMemory,
     ProceduralMemory,
     DecisionMemory,
     MemoryBank,
 )
-from aiconnex_agent.memory.backends.base import SemanticMemoryBackend
+from agentic.memory.backends.base import SemanticMemoryBackend
 
 
 class MemoryBuilder:
@@ -53,7 +53,7 @@ class MemoryBuilder:
     def semantic_backend(self) -> SemanticMemoryBackend:
         if self._explicit_semantic_backend is not None:
             return self._explicit_semantic_backend
-        from aiconnex_agent.memory.backends.factory import get_semantic_backend
+        from agentic.memory.backends.factory import get_semantic_backend
         return get_semantic_backend()
 
     def build(self, events: List[BaseEvent]) -> MemoryBank:

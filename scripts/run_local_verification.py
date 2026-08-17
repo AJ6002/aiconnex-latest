@@ -23,8 +23,8 @@ import sys
 import subprocess
 import time
 
-BASE_DIR    = os.path.dirname(os.path.abspath(__file__))
-SRC_DIR     = os.path.join(BASE_DIR, "sagemaker_pipeline", "src")
+BASE_DIR    = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SRC_DIR     = os.path.join(BASE_DIR, "services", "sagemaker_pipeline", "src")
 VENV_PYTHON = os.path.join(BASE_DIR, "ai-connex", ".venv", "Scripts", "python.exe")
 PYTHON      = VENV_PYTHON if os.path.exists(VENV_PYTHON) else sys.executable
 PYTEST      = os.path.join(BASE_DIR, "ai-connex", ".venv", "Scripts", "pytest.exe")

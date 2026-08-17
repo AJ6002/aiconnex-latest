@@ -5,12 +5,12 @@ test_data_quality.py - Tests for quality checks, contract, time alignment
 import numpy as np
 import pandas as pd
 import pytest
-from aiconnex_ml.shared.data.quality_checks import (
+from services.aiconnex_ml.shared.data.quality_checks import (
     detect_stuck_sensors, check_null_rates, detect_duplicates,
     check_timestamp_monotonicity
 )
-from aiconnex_ml.shared.data.contract import enforce_contract, validate_or_raise
-from aiconnex_ml.shared.data.time_alignment import align_to_common_clock, detect_gaps
+from services.aiconnex_ml.shared.data.contract import enforce_contract, validate_or_raise
+from services.aiconnex_ml.shared.data.time_alignment import align_to_common_clock, detect_gaps
 
 
 def _make_df():

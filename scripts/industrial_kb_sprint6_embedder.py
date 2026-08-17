@@ -18,9 +18,9 @@ PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
-from aiconnex_agent.platform_kb.embedder import EmbeddingEngine, QdrantUpserter
-from aiconnex_agent.platform_kb.schemas import KnowledgeChunkRecord, KnowledgeSourceRecord
-from aiconnex_agent.platform_kb.db_client import KBInfraClient
+from agentic.platform_kb.embedder import EmbeddingEngine, QdrantUpserter
+from agentic.platform_kb.schemas import KnowledgeChunkRecord, KnowledgeSourceRecord
+from agentic.platform_kb.db_client import KBInfraClient
 from qdrant_client.models import PayloadSchemaType, PointStruct
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")

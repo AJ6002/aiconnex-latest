@@ -10,11 +10,11 @@ Tests:
 import pytest
 import pandas as pd
 
-from aiconnex_zip_compiler.plugins import PluginRegistry, PipelineContext
-from aiconnex_zip_compiler.plugins.assemblers.vertical_stack_assembler import VerticalStackAssemblerPlugin
-from aiconnex_zip_compiler.plugins.normalizers.canonical_schema_normalizer import CanonicalSchemaNormalizerPlugin
-from aiconnex_zip_compiler.plugins.harvesters.signal_summary_harvester import SignalSummaryHarvesterPlugin
-from aiconnex_zip_compiler.intent.models import CompilationStrategy
+from services.aiconnex_zip_compiler.plugins import PluginRegistry, PipelineContext
+from services.aiconnex_zip_compiler.plugins.assemblers.vertical_stack_assembler import VerticalStackAssemblerPlugin
+from services.aiconnex_zip_compiler.plugins.normalizers.canonical_schema_normalizer import CanonicalSchemaNormalizerPlugin
+from services.aiconnex_zip_compiler.plugins.harvesters.signal_summary_harvester import SignalSummaryHarvesterPlugin
+from services.aiconnex_zip_compiler.intent.models import CompilationStrategy
 
 
 @pytest.fixture(autouse=True)

@@ -5,7 +5,7 @@ Orchestrates the full anomaly modeling sequence:
   label_contract → data_load → baselines → HPO → threshold_calibration → evaluation
 
 Called as:
-    from aiconnex_ml.anomaly.trainer import AnomalyTrainer
+    from services.aiconnex_ml.anomaly.trainer import AnomalyTrainer
     trainer = AnomalyTrainer(manifest)
     manifest = trainer.run(df_train, df_val, df_test, feature_cols)
 """
@@ -15,14 +15,14 @@ from typing import Dict, Any, List, Optional
 import numpy as np
 import pandas as pd
 
-from aiconnex_ml.anomaly.label_contract import validate_anomaly_label
-from aiconnex_ml.anomaly.data_loader import load_for_supervision_mode
-from aiconnex_ml.anomaly.registry import get_algorithm, filter_by_supervision
-from aiconnex_ml.anomaly.threshold import ThresholdCalibrator
-from aiconnex_ml.anomaly.evaluation import run_evaluation
-from aiconnex_ml.anomaly.operating_modes import OperatingModeDetector
-from aiconnex_ml.shared.utils.serialization import export_model
-from aiconnex_ml.shared.utils.manifest import mark_step_complete
+from services.aiconnex_ml.anomaly.label_contract import validate_anomaly_label
+from services.aiconnex_ml.anomaly.data_loader import load_for_supervision_mode
+from services.aiconnex_ml.anomaly.registry import get_algorithm, filter_by_supervision
+from services.aiconnex_ml.anomaly.threshold import ThresholdCalibrator
+from services.aiconnex_ml.anomaly.evaluation import run_evaluation
+from services.aiconnex_ml.anomaly.operating_modes import OperatingModeDetector
+from services.aiconnex_ml.shared.utils.serialization import export_model
+from services.aiconnex_ml.shared.utils.manifest import mark_step_complete
 
 
 def _score_model(model: Any, X: np.ndarray, entry: Dict[str, Any]) -> np.ndarray:

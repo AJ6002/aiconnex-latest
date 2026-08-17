@@ -17,7 +17,7 @@ import logging
 from pathlib import Path
 from typing import Any, Dict, List
 
-from aiconnex_agent.schemas import CandidateRecipe
+from agentic.schemas import CandidateRecipe
 
 logger = logging.getLogger(__name__)
 

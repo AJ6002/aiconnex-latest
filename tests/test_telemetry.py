@@ -20,8 +20,8 @@ from unittest.mock import patch, MagicMock
 
 def _reset_telemetry():
     """Reset the telemetry singleton between tests."""
-    from aiconnex_agent.telemetry.tracker import reset_telemetry
-    from aiconnex_agent.telemetry.llm_tracer import reset_llm_tracing
+    from agentic.telemetry.tracker import reset_telemetry
+    from agentic.telemetry.llm_tracer import reset_llm_tracing
     reset_telemetry()
     reset_llm_tracing()
 
@@ -36,13 +36,13 @@ class TestLLMTracer:
 
     def test_init_llm_tracing_is_idempotent(self):
         """Calling init_llm_tracing multiple times must not raise."""
-        from aiconnex_agent.telemetry.llm_tracer import init_llm_tracing
+        from agentic.telemetry.llm_tracer import init_llm_tracing
         init_llm_tracing()
         init_llm_tracing()  # second call must be a no-op
 
     def test_init_llm_tracing_no_op_without_mlflow(self):
         """init_llm_tracing gracefully no-ops if mlflow cannot be imported."""
-        from aiconnex_agent.telemetry.llm_tracer import init_llm_tracing, reset_llm_tracing
+        from agentic.telemetry.llm_tracer import init_llm_tracing, reset_llm_tracing
         reset_llm_tracing()
         with patch.dict("sys.modules", {"mlflow": None}):
             init_llm_tracing()  # Must not raise
@@ -58,14 +58,14 @@ class TestAgentTelemetry:
 
     def test_get_telemetry_returns_singleton(self):
         """get_telemetry() must return the same instance on repeated calls."""
-        from aiconnex_agent.telemetry.tracker import get_telemetry
+        from agentic.telemetry.tracker import get_telemetry
         t1 = get_telemetry()
         t2 = get_telemetry()
         assert t1 is t2
 
     def test_reset_telemetry_creates_new_instance(self):
         """reset_telemetry() should allow a fresh singleton to be created."""
-        from aiconnex_agent.telemetry.tracker import get_telemetry, reset_telemetry
+        from agentic.telemetry.tracker import get_telemetry, reset_telemetry
         t1 = get_telemetry()
         reset_telemetry()
         t2 = get_telemetry()
@@ -73,32 +73,32 @@ class TestAgentTelemetry:
 
     def test_setup_is_idempotent(self):
         """setup() with the same session_id must not raise on repeat calls."""
-        from aiconnex_agent.telemetry.tracker import AgentTelemetry
+        from agentic.telemetry.tracker import AgentTelemetry
         t = AgentTelemetry(tracking_uri="./mlruns")
         t.setup("wf_test001")
         t.setup("wf_test001")  # must be a no-op
 
     def test_node_run_yields_without_mlflow(self):
         """node_run() must yield None gracefully when mlflow is unavailable."""
-        from aiconnex_agent.telemetry.tracker import AgentTelemetry
+        from agentic.telemetry.tracker import AgentTelemetry
         t = AgentTelemetry()
         # Force _HAS_MLFLOW to False via patch
-        with patch("aiconnex_agent.telemetry.tracker._HAS_MLFLOW", False):
+        with patch("agentic.telemetry.tracker._HAS_MLFLOW", False):
             with t.node_run("planner", "wf_test") as run:
                 assert run is None
 
     def test_log_params_no_op_without_mlflow(self):
         """log_params must not raise when mlflow is unavailable."""
-        from aiconnex_agent.telemetry.tracker import AgentTelemetry
+        from agentic.telemetry.tracker import AgentTelemetry
         t = AgentTelemetry()
-        with patch("aiconnex_agent.telemetry.tracker._HAS_MLFLOW", False):
+        with patch("agentic.telemetry.tracker._HAS_MLFLOW", False):
             t.log_params({"intent": "train_rul", "steps": 3})  # must not raise
 
     def test_log_metrics_no_op_without_mlflow(self):
         """log_metrics must not raise when mlflow is unavailable."""
-        from aiconnex_agent.telemetry.tracker import AgentTelemetry
+        from agentic.telemetry.tracker import AgentTelemetry
         t = AgentTelemetry()
-        with patch("aiconnex_agent.telemetry.tracker._HAS_MLFLOW", False):
+        with patch("agentic.telemetry.tracker._HAS_MLFLOW", False):
             t.log_metrics({"rows": 1000.0, "missing_ratio": 0.02})  # must not raise
 
 
@@ -112,7 +112,7 @@ class TestPlannerEmitter:
 
     def test_emit_does_not_raise(self):
         """PlannerEmitter.emit() must not raise even with a minimal plan."""
-        from aiconnex_agent.telemetry.emitters import PlannerEmitter
+        from agentic.telemetry.emitters import PlannerEmitter
         emitter = PlannerEmitter()
         emitter.emit(
             session_id="wf_planner01",
@@ -122,9 +122,9 @@ class TestPlannerEmitter:
 
     def test_emit_no_op_without_mlflow(self):
         """PlannerEmitter.emit() must not raise when mlflow is disabled."""
-        from aiconnex_agent.telemetry.emitters import PlannerEmitter
+        from agentic.telemetry.emitters import PlannerEmitter
         emitter = PlannerEmitter()
-        with patch("aiconnex_agent.telemetry.tracker._HAS_MLFLOW", False):
+        with patch("agentic.telemetry.tracker._HAS_MLFLOW", False):
             emitter.emit(
                 session_id="wf_planner02",
                 intent="train_rul",
@@ -154,15 +154,15 @@ class TestScoutEmitter:
 
     def test_emit_does_not_raise(self):
         """ScoutEmitter.emit() must not raise with valid dict payloads."""
-        from aiconnex_agent.telemetry.emitters import ScoutEmitter
+        from agentic.telemetry.emitters import ScoutEmitter
         dic, scout = self._make_dic_and_scout()
         ScoutEmitter().emit(session_id="wf_scout01", dic_dict=dic, scout_dict=scout)
 
     def test_emit_no_op_without_mlflow(self):
         """ScoutEmitter.emit() must not raise when mlflow is disabled."""
-        from aiconnex_agent.telemetry.emitters import ScoutEmitter
+        from agentic.telemetry.emitters import ScoutEmitter
         dic, scout = self._make_dic_and_scout()
-        with patch("aiconnex_agent.telemetry.tracker._HAS_MLFLOW", False):
+        with patch("agentic.telemetry.tracker._HAS_MLFLOW", False):
             ScoutEmitter().emit(session_id="wf_scout02", dic_dict=dic, scout_dict=scout)
 
 
@@ -176,7 +176,7 @@ class TestPlatformEmitter:
 
     def _make_mock_platform_args(self):
         import numpy as np
-        from aiconnex_agent.schemas import (
+        from agentic.schemas import (
             ScorerReport, JudgeReport, SelectionResult, LeaderboardEntry
         )
         sr = ScorerReport(
@@ -215,7 +215,7 @@ class TestPlatformEmitter:
 
     def test_emit_does_not_raise(self):
         """PlatformEmitter.emit() must not raise with valid schema objects."""
-        from aiconnex_agent.telemetry.emitters import PlatformEmitter
+        from agentic.telemetry.emitters import PlatformEmitter
         sr, jr, sel, weights = self._make_mock_platform_args()
         result = PlatformEmitter().emit(
             session_id="wf_platform01",
@@ -229,7 +229,7 @@ class TestPlatformEmitter:
 
     def test_log_experiment_facade_alias(self):
         """log_experiment() must be a working alias for emit()."""
-        from aiconnex_agent.telemetry.emitters import PlatformEmitter
+        from agentic.telemetry.emitters import PlatformEmitter
         sr, jr, sel, weights = self._make_mock_platform_args()
         result = PlatformEmitter().log_experiment(
             session_id="wf_platform02",
@@ -241,9 +241,9 @@ class TestPlatformEmitter:
 
     def test_emit_no_op_without_mlflow(self):
         """PlatformEmitter.emit() must not raise when mlflow is disabled."""
-        from aiconnex_agent.telemetry.emitters import PlatformEmitter
+        from agentic.telemetry.emitters import PlatformEmitter
         sr, jr, sel, weights = self._make_mock_platform_args()
-        with patch("aiconnex_agent.telemetry.tracker._HAS_MLFLOW", False):
+        with patch("agentic.telemetry.tracker._HAS_MLFLOW", False):
             result = PlatformEmitter().emit(
                 session_id="wf_platform03",
                 selection_result=sel,
@@ -263,7 +263,7 @@ class TestMemoryEmitter:
 
     def test_emit_does_not_raise(self):
         """MemoryEmitter.emit() must not raise with valid args."""
-        from aiconnex_agent.telemetry.emitters import MemoryEmitter
+        from agentic.telemetry.emitters import MemoryEmitter
         MemoryEmitter().emit(
             session_id="wf_memory01",
             event_count=5,
@@ -277,8 +277,8 @@ class TestMemoryEmitter:
 
     def test_emit_no_op_without_mlflow(self):
         """MemoryEmitter.emit() must not raise when mlflow is disabled."""
-        from aiconnex_agent.telemetry.emitters import MemoryEmitter
-        with patch("aiconnex_agent.telemetry.tracker._HAS_MLFLOW", False):
+        from agentic.telemetry.emitters import MemoryEmitter
+        with patch("agentic.telemetry.tracker._HAS_MLFLOW", False):
             MemoryEmitter().emit(
                 session_id="wf_memory02",
                 event_count=3,
@@ -296,8 +296,8 @@ class TestMLflowLoggerFacade:
 
     def test_log_experiment_delegates_to_platform_emitter(self):
         """mlflow_logger.log_experiment() must call PlatformEmitter.log_experiment()."""
-        from aiconnex_agent.telemetry.emitters import PlatformEmitter
-        from aiconnex_agent.schemas import (
+        from agentic.telemetry.emitters import PlatformEmitter
+        from agentic.schemas import (
             ScorerReport, JudgeReport, SelectionResult, LeaderboardEntry
         )
 
@@ -307,7 +307,7 @@ class TestMLflowLoggerFacade:
         sel = SelectionResult(winner_model_id="r1", winner_dag_id="d1", is_ensemble=False, leaderboard=[lb], selection_rationale="Best")
 
         with patch.object(PlatformEmitter, "log_experiment", return_value={"status": "logged", "session_id": "wf_facade01"}) as mock_emit:
-            from aiconnex_agent.platform import mlflow_logger
+            from agentic.platform import mlflow_logger
             import importlib
             importlib.reload(mlflow_logger)
             result = mlflow_logger.log_experiment("wf_facade01", sel, [sr], [jr])
@@ -316,13 +316,13 @@ class TestMLflowLoggerFacade:
 
     def test_log_experiment_returns_error_dict_on_failure(self):
         """mlflow_logger.log_experiment() returns error dict (not exception) on failure."""
-        from aiconnex_agent.platform import mlflow_logger
-        from aiconnex_agent.schemas import SelectionResult, LeaderboardEntry
+        from agentic.platform import mlflow_logger
+        from agentic.schemas import SelectionResult, LeaderboardEntry
 
         lb = LeaderboardEntry(rank=1, model_id="r1", dag_id="d1", algo_name="XGBoost", composite_score=0.88, r2_score=0.9, rmse=2.0)
         sel = SelectionResult(winner_model_id="r1", winner_dag_id="d1", is_ensemble=False, leaderboard=[lb], selection_rationale="Best")
 
-        with patch("aiconnex_agent.telemetry.emitters.PlatformEmitter.log_experiment", side_effect=Exception("boom")):
+        with patch("agentic.telemetry.emitters.PlatformEmitter.log_experiment", side_effect=Exception("boom")):
             result = mlflow_logger.log_experiment("wf_facade02", sel, [], [])
 
         # Must return a dict, not raise

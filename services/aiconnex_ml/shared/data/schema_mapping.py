@@ -29,7 +29,7 @@ def load_tag_registry(registry_path: str) -> Dict[str, Dict[str, str]]:
     Returns: {raw_tag: {"canonical": "name", "unit": "..."}, ...}
     """
     if registry_path.startswith("s3://"):
-        from aiconnex_ml.shared.utils.s3 import parse_s3_uri
+        from services.aiconnex_ml.shared.utils.s3 import parse_s3_uri
         import boto3
         bucket, key = parse_s3_uri(registry_path)
         s3 = boto3.client("s3")

@@ -2,7 +2,7 @@ import os
 import sys
 import logging
 import urllib.request
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, List
 
 logger = logging.getLogger(__name__)
 
@@ -44,7 +44,7 @@ def get_model_search_dirs() -> List[str]:
         dirs.append(os.path.abspath(env_dir))
 
     # 2. External USB Drive & Parent Directory Search Candidates
-    parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "aiconnex_models"))
+    parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "aiconnex_models"))
     dirs.append(parent_dir)
 
     for drive in ["E", "F", "G", "D", "H", "C"]:

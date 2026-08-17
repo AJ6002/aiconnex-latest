@@ -15,8 +15,8 @@ import json
 import pytest
 from unittest.mock import MagicMock, patch
 
-from aiconnex_agent.platform_kb.schemas import KnowledgeChunkRecord, KnowledgeSourceRecord
-from aiconnex_agent.platform_kb.embedder import (
+from agentic.platform_kb.schemas import KnowledgeChunkRecord, KnowledgeSourceRecord
+from agentic.platform_kb.embedder import (
     EmbeddingEngine,
     QdrantUpserter,
     EmbeddingPipeline,

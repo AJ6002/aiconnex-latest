@@ -11,7 +11,7 @@ from __future__ import annotations
 import numpy as np
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
 
-from aiconnex_agent.schemas import ScorerReport
+from agentic.schemas import ScorerReport
 
 
 def score_candidate(

@@ -16,9 +16,9 @@ Validates:
 """
 
 import pytest
-from aiconnex_agent.platform_kb.schemas import EquipmentRecord, ContextRequest
-from aiconnex_agent.platform_kb.equipment_service import EquipmentService
-from aiconnex_agent.platform_kb.context_builder import ContextBuilder
+from agentic.platform_kb.schemas import EquipmentRecord, ContextRequest
+from agentic.platform_kb.equipment_service import EquipmentService
+from agentic.platform_kb.context_builder import ContextBuilder
 
 
 @pytest.fixture

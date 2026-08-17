@@ -1,7 +1,7 @@
 # tests/test_parser_prompt_and_context.py
 import pytest
-from aiconnex_agent.parser.prompt_builder import PromptBuilder
-from aiconnex_agent.parser.context_manager import ContextManager
+from agentic.parser.prompt_builder import PromptBuilder
+from agentic.parser.context_manager import ContextManager
 
 
 def test_prompt_builder():

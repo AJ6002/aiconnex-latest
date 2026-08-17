@@ -2,9 +2,9 @@
 aiconnex_agent/scout/compiler_adapter.py
 ===========================================
 Gap 2 fix: translates the compiler package's own plain dataclasses
-(CompileResult, HandoffArtifacts from aiconnex_zip_compiler) into the
+(CompileResult, HandoffArtifacts from services.aiconnex_zip_compiler) into the
 agent's Pydantic contracts (ScoutEnrichedContract, DatasetIntelligenceContract
-from aiconnex_agent.schemas). These two worlds evolved independently and
+from agentic.schemas). These two worlds evolved independently and
 have zero field-level overlap - this module is the only place that bridges
 them, so real compiler output is what actually reaches the agent state,
 instead of the previous hardcoded fake dict literals.
@@ -23,9 +23,9 @@ import logging
 from pathlib import Path
 from typing import List
 
-from aiconnex_zip_compiler.compiler import CompileResult
+from services.aiconnex_zip_compiler.compiler import CompileResult
 
-from aiconnex_agent.schemas import (
+from agentic.schemas import (
     UploadMetadata,
     ArchiveDiscovery,
     FileInventoryItem,

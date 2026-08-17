@@ -22,11 +22,11 @@ from __future__ import annotations
 
 from typing import List, Optional
 
-from aiconnex_agent.memory.events import BaseEvent
-from aiconnex_agent.memory.event_store import EventStore
-from aiconnex_agent.memory.policy_engine import MemoryPolicyEngine
-from aiconnex_agent.memory.memory_builder import MemoryBuilder
-from aiconnex_agent.memory.memory_layers import MemoryBank
+from agentic.memory.events import BaseEvent
+from agentic.memory.event_store import EventStore
+from agentic.memory.policy_engine import MemoryPolicyEngine
+from agentic.memory.memory_builder import MemoryBuilder
+from agentic.memory.memory_layers import MemoryBank
 
 
 def rebuild_memory_from_events(

@@ -1,8 +1,8 @@
 # tests/test_memory_policy_engine.py
 import pytest
-from aiconnex_agent.memory.events import make_event
-from aiconnex_agent.memory.policy_engine import MemoryPolicyEngine, RetentionDecision
-from aiconnex_agent.memory.memory_layers import (
+from agentic.memory.events import make_event
+from agentic.memory.policy_engine import MemoryPolicyEngine, RetentionDecision
+from agentic.memory.memory_layers import (
     SessionMemory,
     EntityMemory,
     ProceduralMemory,

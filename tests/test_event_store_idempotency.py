@@ -5,8 +5,8 @@ Verifies that exact duplicate domain events appended for the same workflow are s
 """
 
 import pytest
-from aiconnex_agent.memory.event_store import EventStore
-from aiconnex_agent.memory.events import make_event
+from agentic.memory.event_store import EventStore
+from agentic.memory.events import make_event
 
 
 def test_event_store_skips_identical_duplicate_events():

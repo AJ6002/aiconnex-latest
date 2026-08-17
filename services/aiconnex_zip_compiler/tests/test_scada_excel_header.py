@@ -7,8 +7,8 @@ import pandas as pd
 import pytest
 from pathlib import Path
 
-from aiconnex_zip_compiler.plugins.parsers.scada_excel_parser import ScadaExcelParserPlugin
-from aiconnex_zip_compiler.plugins.context import PipelineContext
+from services.aiconnex_zip_compiler.plugins.parsers.scada_excel_parser import ScadaExcelParserPlugin
+from services.aiconnex_zip_compiler.plugins.context import PipelineContext
 
 
 def test_header_with_numeric_tokens(tmp_path: Path):

@@ -161,8 +161,8 @@ def run(
 
     sys.path.insert(0, str(Path(__file__).parent))
 
-    from aiconnex_zip_compiler.compiler import UnifiedCompiler
-    from aiconnex_zip_compiler.plugins.registry import PluginRegistry
+    from services.aiconnex_zip_compiler.compiler import UnifiedCompiler
+    from services.aiconnex_zip_compiler.plugins.registry import PluginRegistry
 
     PluginRegistry.reset_instance()
 

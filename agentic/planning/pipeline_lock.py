@@ -23,8 +23,8 @@ import logging
 from datetime import datetime, timezone
 from typing import Any, Dict, Optional
 
-from aiconnex_agent.schemas import PipelineLockManifest
-from aiconnex_agent.state import MasterAgentState
+from agentic.schemas import PipelineLockManifest
+from agentic.state import MasterAgentState
 
 logger = logging.getLogger(__name__)
 

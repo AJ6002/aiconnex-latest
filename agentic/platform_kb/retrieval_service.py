@@ -17,17 +17,17 @@ import logging
 from datetime import datetime, timezone
 from typing import List, Dict, Any, Optional, Literal
 
-from aiconnex_agent.platform_kb.config import QdrantConfig
-from aiconnex_agent.platform_kb.db_client import KBInfraClient
-from aiconnex_agent.platform_kb.embedder import EmbeddingEngine, QdrantUpserter
-from aiconnex_agent.platform_kb.deterministic_store import DeterministicStore
-from aiconnex_agent.platform_kb.schemas import (
+from agentic.platform_kb.config import QdrantConfig
+from agentic.platform_kb.db_client import KBInfraClient
+from agentic.platform_kb.embedder import EmbeddingEngine, QdrantUpserter
+from agentic.platform_kb.deterministic_store import DeterministicStore
+from agentic.platform_kb.schemas import (
     ContextRequest,
     EvidenceItem,
     EvidencePack,
     KnowledgeSourceRecord,
 )
-from aiconnex_agent.platform_kb.source_register import SourceRegisterManager
+from agentic.platform_kb.source_register import SourceRegisterManager
 
 logger = logging.getLogger(__name__)
 
@@ -282,15 +282,15 @@ class RetrievalService:
         qdrant = self.db_client.get_qdrant_client()
         query_vector = self.embedder.embed_texts([request.query])[0]
 
-        from qdrant_client.http.models import SearchRequest, Filter, FieldCondition, MatchValue
+        from qdrant_client import models
 
         # Build Qdrant domain and tenant/scope filter
         conditions = []
         if request.knowledge_domain != "all":
             conditions.append(
-                FieldCondition(
+                models.FieldCondition(
                     key="knowledge_domain",
-                    match=MatchValue(value=request.knowledge_domain),
+                    match=models.MatchValue(value=request.knowledge_domain),
                 )
             )
 
@@ -298,52 +298,65 @@ class RetrievalService:
         if request.scope == "tenant" and request.tenant_id != "global":
             # Tenant org-level knowledge
             conditions.append(
-                FieldCondition(key="tenant_id", match=MatchValue(value=request.tenant_id))
+                models.FieldCondition(key="tenant_id", match=models.MatchValue(value=request.tenant_id))
             )
         elif request.scope == "project" and request.project_id:
             # Project plant-level knowledge
             conditions.append(
-                FieldCondition(key="tenant_id", match=MatchValue(value=request.tenant_id))
+                models.FieldCondition(key="tenant_id", match=models.MatchValue(value=request.tenant_id))
             )
             conditions.append(
-                FieldCondition(key="project_id", match=MatchValue(value=request.project_id))
+                models.FieldCondition(key="project_id", match=models.MatchValue(value=request.project_id))
             )
         elif request.knowledge_domain == "tenant_knowledge" and request.tenant_id != "global":
             conditions.append(
-                FieldCondition(key="tenant_id", match=MatchValue(value=request.tenant_id))
+                models.FieldCondition(key="tenant_id", match=models.MatchValue(value=request.tenant_id))
             )
 
-        query_filter = Filter(must=conditions) if conditions else None
+        query_filter = models.Filter(must=conditions) if conditions else None
 
-        try:
-            search_req = SearchRequest(
-                vector=query_vector,
-                filter=query_filter,
-                limit=request.top_k * 2,
-                with_payload=True,
-            )
-            search_res = qdrant.http.search_api.search_points(
-                collection_name=self.upserter.collection_name,
-                search_request=search_req,
-            )
-            search_results = search_res.result
-            if type(search_results).__name__ == "MagicMock":
-                raise AttributeError("Mock fallback")
-        except Exception:
+        search_results = []
+        if hasattr(qdrant, "search"):
             try:
-                search_results = qdrant.search(
+                res = qdrant.search(
                     collection_name=self.upserter.collection_name,
                     query_vector=query_vector,
                     query_filter=query_filter,
                     limit=request.top_k * 2,
+                    with_payload=True,
                 )
+                if isinstance(res, list):
+                    search_results = res
             except Exception:
-                search_results = qdrant.query_points(
-                    collection_name=self.upserter.collection_name,
-                    query=query_vector,
-                    query_filter=query_filter,
+                pass
+
+        if not search_results:
+            try:
+                from qdrant_client.http.models import SearchRequest
+                search_req = SearchRequest(
+                    vector=query_vector,
+                    filter=query_filter,
                     limit=request.top_k * 2,
-                ).points
+                    with_payload=True,
+                )
+                search_res = qdrant.http.search_api.search_points(
+                    collection_name=self.upserter.collection_name,
+                    search_request=search_req,
+                )
+                search_results = getattr(search_res, "result", []) or []
+            except Exception:
+                try:
+                    res = qdrant.query_points(
+                        collection_name=self.upserter.collection_name,
+                        query=query_vector,
+                        query_filter=query_filter,
+                        limit=request.top_k * 2,
+                        with_payload=True,
+                    )
+                    search_results = getattr(res, "points", res) or []
+                except Exception as e:
+                    logger.debug(f"[RetrievalService] Qdrant search fallback empty: {e}")
+                    search_results = []
 
         items: List[EvidenceItem] = []
         for point in search_results:

@@ -3,8 +3,8 @@
 
 from __future__ import annotations
 import pytest
-from aiconnex_agent.platform.multi_dag_resolver import resolve_candidates
-from aiconnex_agent.schemas import CandidateRecipe
+from agentic.platform.multi_dag_resolver import resolve_candidates
+from agentic.schemas import CandidateRecipe
 
 
 def test_regression_profile_returns_3_to_5_candidates():

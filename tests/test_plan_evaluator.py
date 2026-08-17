@@ -8,15 +8,15 @@ Verifies:
 """
 
 import pytest
-from aiconnex_agent.state import MasterAgentState
-from aiconnex_agent.schemas import (
+from agentic.state import MasterAgentState
+from agentic.schemas import (
     ConversationUnderstandingContract,
     Goal,
     DatasetIntelligenceContract,
     CompiledDatasetSummary,
     ScorerReport,
 )
-from aiconnex_agent.nodes.plan_evaluator import real_plan_evaluator_node
+from agentic.nodes.plan_evaluator import real_plan_evaluator_node
 
 
 def test_plan_evaluator_advances_index_on_success():

@@ -15,7 +15,7 @@ import json
 import pytest
 from unittest.mock import MagicMock, patch
 
-from aiconnex_agent.platform_kb.document_store import (
+from agentic.platform_kb.document_store import (
     MinIODocumentStore,
     MinIOStoragePipeline,
     compute_file_sha256,

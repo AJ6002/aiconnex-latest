@@ -6,9 +6,9 @@ import pytest
 from unittest.mock import patch, MagicMock
 import numpy as np
 
-from aiconnex_agent.state import MasterAgentState
-from aiconnex_agent.schemas import CandidateRecipe, ScorerReport
-from aiconnex_agent.platform.platform_node import real_platform_agent_node
+from agentic.state import MasterAgentState
+from agentic.schemas import CandidateRecipe, ScorerReport
+from agentic.platform.platform_node import real_platform_agent_node
 
 
 def _make_state_with_dic() -> MasterAgentState:
@@ -23,10 +23,10 @@ def _make_state_with_dic() -> MasterAgentState:
     return MasterAgentState(**state_dict)
 
 
-@patch("aiconnex_agent.platform.platform_node.resolve_candidates")
-@patch("aiconnex_agent.platform.platform_node._train_candidate")
-@patch("aiconnex_agent.platform.platform_node.judge_candidate")
-@patch("aiconnex_agent.platform.platform_node.log_experiment")
+@patch("agentic.platform.platform_node.resolve_candidates")
+@patch("agentic.platform.platform_node._train_candidate")
+@patch("agentic.platform.platform_node.judge_candidate")
+@patch("agentic.platform.platform_node.log_experiment")
 def test_platform_node_produces_selection_result(mock_log, mock_judge, mock_train, mock_resolve):
     """Platform node should populate selection_result on state."""
     mock_resolve.return_value = [
@@ -39,7 +39,7 @@ def test_platform_node_produces_selection_result(mock_log, mock_judge, mock_trai
     y_true = np.random.randn(50)
     mock_train.return_value = (y_true, y_true + np.random.randn(50) * 0.5, 10.0, 0.5)
 
-    from aiconnex_agent.schemas import JudgeReport
+    from agentic.schemas import JudgeReport
     mock_judge.return_value = JudgeReport(
         recipe_id="r1", qualitative_score=0.8, rubric_ratings={},
         reasoning="heuristic", risk_assessment="low",
@@ -58,8 +58,8 @@ def test_platform_node_produces_selection_result(mock_log, mock_judge, mock_trai
     assert updates["selection_result"]["winner_model_id"] is not None
 
 
-@patch("aiconnex_agent.platform.platform_node.resolve_candidates")
-@patch("aiconnex_agent.platform.platform_node._train_candidate")
+@patch("agentic.platform.platform_node.resolve_candidates")
+@patch("agentic.platform.platform_node._train_candidate")
 def test_platform_node_handles_candidate_failure(mock_train, mock_resolve):
     """If one candidate fails, platform should proceed with remaining (K >= 2)."""
     mock_resolve.return_value = [

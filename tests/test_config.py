@@ -3,7 +3,7 @@ test_config.py - Unit tests for Pydantic manifest validation
 """
 
 import pytest
-from aiconnex_ml.config import Manifest, LabelContract, SplitPolicy
+from services.aiconnex_ml.config import Manifest, LabelContract, SplitPolicy
 
 
 def _base_manifest_dict(**overrides):

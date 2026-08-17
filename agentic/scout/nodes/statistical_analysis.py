@@ -18,13 +18,13 @@ from __future__ import annotations
 import logging
 from typing import Any, Dict, List
 
-from aiconnex_agent.schemas import (
+from agentic.schemas import (
     ColumnStats,
     CorrelationPair,
     StatisticalProfile,
 )
-from aiconnex_agent.scout.nodes._shared import load_compiled_dataframe
-from aiconnex_agent.state import MasterAgentState
+from agentic.scout.nodes._shared import load_compiled_dataframe
+from agentic.state import MasterAgentState
 
 logger = logging.getLogger(__name__)
 

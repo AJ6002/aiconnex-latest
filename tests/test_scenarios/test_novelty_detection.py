@@ -25,9 +25,9 @@ pytestmark = pytest.mark.tier3
 
 from sklearn.ensemble import IsolationForest
 
-from aiconnex_ml.anomaly.operating_modes import OperatingModeDetector
-from aiconnex_ml.anomaly.threshold import ThresholdCalibrator
-from aiconnex_ml.anomaly.evaluation import compute_anomaly_metrics
+from services.aiconnex_ml.anomaly.operating_modes import OperatingModeDetector
+from services.aiconnex_ml.anomaly.threshold import ThresholdCalibrator
+from services.aiconnex_ml.anomaly.evaluation import compute_anomaly_metrics
 
 
 # -- Fixtures -------------------------------------------------------------------

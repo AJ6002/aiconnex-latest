@@ -1,8 +1,8 @@
 # tests/test_memory_builder.py
 import pytest
-from aiconnex_agent.memory.events import make_event
-from aiconnex_agent.memory.policy_engine import MemoryPolicyEngine
-from aiconnex_agent.memory.memory_builder import MemoryBuilder
+from agentic.memory.events import make_event
+from agentic.memory.policy_engine import MemoryPolicyEngine
+from agentic.memory.memory_builder import MemoryBuilder
 
 
 def _fixture_log():
@@ -112,8 +112,8 @@ def test_decision_and_procedural_events_never_call_semantic_backend():
 
 
 def test_semantic_backend_defaults_to_get_semantic_backend_singleton():
-    from aiconnex_agent.memory.backends.factory import get_semantic_backend, reset_semantic_backend
-    from aiconnex_agent.memory.backends.local_fake import LocalFakeBackend
+    from agentic.memory.backends.factory import get_semantic_backend, reset_semantic_backend
+    from agentic.memory.backends.local_fake import LocalFakeBackend
 
     reset_semantic_backend()
     builder = MemoryBuilder(MemoryPolicyEngine())

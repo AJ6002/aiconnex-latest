@@ -143,7 +143,7 @@ def split_data(payload: SplitPayload):
         # Guarantees zero entity leakage across train/val/test.
         # ════════════════════════════════════════════════════
         if topology in ("time_series", "multi_entity_time_series"):
-            from aiconnex_ml.shared.splitter.policy import enforce_split
+            from services.aiconnex_ml.shared.splitter.policy import enforce_split
 
             # Inject recipe ratios into manifest for enforce_split to use
             manifest.setdefault("split_policy", {})

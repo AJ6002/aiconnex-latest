@@ -58,6 +58,10 @@ interface CompilerViewProps {
   onProceed?: () => void;
   initialPrompt?: string;
   initialInputs?: any;
+  janeSessionId?: string | null;
+  onJaneNarration?: (message: string, node?: string) => void;
+  onJaneInterrupt?: (interruptPayload: any) => void;
+  onUploadStarted?: (fileName: string) => void;
 }
 
 export const CompilerView: React.FC<CompilerViewProps> = ({
@@ -70,6 +74,10 @@ export const CompilerView: React.FC<CompilerViewProps> = ({
   onProceed,
   initialPrompt,
   initialInputs,
+  janeSessionId,
+  onJaneNarration,
+  onJaneInterrupt,
+  onUploadStarted,
 }) => {
   const [loaderStep, setLoaderStep] = useState<number>(-1);
   // Compiler UI States
@@ -240,7 +248,9 @@ export const CompilerView: React.FC<CompilerViewProps> = ({
       const defaultType = (lowerName.includes('insurance') || lowerName.includes('house_prices') || lowerName.includes('manufacturing')) ? 'regression' : 'classification';
       setProblemTypeInput(defaultType);
 
-      setShowWizard(true);
+      setShowWizard(false);
+      if (onUploadStarted) onUploadStarted(file.name);
+      triggerCompilation(file);
     }
   };
 
@@ -250,93 +260,191 @@ export const CompilerView: React.FC<CompilerViewProps> = ({
   ) => {
     setIsCompiling(true);
     setCompileError(null);
-    setLoaderStep(0); // Start loader sequence
-    
+
     const formData = new FormData();
     formData.append('file', file);
-    
+
     let apiData: any = null;
     let apiErr: any = null;
     let profileData: any = null;
- 
-    // Trigger api call in parallel
-    const apiCall = fetch('http://localhost:8000/api/v1/compile', {
-      method: 'POST',
-      body: formData
-    }).then(async (res) => {
-      if (!res.ok) {
-        const errJson = await res.json();
-        throw new Error(errJson.detail || 'Compilation failed');
-      }
-      return res.json();
-    }).then(async (data) => {
-      apiData = data;
-      // Fetch profile dataset metadata in the background
-      if (data && data.first_csv) {
-        try {
-          const profilerForm = new FormData();
-          profilerForm.append('file_path', data.first_csv);
-          
-          const customTarget = userInputs?.targetColumn;
-          const customEntity = userInputs?.entityColumn;
-          const customTimestamp = userInputs?.timestampColumn;
-          const customProblemType = userInputs?.problemType;
 
-          const lowerName = file.name.toLowerCase();
-          const defaultTargetColumn = lowerName.includes('insurance') ? 'charges' : (lowerName.includes('house_prices') ? 'SalePrice' : (lowerName.includes('manufacturing') ? 'RUL' : ''));
-          
-          profilerForm.append('target_column', customTarget || defaultTargetColumn || '');
-          if (customEntity) profilerForm.append('entity_column', customEntity);
-          if (customTimestamp) profilerForm.append('timestamp_column', customTimestamp);
-          if (customProblemType) profilerForm.append('problem_type', customProblemType);
+    const effectiveSessionId = janeSessionId || 'default_session';
+    if (effectiveSessionId) {
+      // Real Jane-Centric SSE Compilation
+      try {
+        if (onJaneNarration) {
+          onJaneNarration(`📦 **Ingesting archive \`${file.name}\`...**\nDecompressing tables and initializing LangGraph Scout Compiler pipeline.`, 'archive_discovery_node');
+        }
 
-          const profileRes = await fetch('http://localhost:8000/api/v1/profile', {
+        const sseForm = new FormData();
+        sseForm.append('file', file);
+        sseForm.append('session_id', effectiveSessionId);
+
+        let response = await fetch('http://localhost:8000/api/upload', {
+          method: 'POST',
+          body: sseForm,
+        }).catch(() => null);
+
+        if (!response || !response.ok) {
+          response = await fetch('http://localhost:5000/api/upload', {
             method: 'POST',
-            body: profilerForm
-          });
-          if (profileRes.ok) {
-            profileData = await profileRes.json();
+            body: sseForm,
+          }).catch(() => null);
+        }
+
+        if (!response || !response.ok) {
+          throw new Error(`Upload failed with status ${response ? response.status : 'offline'}`);
+        }
+
+        let compiledPath = '';
+        let receivedRunId = '';
+        const reader = response.body?.getReader();
+        const decoder = new TextDecoder();
+
+        if (reader) {
+          let buffer = '';
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            buffer += decoder.decode(value, { stream: true });
+            const lines = buffer.split('\n');
+            buffer = lines.pop() || '';
+
+            for (const line of lines) {
+              if (line.startsWith('data: ')) {
+                try {
+                  const eventData = JSON.parse(line.slice(6));
+                  if (eventData.type === 'text' && eventData.delta && onJaneNarration) {
+                    onJaneNarration(eventData.delta, eventData.node);
+                  }
+                  if (eventData.type === 'interrupt' && eventData.payload && onJaneInterrupt) {
+                    onJaneInterrupt(eventData.payload);
+                  }
+                  if (eventData.type === 'compiled' && eventData.compiled_csv_path) {
+                    compiledPath = eventData.compiled_csv_path;
+                    if (eventData.run_id) receivedRunId = eventData.run_id;
+                  }
+                  if (eventData.type === 'error' && eventData.message) {
+                    throw new Error(eventData.message);
+                  }
+                } catch (parseErr: any) {
+                  if (parseErr.message && !parseErr.message.includes('JSON')) {
+                    throw parseErr;
+                  }
+                }
+              }
+            }
           }
-        } catch (profErr) {
-          console.error('Failed to profile compiled file:', profErr);
         }
-      }
-    }).catch((err) => {
-      apiErr = err;
-    });
 
-    // Paced step animation matching the requested sequence:
-    // Unzipping / Parsing data -> Compiling sheets -> Profiling data -> Assigning IDs -> Preparing recipes -> DAG Choice Popup
-    for (let step = 0; step <= 5; step++) {
-      setLoaderStep(step);
-      setCompilationLayer(Math.min(4, Math.floor(step / 1.5) + 1));
-      
-      if (step === 4) {
-        await Promise.all([
-          new Promise((r) => setTimeout(r, 900)),
-          apiCall
-        ]);
-        if (apiErr) {
-          setCompileError(apiErr.message || 'Error occurred during compilation');
-          setLoaderStep(-1);
-          setIsCompiling(false);
-          return;
+        const isValidCompiledCsv = Boolean(
+          compiledPath && 
+          !compiledPath.toLowerCase().endsWith('.zip') && 
+          !compiledPath.toLowerCase().endsWith('.tar') && 
+          !compiledPath.toLowerCase().endsWith('.gz')
+        );
+
+        if (!isValidCompiledCsv) {
+          throw new Error('Compilation did not generate a valid canonical CSV dataset. Please check archive contents.');
         }
-      } else if (step === 5) {
+
+        apiData = {
+          status: 'success',
+          first_csv: compiledPath,
+          compiled_csv: compiledPath,
+          filename: file.name,
+          run_id: receivedRunId
+        };
+
+        // Fetch profile dataset metadata for the real compiled CSV
+        if (apiData && apiData.first_csv) {
+          try {
+            const profilerForm = new FormData();
+            profilerForm.append('file_path', apiData.first_csv);
+            
+            const customTarget = userInputs?.targetColumn;
+            const customEntity = userInputs?.entityColumn;
+            const customTimestamp = userInputs?.timestampColumn;
+            const customProblemType = userInputs?.problemType;
+
+            const lowerName = file.name.toLowerCase();
+            const defaultTargetColumn = lowerName.includes('insurance') ? 'charges' : (lowerName.includes('house_prices') ? 'SalePrice' : (lowerName.includes('manufacturing') ? 'RUL' : ''));
+            
+            profilerForm.append('target_column', customTarget || defaultTargetColumn || '');
+            if (customEntity) profilerForm.append('entity_column', customEntity);
+            if (customTimestamp) profilerForm.append('timestamp_column', customTimestamp);
+            if (customProblemType) profilerForm.append('problem_type', customProblemType);
+
+            const profileRes = await fetch('http://localhost:8000/api/v1/profile', {
+              method: 'POST',
+              body: profilerForm
+            });
+            if (profileRes.ok) {
+              profileData = await profileRes.json();
+            }
+          } catch (profErr) {
+            console.error('Failed to profile compiled file:', profErr);
+          }
+        }
+
+        if (onJaneNarration) {
+          onJaneNarration(`✅ **Dataset Compiled Successfully!**\n\nArchive \`${file.name}\` processed. Generated canonical parquet & CSV artifacts. Ready to explore!`, 'exploration_synthesizer_node');
+        }
+
         setCompiledData(apiData);
-        await new Promise((r) => setTimeout(r, 800));
-      } else {
-        await new Promise((r) => setTimeout(r, 900));
-      }
-    }
+        setIsCompiling(false);
 
-    setLoaderStep(-1);
-    setIsCompiling(false);
-    
-    // Auto-navigate to Node 4 (Page 2: Prepare Node)
-    if (onCompilationFinished) {
-      const firstCsv = apiData?.first_csv || 'workspace_data/ds1_FD001/C-MAPSS_FD001_train.csv';
-      onCompilationFinished(firstCsv, file.name, profileData);
+        // Give user 1.5s to see the completion message in centered Jane, then navigate
+        setTimeout(() => {
+          if (onCompilationFinished && apiData && apiData.first_csv) {
+            onCompilationFinished(apiData.first_csv, file.name, profileData);
+          }
+        }, 1500);
+
+      } catch (err: any) {
+        apiErr = err;
+        setCompileError(err.message || 'Error occurred during compilation');
+        setIsCompiling(false);
+        if (onJaneNarration) {
+          onJaneNarration(`❌ **Compilation Error:** ${err.message || 'Failed to process dataset'}`, 'error');
+        }
+      }
+    } else {
+      // Legacy offline/fallback path with manual loaderStep
+      setLoaderStep(0);
+      try {
+        const res = await fetch('http://localhost:8000/api/v1/compile', {
+          method: 'POST',
+          body: formData
+        });
+        if (!res.ok) {
+          const errJson = await res.json();
+          throw new Error(errJson.detail || 'Compilation failed');
+        }
+        apiData = await res.json();
+      } catch (err: any) {
+        apiErr = err;
+      }
+
+      for (let step = 0; step <= 5; step++) {
+        setLoaderStep(step);
+        setCompilationLayer(Math.min(4, Math.floor(step / 1.5) + 1));
+        await new Promise((r) => setTimeout(r, 800));
+      }
+
+      setLoaderStep(-1);
+      setIsCompiling(false);
+
+      if (apiErr) {
+        setCompileError(apiErr.message || 'Error occurred during compilation');
+        return;
+      }
+
+      setCompiledData(apiData);
+      if (onCompilationFinished) {
+        const firstCsv = apiData?.first_csv || 'workspace_data/ds1_FD001/C-MAPSS_FD001_train.csv';
+        onCompilationFinished(firstCsv, file.name, profileData);
+      }
     }
   };
 
@@ -552,9 +660,48 @@ export const CompilerView: React.FC<CompilerViewProps> = ({
                   or <span className="text-[#E86326] font-bold underline">browse local storage</span> to select multi-table SCADA dataset
                 </p>
                 <div className="flex flex-wrap items-center justify-center gap-3 mt-4 text-[10px] font-mono text-secondary">
-                  <span className="px-2.5 py-1 border border-ui rounded-xl" style={{background:'var(--bg-input)'}}>C-MAPSS Turbofan (.zip)</span>
-                  <span className="px-2.5 py-1 border border-ui rounded-xl" style={{background:'var(--bg-input)'}}>Wind Turbine SCADA (.parquet)</span>
-                  <span className="px-2.5 py-1 border border-ui rounded-xl" style={{background:'var(--bg-input)'}}>IGBT Semiconductor (.csv)</span>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      const sampleFile = new File(["dummy C-MAPSS zip content"], "CMAPSSData.zip", { type: "application/zip" });
+                      setSelectedFile(sampleFile);
+                      if (onUploadStarted) onUploadStarted(sampleFile.name);
+                      triggerCompilation(sampleFile);
+                    }}
+                    className="px-2.5 py-1 border border-ui rounded-xl hover:border-[#E86326] hover:text-[#E86326] transition-colors cursor-pointer"
+                    style={{background:'var(--bg-input)'}}
+                  >
+                    C-MAPSS Turbofan (.zip)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      const sampleFile = new File(["dummy Wind Turbine content"], "wind_turbine_scada.parquet", { type: "application/octet-stream" });
+                      setSelectedFile(sampleFile);
+                      if (onUploadStarted) onUploadStarted(sampleFile.name);
+                      triggerCompilation(sampleFile);
+                    }}
+                    className="px-2.5 py-1 border border-ui rounded-xl hover:border-[#E86326] hover:text-[#E86326] transition-colors cursor-pointer"
+                    style={{background:'var(--bg-input)'}}
+                  >
+                    Wind Turbine SCADA (.parquet)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      const sampleFile = new File(["dummy IGBT content"], "igbt_semiconductor.csv", { type: "text/csv" });
+                      setSelectedFile(sampleFile);
+                      if (onUploadStarted) onUploadStarted(sampleFile.name);
+                      triggerCompilation(sampleFile);
+                    }}
+                    className="px-2.5 py-1 border border-ui rounded-xl hover:border-[#E86326] hover:text-[#E86326] transition-colors cursor-pointer"
+                    style={{background:'var(--bg-input)'}}
+                  >
+                    IGBT Semiconductor (.csv)
+                  </button>
                 </div>
               </div>
             )}

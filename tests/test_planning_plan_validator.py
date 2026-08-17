@@ -1,7 +1,7 @@
 # tests/test_planning_plan_validator.py
 import pytest
-from aiconnex_agent.schemas import ExecutionPlan, TaskStep
-from aiconnex_agent.planning.plan_validator import PlanValidator
+from agentic.schemas import ExecutionPlan, TaskStep
+from agentic.planning.plan_validator import PlanValidator
 
 
 def test_valid_plan_passes_through():

@@ -7,7 +7,7 @@ direct node calls, no more separate CUC re-implementation):
   1+2+3+4. CUC + Planner + Dataset + Scout — one continuous interactive
            drive of aiconnex_agent's compiled graph (execute_and_stream /
            resume_with_user_input), the SAME graph used by
-           chatbot/backend/app.py's /api/agent/chat, /api/agent/resume,
+           backend/app.py's /api/agent/chat, /api/agent/resume,
            and /api/agent/seed. A terminal session and a Postman-seeded
            session are now interchangeable in the same SqliteSaver
            checkpoint DB.
@@ -22,7 +22,7 @@ MLflow: All nodes logged → open with:
 Phase 2 (next): Confirmation Gate → Platform Agent → Leaderboard
 
 KNOWN GAP (not introduced by this rewrite — applies equally to the chat/
-Postman paths): aiconnex_agent.schemas.Goal.confidence defaults to 1.0 and
+Postman paths): agentic.schemas.Goal.confidence defaults to 1.0 and
 is never overwritten with the real ConfidenceScorer score (that score only
 lands in state.confidence_score, a separate field). Neither the LLM
 extractor nor its heuristic fallback ever sets goal.task_family. Since
@@ -43,9 +43,9 @@ from pathlib import Path
 from typing import Any, Optional
 
 # ─── repo root + chatbot backend on path ─────────────────────────────────────
-REPO_ROOT = Path(__file__).resolve().parent
+REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
-sys.path.insert(0, str(REPO_ROOT / "chatbot" / "backend"))
+sys.path.insert(0, str(REPO_ROOT / "backend"))
 
 # ─── silence noisy library loggers ────────────────────────────────────────────
 logging.basicConfig(level=logging.WARNING)
@@ -102,7 +102,7 @@ def _prompt(label: str) -> str:
 
 def _init_mlflow(session_id: str) -> None:
     try:
-        from aiconnex_agent.telemetry.tracker import get_telemetry
+        from agentic.telemetry.tracker import get_telemetry
         t = get_telemetry()
         t._tracking_uri = MLFLOW_URI
         t.setup(session_id)
@@ -113,7 +113,7 @@ def _init_mlflow(session_id: str) -> None:
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# Interrupt payload extraction (mirrors chatbot/backend/app.py's translator so
+# Interrupt payload extraction (mirrors backend/app.py's translator so
 # both entry points interpret the SAME graph event shape identically)
 # ══════════════════════════════════════════════════════════════════════════════
 
@@ -142,7 +142,7 @@ def _interrupt_payload_from_update(update: Any) -> Optional[dict]:
 
 # ══════════════════════════════════════════════════════════════════════════════
 # PHASE 1-4 (merged) — CUC → Planner → Dataset → Scout, all driven by the
-# real compiled LangGraph StateGraph (aiconnex_agent.runner._compiled_graph).
+# real compiled LangGraph StateGraph (agentic.runner._compiled_graph).
 # ══════════════════════════════════════════════════════════════════════════════
 
 def run_intake_and_scout_phase(session_id: str) -> dict:
@@ -151,9 +151,9 @@ def run_intake_and_scout_phase(session_id: str) -> dict:
     like real_scout_agent_node's own return value ({"dic": ..., "scout_enriched": ...}),
     so run_hitl_phase / print_dic_summary need no changes.
     """
-    from aiconnex_agent.runner import execute_and_stream, resume_with_user_input, _compiled_graph
-    from aiconnex_agent.state import MasterAgentState
-    from aiconnex_agent.telemetry.tracker import get_telemetry
+    from agentic.runner import execute_and_stream, resume_with_user_input, _compiled_graph
+    from agentic.state import MasterAgentState
+    from agentic.telemetry.tracker import get_telemetry
 
     telemetry = get_telemetry()
     config = {"configurable": {"thread_id": session_id}}
@@ -219,7 +219,7 @@ def run_intake_and_scout_phase(session_id: str) -> dict:
                 cols = compiled.get("columns", "?")
                 tick(f"Scout compiled dataset — rows={rows}, columns={cols}")
                 try:
-                    from aiconnex_agent.telemetry.emitters import ScoutEmitter
+                    from agentic.telemetry.emitters import ScoutEmitter
                     ScoutEmitter().emit(
                         session_id=session_id,
                         dic_dict=dic,
@@ -342,7 +342,7 @@ def run_hitl_phase(scout_result: dict, session_id: str) -> dict:
 
     from hitl_flow import process_hitl_turn
     from hitl_schemas import HITLContract
-    from aiconnex_agent.telemetry.tracker import get_telemetry
+    from agentic.telemetry.tracker import get_telemetry
 
     dic_context = scout_result.get("dic", {})
     contract    = HITLContract()
@@ -446,7 +446,7 @@ def print_dic_summary(scout_result: dict, hitl_result: dict, upload_path_name: s
     output   = compiled.get("output_path") or compiled.get("combined_csv_path", "")
 
     if not output:
-        scout_out = REPO_ROOT / "chatbot" / "backend" / "scratch" / "scout_output"
+        scout_out = REPO_ROOT / "backend" / "scratch" / "scout_output"
         if scout_out.exists():
             subdirs = sorted(scout_out.iterdir(),
                              key=lambda x: x.stat().st_mtime, reverse=True)
@@ -512,7 +512,7 @@ def run_manifest_generation(phase1_export: dict, session_id: str) -> str:
     header("PHASE 8 — Manifest Generation", BLU)
     sysline("Building authoritative manifest.json from DIC + Recipe...")
 
-    from aiconnex_agent.platform.manifest_builder import build_manifest, save_manifest_to_file
+    from agentic.platform.manifest_builder import build_manifest, save_manifest_to_file
 
     dic = phase1_export["dic"]
     recipe = phase1_export["selected_recipe"]
@@ -549,7 +549,7 @@ def run_ml_pipeline_phase(manifest_path: str, session_id: str) -> dict:
     print(f"  {c('AIConnex ›', CYN)} Executing 10-node ML pipeline DAG...")
     print()
 
-    from aiconnex_ml.runner import PipelineRunner
+    from services.aiconnex_ml.runner import PipelineRunner
 
     try:
         runner = PipelineRunner(manifest_path)

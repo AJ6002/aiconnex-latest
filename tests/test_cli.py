@@ -20,7 +20,7 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
-from aiconnex_zip_compiler.plugins.registry import PluginRegistry
+from services.aiconnex_zip_compiler.plugins.registry import PluginRegistry
 
 
 @pytest.fixture(autouse=True)
@@ -47,7 +47,7 @@ def multi_condition_zip(tmp_path) -> Path:
 
 def _run_cli(monkeypatch, argv):
     """Run cli.main() with a patched argv and return the exit code."""
-    from aiconnex_zip_compiler import cli
+    from services.aiconnex_zip_compiler import cli
     monkeypatch.setattr(sys, "argv", ["aiconnex_zip_compiler"] + argv)
     return cli.main()
 

@@ -38,18 +38,18 @@ from __future__ import annotations
 import logging
 from typing import List, Optional, Tuple
 
-from aiconnex_agent.registries.registry_loader import (
+from agentic.registries.registry_loader import (
     get_missing_required_fields,
     get_conversation_rules,
     get_upload_readiness_rules,
 )
-from aiconnex_agent.schemas import (
+from agentic.schemas import (
     ConversationUnderstandingContract,
     ConversationPlan,
     UploadReadinessContract,
     ContradictionRecord,
 )
-from aiconnex_agent.state import MasterAgentState
+from agentic.state import MasterAgentState
 
 logger = logging.getLogger(__name__)
 

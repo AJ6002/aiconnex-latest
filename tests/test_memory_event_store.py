@@ -1,7 +1,7 @@
 # tests/test_memory_event_store.py
 import pytest
-from aiconnex_agent.memory.events import make_event, BaseEvent
-from aiconnex_agent.memory.event_store import EventStore, get_event_store, reset_event_store
+from agentic.memory.events import make_event, BaseEvent
+from agentic.memory.event_store import EventStore, get_event_store, reset_event_store
 
 
 def test_make_event_populates_id_and_timestamp():

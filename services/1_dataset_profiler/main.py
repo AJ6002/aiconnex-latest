@@ -58,7 +58,7 @@ async def compile_zip(file: UploadFile = File(...)):
         if services_dir not in sys.path:
             sys.path.insert(0, services_dir)
             
-        from aiconnex_zip_compiler.compiler import UnifiedCompiler
+        from services.aiconnex_zip_compiler.compiler import UnifiedCompiler
         
         # Output directory is inside workspace_data
         zip_stem = os.path.splitext(file.filename)[0]
@@ -81,7 +81,7 @@ async def compile_zip(file: UploadFile = File(...)):
             merged_files_list = [dest_csv_path]
             combined_file_path = dest_csv_path
         else:
-            from aiconnex_zip_compiler.compiler import UnifiedCompiler
+            from services.aiconnex_zip_compiler.compiler import UnifiedCompiler
             compiler = UnifiedCompiler(temp_zip_path, output_dir, enable_intelligence=False)
             res = compiler.compile()
             
@@ -399,7 +399,7 @@ async def profile_dataset(
             import shutil
             import zipfile
             from pathlib import Path
-            from aiconnex_zip_compiler.compiler import UnifiedCompiler
+            from services.aiconnex_zip_compiler.compiler import UnifiedCompiler
             
             suffix = ".zip"
             fd, temp_zip_path = tempfile.mkstemp(suffix=suffix)

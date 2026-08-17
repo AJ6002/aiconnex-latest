@@ -11,8 +11,8 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics import root_mean_squared_error, r2_score
 
-from aiconnex_ml.regression.registry import get_algorithm, list_algorithms
-from aiconnex_ml.regression.losses import asymmetric_rul_score
+from services.aiconnex_ml.regression.registry import get_algorithm, list_algorithms
+from services.aiconnex_ml.regression.losses import asymmetric_rul_score
 
 
 def run_baselines(

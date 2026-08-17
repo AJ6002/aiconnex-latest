@@ -1,8 +1,8 @@
 # tests/test_parser_scorer_and_generator.py
 import pytest
-from aiconnex_agent.schemas import ConversationUnderstandingContract
-from aiconnex_agent.parser.confidence_scorer import ConfidenceScorer
-from aiconnex_agent.parser.clarification_generator import ClarificationGenerator
+from agentic.schemas import ConversationUnderstandingContract
+from agentic.parser.confidence_scorer import ConfidenceScorer
+from agentic.parser.clarification_generator import ClarificationGenerator
 
 
 def test_confidence_scorer_high():
@@ -49,7 +49,7 @@ class _StubLLM:
 
 
 def test_confidence_scorer_uses_real_llm_call_path_by_default(monkeypatch):
-    import aiconnex_agent.parser.confidence_scorer as cs_module
+    import agentic.parser.confidence_scorer as cs_module
     monkeypatch.setattr(cs_module, "get_llm", lambda *a, **kw: _StubLLM('{"confidence": 0.97, "reasoning": "clear"}'))
 
     scorer = ConfidenceScorer()  # default is now use_llm=True
@@ -59,7 +59,7 @@ def test_confidence_scorer_uses_real_llm_call_path_by_default(monkeypatch):
 
 
 def test_confidence_scorer_rejects_out_of_range_and_falls_back(monkeypatch):
-    import aiconnex_agent.parser.confidence_scorer as cs_module
+    import agentic.parser.confidence_scorer as cs_module
     monkeypatch.setattr(cs_module, "get_llm", lambda *a, **kw: _StubLLM('{"confidence": 1.5}'))
 
     scorer = ConfidenceScorer()
@@ -69,7 +69,7 @@ def test_confidence_scorer_rejects_out_of_range_and_falls_back(monkeypatch):
 
 
 def test_confidence_scorer_falls_back_on_network_error(monkeypatch):
-    import aiconnex_agent.parser.confidence_scorer as cs_module
+    import agentic.parser.confidence_scorer as cs_module
 
     def _raise(*a, **kw):
         raise ConnectionError("simulated failure")
@@ -81,7 +81,7 @@ def test_confidence_scorer_falls_back_on_network_error(monkeypatch):
 
 
 def test_confidence_scorer_use_llm_false_skips_llm_entirely(monkeypatch):
-    import aiconnex_agent.parser.confidence_scorer as cs_module
+    import agentic.parser.confidence_scorer as cs_module
 
     def _should_not_be_called(*a, **kw):
         raise AssertionError("get_llm() must not be called when use_llm=False")
@@ -93,7 +93,7 @@ def test_confidence_scorer_use_llm_false_skips_llm_entirely(monkeypatch):
 
 
 def test_clarification_generator_uses_real_llm_call_path_by_default(monkeypatch):
-    import aiconnex_agent.parser.clarification_generator as cg_module
+    import agentic.parser.clarification_generator as cg_module
     monkeypatch.setattr(cg_module, "get_llm", lambda *a, **kw: _StubLLM('{"questions": ["Which archive should I use?"]}'))
 
     gen = ClarificationGenerator()  # default is now use_llm=True
@@ -104,7 +104,7 @@ def test_clarification_generator_uses_real_llm_call_path_by_default(monkeypatch)
 
 
 def test_clarification_generator_falls_back_on_empty_llm_questions(monkeypatch):
-    import aiconnex_agent.parser.clarification_generator as cg_module
+    import agentic.parser.clarification_generator as cg_module
     monkeypatch.setattr(cg_module, "get_llm", lambda *a, **kw: _StubLLM('{"questions": []}'))
 
     gen = ClarificationGenerator()
@@ -115,7 +115,7 @@ def test_clarification_generator_falls_back_on_empty_llm_questions(monkeypatch):
 
 
 def test_clarification_generator_falls_back_on_network_error(monkeypatch):
-    import aiconnex_agent.parser.clarification_generator as cg_module
+    import agentic.parser.clarification_generator as cg_module
 
     def _raise(*a, **kw):
         raise ConnectionError("simulated failure")
@@ -128,7 +128,7 @@ def test_clarification_generator_falls_back_on_network_error(monkeypatch):
 
 
 def test_clarification_generator_use_llm_false_skips_llm_entirely(monkeypatch):
-    import aiconnex_agent.parser.clarification_generator as cg_module
+    import agentic.parser.clarification_generator as cg_module
 
     def _should_not_be_called(*a, **kw):
         raise AssertionError("get_llm() must not be called when use_llm=False")

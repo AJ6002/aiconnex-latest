@@ -19,8 +19,8 @@ import hashlib
 import logging
 from typing import List, Dict, Any, Optional
 
-from aiconnex_agent.platform_kb.schemas import KnowledgeChunkRecord
-from aiconnex_agent.platform_kb.normalizer import NormalizedSection
+from agentic.platform_kb.schemas import KnowledgeChunkRecord
+from agentic.platform_kb.normalizer import NormalizedSection
 
 logger = logging.getLogger(__name__)
 
