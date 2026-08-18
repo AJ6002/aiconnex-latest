@@ -10,9 +10,12 @@ interface ChatBotModalProps {
   onSessionCreated?: (sessionId: string) => void;
   onUploadRequested?: (cucSeed?: any) => void;
   externalNarration?: string | null;
+  externalNarrationNode?: string | null;
   interruptData?: any;
   onInterruptResolved?: () => void;
   activeSessionId?: string | null;
+  compiledCsvPath?: string;
+  uploadedColumns?: string[];
 }
 
 interface Message {
@@ -147,11 +150,29 @@ export const ChatBotModal: React.FC<ChatBotModalProps> = ({
   interruptData,
   onInterruptResolved,
   activeSessionId,
+  compiledCsvPath,
+  uploadedColumns = [],
 }) => {
   const [userId, setUserId] = useState(initialUserId);
   const [isMinimizedLocal, setIsMinimizedLocal] = useState(false);
   const isMinimized = isDocked !== undefined ? isDocked : isMinimizedLocal;
   const [inputText, setInputText] = useState('');
+  const [dynamicColumns, setDynamicColumns] = useState<string[]>(uploadedColumns);
+
+  useEffect(() => {
+    if (uploadedColumns && uploadedColumns.length > 0) {
+      setDynamicColumns(uploadedColumns);
+    } else if (compiledCsvPath) {
+      fetch(`http://localhost:8000/api/v1/data_explorer/tab_diagnostics?file_path=${encodeURIComponent(compiledCsvPath)}`)
+        .then(r => r.json())
+        .then(d => {
+          if (d.numeric_columns && d.numeric_columns.length > 0) {
+            setDynamicColumns(d.numeric_columns);
+          }
+        })
+        .catch(() => {});
+    }
+  }, [compiledCsvPath, uploadedColumns]);
   const [messages, setMessages] = useState<Message[]>([
     {
       sender: 'bot',
@@ -600,26 +621,66 @@ export const ChatBotModal: React.FC<ChatBotModalProps> = ({
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Quick Prompt Chips */}
+          {/* Dynamic Quick Prompt Chips */}
           <div className="px-3 py-1.5 bg-white border-t border-slate-200 flex gap-1.5 overflow-x-auto no-scrollbar">
-            <button
-              onClick={() => handleSendMessage('Predict RUL for Turbine Asset')}
-              className="px-2.5 py-1 bg-slate-100 hover:bg-[#E86326] hover:text-white text-slate-700 font-medium text-[11px] rounded-full transition-all border border-slate-200 whitespace-nowrap"
-            >
-              Predict RUL
-            </button>
-            <button
-              onClick={() => handleSendMessage('Train AutoML Model on Cluster 1')}
-              className="px-2.5 py-1 bg-slate-100 hover:bg-[#E86326] hover:text-white text-slate-700 font-medium text-[11px] rounded-full transition-all border border-slate-200 whitespace-nowrap"
-            >
-              Train AutoML
-            </button>
-            <button
-              onClick={() => handleSendMessage('Check Telemetry Status')}
-              className="px-2.5 py-1 bg-slate-100 hover:bg-[#E86326] hover:text-white text-slate-700 font-medium text-[11px] rounded-full transition-all border border-slate-200 whitespace-nowrap"
-            >
-              Telemetry Status
-            </button>
+            {dynamicColumns && dynamicColumns.length > 0 ? (
+              <>
+                {dynamicColumns.slice(0, 3).map((col, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => handleSendMessage(`Predict ${col} objective from dataset`)}
+                    className="px-2.5 py-1 bg-slate-100 hover:bg-[#E86326] hover:text-white text-slate-700 font-medium text-[11px] rounded-full transition-all border border-slate-200 whitespace-nowrap flex items-center gap-1"
+                  >
+                    <span>🎯</span> Predict {col}
+                  </button>
+                ))}
+                <button
+                  onClick={() => handleSendMessage('Train multi-target joint regression and anomaly model')}
+                  className="px-2.5 py-1 bg-slate-100 hover:bg-[#E86326] hover:text-white text-slate-700 font-medium text-[11px] rounded-full transition-all border border-slate-200 whitespace-nowrap flex items-center gap-1"
+                >
+                  <span>⚡</span> Multi-Target Model
+                </button>
+                <button
+                  onClick={() => handleSendMessage('Spin Docker training container and fit LightGBM & XGBoost')}
+                  className="px-2.5 py-1 bg-slate-100 hover:bg-[#E86326] hover:text-white text-slate-700 font-medium text-[11px] rounded-full transition-all border border-slate-200 whitespace-nowrap flex items-center gap-1"
+                >
+                  <span>🚀</span> Spin Docker Training
+                </button>
+                <button
+                  onClick={() => handleSendMessage('Explain the Pre-Prepare missingness and outlier box plot diagnostics')}
+                  className="px-2.5 py-1 bg-slate-100 hover:bg-[#E86326] hover:text-white text-slate-700 font-medium text-[11px] rounded-full transition-all border border-slate-200 whitespace-nowrap flex items-center gap-1"
+                >
+                  <span>📊</span> Diagnostic Cards
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  onClick={() => handleSendMessage('Configure predictive modeling and target regression')}
+                  className="px-2.5 py-1 bg-slate-100 hover:bg-[#E86326] hover:text-white text-slate-700 font-medium text-[11px] rounded-full transition-all border border-slate-200 whitespace-nowrap"
+                >
+                  🎯 Target Regression
+                </button>
+                <button
+                  onClick={() => handleSendMessage('Spin AutoML training container with offline models')}
+                  className="px-2.5 py-1 bg-slate-100 hover:bg-[#E86326] hover:text-white text-slate-700 font-medium text-[11px] rounded-full transition-all border border-slate-200 whitespace-nowrap"
+                >
+                  🚀 Spin Docker AutoML
+                </button>
+                <button
+                  onClick={() => handleSendMessage('Run unsupervised anomaly and drift detection')}
+                  className="px-2.5 py-1 bg-slate-100 hover:bg-[#E86326] hover:text-white text-slate-700 font-medium text-[11px] rounded-full transition-all border border-slate-200 whitespace-nowrap"
+                >
+                  🔍 Anomaly Detection
+                </button>
+                <button
+                  onClick={() => handleSendMessage('Check telemetry and edge streaming health')}
+                  className="px-2.5 py-1 bg-slate-100 hover:bg-[#E86326] hover:text-white text-slate-700 font-medium text-[11px] rounded-full transition-all border border-slate-200 whitespace-nowrap"
+                >
+                  ⚡ Telemetry Stream
+                </button>
+              </>
+            )}
           </div>
 
           {/* Input Form */}
