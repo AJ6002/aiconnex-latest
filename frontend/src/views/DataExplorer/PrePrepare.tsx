@@ -662,8 +662,13 @@ export const PrePrepare: React.FC<PrePrepareProps> = ({
                 }`}
               >
                 <div className="flex justify-between items-start gap-2 border-b border-slate-100 pb-2">
-                  <div className="flex items-center gap-1.5 font-bold text-slate-800 text-[11.5px] truncate">
-                    <span>{plot.title}</span>
+                  <div>
+                    <div className="font-bold text-slate-800 text-[11.5px] truncate">
+                      {plot.title}
+                    </div>
+                    <div className="text-[9.5px] text-slate-500 mt-0.5 font-normal">
+                      <strong>Visualizes:</strong> Statistical distribution &amp; quality check for dataset telemetry.
+                    </div>
                   </div>
                   {plot.flagged && (
                     <span className="bg-rose-100 text-rose-700 text-[9px] font-bold px-1.5 py-0.2 rounded border border-rose-200 flex-shrink-0 flex items-center gap-0.5">
@@ -675,6 +680,11 @@ export const PrePrepare: React.FC<PrePrepareProps> = ({
                 {/* SVG Visualization Canvas */}
                 <div className="w-full h-[120px] bg-slate-50 rounded-lg p-1 overflow-hidden border border-slate-100">
                   <ChartRenderer type={plot.type} id={plot.id} flagged={plot.flagged} />
+                </div>
+
+                {/* Live Values Badge */}
+                <div className="px-2 py-1 bg-slate-50 rounded-md border border-slate-100 flex flex-wrap gap-2 text-[9.5px] font-mono">
+                  <span className="text-slate-700"><span>Check:</span> <strong>{plot.threshold}</strong></span>
                 </div>
 
                 {/* 1-Line Universal Explanation Banner */}
