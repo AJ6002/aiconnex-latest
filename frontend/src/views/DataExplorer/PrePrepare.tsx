@@ -24,6 +24,16 @@ interface PrePrepareProps {
   onApproveDeliverables?: () => void;
 }
 
+const toSafeStr = (val: any, fallback: string = ''): string => {
+  if (val === null || val === undefined) return fallback;
+  if (typeof val === 'string') return val;
+  if (typeof val === 'number') return String(val);
+  if (typeof val === 'object') {
+    return String(val.name || val.column_name || val.id || val.title || Object.keys(val)[0] || fallback);
+  }
+  return String(val);
+};
+
 // Sensible, Data-Driven SVG Chart Renderer for Pre-Prepare visualizations (140px uniform height)
 function ChartRenderer({ type, id, data, flagged }: { type: string; id: string | number; data?: any; flagged?: boolean }) {
   const primaryColor = '#1E47C8';
@@ -37,13 +47,16 @@ function ChartRenderer({ type, id, data, flagged }: { type: string; id: string |
     case 'column-missingness':
     case 'bar':
     case 'waterfall':
-      const cols = data?.columns || ['COD', 'Volume', 'PH', 'TDS', 'AN', 'SS'];
+      const rawCols = Array.isArray(data?.columns) ? data.columns : ['COD', 'Volume', 'PH', 'TDS', 'AN', 'SS'];
+      const cols = rawCols.map((c: any) => toSafeStr(c, 'Feature'));
       return (
         <svg viewBox="0 0 300 120" className="w-full h-full font-sans">
           <line x1="20" y1="95" x2="280" y2="95" stroke={gridColor} strokeWidth="1" />
           <line x1="20" y1="20" x2="280" y2="20" stroke={gridColor} strokeWidth="0.5" strokeDasharray="3" />
           <text x="25" y="16" fill="#94a3b8" fontSize="7" fontWeight="bold">100% Complete (0 Missing NaNs)</text>
           {cols.slice(0, 5).map((colName: string, i: number) => {
+            const safeName = toSafeStr(colName, `Col_${i+1}`);
+            const displayName = safeName.length > 7 ? safeName.substring(0, 6) + '..' : safeName;
             const x = 30 + i * 50;
             return (
               <g key={i}>
@@ -51,7 +64,7 @@ function ChartRenderer({ type, id, data, flagged }: { type: string; id: string |
                 <rect x={x} y="25" width="34" height="70" rx="3" fill="url(#greenGrad)" opacity="0.85" />
                 <text x={x + 17} y="60" textAnchor="middle" fill="#166534" fontSize="8" fontWeight="bold">100%</text>
                 <text x={x + 17} y="110" textAnchor="middle" fill="#475569" fontSize="7.5" fontWeight="bold">
-                  {colName.length > 7 ? colName.substring(0, 6) + '..' : colName}
+                  {displayName}
                 </text>
               </g>
             );
@@ -69,7 +82,7 @@ function ChartRenderer({ type, id, data, flagged }: { type: string; id: string |
     case 'feature-hist':
     case 'kde':
     case 'line':
-      const featName = data?.top_feature || 'Volume (m3)';
+      const featName = toSafeStr(data?.top_feature, 'Volume (m3)');
       return (
         <svg viewBox="0 0 300 120" className="w-full h-full font-sans">
           <line x1="30" y1="95" x2="280" y2="95" stroke="#cbd5e1" strokeWidth="1" />
@@ -259,14 +272,24 @@ export const PrePrepare: React.FC<PrePrepareProps> = ({
 
   useEffect(() => {
     if (compiledCsvPath) {
-      const fn = compiledCsvPath.replace(/\\/g, '/').split('/').pop() || 'dataset.csv';
+      const fn = toSafeStr(compiledCsvPath).replace(/\\/g, '/').split('/').pop() || 'dataset.csv';
       setSourceFilename(fn);
     }
-    if (backendProfile && backendProfile.columns) {
-      setActiveColumns(backendProfile.columns);
-      if (backendProfile.rows_count) setRowsCount(backendProfile.rows_count);
+    if (backendProfile) {
+      if (Array.isArray(backendProfile.columns)) {
+        setActiveColumns(backendProfile.columns.map((c: any) => toSafeStr(c)));
+      } else if (backendProfile.columns && typeof backendProfile.columns === 'object') {
+        setActiveColumns(Object.keys(backendProfile.columns).map((c: any) => toSafeStr(c)));
+      }
+      if (backendProfile.rows_count) setRowsCount(Number(backendProfile.rows_count) || 1158);
     }
   }, [compiledCsvPath, backendProfile]);
+
+  const safeColsList = Array.isArray(activeColumns) && activeColumns.length > 0
+    ? activeColumns.map((c: any) => toSafeStr(c))
+    : ['Volume (m3)', 'COD', 'PH', 'TDS', 'AN', 'SS'];
+  const firstCol = safeColsList[0] || 'Feature_1';
+  const topFourCols = safeColsList.slice(0, 4).join(', ') || 'Features';
 
   const prePrepareSteps = [
     {
@@ -283,16 +306,16 @@ export const PrePrepare: React.FC<PrePrepareProps> = ({
           check: '100% missing values resolved (0 NaNs remaining)',
           threshold: '0 missing cells',
           flagged: false,
-          exp: `Evaluates null counts across all ${activeColumns.length} columns in ${sourceFilename}. 100% of values are complete and ready for ingestion.`,
+          exp: `Evaluates null counts across all ${safeColsList.length} columns in ${sourceFilename}. 100% of values are complete and ready for ingestion.`,
         },
         {
           id: '1.2',
-          title: `${activeColumns[0] || 'Feature'} Value Distribution Histogram`,
+          title: `${firstCol} Value Distribution Histogram`,
           type: 'feature-hist',
           check: 'Continuous distribution normality & empirical mean',
           threshold: 'Skewness < 0.5 (Normal)',
           flagged: false,
-          exp: `Plots 8-bin frequency distribution for '${activeColumns[0] || 'Volume (m3)'}', identifying central tendency and variance bounds.`,
+          exp: `Plots 8-bin frequency distribution for '${firstCol}', identifying central tendency and variance bounds.`,
         },
         {
           id: '1.3',
@@ -301,16 +324,16 @@ export const PrePrepare: React.FC<PrePrepareProps> = ({
           check: 'Bivariate correlation coefficient bounds (|r| < 0.95)',
           threshold: 'No collinear redundancy',
           flagged: false,
-          exp: `Heatmap showing bivariate Pearson correlations between ${activeColumns.slice(0, 4).join(', ')}. Discovers positive co-dependencies without multicollinear collapse.`,
+          exp: `Heatmap showing bivariate Pearson correlations between ${topFourCols}. Discovers positive co-dependencies without multicollinear collapse.`,
         },
         {
           id: '1.4',
-          title: `${activeColumns[0] || 'Feature'} 1.5x IQR Outlier Box-and-Whisker`,
+          title: `${firstCol} 1.5x IQR Outlier Box-and-Whisker`,
           type: 'box-plot',
           check: 'IQR fences [Q1 - 1.5xIQR, Q3 + 1.5xIQR]',
           threshold: '253 outliers bounded',
           flagged: true,
-          exp: `Identifies extreme values beyond upper whisker (233.2) in '${activeColumns[0] || 'Volume (m3)'}', preparing them for 1.5x IQR capping.`,
+          exp: `Identifies extreme values beyond upper whisker in '${firstCol}', preparing them for 1.5x IQR capping.`,
         },
         {
           id: '1.5',
@@ -328,7 +351,7 @@ export const PrePrepare: React.FC<PrePrepareProps> = ({
           check: 'Relative information variance across numeric channels',
           threshold: 'Non-zero variance on all channels',
           flagged: false,
-          exp: `Ranks features by standard deviation (COD: 412.5, Volume: 38.4, TDS: 124.0, PH: 1.2), ensuring high explanatory signal.`,
+          exp: `Ranks features by standard deviation, ensuring high explanatory signal across all continuous channels.`,
         }
       ]
     },
