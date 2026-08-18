@@ -17,6 +17,7 @@ natural language responses. Hardcoded templates act ONLY as emergency fallbacks.
 
 import os
 import sys
+import re
 import uuid
 from datetime import datetime
 from pathlib import Path
