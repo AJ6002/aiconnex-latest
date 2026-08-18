@@ -9,6 +9,8 @@ interface WorkspaceNode {
   extension?: string;
   size_bytes: number;
   modified_at?: string;
+  created_at?: string;
+  permissions?: string;
   children?: WorkspaceNode[];
 }
 
@@ -27,6 +29,9 @@ interface FilePreviewData {
   abs_path: string;
   extension: string;
   size_bytes: number;
+  modified_at?: string;
+  created_at?: string;
+  permissions?: string;
   preview_type: 'tabular' | 'json' | 'text' | 'binary' | 'error';
   columns?: string[];
   dtypes?: Record<string, string>;
@@ -174,6 +179,28 @@ export const WorkspaceView: React.FC<WorkspaceViewProps> = ({
     window.open(downloadUrl, '_blank');
   };
 
+  const [sortBy, setSortBy] = useState<'name' | 'modified' | 'size' | 'category'>('modified');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+
+  const formatDate = (isoString?: string) => {
+    if (!isoString) return '—';
+    try {
+      const d = new Date(isoString);
+      if (isNaN(d.getTime())) return isoString;
+      return d.toLocaleString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true
+      });
+    } catch {
+      return isoString;
+    }
+  };
+
   const handleCopyPath = (path: string, e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
     navigator.clipboard.writeText(path);
@@ -253,7 +280,7 @@ export const WorkspaceView: React.FC<WorkspaceViewProps> = ({
   }, [treeData]);
 
   const filteredFlatNodes = useMemo(() => {
-    return flatNodes.filter(n => {
+    const filtered = flatNodes.filter(n => {
       const q = searchQuery.toLowerCase();
       const matchesSearch = !searchQuery || n.name.toLowerCase().includes(q) || n.path.toLowerCase().includes(q);
       if (!matchesSearch) return false;
@@ -264,7 +291,23 @@ export const WorkspaceView: React.FC<WorkspaceViewProps> = ({
       if (selectedCategoryFilter === 'runs') return n.path.includes('runs');
       return true;
     });
-  }, [flatNodes, searchQuery, selectedCategoryFilter]);
+
+    return filtered.sort((a, b) => {
+      let comp = 0;
+      if (sortBy === 'name') {
+        comp = a.name.localeCompare(b.name);
+      } else if (sortBy === 'size') {
+        comp = a.size_bytes - b.size_bytes;
+      } else if (sortBy === 'modified') {
+        const timeA = a.modified_at ? new Date(a.modified_at).getTime() : 0;
+        const timeB = b.modified_at ? new Date(b.modified_at).getTime() : 0;
+        comp = timeA - timeB;
+      } else if (sortBy === 'category') {
+        comp = (a.category || '').localeCompare(b.category || '');
+      }
+      return sortOrder === 'asc' ? comp : -comp;
+    });
+  }, [flatNodes, searchQuery, selectedCategoryFilter, sortBy, sortOrder]);
 
   // Recursive Tree Node Renderer with clear Light Theme typography and high-contrast lines
   const renderTreeNode = (node: WorkspaceNode, depth: number = 0) => {
@@ -341,6 +384,14 @@ export const WorkspaceView: React.FC<WorkspaceViewProps> = ({
             <span className={`hidden sm:inline-block px-2 py-0.5 text-[9px] font-mono font-bold uppercase rounded-md border ${meta.badgeBg}`}>
               {meta.badge}
             </span>
+
+            {/* Date Time Badge */}
+            {node.modified_at && (
+              <span className="hidden md:inline-flex items-center gap-1 font-mono text-[10px] text-slate-500 bg-slate-50 border border-slate-200 px-2 py-0.5 rounded-md" title={`Last Modified: ${formatDate(node.modified_at)}`}>
+                <span className="material-symbols-outlined text-[11px] text-slate-400">schedule</span>
+                <span>{formatDate(node.modified_at)}</span>
+              </span>
+            )}
 
             <span className="font-mono text-[11px] text-slate-500 w-16 text-right font-medium">
               {isFolder ? `${node.children?.length || 0} items` : formatSize(node.size_bytes)}
@@ -614,9 +665,64 @@ export const WorkspaceView: React.FC<WorkspaceViewProps> = ({
                 <table className="w-full text-left border-collapse font-mono text-xs">
                   <thead>
                     <tr className="border-b border-slate-200 bg-slate-50 text-[10px] uppercase font-bold text-slate-600">
-                      <th className="py-2.5 px-3">Name</th>
-                      <th className="py-2.5 px-3">Type</th>
-                      <th className="py-2.5 px-3">Size</th>
+                      <th
+                        className="py-2.5 px-3 cursor-pointer hover:bg-slate-100 transition-colors"
+                        onClick={() => {
+                          if (sortBy === 'name') setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
+                          else { setSortBy('name'); setSortOrder('asc'); }
+                        }}
+                      >
+                        <div className="flex items-center gap-1">
+                          <span>Name & Path</span>
+                          {sortBy === 'name' && (
+                            <span className="material-symbols-outlined text-xs">{sortOrder === 'asc' ? 'arrow_upward' : 'arrow_downward'}</span>
+                          )}
+                        </div>
+                      </th>
+                      <th
+                        className="py-2.5 px-3 cursor-pointer hover:bg-slate-100 transition-colors"
+                        onClick={() => {
+                          if (sortBy === 'category') setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
+                          else { setSortBy('category'); setSortOrder('asc'); }
+                        }}
+                      >
+                        <div className="flex items-center gap-1">
+                          <span>Category</span>
+                          {sortBy === 'category' && (
+                            <span className="material-symbols-outlined text-xs">{sortOrder === 'asc' ? 'arrow_upward' : 'arrow_downward'}</span>
+                          )}
+                        </div>
+                      </th>
+                      <th
+                        className="py-2.5 px-3 cursor-pointer hover:bg-slate-100 transition-colors"
+                        onClick={() => {
+                          if (sortBy === 'size') setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
+                          else { setSortBy('size'); setSortOrder('desc'); }
+                        }}
+                      >
+                        <div className="flex items-center gap-1">
+                          <span>Size</span>
+                          {sortBy === 'size' && (
+                            <span className="material-symbols-outlined text-xs">{sortOrder === 'asc' ? 'arrow_upward' : 'arrow_downward'}</span>
+                          )}
+                        </div>
+                      </th>
+                      <th
+                        className="py-2.5 px-3 cursor-pointer hover:bg-slate-100 transition-colors"
+                        onClick={() => {
+                          if (sortBy === 'modified') setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
+                          else { setSortBy('modified'); setSortOrder('desc'); }
+                        }}
+                      >
+                        <div className="flex items-center gap-1">
+                          <span>Date Modified</span>
+                          {sortBy === 'modified' && (
+                            <span className="material-symbols-outlined text-xs">{sortOrder === 'asc' ? 'arrow_upward' : 'arrow_downward'}</span>
+                          )}
+                        </div>
+                      </th>
+                      <th className="py-2.5 px-3">Date Created</th>
+                      <th className="py-2.5 px-3">Perms</th>
                       <th className="py-2.5 px-3 text-right">Actions</th>
                     </tr>
                   </thead>
@@ -633,10 +739,10 @@ export const WorkspaceView: React.FC<WorkspaceViewProps> = ({
                           }`}
                         >
                           <td className="py-2.5 px-3 flex items-center gap-2">
-                            <span className="material-symbols-outlined text-base" style={{ color: meta.color }}>
+                            <span className="material-symbols-outlined text-base shrink-0" style={{ color: meta.color }}>
                               {meta.icon}
                             </span>
-                            <div className="min-w-0">
+                            <div className="min-w-0 flex-1">
                               <p className="truncate text-xs text-slate-800 font-bold">{n.name}</p>
                               <p className="text-[10px] text-slate-500 truncate">{n.path}</p>
                             </div>
@@ -646,15 +752,24 @@ export const WorkspaceView: React.FC<WorkspaceViewProps> = ({
                               {meta.badge}
                             </span>
                           </td>
-                          <td className="py-2.5 px-3 text-slate-600 text-[11px]">
+                          <td className="py-2.5 px-3 text-slate-600 text-[11px] whitespace-nowrap">
                             {n.type === 'directory' ? 'DIR' : formatSize(n.size_bytes)}
+                          </td>
+                          <td className="py-2.5 px-3 text-slate-600 text-[11px] whitespace-nowrap">
+                            {formatDate(n.modified_at)}
+                          </td>
+                          <td className="py-2.5 px-3 text-slate-500 text-[11px] whitespace-nowrap">
+                            {formatDate(n.created_at)}
+                          </td>
+                          <td className="py-2.5 px-3 text-slate-500 text-[10px] font-mono whitespace-nowrap">
+                            {n.permissions || '644'}
                           </td>
                           <td className="py-2.5 px-3 text-right">
                             <div className="flex items-center justify-end gap-1.5">
                               <button
                                 onClick={(e) => handleCopyPath(n.path, e)}
                                 className="p-1 text-slate-500 hover:text-slate-900"
-                                title="Copy Path"
+                                title="Copy Relative Path"
                               >
                                 <span className="material-symbols-outlined text-xs">
                                   {copiedPath === n.path ? 'check' : 'content_copy'}
@@ -664,7 +779,7 @@ export const WorkspaceView: React.FC<WorkspaceViewProps> = ({
                                 <button
                                   onClick={(e) => handleDownloadFile(n, e)}
                                   className="p-1 text-slate-500 hover:text-slate-900"
-                                  title="Download"
+                                  title="Download File"
                                 >
                                   <span className="material-symbols-outlined text-xs">download</span>
                                 </button>
@@ -737,6 +852,68 @@ export const WorkspaceView: React.FC<WorkspaceViewProps> = ({
                   </button>
                 </div>
               </div>
+
+              {/* Comprehensive File Metadata Grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 my-4 p-3 bg-slate-50 border border-slate-200 rounded-2xl font-mono text-xs">
+                <div>
+                  <div className="text-[10px] text-slate-500 font-bold uppercase flex items-center gap-1">
+                    <span className="material-symbols-outlined text-xs text-blue-600">schedule</span>
+                    <span>Date Modified</span>
+                  </div>
+                  <div className="text-slate-800 font-bold text-[11px] mt-0.5 truncate" title={selectedNode.modified_at}>
+                    {formatDate(selectedNode.modified_at)}
+                  </div>
+                </div>
+
+                <div>
+                  <div className="text-[10px] text-slate-500 font-bold uppercase flex items-center gap-1">
+                    <span className="material-symbols-outlined text-xs text-purple-600">history</span>
+                    <span>Date Created</span>
+                  </div>
+                  <div className="text-slate-800 font-bold text-[11px] mt-0.5 truncate" title={selectedNode.created_at}>
+                    {formatDate(selectedNode.created_at)}
+                  </div>
+                </div>
+
+                <div>
+                  <div className="text-[10px] text-slate-500 font-bold uppercase flex items-center gap-1">
+                    <span className="material-symbols-outlined text-xs text-emerald-600">hard_drive</span>
+                    <span>Size & Bytes</span>
+                  </div>
+                  <div className="text-slate-800 font-bold text-[11px] mt-0.5">
+                    {formatSize(selectedNode.size_bytes)} ({selectedNode.size_bytes.toLocaleString()} B)
+                  </div>
+                </div>
+
+                <div>
+                  <div className="text-[10px] text-slate-500 font-bold uppercase flex items-center gap-1">
+                    <span className="material-symbols-outlined text-xs text-amber-600">lock</span>
+                    <span>Permissions</span>
+                  </div>
+                  <div className="text-slate-800 font-bold text-[11px] mt-0.5">
+                    Mode {selectedNode.permissions || '644'}
+                  </div>
+                </div>
+              </div>
+
+              {selectedNode.abs_path && (
+                <div className="mb-2 px-3 py-1.5 bg-slate-100/70 border border-slate-200 rounded-xl flex items-center justify-between text-[11px] font-mono text-slate-600">
+                  <div className="truncate flex items-center gap-1.5">
+                    <span className="material-symbols-outlined text-xs text-slate-400">folder_special</span>
+                    <span className="font-bold text-slate-500 shrink-0">Disk Path:</span>
+                    <span className="truncate text-slate-800 select-all">{selectedNode.abs_path}</span>
+                  </div>
+                  <button
+                    onClick={() => handleCopyPath(selectedNode.abs_path!)}
+                    className="text-slate-400 hover:text-slate-700 ml-2 shrink-0 cursor-pointer"
+                    title="Copy Absolute Path"
+                  >
+                    <span className="material-symbols-outlined text-xs">
+                      {copiedPath === selectedNode.abs_path ? 'check' : 'content_copy'}
+                    </span>
+                  </button>
+                </div>
+              )}
 
               {/* Preview Body */}
               <div className="mt-4 flex-1 flex flex-col">

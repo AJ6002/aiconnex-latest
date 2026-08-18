@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { 
   Sparkles, 
   MessageSquare, 
@@ -48,8 +48,14 @@ interface StageErrorBoundaryState {
   error?: Error;
 }
 
-class DataExplorerErrorBoundary extends React.Component<StageErrorBoundaryProps, StageErrorBoundaryState> {
-  public state: StageErrorBoundaryState = { hasError: false };
+class DataExplorerErrorBoundary extends Component<StageErrorBoundaryProps, StageErrorBoundaryState> {
+  props!: StageErrorBoundaryProps;
+  state: StageErrorBoundaryState = { hasError: false };
+
+  constructor(props: StageErrorBoundaryProps) {
+    super(props);
+    this.state = { hasError: false };
+  }
 
   public static getDerivedStateFromError(error: Error): StageErrorBoundaryState {
     return { hasError: true, error };
@@ -60,7 +66,7 @@ class DataExplorerErrorBoundary extends React.Component<StageErrorBoundaryProps,
   }
 
   public handleRetry = (): void => {
-    (this as unknown as React.Component<StageErrorBoundaryProps, StageErrorBoundaryState>).setState({ hasError: false, error: undefined });
+    this.setState({ hasError: false, error: undefined });
     if (this.props.onReset) this.props.onReset();
   };
 

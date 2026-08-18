@@ -153,6 +153,8 @@ def build_workspace_tree(tenant_id: str = "global", include_sessions: bool = Fal
             "category": _categorize_folder(name),
             "size_bytes": 0,
             "modified_at": datetime.fromtimestamp(stat.st_mtime).isoformat(),
+            "created_at": datetime.fromtimestamp(stat.st_ctime).isoformat(),
+            "permissions": oct(stat.st_mode)[-3:],
             "children": []
         }
 
@@ -187,7 +189,9 @@ def build_workspace_tree(tenant_id: str = "global", include_sessions: bool = Fal
                         "extension": ext,
                         "category": _categorize_file(entry.name, ext),
                         "size_bytes": fsize,
-                        "modified_at": datetime.fromtimestamp(fstat.st_mtime).isoformat()
+                        "modified_at": datetime.fromtimestamp(fstat.st_mtime).isoformat(),
+                        "created_at": datetime.fromtimestamp(fstat.st_ctime).isoformat(),
+                        "permissions": oct(fstat.st_mode)[-3:]
                     })
             node["size_bytes"] = dir_size
         except Exception as exc:
@@ -223,13 +227,24 @@ def list_workspace_flat(tenant_id: str = "global", include_sessions: bool = Fals
                 continue
             full = os.path.join(root, d)
             rel = os.path.relpath(full, tdir).replace("\\", "/")
+            try:
+                st = os.stat(full)
+                mtime = datetime.fromtimestamp(st.st_mtime).isoformat()
+                ctime = datetime.fromtimestamp(st.st_ctime).isoformat()
+                perms = oct(st.st_mode)[-3:]
+            except Exception:
+                mtime = ctime = perms = ""
             items.append({
                 "name": d,
                 "path": rel,
+                "abs_path": full.replace("\\", "/"),
                 "size_bytes": 0,
                 "is_dir": True,
                 "category": _categorize_folder(d),
-                "extension": ""
+                "extension": "",
+                "modified_at": mtime,
+                "created_at": ctime,
+                "permissions": perms
             })
 
         for f in files:
@@ -237,16 +252,25 @@ def list_workspace_flat(tenant_id: str = "global", include_sessions: bool = Fals
             rel = os.path.relpath(full, tdir).replace("\\", "/")
             ext = os.path.splitext(f)[1].lstrip(".").lower()
             try:
-                size = os.path.getsize(full)
+                st = os.stat(full)
+                size = st.st_size
+                mtime = datetime.fromtimestamp(st.st_mtime).isoformat()
+                ctime = datetime.fromtimestamp(st.st_ctime).isoformat()
+                perms = oct(st.st_mode)[-3:]
             except Exception:
                 size = 0
+                mtime = ctime = perms = ""
             items.append({
                 "name": f,
                 "path": rel,
+                "abs_path": full.replace("\\", "/"),
                 "size_bytes": size,
                 "is_dir": False,
                 "category": _categorize_file(f, ext),
-                "extension": ext
+                "extension": ext,
+                "modified_at": mtime,
+                "created_at": ctime,
+                "permissions": perms
             })
 
     return items
@@ -260,7 +284,8 @@ def get_file_preview(path_str: str, tenant_id: str = "global", max_rows: int = 5
 
     filename = os.path.basename(safe_path)
     ext = os.path.splitext(filename)[1].lstrip(".").lower()
-    size_bytes = os.path.getsize(safe_path)
+    fstat = os.stat(safe_path)
+    size_bytes = fstat.st_size
 
     response_data = {
         "filename": filename,
@@ -269,6 +294,9 @@ def get_file_preview(path_str: str, tenant_id: str = "global", max_rows: int = 5
         "extension": ext,
         "size_bytes": size_bytes,
         "type": ext,
+        "modified_at": datetime.fromtimestamp(fstat.st_mtime).isoformat(),
+        "created_at": datetime.fromtimestamp(fstat.st_ctime).isoformat(),
+        "permissions": oct(fstat.st_mode)[-3:]
     }
 
     # CSV / TSV preview

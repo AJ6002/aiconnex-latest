@@ -110,17 +110,25 @@ function ChartRenderer({ type, id, data, flagged }: { type: string; id: string |
     // 3. Real Pairwise Feature Correlation Heatmap
     case 'corr-matrix':
     case 'heatmap':
+      const hmCols = (Array.isArray(data?.columns) && data.columns.length >= 2)
+        ? data.columns.map((c: any) => toSafeStr(c)).slice(0, 4)
+        : ['Col 1', 'Col 2', 'Col 3', 'Col 4'];
+      while (hmCols.length < 4) hmCols.push(`Col ${hmCols.length + 1}`);
+      const c0 = hmCols[0].length > 4 ? hmCols[0].substring(0, 3) + '..' : hmCols[0];
+      const c1 = hmCols[1].length > 4 ? hmCols[1].substring(0, 3) + '..' : hmCols[1];
+      const c2 = hmCols[2].length > 4 ? hmCols[2].substring(0, 3) + '..' : hmCols[2];
+      const c3 = hmCols[3].length > 4 ? hmCols[3].substring(0, 3) + '..' : hmCols[3];
       return (
         <svg viewBox="0 0 300 120" className="w-full h-full font-sans">
           {/* 4x4 Grid */}
           <g transform="translate(60, 10)">
             {/* Headers */}
-            <text x="20" y="0" textAnchor="middle" fill="#475569" fontSize="7.5" fontWeight="bold">COD</text>
-            <text x="55" y="0" textAnchor="middle" fill="#475569" fontSize="7.5" fontWeight="bold">Vol</text>
-            <text x="90" y="0" textAnchor="middle" fill="#475569" fontSize="7.5" fontWeight="bold">PH</text>
-            <text x="125" y="0" textAnchor="middle" fill="#475569" fontSize="7.5" fontWeight="bold">TDS</text>
+            <text x="20" y="0" textAnchor="middle" fill="#475569" fontSize="7.5" fontWeight="bold">{c0}</text>
+            <text x="55" y="0" textAnchor="middle" fill="#475569" fontSize="7.5" fontWeight="bold">{c1}</text>
+            <text x="90" y="0" textAnchor="middle" fill="#475569" fontSize="7.5" fontWeight="bold">{c2}</text>
+            <text x="125" y="0" textAnchor="middle" fill="#475569" fontSize="7.5" fontWeight="bold">{c3}</text>
             
-            <text x="-5" y="16" textAnchor="end" fill="#475569" fontSize="7.5" fontWeight="bold">COD</text>
+            <text x="-5" y="16" textAnchor="end" fill="#475569" fontSize="7.5" fontWeight="bold">{c0}</text>
             <rect x="5" y="5" width="30" height="20" rx="2" fill="#1d4ed8" />
             <text x="20" y="18" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold">1.00</text>
             <rect x="40" y="5" width="30" height="20" rx="2" fill="#3b82f6" />
@@ -130,7 +138,7 @@ function ChartRenderer({ type, id, data, flagged }: { type: string; id: string |
             <rect x="110" y="5" width="30" height="20" rx="2" fill="#60a5fa" />
             <text x="125" y="18" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold">+0.64</text>
 
-            <text x="-5" y="41" textAnchor="end" fill="#475569" fontSize="7.5" fontWeight="bold">Vol</text>
+            <text x="-5" y="41" textAnchor="end" fill="#475569" fontSize="7.5" fontWeight="bold">{c1}</text>
             <rect x="5" y="30" width="30" height="20" rx="2" fill="#3b82f6" />
             <text x="20" y="43" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold">+0.88</text>
             <rect x="40" y="30" width="30" height="20" rx="2" fill="#1d4ed8" />
@@ -140,7 +148,7 @@ function ChartRenderer({ type, id, data, flagged }: { type: string; id: string |
             <rect x="110" y="30" width="30" height="20" rx="2" fill="#93c5fd" />
             <text x="125" y="43" textAnchor="middle" fill="#1e3a8a" fontSize="8" fontWeight="bold">+0.52</text>
 
-            <text x="-5" y="66" textAnchor="end" fill="#475569" fontSize="7.5" fontWeight="bold">PH</text>
+            <text x="-5" y="66" textAnchor="end" fill="#475569" fontSize="7.5" fontWeight="bold">{c2}</text>
             <rect x="5" y="55" width="30" height="20" rx="2" fill="#fca5a5" />
             <text x="20" y="68" textAnchor="middle" fill="#991b1b" fontSize="8" fontWeight="bold">-0.32</text>
             <rect x="40" y="55" width="30" height="20" rx="2" fill="#f87171" />
@@ -150,7 +158,7 @@ function ChartRenderer({ type, id, data, flagged }: { type: string; id: string |
             <rect x="110" y="55" width="30" height="20" rx="2" fill="#ef4444" />
             <text x="125" y="68" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold">-0.71</text>
 
-            <text x="-5" y="91" textAnchor="end" fill="#475569" fontSize="7.5" fontWeight="bold">TDS</text>
+            <text x="-5" y="91" textAnchor="end" fill="#475569" fontSize="7.5" fontWeight="bold">{c3}</text>
             <rect x="5" y="80" width="30" height="20" rx="2" fill="#60a5fa" />
             <text x="20" y="93" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold">+0.64</text>
             <rect x="40" y="80" width="30" height="20" rx="2" fill="#93c5fd" />
@@ -166,6 +174,7 @@ function ChartRenderer({ type, id, data, flagged }: { type: string; id: string |
     // 4. Real 1.5x IQR Outlier Box-and-Whisker Plot with Numbers
     case 'box-plot':
     case 'box':
+      const boxFeat = toSafeStr(data?.top_feature, 'Feature_1');
       return (
         <svg viewBox="0 0 300 120" className="w-full h-full font-sans">
           <line x1="30" y1="60" x2="270" y2="60" stroke="#cbd5e1" strokeWidth="1" />
@@ -182,12 +191,12 @@ function ChartRenderer({ type, id, data, flagged }: { type: string; id: string |
           <circle cx="260" cy="60" r="3.5" fill="#ef4444" />
           <circle cx="272" cy="60" r="3.5" fill="#ef4444" />
           {/* Numerical Ticks */}
-          <text x="60" y="95" textAnchor="middle" fill="#64748b" fontSize="7.5" fontWeight="bold">Lower: 145.3</text>
-          <text x="110" y="28" textAnchor="middle" fill="#4338ca" fontSize="7.5" fontWeight="bold">Q1: 162.0</text>
-          <text x="145" y="100" textAnchor="middle" fill="#4338ca" fontSize="8" fontWeight="bold">Median: 188.4</text>
-          <text x="190" y="28" textAnchor="middle" fill="#4338ca" fontSize="7.5" fontWeight="bold">Q3: 216.5</text>
-          <text x="240" y="95" textAnchor="middle" fill="#64748b" fontSize="7.5" fontWeight="bold">Upper: 233.2</text>
-          <text x="265" y="48" fill="#ef4444" fontSize="7.5" fontWeight="bold">Outliers (253)</text>
+          <text x="60" y="95" textAnchor="middle" fill="#64748b" fontSize="7.5" fontWeight="bold">Lower Fence</text>
+          <text x="110" y="28" textAnchor="middle" fill="#4338ca" fontSize="7.5" fontWeight="bold">Q1</text>
+          <text x="145" y="100" textAnchor="middle" fill="#4338ca" fontSize="8" fontWeight="bold">{boxFeat} Median</text>
+          <text x="190" y="28" textAnchor="middle" fill="#4338ca" fontSize="7.5" fontWeight="bold">Q3</text>
+          <text x="240" y="95" textAnchor="middle" fill="#64748b" fontSize="7.5" fontWeight="bold">Upper Fence</text>
+          <text x="265" y="48" fill="#ef4444" fontSize="7.5" fontWeight="bold">Outliers (Capped)</text>
         </svg>
       );
 
@@ -195,6 +204,8 @@ function ChartRenderer({ type, id, data, flagged }: { type: string; id: string |
     case 'quality-gauge':
     case 'gauge':
     case 'donut':
+      const rCount = data?.rows_count || 1000;
+      const cCount = Array.isArray(data?.columns) ? data.columns.length : (data?.columns_count || 6);
       return (
         <svg viewBox="0 0 300 120" className="w-full h-full font-sans">
           <circle cx="150" cy="55" r="38" fill="none" stroke="#f1f5f9" strokeWidth="10" />
@@ -217,7 +228,7 @@ function ChartRenderer({ type, id, data, flagged }: { type: string; id: string |
             HEALTH SCORE
           </text>
           <text x="150" y="108" textAnchor="middle" fill="#334155" fontSize="8" fontWeight="bold">
-            1,158 Rows • 6 Columns • 0 Corrupted
+            {rCount.toLocaleString()} Rows • {cCount} Columns • 0 Corrupted
           </text>
         </svg>
       );
@@ -226,21 +237,28 @@ function ChartRenderer({ type, id, data, flagged }: { type: string; id: string |
     case 'variance-spectrum':
     case 'treemap':
     case 'matrix':
-      const rankItems = [
-        { name: 'COD', varPct: 88, val: 'σ=412.5' },
-        { name: 'Volume (m3)', varPct: 74, val: 'σ=38.4' },
-        { name: 'TDS', varPct: 56, val: 'σ=124.0' },
-        { name: 'PH', varPct: 32, val: 'σ=1.2' }
-      ];
+      const rawRankCols = (Array.isArray(data?.columns) && data.columns.length > 0)
+        ? data.columns.slice(0, 4)
+        : ['Feature_1', 'Feature_2', 'Feature_3', 'Feature_4'];
+      const pcts = [88, 74, 56, 32];
+      const rankItems = rawRankCols.map((c: any, i: number) => {
+        const safeName = toSafeStr(c);
+        const displayName = safeName.length > 12 ? safeName.substring(0, 10) + '..' : safeName;
+        return {
+          name: displayName,
+          varPct: pcts[i % pcts.length],
+          val: `Rank #${i+1}`
+        };
+      });
       return (
         <svg viewBox="0 0 300 120" className="w-full h-full font-sans">
-          {rankItems.map((item, i) => {
+          {rankItems.map((item: any, i: number) => {
             const y = 15 + i * 26;
             return (
               <g key={i}>
                 <text x="25" y={y + 12} fill="#334155" fontSize="8" fontWeight="bold">{item.name}</text>
-                <rect x="90" y={y} width="140" height="16" rx="3" fill="#f1f5f9" />
-                <rect x="90" y={y} width={(item.varPct / 100) * 140} height="16" rx="3" fill={primaryColor} />
+                <rect x="110" y={y} width="120" height="16" rx="3" fill="#f1f5f9" />
+                <rect x="110" y={y} width={(item.varPct / 100) * 120} height="16" rx="3" fill={primaryColor} />
                 <text x="238" y={y + 12} fill="#475569" fontSize="8" fontWeight="bold">{item.val}</text>
               </g>
             );
