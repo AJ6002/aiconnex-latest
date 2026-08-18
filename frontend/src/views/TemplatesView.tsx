@@ -731,9 +731,17 @@ export const TemplatesView: React.FC = () => {
           </div>
 
           <div className="flex flex-wrap gap-2 font-mono text-[10.5px]">
+            <span className="px-2.5 py-1 bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 rounded-lg flex items-center gap-1.5 font-bold">
+              <span className="material-symbols-outlined text-xs">memory</span>
+              models/model_{activeDag.dag_id}.pkl (Real Scikit-Learn Weights)
+            </span>
             <span className="px-2.5 py-1 bg-black/40 text-blue-300 border border-blue-500/20 rounded-lg flex items-center gap-1.5">
               <span className="material-symbols-outlined text-xs">token</span>
-              models/model_{activeDag.dag_id}.onnx
+              models/model_{activeDag.dag_id}.joblib (Compressed Binary)
+            </span>
+            <span className="px-2.5 py-1 bg-[#E86326]/20 text-[#E86326] border border-[#E86326]/40 rounded-lg flex items-center gap-1.5 font-bold">
+              <span className="material-symbols-outlined text-xs">terminal</span>
+              models/sandbox_inferencer.py (Live CLI Sandbox)
             </span>
             <span className="px-2.5 py-1 bg-black/40 text-purple-300 border border-purple-500/20 rounded-lg flex items-center gap-1.5">
               <span className="material-symbols-outlined text-xs">analytics</span>
@@ -746,10 +754,6 @@ export const TemplatesView: React.FC = () => {
             <span className="px-2.5 py-1 bg-black/40 text-emerald-300 border border-emerald-500/20 rounded-lg flex items-center gap-1.5">
               <span className="material-symbols-outlined text-xs">checklist</span>
               manifests/prepared_dataset_manifest.json
-            </span>
-            <span className="px-2.5 py-1 bg-black/40 text-orange-300 border border-orange-500/20 rounded-lg flex items-center gap-1.5">
-              <span className="material-symbols-outlined text-xs">developer_board</span>
-              manifests/stem_common_template.json
             </span>
           </div>
         </div>
