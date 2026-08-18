@@ -2184,72 +2184,30 @@ def tab_diagnostics_endpoint():
     }), 200
 
 
-@app.route("/api/v1/spin_docker", methods=["POST", "GET"])
-@app.route("/api/v1/training_agent/spin", methods=["POST", "GET"])
+@app.route("/api/v1/spin_docker", methods=["POST", "GET", "OPTIONS"])
+@app.route("/api/v1/training_agent/spin", methods=["POST", "GET", "OPTIONS"])
+@app.route("/api/v1/stem/spin_docker", methods=["POST", "GET", "OPTIONS"])
+@app.route("/api/v1/stem/template_deliverables", methods=["GET", "POST", "OPTIONS"])
 def spin_docker_endpoint():
     """
-    POST/GET /api/v1/spin_docker or /api/v1/training_agent/spin
+    POST/GET /api/v1/spin_docker, /api/v1/stem/spin_docker, /api/v1/training_agent/spin
     Form / JSON / Query: file_path (str), target_col (str), dag_id (str)
     
-    Spins the Training Agent & Execution Container to fit candidate models (LightGBM, XGBoost, 
-    Random Forest, Stacked Ridge) on the active dataset in one automated spin, computing 
-    real performance metrics and saving verified deliverables to the Knowledge Base.
+    Orchestrates the Phi-4-mini and Qwen2.5-Coder agents to arrange all needed deliverables 
+    on the S.TE-M Template, spins the container execution module, and outputs trained 
+    candidate models with comprehensive evaluation metrics (R², MAE, RMSE, Pearson r).
     """
+    if request.method == "OPTIONS":
+        return jsonify({"status": "ok"}), 200
+
     data = request.get_json(force=True, silent=True) or request.form or request.args or {}
     raw_path = data.get("file_path") or ""
     dag_id = data.get("dag_id") or "DAG-514"
     target_override = data.get("target_col") or ""
 
-    # Dynamic fallback to latest uploaded dataset if empty
-    file_path = raw_path.strip()
-    if not file_path or not os.path.exists(file_path):
-        candidates = []
-        for root_dir in ["services/workspace_data/global/runs", "scratch/uploads", "scratch/test_upload", "workspace_data"]:
-            if os.path.exists(root_dir):
-                for root, _, files in os.walk(root_dir):
-                    for f in files:
-                        if f.endswith((".csv", ".parquet", ".xlsx", ".xls", ".json")):
-                            p = os.path.join(root, f)
-                            candidates.append((os.path.getmtime(p), p))
-        if candidates:
-            candidates.sort(reverse=True)
-            file_path = candidates[0][1]
-
-    filename = os.path.basename(file_path) if file_path else "dataset.csv"
-    logger.info(f"[SpinDocker] Initiating automated training spin for '{filename}'...")
-
-    # Real training execution
-    import time
-    spin_id = f"spin_{int(time.time())}"
-    logs = [
-        f"[Docker Engine] Starting container 'aiconnex-automl-runner-{spin_id}'...",
-        f"[Docker Engine] Mounting volume: {file_path} -> /workspace/data",
-        f"[Training Agent] Parsing dataset '{filename}'...",
-        f"[Training Agent] Auto-detected features and split 70% Train, 15% Val, 15% Test...",
-        f"[Training Agent] Fitting Base Estimator 1: LightGBM Fast Histogram Regressor...",
-        f"[Training Agent] Fitting Base Estimator 2: XGBoost Gradient Booster...",
-        f"[Training Agent] Fitting Base Estimator 3: Random Forest Bagging Regressor...",
-        f"[Training Agent] Blending with Stacked Ridge L2 Meta-Learner (Target R²: 99.1%)...",
-        f"[Validation Gate] Running VG_1 (Numerical Bounds) & VG_2 (Noise Invariance) -> PASSED ✓",
-        f"[Docker Engine] Exporting verified ONNX model artifact 'model_{spin_id}.onnx'...",
-        f"[Docker Engine] Container execution completed cleanly in 3.42s."
-    ]
-
-    return jsonify({
-        "status": "success",
-        "spin_id": spin_id,
-        "container_name": f"aiconnex-automl-runner-{spin_id}",
-        "dataset_file": filename,
-        "file_path": file_path,
-        "dag_id": dag_id,
-        "target_col": target_override or "auto_detected",
-        "best_model": "Stacked Ridge Ensemble (MOD-STACK-01)",
-        "best_accuracy_pct": 99.1,
-        "execution_time_sec": 3.42,
-        "validation_gate_status": "VG_2 PASSED",
-        "logs": logs,
-        "message": f"Training Agent container spun successfully for '{filename}'! Models trained and dispatched to ML Studio."
-    }), 200
+    from stem_executor import arrange_and_spin_stem_docker
+    result = arrange_and_spin_stem_docker(file_path=raw_path, target_col=target_override, dag_id=dag_id)
+    return jsonify(result), 200
 
 
 @app.route("/api/v1/deploy_model", methods=["POST"])
