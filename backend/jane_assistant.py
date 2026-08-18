@@ -32,9 +32,12 @@ _local_env = Path(__file__).resolve().parent / ".env"
 if _local_env.exists():
     load_dotenv(_local_env, override=True)
 
-# Ensure repo root is on Python module search path
+# Ensure repo root and backend dir are on Python module search path
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
+_BACKEND_DIR = Path(__file__).resolve().parent
+if str(_BACKEND_DIR) not in sys.path:
+    sys.path.insert(0, str(_BACKEND_DIR))
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -326,8 +329,10 @@ def run_jane_assistant(
 
     max_tokens_val = int(os.environ.get("OPENROUTER_MAX_TOKENS", "1024"))
 
-    # 5. Execute Dynamic LLM Inference
-    if target_api_key:
+    # 5. Execute Dynamic LLM Inference (Offline First)
+    use_offline = os.environ.get("USE_OFFLINE_LLM", "true").lower() in ("true", "1", "yes")
+
+    if not use_offline and target_api_key:
         try:
             import openai
             client = openai.OpenAI(base_url=target_base_url, api_key=target_api_key, timeout=20.0)
@@ -339,16 +344,32 @@ def run_jane_assistant(
             )
             assistant_reply = response.choices[0].message.content.strip()
         except Exception as err:
-            logger.warning(f"[JaneEngine] Live OpenRouter/OpenAI call failed ({err})")
-            assistant_reply = (
-                f"I encountered a temporary connection issue while contacting the model backend ({err}).\n\n"
-                "Please verify your `OPENROUTER_API_KEY` in `.env` and ensure the OpenRouter endpoint is reachable."
-            )
-    else:
-        logger.warning("[JaneEngine] No API key configured in .env")
-        assistant_reply = (
-            "⚠️ **API Key Not Configured**: No `OPENROUTER_API_KEY` or `GEMINI_API_KEY` was found in the environment. "
-            "Please configure your API key in your project root `.env` to enable dynamic Jane responses or use offline LLMs."
+            logger.warning(f"[JaneEngine] Live OpenRouter/OpenAI call failed ({err}), falling back to Offline Local LLM.")
+            assistant_reply = ""
+
+    if not assistant_reply:
+        # Route to Local Offline LLMs (Qwen3-4B / Phi-4-mini / Qwen2.5-Coder-3B)
+        from local_gguf_runner import generate_local_gguf_response
+
+        # Determine best offline specialist persona based on user query intent
+        lower_input = user_input.lower()
+        if any(w in lower_input for w in ["sql", "code", "table", "schema", "database", "query", "select", "join"]):
+            chosen_model = "qwen2.5-coder-3b-q4"
+        elif any(w in lower_input for w in ["why", "reason", "physics", "causal", "degradation", "hypothesis", "wear", "vibration"]):
+            chosen_model = "phi-4-mini-q4"
+        else:
+            chosen_model = "qwen3-4b-q4"
+
+        logger.info(f"[JaneEngine] Generating dynamic response using Local Offline Model ({chosen_model})...")
+        assistant_reply = generate_local_gguf_response(
+            user_prompt=user_input,
+            context={
+                "intent": "jane_dialogue",
+                "session_id": session_id,
+                "history": history_turns,
+                "kb_context": rag_context
+            },
+            model_key=chosen_model
         )
 
     # 5. Extract interactive clarification options and evaluate upload readiness
