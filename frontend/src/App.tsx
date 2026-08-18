@@ -1043,6 +1043,7 @@ export default function App() {
         interruptData={activeInterrupt}
         onInterruptResolved={() => setActiveInterrupt(null)}
         activeSessionId={janeSessionId}
+        compiledCsvPath={compiledCsvPath || undefined}
       />
 
       {/* Persistent Footer Status Bar */}
