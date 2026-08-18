@@ -179,12 +179,24 @@ export const ChatBotModal: React.FC<ChatBotModalProps> = ({
         intentBadge = `Scout • ${formatted}`;
       }
 
+      const extractedOptions: string[] = [];
+      for (const line of externalNarration.split('\n')) {
+        const clean = line.trim();
+        if (clean.startsWith('* Option:') || clean.startsWith('- Option:')) {
+          const opt = clean.split('Option:')[1]?.trim();
+          if (opt) extractedOptions.push(opt);
+        } else if (clean.startsWith('🎯 ') || clean.startsWith('⚡ ') || clean.startsWith('🚨 ') || clean.startsWith('📈 ')) {
+          extractedOptions.push(clean);
+        }
+      }
+
       const narrationMsg: Message = {
         sender: 'bot',
         text: externalNarration,
         html: renderMarkdownToHtml(externalNarration),
         intent: intentBadge,
         time: timeStr,
+        options: extractedOptions.length > 0 ? extractedOptions : undefined,
       };
       setMessages((prev) => [...prev, narrationMsg]);
     }

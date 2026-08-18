@@ -134,6 +134,32 @@ def jane_chat():
     return jsonify(result)
 
 
+@app.route("/api/jane/post_upload_questionnaire", methods=["POST", "OPTIONS"])
+@app.route("/api/v1/jane/post_upload_questionnaire", methods=["POST", "OPTIONS"])
+def jane_post_upload_questionnaire():
+    """POST /api/v1/jane/post_upload_questionnaire — Generate custom dataset questionnaire.
+    
+    Called immediately after an archive/dataset is compiled. Jane analyzes all column names,
+    data types, and statistical properties to ask clarifying multi-target and objective questions.
+    """
+    if request.method == "OPTIONS":
+        return jsonify({"status": "ok"}), 200
+
+    data = request.get_json(force=True, silent=True) or {}
+    session_id = data.get("session_id") or data.get("sessionId") or "default_session"
+    filename = data.get("filename") or "uploaded_dataset"
+    profile = data.get("profile") or {}
+
+    from jane_assistant import generate_post_upload_questionnaire
+
+    result = generate_post_upload_questionnaire(
+        session_id=session_id,
+        filename=filename,
+        profile=profile
+    )
+    return jsonify(result)
+
+
 @app.route("/api/jane/seed", methods=["POST", "OPTIONS"])
 @app.route("/api/v1/jane/seed", methods=["POST", "OPTIONS"])
 def jane_seed():

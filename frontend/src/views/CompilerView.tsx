@@ -390,8 +390,30 @@ export const CompilerView: React.FC<CompilerViewProps> = ({
           }
         }
 
+        // Fetch intelligent dataset questionnaire based on real column profile
+        let questionnaireReply = `✅ **Dataset Compiled Successfully!**\n\nArchive \`${file.name}\` processed. Generated canonical parquet & CSV artifacts. Ready to explore!`;
+        try {
+          const questRes = await fetch('http://localhost:8000/api/v1/jane/post_upload_questionnaire', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              filename: file.name,
+              profile: profileData,
+              session_id: effectiveSessionId || 'default_session'
+            })
+          });
+          if (questRes.ok) {
+            const questData = await questRes.json();
+            if (questData.reply) {
+              questionnaireReply = questData.reply;
+            }
+          }
+        } catch (qErr) {
+          console.warn('Post-upload questionnaire non-fatal error:', qErr);
+        }
+
         if (onJaneNarration) {
-          onJaneNarration(`✅ **Dataset Compiled Successfully!**\n\nArchive \`${file.name}\` processed. Generated canonical parquet & CSV artifacts. Ready to explore!`, 'exploration_synthesizer_node');
+          onJaneNarration(questionnaireReply, 'dataset_intelligence_questionnaire');
         }
 
         setCompiledData(apiData);

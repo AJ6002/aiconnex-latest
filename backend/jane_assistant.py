@@ -528,6 +528,128 @@ def _extract_cuc_seed_from_history(session_id: str, last_user_input: str, assist
     }
 
 
+def generate_post_upload_questionnaire(
+    session_id: str,
+    filename: str,
+    profile: Optional[Dict[str, Any]] = None
+) -> Dict[str, Any]:
+    """
+    Analyzes an uploaded dataset's column profile and statistical nature to generate a custom,
+    intelligent questionnaire for the user. Clarifies multi-target columns, operational goals,
+    and grouping constraints for the offline multi-agent fleet (Qwen3-4B, Phi-4-mini, Qwen2.5-Coder-3B).
+    """
+    profile = profile or {}
+    column_stats = profile.get("column_stats") or []
+    rows_total = profile.get("rows_total") or len(column_stats)
+    cols_total = profile.get("columns") or len(column_stats)
+
+    # 1. Classify Column Semantics
+    numeric_targets = []
+    entity_cols = []
+    temporal_cols = []
+    categorical_cols = []
+
+    for col_info in column_stats:
+        c_name = col_info.get("column", "")
+        c_lower = c_name.lower()
+        dtype = str(col_info.get("dtype", "")).lower()
+
+        is_id = any(k in c_lower for k in ["id", "unit", "unit_nr", "device", "asset", "machine", "company", "station"])
+        is_time = any(k in c_lower for k in ["time", "date", "cycle", "timestamp", "datetime", "hour", "day", "month", "year"])
+
+        if is_time:
+            temporal_cols.append(c_name)
+        elif is_id or "object" in dtype or "string" in dtype:
+            if is_id:
+                entity_cols.append(c_name)
+            else:
+                categorical_cols.append(c_name)
+        elif "int" in dtype or "float" in dtype or "num" in dtype:
+            numeric_targets.append(c_name)
+
+    # Fallback if no numeric targets detected
+    if not numeric_targets and column_stats:
+        numeric_targets = [c.get("column", "") for c in column_stats if c.get("column")]
+
+    top_targets = numeric_targets[:5]
+    primary_entity = entity_cols[0] if entity_cols else (categorical_cols[0] if categorical_cols else None)
+    primary_time = temporal_cols[0] if temporal_cols else None
+
+    # 2. Build Interactive Questionnaire Markdown
+    reply_lines = [
+        f"📊 **Dataset Ingestion Complete**: `{filename}`",
+        f"• **Dimensions Profiled**: {rows_total:,} rows × {cols_total} columns",
+    ]
+
+    if primary_entity:
+        reply_lines.append(f"• **Detected Entity / Grouping**: `{primary_entity}`")
+    if primary_time:
+        reply_lines.append(f"• **Detected Time / Sequence Index**: `{primary_time}`")
+
+    reply_lines.append("")
+
+    if len(numeric_targets) >= 2:
+        reply_lines.append(
+            f"🧠 **Multi-Target Detection**: I analyzed your dataset's statistical profile and detected "
+            f"**{len(numeric_targets)} potential target features**: `{', '.join(top_targets)}`."
+        )
+        reply_lines.append(
+            "To help our offline agent fleet (**Qwen3-4B**, **Phi-4-mini**, **Qwen2.5-Coder-3B**) "
+            "compile the exact feature engineering recipes and ML Studio loss functions, please clarify:"
+        )
+        reply_lines.append("")
+        reply_lines.append(f"1️⃣ **Primary Objective**: Which specific metric is your main priority to predict?")
+        reply_lines.append(f"2️⃣ **Modeling Approach**: Single-target prediction, multi-target joint modeling, or anomaly detection?")
+        if primary_entity:
+            reply_lines.append(f"3️⃣ **Grouping Policy**: Should models be partitioned by `{primary_entity}`?")
+    else:
+        target_name = top_targets[0] if top_targets else "Target Value"
+        reply_lines.append(
+            f"🧠 **Objective Clarification**: Detected primary numeric metric: `{target_name}`. "
+            f"What type of prediction would you like to run on `{filename}`?"
+        )
+
+    reply_lines.append("")
+    reply_lines.append("Please select a target option below or type your custom goal:")
+
+    # 3. Generate Interactive Option Chips
+    options = []
+    for tgt in top_targets[:3]:
+        options.append(f"🎯 Predict {tgt}")
+    
+    if len(top_targets) >= 2:
+        options.append(f"⚡ Multi-Target Joint Model ({' + '.join(top_targets[:3])})")
+    
+    options.append("🚨 Anomaly & Threshold Detection")
+    if primary_time:
+        options.append("📈 Time-Series Sequence Forecasting")
+
+    assistant_reply = "\n".join(reply_lines)
+
+    # Save to SQLite memory
+    save_chat_turn(session_id, "assistant", assistant_reply)
+
+    # Render HTML
+    try:
+        from markdown_formatter import render_markdown_html
+        reply_html = render_markdown_html(assistant_reply)
+    except Exception:
+        reply_html = None
+
+    return {
+        "session_id": session_id,
+        "filename": filename,
+        "reply": assistant_reply,
+        "reply_html": reply_html,
+        "options": options,
+        "candidate_targets": numeric_targets,
+        "detected_entities": entity_cols,
+        "detected_temporal": temporal_cols,
+        "rows_total": rows_total,
+        "columns_total": cols_total
+    }
+
+
 if __name__ == "__main__":
     print("Testing Jane Assistant Engine with 6-Layer KB & Mistune...")
     res = run_jane_assistant("test_session_100", "What ML algorithm should I use for remaining useful life prediction on a centrifugal pump?")
