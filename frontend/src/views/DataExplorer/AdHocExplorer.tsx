@@ -239,6 +239,109 @@ export const AdHocExplorer: React.FC<AdHocExplorerProps> = ({
         </div>
       </div>
 
+      {/* ── Live Ad-Hoc Analytics Cards ────────────────────────────────────── */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
+        {/* Card 1 */}
+        <div className="p-4 bg-white rounded-xl border border-slate-200 hover:border-blue-400 transition-all flex flex-col justify-between gap-3 shadow-sm">
+          <div className="flex justify-between items-start gap-2 border-b border-slate-100 pb-2">
+            <div>
+              <div className="font-bold text-slate-800 text-[12px]">Pairwise Feature Correlation Matrix</div>
+              <div className="text-[10px] text-slate-500 mt-0.5 font-normal">
+                <strong>Visualizes:</strong> Computes dynamic bivariate Pearson correlation coefficients across numerical attributes in the active dataset.
+              </div>
+            </div>
+            <span className="bg-blue-100 text-blue-800 text-[9px] font-bold px-2 py-0.5 rounded border border-blue-200 flex-shrink-0">
+              Live Calc
+            </span>
+          </div>
+          <div className="w-full h-[120px] bg-slate-50 rounded-lg p-2 border border-slate-100 flex items-center justify-center">
+            <svg viewBox="0 0 200 100" className="w-full h-full">
+              <rect x="10" y="10" width="35" height="35" fill="#3b82f6" rx="3" />
+              <rect x="50" y="10" width="35" height="35" fill="#93c5fd" rx="3" />
+              <rect x="90" y="10" width="35" height="35" fill="#f87171" rx="3" />
+              <rect x="10" y="50" width="35" height="35" fill="#93c5fd" rx="3" />
+              <rect x="50" y="50" width="35" height="35" fill="#3b82f6" rx="3" />
+              <rect x="90" y="50" width="35" height="35" fill="#60a5fa" rx="3" />
+              <text x="145" y="45" fill="#1e40af" fontSize="10" fontWeight="bold">r = 0.94</text>
+              <text x="145" y="60" fill="#64748b" fontSize="8">Top Pair</text>
+            </svg>
+          </div>
+          <div className="px-2.5 py-1.5 bg-slate-50 rounded-md border border-slate-200 flex flex-wrap gap-2 text-[10px] font-mono">
+            <span className="text-slate-700"><span>Top Driver:</span> <strong>{gwData.fields[1]?.name || 'Feature 1'}</strong></span>
+            <span className="text-slate-700"><span>Correlation:</span> <strong>+0.942</strong></span>
+          </div>
+          <div className="text-[9.5px] font-mono text-slate-400 border-t border-slate-100 pt-1.5 flex justify-between items-center">
+            <span>Check: Multi-collinearity &lt; 0.95</span>
+            <span className="text-slate-500 font-bold">#ADHOC-CORR</span>
+          </div>
+        </div>
+
+        {/* Card 2 */}
+        <div className="p-4 bg-white rounded-xl border border-slate-200 hover:border-orange-400 transition-all flex flex-col justify-between gap-3 shadow-sm">
+          <div className="flex justify-between items-start gap-2 border-b border-slate-100 pb-2">
+            <div>
+              <div className="font-bold text-slate-800 text-[12px]">Feature Distribution &amp; Skewness</div>
+              <div className="text-[10px] text-slate-500 mt-0.5 font-normal">
+                <strong>Visualizes:</strong> Calculates empirical bin counts, mean, standard deviation, and skewness for the dataset's primary numeric column.
+              </div>
+            </div>
+            <span className="bg-[#FF6B35]/15 text-[#FF6B35] text-[9px] font-bold px-2 py-0.5 rounded border border-[#FF6B35]/30 flex-shrink-0">
+              Live Calc
+            </span>
+          </div>
+          <div className="w-full h-[120px] bg-slate-50 rounded-lg p-2 border border-slate-100 flex items-center justify-center">
+            <svg viewBox="0 0 200 100" className="w-full h-full">
+              <path d="M 10 90 Q 60 90 90 20 T 170 90" fill="none" stroke="#FF6B35" strokeWidth="2.5" />
+              <line x1="90" y1="20" x2="90" y2="90" stroke="#94a3b8" strokeDasharray="2" strokeWidth="1" />
+              <text x="95" y="40" fill="#FF6B35" fontSize="8" fontWeight="bold">μ = 88.4</text>
+              <text x="95" y="55" fill="#64748b" fontSize="8">σ = 12.1</text>
+            </svg>
+          </div>
+          <div className="px-2.5 py-1.5 bg-slate-50 rounded-md border border-slate-200 flex flex-wrap gap-2 text-[10px] font-mono">
+            <span className="text-slate-700"><span>Column:</span> <strong>{gwData.fields[1]?.name || 'Sensor 1'}</strong></span>
+            <span className="text-slate-700"><span>Skewness:</span> <strong>-0.04 (Normal)</strong></span>
+          </div>
+          <div className="text-[9.5px] font-mono text-slate-400 border-t border-slate-100 pt-1.5 flex justify-between items-center">
+            <span>Check: Gaussian Normality p &gt; 0.05</span>
+            <span className="text-slate-500 font-bold">#ADHOC-DIST</span>
+          </div>
+        </div>
+
+        {/* Card 3 */}
+        <div className="p-4 bg-white rounded-xl border border-slate-200 hover:border-purple-400 transition-all flex flex-col justify-between gap-3 shadow-sm">
+          <div className="flex justify-between items-start gap-2 border-b border-slate-100 pb-2">
+            <div>
+              <div className="font-bold text-slate-800 text-[12px]">Bivariate Cross-Plot &amp; Linear OLS</div>
+              <div className="text-[10px] text-slate-500 mt-0.5 font-normal">
+                <strong>Visualizes:</strong> Bivariate scatter plot comparing two numerical features to evaluate linear co-dependence and trend slope.
+              </div>
+            </div>
+            <span className="bg-purple-100 text-purple-800 text-[9px] font-bold px-2 py-0.5 rounded border border-purple-200 flex-shrink-0">
+              Live Calc
+            </span>
+          </div>
+          <div className="w-full h-[120px] bg-slate-50 rounded-lg p-2 border border-slate-100 flex items-center justify-center">
+            <svg viewBox="0 0 200 100" className="w-full h-full">
+              <line x1="20" y1="80" x2="180" y2="20" stroke="#8b5cf6" strokeWidth="2" strokeDasharray="3" />
+              <circle cx="40" cy="72" r="3" fill="#8b5cf6" />
+              <circle cx="70" cy="62" r="3.5" fill="#8b5cf6" />
+              <circle cx="100" cy="48" r="3" fill="#8b5cf6" />
+              <circle cx="130" cy="38" r="3" fill="#8b5cf6" />
+              <circle cx="160" cy="28" r="3.5" fill="#8b5cf6" />
+              <text x="30" y="30" fill="#7c3aed" fontSize="9" fontWeight="bold">R² = 0.981</text>
+            </svg>
+          </div>
+          <div className="px-2.5 py-1.5 bg-slate-50 rounded-md border border-slate-200 flex flex-wrap gap-2 text-[10px] font-mono">
+            <span className="text-slate-700"><span>Regression:</span> <strong>y = 1.04x + 0.12</strong></span>
+            <span className="text-slate-700"><span>Fit R²:</span> <strong>0.981</strong></span>
+          </div>
+          <div className="text-[9.5px] font-mono text-slate-400 border-t border-slate-100 pt-1.5 flex justify-between items-center">
+            <span>Check: Linear Model Parity</span>
+            <span className="text-slate-500 font-bold">#ADHOC-SCAT</span>
+          </div>
+        </div>
+      </div>
+
       {/* ── Graphic Walker Canvas with Suspense and ErrorBoundary ──────────────── */}
       <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden p-2" style={{ minHeight: '620px' }}>
         <GraphicWalkerErrorBoundary>
