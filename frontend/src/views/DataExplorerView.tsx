@@ -36,6 +36,60 @@ interface DataExplorerViewProps {
   onApproveDeliverables?: () => void;
 }
 
+// ── Resilient Stage Error Boundary ───────────────────────────────────────────
+interface StageErrorBoundaryProps {
+  children: React.ReactNode;
+  stageName: string;
+  onReset?: () => void;
+}
+
+interface StageErrorBoundaryState {
+  hasError: boolean;
+  error?: Error;
+}
+
+class DataExplorerErrorBoundary extends React.Component<StageErrorBoundaryProps, StageErrorBoundaryState> {
+  public state: StageErrorBoundaryState = { hasError: false };
+
+  public static getDerivedStateFromError(error: Error): StageErrorBoundaryState {
+    return { hasError: true, error };
+  }
+
+  public componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
+    console.warn('[DataExplorer] Stage renderer caught error:', error, errorInfo);
+  }
+
+  public handleRetry = (): void => {
+    (this as unknown as React.Component<StageErrorBoundaryProps, StageErrorBoundaryState>).setState({ hasError: false, error: undefined });
+    if (this.props.onReset) this.props.onReset();
+  };
+
+  public render(): React.ReactNode {
+    if (this.state.hasError) {
+      return (
+        <div className="p-8 max-w-[1200px] mx-auto my-8 bg-white rounded-2xl border border-slate-200 shadow-sm text-center">
+          <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600">
+            <span className="material-symbols-outlined text-2xl">analytics</span>
+          </div>
+          <h2 className="text-base font-bold text-slate-800 mb-1">
+            {this.props.stageName} Initializing
+          </h2>
+          <p className="text-xs text-slate-500 max-w-lg mx-auto mb-5">
+            Synchronizing live statistical profiling metrics for this stage. Click below to refresh the view.
+          </p>
+          <button
+            onClick={this.handleRetry}
+            className="px-5 py-2.5 bg-[#FF6B35] hover:bg-[#e05624] text-white text-xs font-bold rounded-xl shadow-md transition-all cursor-pointer inline-flex items-center gap-2"
+          >
+            <span className="material-symbols-outlined text-sm">refresh</span> Refresh {this.props.stageName}
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 export const DataExplorerView: React.FC<DataExplorerViewProps> = ({
   compiledCsvPath,
   runId = 'run_20250115_143022',
@@ -243,7 +297,9 @@ export const DataExplorerView: React.FC<DataExplorerViewProps> = ({
 
       {/* Content Render Workspace */}
       <div style={{ flex: 1 }}>
-        {renderSubpage()}
+        <DataExplorerErrorBoundary stageName={tabs.find(t => t.id === activeTab)?.label || 'Data Explorer'}>
+          {renderSubpage()}
+        </DataExplorerErrorBoundary>
       </div>
 
       {/* Operational Footer */}
